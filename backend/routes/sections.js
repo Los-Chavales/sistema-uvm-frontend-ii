@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const Sections_Controller =  require('../controllers/sections_controllers')
+const { checkLogin ,checkLoginProfesor, checkLoginDirector, checkRoot, checkDatetime, decodificar } = require('../auth/auth')
 
 /* GET mostrar secciones */
 router.get('/mostrar', function(req, res, next) {
@@ -46,7 +47,7 @@ router.get('/mostrar_horarios/:index_s/:index_m', function(req, res, next) {
 
 
 /* POST registrar sección */
-router.post('/registrar', function (req, res, next) {
+router.post('/registrar', checkLoginDirector, function (req, res, next) {
   Sections_Controller.register_section(req.body).then((result) => { 
     res.send(result.message)
   }).catch((error) => {
@@ -57,7 +58,7 @@ router.post('/registrar', function (req, res, next) {
 
 
 /* PUT editar sección */
-router.put('/actualizar/:index', function (req, res, next) {
+router.put('/actualizar/:index', checkLoginDirector, function (req, res, next) {
   Sections_Controller.update_section(req.params.index, req.body).then((results) => {
     if (results.message) { res.send(results.message) } else { res.send(results) }
   }).catch((error) => {
@@ -68,7 +69,7 @@ router.put('/actualizar/:index', function (req, res, next) {
 
 
 /* DELETE eliminar sección */
-router.delete('/eliminar/:index', function (req, res, next) { //Falta un eliminar para solo profesores con el director
+router.delete('/eliminar/:index', checkLoginDirector, function (req, res, next) { //Falta un eliminar para solo profesores con el director
   Sections_Controller.delete_section(req.params.index).then((result) => {
     res.send(result.message)
   }).catch((error) => {

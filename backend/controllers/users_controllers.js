@@ -7,6 +7,12 @@ class Users_Controller{
     })
   }
 
+  see_users_teachers() {
+    return new Promise((resolve, reject) => {
+        Users_Model.see_users_teachers().then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
+
   see_teachers_subjects() {
     return new Promise((resolve, reject) => {
         Users_Model.see_teachers_subjects().then((res) => { resolve(res) }).catch((error) => { reject(error); })
@@ -45,9 +51,21 @@ class Users_Controller{
     })
   } 
 
+  update_user_teacher(id, update) {
+    return new Promise((resolve, reject) => {
+      Users_Model.update_user_teacher(id, update).then((res) => { resolve(res) }).catch((error) => { reject(error) })
+    })
+  } 
+
   delete_user(id) {
     return new Promise((resolve, reject) => {
       Users_Model.delete_user(id).then((res) => { resolve(res) }).catch((error) => { reject(error) })
+    })
+  } 
+
+  delete_user_teacher(id) {
+    return new Promise((resolve, reject) => {
+      Users_Model.delete_user_teacher(id).then((res) => { resolve(res) }).catch((error) => { reject(error) })
     })
   } 
 }

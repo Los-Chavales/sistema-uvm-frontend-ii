@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const Subjects_Controller = require('../controllers/subjects_controller')
+const { checkLogin ,checkLoginProfesor, checkLoginDirector, checkRoot, checkDatetime, decodificar } = require('../auth/auth')
 
 /* GET mostrar materias */
 router.get('/mostrar', function(req, res, next) {
@@ -15,7 +16,7 @@ router.get('/mostrar', function(req, res, next) {
 
 
 /* POST registrar materia */
-router.post('/registrar', function (req, res, next) {
+router.post('/registrar', checkLoginDirector, function (req, res, next) {
   Subjects_Controller.register_subject(req.body).then((result) => { 
     res.send(result.message)
   }).catch((error) => {
@@ -25,7 +26,7 @@ router.post('/registrar', function (req, res, next) {
 });
 
 /* PUT editar materias */
-router.put('/actualizar/:index', function (req, res, next) {
+router.put('/actualizar/:index', checkLoginDirector, function (req, res, next) {
   Subjects_Controller.update_subject(req.params.index, req.body).then((results) => {
     if (results.message) { res.send(results.message) } else { res.send(results) }
   }).catch((error) => {
@@ -36,7 +37,7 @@ router.put('/actualizar/:index', function (req, res, next) {
 
 
 /* DELETE eliminar materias */
-router.delete('/eliminar/:index', function (req, res, next) { //Falta un eliminar para solo profesores con el director
+router.delete('/eliminar/:index', checkLoginDirector, function (req, res, next) { //Falta un eliminar para solo profesores con el director
   Subjects_Controller.delete_subject(req.params.index).then((result) => {
     res.send(result.message)
   }).catch((error) => {
@@ -49,7 +50,7 @@ router.delete('/eliminar/:index', function (req, res, next) { //Falta un elimina
 /* Relación Materia Profesor */
 
 /* DELETE eliminar relación materia-profesor */
-router.delete('/eliminar_relacion/:index_s/:index_t', function (req, res, next) { //Falta un eliminar para solo profesores con el director
+router.delete('/eliminar_relacion/:index_s/:index_t', checkLoginDirector, function (req, res, next) { //Falta un eliminar para solo profesores con el director
   Subjects_Controller.delete_subject_teacher(req.params.index_s, req.params.index_t).then((result) => {
     res.send(result.message)
   }).catch((error) => {
@@ -59,7 +60,7 @@ router.delete('/eliminar_relacion/:index_s/:index_t', function (req, res, next) 
 });
 
 /* DELETE eliminar relación profesor-materia */
-router.delete('/eliminar_relacion_p/:index_t/:index_s', function (req, res, next) { //Falta un eliminar para solo profesores con el director
+router.delete('/eliminar_relacion_p/:index_t/:index_s', checkLoginDirector, function (req, res, next) { //Falta un eliminar para solo profesores con el director
   Subjects_Controller.delete_teacher_subject(req.params.index_t, req.params.index_s).then((result) => {
     res.send(result.message)
   }).catch((error) => {

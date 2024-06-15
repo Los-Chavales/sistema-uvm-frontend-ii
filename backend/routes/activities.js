@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const Activities_Controller = require('../controllers/activities_controllers')
+const { checkLogin ,checkLoginProfesor, checkLoginDirector, checkRoot, checkDatetime, decodificar } = require('../auth/auth')
 
 /* GET mostrar actividades */
 router.get('/mostrar', function(req, res, next) {
@@ -26,7 +27,7 @@ router.get('/mostrar_planificacion/:index_subject/:index_section', function(req,
 
 
 /* POST registrar actividades */
-router.post('/registrar', function (req, res, next) {
+router.post('/registrar', checkLoginProfesor, function (req, res, next) {
   Activities_Controller.register_activities(req.body).then((result) => { 
     res.send(result.message)
   }).catch((error) => {
@@ -36,7 +37,7 @@ router.post('/registrar', function (req, res, next) {
 });
 
 /* PUT editar actividad */
-router.put('/actualizar/:index', function (req, res, next) {
+router.put('/actualizar/:index', checkLoginProfesor, function (req, res, next) {
   Activities_Controller.update_activities(req.params.index, req.body).then((results) => {
     if (results.message) { res.send(results.message) } else { res.send(results) }
   }).catch((error) => {
@@ -47,7 +48,7 @@ router.put('/actualizar/:index', function (req, res, next) {
 
 
 /* DELETE eliminar actividad */
-router.delete('/eliminar/:index', function (req, res, next) { //Falta un eliminar para solo profesores con el director
+router.delete('/eliminar/:index', checkLoginProfesor, function (req, res, next) { //Falta un eliminar para solo profesores con el director
   Activities_Controller.delete_activities(req.params.index).then((result) => {
     res.send(result.message)
   }).catch((error) => {

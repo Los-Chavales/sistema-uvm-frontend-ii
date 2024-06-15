@@ -8,7 +8,7 @@ const result = require('dotenv').config();
 class Users_Model {
   see_users(){
     return new Promise((resolve, reject) => {
-      connection.query('SELECT * FROM `usuarios`', function (error, results, fields) {
+      connection.query('SELECT `id_usuario` AS `cedula`, `correo`, `nombre`, `apellido`, `tipo_rol`, `foto_perfil` FROM `usuarios` JOIN `roles` WHERE `idROL` = `id_rol`', function (error, results, fields) {
           if (error) {
               reject(new Response(500, error, error));
           } else {
@@ -21,6 +21,23 @@ class Users_Model {
       });
     })
   }
+
+  see_users_teachers(){
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT `id_usuario` AS `cedula`, `correo`, `nombre`, `apellido`, `foto_perfil` FROM `usuarios` WHERE `idRol` = 3', function (error, results, fields) {
+          if (error) {
+              reject(new Response(500, error, error));
+          } else {
+              if (results.length == 0) {
+                  reject(new Response(404, 'No existen usuarios registrados', results));
+              } else {
+                  resolve(new Response(200, results, results));
+              }
+          };
+      });
+    })
+  }
+
 
   see_teachers_subjects(){
     return new Promise((resolve, reject) => {
@@ -149,9 +166,50 @@ class Users_Model {
     })
   } 
 
+  update_user_teacher(id, update) { // actualizar solo un profesor
+    return new Promise((resolve, reject) => {
+        update.clave = bcrypt.hashSync(update.clave, saltRounds);
+        if (update.idRol) {  
+            reject(new Response(400, 'No puedes cambiarte de rol a ti mismo'))
+        } else {
+            connection.query('UPDATE `usuarios` SET ? WHERE `id_usuario` = ? && `idRol` = 3', [update, id], function (err, rows, fields) {
+                if (err) {
+                    if (err.errno == 1048) reject("No ingresó nungún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', ''));
+                    reject(new Response(500, err, err));
+                } else {
+                    if (rows.affectedRows < 1) {
+                        console.error('El usuario "' + id + '" no existe');
+                        reject(new Response(404, 'No existe ningún usuario con el ID indicado: ' + id, rows))
+                    } else if (rows.changedRows > 0) {
+                        resolve(new Response(200, "Se ha actualizado exitosamente", rows));
+                    } else {
+                        reject(new Response(200, 'No se modificó el usuario "' + id + '", debido a que los datos ingresados son iguales.', rows));
+                    }
+                }
+            })
+        }
+    })
+  } 
+
   delete_user(id) {
     return new Promise((resolve, reject) => {
         connection.query('DELETE FROM `usuarios` WHERE `id_usuario` = ?', id, function (err, rows, fields) {
+            if (err) {
+                reject(new Respuesta(500, err, err))
+            } else {
+                if (rows.affectedRows > 0) {
+                    resolve(new Response(200, "Se ha eliminado exitosamente", rows));
+                } else {
+                    reject(new Response(404, 'No se eliminó el usuario "' + id + '". Es posible de que ya no exista.', rows));
+                }
+            }
+        })
+    })
+   }
+
+   delete_user_teacher(id) {
+    return new Promise((resolve, reject) => {
+        connection.query('DELETE FROM `usuarios` WHERE `id_usuario` = ? && `idRol` = 3', id, function (err, rows, fields) {
             if (err) {
                 reject(new Respuesta(500, err, err))
             } else {

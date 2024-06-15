@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const Events_Controller = require('../controllers/events_controlles')
+const { checkLogin ,checkLoginProfesor, checkLoginDirector, checkRoot, checkDatetime, decodificar } = require('../auth/auth')
 
 /* GET mostrar eventos */
 router.get('/mostrar', function(req, res, next) {
@@ -47,7 +48,7 @@ router.get('/mostrar_horarios/:index_subject/:index_section', function(req, res,
 });
 
 /* POST registrar eventos */
-router.post('/registrar', function (req, res, next) {
+router.post('/registrar', checkLogin, function (req, res, next) {
   Events_Controller.register_events(req.body).then((result) => { 
     res.send(result.message)
   }).catch((error) => {
@@ -57,7 +58,7 @@ router.post('/registrar', function (req, res, next) {
 });
 
 /* PUT editar evento */
-router.put('/actualizar/:index', function (req, res, next) {
+router.put('/actualizar/:index', checkLogin, function (req, res, next) {
   Events_Controller.update_events(req.params.index, req.body).then((results) => {
     if (results.message) { res.send(results.message) } else { res.send(results) }
   }).catch((error) => {
@@ -68,7 +69,7 @@ router.put('/actualizar/:index', function (req, res, next) {
 
 
 /* DELETE eliminar evento */
-router.delete('/eliminar/:index', function (req, res, next) { //Falta un eliminar para solo profesores con el director
+router.delete('/eliminar/:index', checkLogin, function (req, res, next) { //Falta un eliminar para solo profesores con el director
   Events_Controller.delete_events(req.params.index).then((result) => {
     res.send(result.message)
   }).catch((error) => {

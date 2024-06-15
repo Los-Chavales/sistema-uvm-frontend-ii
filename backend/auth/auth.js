@@ -29,6 +29,15 @@ function check(token) {
     }
 }
 
+function checkLogin(req, res, next) {
+    let reqToken = req.headers.authorization;
+    if (reqToken == undefined) return res.status(401).send('Debe ingresar un Token');
+
+    const { valLogin } = check(reqToken);
+    if (valLogin !== true) return res.status(401).send('Token inválido:  \n' + valLogin);
+    next();
+}
+
 function checkLoginProfesor(req, res, next) {
     //console.log(req.headers.authorization);
     let reqToken = req.headers.authorization;
@@ -102,4 +111,4 @@ function decodificar(token) {
     return jwt.verify(token, process.env.JWT_SECRET);
 }
 
-module.exports = { checkLoginProfesor, checkLoginDirector, checkRoot, checkDatetime, decodificar };
+module.exports = { checkLogin, checkLoginProfesor, checkLoginDirector, checkRoot, checkDatetime, decodificar };
