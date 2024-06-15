@@ -5,7 +5,6 @@ const  { checkLoginProfesor, checkLoginDirector, checkRoot, checkDatetime, decod
 
 /* GET mostrar usuarios */
 router.get('/mostrar', function(req, res, next) {
-  //res.json("Estas en mostrar")
   Users_Controller.see_users()
   .then((results) => {
       res.send(results.result);
@@ -15,6 +14,28 @@ router.get('/mostrar', function(req, res, next) {
   }) 
 });
 
+/* GET Mostrar la lista de profesores con las materias asociadas */
+router.get('/profesor_materias', function(req, res, next) {
+  Users_Controller.see_teachers_subjects()
+  .then((results) => {
+      res.send(results.result);
+  })
+  .catch((error) => {
+      res.status(error.code).send(error.message);
+  }) 
+});
+
+
+/* GET Mostrar la lista de profesores con sus materias y secciones asociadas */
+router.get('/profesor_secciones', function(req, res, next) {
+  Users_Controller.see_teachers_subjects_sections()
+  .then((results) => {
+      res.send(results.result);
+  })
+  .catch((error) => {
+      res.status(error.code).send(error.message);
+  }) 
+});
 
 
 /* POST registrar director */
@@ -61,7 +82,7 @@ router.put('/actualizar/:index', function (req, res, next) {
 });
 
 
-/* DELETE user. */
+/* DELETE eliminar usuarios */
 router.delete('/eliminar/:index', checkRoot, function (req, res, next) { //Falta un eliminar para solo profesores con el director
   Users_Controller.delete_user(req.params.index).then((result) => {
     res.send(result.message)

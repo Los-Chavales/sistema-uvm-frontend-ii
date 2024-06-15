@@ -7,6 +7,18 @@ class Users_Controller{
     })
   }
 
+  see_teachers_subjects() {
+    return new Promise((resolve, reject) => {
+        Users_Model.see_teachers_subjects().then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
+
+  see_teachers_subjects_sections() {
+    return new Promise((resolve, reject) => {
+        Users_Model.see_teachers_subjects_sections().then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
+
   register_user_director(register) {
     return new Promise((resolve, reject) => {
       Users_Model.register_user_director(register).then((res) => { resolve(res) }).catch((error) => { reject(error) })

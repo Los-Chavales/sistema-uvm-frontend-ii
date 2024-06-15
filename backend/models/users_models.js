@@ -22,6 +22,38 @@ class Users_Model {
     })
   }
 
+  see_teachers_subjects(){
+    return new Promise((resolve, reject) => {
+        connection.query('SELECT `nombre`, `apellido` , `nombre_materia` FROM `asignados` JOIN `usuarios` JOIN `materias` WHERE idProfesor = id_usuario && idMateria = id_materia', function (error, results, fields) {
+            if (error) {
+                reject(new Response(500, error, error));
+            } else {
+                if (results.length == 0) {
+                    reject(new Response(404, 'No existen materias y profesores vinculados', results));
+                } else {
+                    resolve(new Response(200, results, results));
+                }
+            };
+        });
+    })
+  }
+
+  see_teachers_subjects_sections(){
+    return new Promise((resolve, reject) => {
+        connection.query('SELECT `nombre`, `apellido` , `nombre_materia`, `nombre_seccion` FROM `asignados` JOIN `usuarios` JOIN `materias` JOIN `secciones` WHERE idProfesor = id_usuario && idMateria = id_materia && idSeccion = id_seccion', function (error, results, fields) {
+            if (error) {
+                reject(new Response(500, error, error));
+            } else {
+                if (results.length == 0) {
+                    reject(new Response(404, 'No existen materias, profesores, y secciones vinculados', results));
+                } else {
+                    resolve(new Response(200, results, results));
+                }
+            };
+        });
+    })
+  }
+
   register_user_director(register) {
     return new Promise((resolve, reject) => {
         //if (nuevo.rol_user) delete nuevo.rol_user; 
@@ -131,7 +163,7 @@ class Users_Model {
             }
         })
     })
-}
+   }
 }
 
 module.exports = new Users_Model();
