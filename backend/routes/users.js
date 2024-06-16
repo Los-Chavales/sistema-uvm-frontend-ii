@@ -73,7 +73,7 @@ router.get('/profesor_secciones', function(req, res, next) {
 
 
 /* POST registrar director */
-router.post('/registrar/director', checkRoot, function (req, res, next) {
+router.post('/registrar/director', checkLoginDirector, function (req, res, next) {
   Users_Controller.register_user_director(req.body).then((result) => { 
     res.send(result.message)
   }).catch((error) => {
@@ -106,7 +106,7 @@ router.post('/login', function (req, res, next) {
 
 
 /* PUT editar usuarios */
-router.put('/actualizar/:index', checkRoot, function (req, res, next) {
+router.put('/actualizar/:index', checkLoginDirector, function (req, res, next) {
   Users_Controller.update_user(req.params.index, req.body).then((results) => {
     if (results.message) { res.send(results.message) } else { res.send(results) }
   }).catch((error) => {
@@ -129,7 +129,7 @@ router.put('/actualizar/profesor/:index', checkLoginDirector, function (req, res
 
 
 /* DELETE eliminar usuarios */
-router.delete('/eliminar/:index', checkRoot, function (req, res, next) { //Falta un eliminar para solo profesores con el director
+router.delete('/eliminar/:index', checkLoginDirector, function (req, res, next) { 
   Users_Controller.delete_user(req.params.index).then((result) => {
     res.send(result.message)
   }).catch((error) => {
@@ -139,7 +139,7 @@ router.delete('/eliminar/:index', checkRoot, function (req, res, next) { //Falta
 });
 
 /* DELETE eliminar profesores */
-router.delete('/eliminar/profesor/:index', checkLoginDirector, function (req, res, next) { //Falta un eliminar para solo profesores con el director
+router.delete('/eliminar/profesor/:index', checkLoginDirector, function (req, res, next) { 
   Users_Controller.delete_user_teacher(req.params.index).then((result) => {
     res.send(result.message)
   }).catch((error) => {
