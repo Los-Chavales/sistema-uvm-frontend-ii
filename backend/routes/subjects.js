@@ -14,6 +14,17 @@ router.get('/mostrar', function(req, res, next) {
   }) 
 });
 
+/* GET buscar materias */
+router.get('/mostrar/:nombre', function(req, res, next) {
+  Subjects_Controller.search_subject(req.params.nombre)
+  .then((results) => {
+      res.send(results.result);
+  })
+  .catch((error) => {
+      res.status(error.code).send(error.message);
+  }) 
+});
+
 
 /* POST registrar materia */
 router.post('/registrar', checkLoginDirector, function (req, res, next) {

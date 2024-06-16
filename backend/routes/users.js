@@ -25,6 +25,29 @@ router.get('/mostrar/profesores', function(req, res, next) {
   }) 
 });
 
+/* GET buscar usuarios */
+router.get('/mostrar/:nombre', function(req, res, next) {
+  Users_Controller.search_users(req.params.nombre)
+  .then((results) => {
+      res.send(results.result);
+  })
+  .catch((error) => {
+      res.status(error.code).send(error.message);
+  }) 
+});
+
+/* GET buscar profesores */
+router.get('/mostrar/profesor/:nombre', function(req, res, next) {
+  Users_Controller.search_users_teachers(req.params.nombre)
+  .then((results) => {
+      res.send(results.result);
+  })
+  .catch((error) => {
+      res.status(error.code).send(error.message);
+  }) 
+});
+
+
 /* GET Mostrar la lista de profesores con las materias asociadas */
 router.get('/profesor_materias', function(req, res, next) {
   Users_Controller.see_teachers_subjects()

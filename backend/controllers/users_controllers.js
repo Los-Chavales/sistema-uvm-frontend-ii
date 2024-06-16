@@ -13,6 +13,18 @@ class Users_Controller{
     })
   }
 
+  search_users(name) {
+    return new Promise((resolve, reject) => {
+        Users_Model.search_users(name).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
+
+  search_users_teachers(name) {
+    return new Promise((resolve, reject) => {
+        Users_Model.search_users_teachers(name).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
+
   see_teachers_subjects() {
     return new Promise((resolve, reject) => {
         Users_Model.see_teachers_subjects().then((res) => { resolve(res) }).catch((error) => { reject(error); })

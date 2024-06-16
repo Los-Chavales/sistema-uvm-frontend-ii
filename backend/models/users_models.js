@@ -39,6 +39,38 @@ class Users_Model {
   }
 
 
+  search_users(name){
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT `id_usuario` AS `cedula`, `correo`, `nombre`, `apellido`, `tipo_rol`, `foto_perfil` FROM `usuarios` JOIN `roles` WHERE `nombre` = ? && `idRol` = `id_rol`', name, function (error, results, fields) {
+          if (error) {
+              reject(new Response(500, error, error));
+          } else {
+              if (results.length == 0) {
+                  reject(new Response(404, 'No existen usuarios con ese nombre registrados', results));
+              } else {
+                  resolve(new Response(200, results, results));
+              }
+          };
+      });
+    })
+  }
+
+  search_users_teachers(name){
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT `id_usuario` AS `cedula`, `correo`, `nombre`, `apellido`, `tipo_rol`, `foto_perfil` FROM `usuarios` JOIN `roles` WHERE `nombre` = ? && `idRol` = `id_rol` && `tipo_rol` = "profesor"', name, function (error, results, fields) {
+          if (error) {
+              reject(new Response(500, error, error));
+          } else {
+              if (results.length == 0) {
+                  reject(new Response(404, 'No existen profesores con ese nombre registrados', results));
+              } else {
+                  resolve(new Response(200, results, results));
+              }
+          };
+      });
+    })
+  }
+
   see_teachers_subjects(){
     return new Promise((resolve, reject) => {
         connection.query('SELECT `nombre`, `apellido` , `nombre_materia` FROM `asignados` JOIN `usuarios` JOIN `materias` WHERE idProfesor = id_usuario && idMateria = id_materia', function (error, results, fields) {

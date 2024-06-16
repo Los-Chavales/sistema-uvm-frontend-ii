@@ -18,6 +18,22 @@ class Subjects_Model{
     })
   }
 
+  search_subject(name){
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM `materias` WHERE `nombre_materia` = ?', name, function (error, results, fields) {
+          if (error) {
+              reject(new Response(500, error, error));
+          } else {
+              if (results.length == 0) {
+                  reject(new Response(404, 'No existen materias con ese nombre registradas', results));
+              } else {
+                  resolve(new Response(200, results, results));
+              }
+          };
+      });
+    })
+  }
+
   register_subject(register){
     return new Promise((resolve, reject) => {
       connection.query('INSERT INTO `materias` SET ?', register, function (error, results, fields) {

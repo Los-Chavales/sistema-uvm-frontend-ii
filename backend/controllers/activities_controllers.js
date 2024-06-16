@@ -7,6 +7,18 @@ class Activities_Controller{
     })
   }
 
+  search_activities_name(name) {
+    return new Promise((resolve, reject) => {
+      Activities_Model.search_activities_name(name).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
+
+  search_activities_date(date) {
+    return new Promise((resolve, reject) => {
+      Activities_Model.search_activities_date(date).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
+
   see_activities_planning(id_subject, id_section) {
     return new Promise((resolve, reject) => {
       Activities_Model.see_activities_planning(id_subject, id_section).then((res) => { resolve(res) }).catch((error) => { reject(error); })

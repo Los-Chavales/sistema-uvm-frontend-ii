@@ -7,6 +7,12 @@ class Subjects_Controller{
     })
   }
 
+  search_subject(name) {
+    return new Promise((resolve, reject) => {
+        Subjects_Model.search_subject(name).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
+
   register_subject(register) {
     return new Promise((resolve, reject) => {
       Subjects_Model.register_subject(register).then((res) => { resolve(res) }).catch((error) => { reject(error) })

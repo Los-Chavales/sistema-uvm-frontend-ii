@@ -14,6 +14,28 @@ router.get('/mostrar', function(req, res, next) {
   }) 
 });
 
+/* GET buscar actividades por nombre*/
+router.get('/mostrar/nombre/:nombre', function(req, res, next) {
+  Activities_Controller.search_activities_name(req.params.nombre)
+  .then((results) => {
+      res.send(results.result);
+  })
+  .catch((error) => {
+      res.status(error.code).send(error.message);
+  }) 
+});
+
+/* GET buscar actividades por fecha */
+router.get('/mostrar/fecha/:fecha', function(req, res, next) {
+  Activities_Controller.search_activities_date(req.params.fecha)
+  .then((results) => {
+      res.send(results.result);
+  })
+  .catch((error) => {
+      res.status(error.code).send(error.message);
+  }) 
+});
+
 /* GET mostrar actividades para la planificación */
 router.get('/mostrar_planificacion/:index_subject/:index_section', function(req, res, next) {
   Activities_Controller.see_activities_planning(req.params.index_subject, req.params.index_section)

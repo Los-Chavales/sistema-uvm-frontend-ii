@@ -14,6 +14,17 @@ router.get('/mostrar', function(req, res, next) {
   }) 
 });
 
+/* GET buscar secciones */
+router.get('/mostrar/:nombre', function(req, res, next) {
+  Sections_Controller.search_sections(req.params.nombre)
+  .then((results) => {
+      res.send(results.result);
+  })
+  .catch((error) => {
+      res.status(error.code).send(error.message);
+  }) 
+});
+
 /*  Mostrar de una Sección todos los eventos y actividades planificados. 
     Incluyendo un encabezado indicando: 
     -trimestre

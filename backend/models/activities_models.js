@@ -18,6 +18,39 @@ class Activities_Model{
     })
   }
 
+  search_activities_name(name){
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM `actividades` WHERE `nombre_actividad` =  ?', name, function (error, results, fields) {
+          if (error) {
+              reject(new Response(500, error, error));
+          } else {
+              if (results.length == 0) {
+                  reject(new Response(404, 'No existen actividades registradas', results));
+              } else {
+                  resolve(new Response(200, results, results));
+              }
+          };
+      });
+    })
+  }
+
+  search_activities_date(date){
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM `actividades` WHERE `fecha_actividad` =  ?', date, function (error, results, fields) {
+          if (error) {
+              reject(new Response(500, error, error));
+          } else {
+              if (results.length == 0) {
+                  reject(new Response(404, 'No existen actividades registradas', results));
+              } else {
+                  resolve(new Response(200, results, results));
+              }
+          };
+      });
+    })
+  }
+
+
   see_activities_planning(id_subject, id_section){
     return new Promise((resolve, reject) => {
       connection.query('SELECT `nombre_materia`, `nombre_seccion` ,`nombre_actividad`,`numero_semana` FROM `asignados` JOIN `materias` JOIN `secciones` JOIN `actividades` JOIN `semanas` WHERE idMateria = ? && id_materia = ? && idSeccion = ? && id_seccion = ? && id_asignado = idAsignados && idNumeroSemana = id_semana', [id_subject, id_subject, id_section, id_section], function (error, results, fields) {

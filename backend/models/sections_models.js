@@ -18,6 +18,22 @@ class Sections_Model{
     })
   }
 
+  search_sections(name){
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM `secciones` WHERE `nombre_seccion` = ?', name, function (error, results, fields) {
+          if (error) {
+              reject(new Response(500, error, error));
+          } else {
+              if (results.length == 0) {
+                  reject(new Response(404, 'No existen secciones con ese nombre registradas', results));
+              } else {
+                  resolve(new Response(200, results, results));
+              }
+          };
+      });
+    })
+  }
+
   see_activities_sections(id_section, id_subject){
     return new Promise((resolve, reject) => {
       connection.query('SELECT `nombre_seccion`, `trimestre`, `nombre`, `apellido` , `nombre_materia` ,`nombre_actividad`,`numero_semana`, `nombre_periodo` FROM `asignados` JOIN `materias` JOIN `secciones` JOIN `actividades` JOIN `periodos` JOIN `semanas` JOIN `usuarios` WHERE idSeccion = ? && id_seccion = ? && idMateria = ? && id_materia = ? && id_asignado = idAsignados && idNumeroSemana = id_semana && idProfesor = id_usuario && idPeriodo = id_periodo', [id_section, id_section, id_subject, id_subject], function (error, results, fields) {

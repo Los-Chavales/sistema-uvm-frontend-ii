@@ -14,6 +14,28 @@ router.get('/mostrar', function(req, res, next) {
   }) 
 });
 
+/* GET buscar eventos por nombre*/
+router.get('/mostrar/nombre/:nombre', function(req, res, next) {
+  Events_Controller.search_events_name(req.params.nombre)
+  .then((results) => {
+      res.send(results.result);
+  })
+  .catch((error) => {
+      res.status(error.code).send(error.message);
+  }) 
+});
+
+/* GET buscar eventos por fecha */
+router.get('/mostrar/fecha/:fecha', function(req, res, next) {
+  Events_Controller.search_events_date(req.params.fecha)
+  .then((results) => {
+      res.send(results.result);
+  })
+  .catch((error) => {
+      res.status(error.code).send(error.message);
+  }) 
+});
+
 /* GET mostrar eventos para la planificación */
 router.get('/mostrar_planificacion', function(req, res, next) {
   Events_Controller.see_events_planning()

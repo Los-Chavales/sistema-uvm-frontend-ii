@@ -18,6 +18,39 @@ class Events_Model{
     })
   }
 
+  search_events_name(name){
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM `fechas_especiales` WHERE `nombre_corto` = ?', name, function (error, results, fields) {
+          if (error) {
+              reject(new Response(500, error, error));
+          } else {
+              if (results.length == 0) {
+                  reject(new Response(404, 'No existen eventos con ese nombre registrados', results));
+              } else {
+                  resolve(new Response(200, results, results));
+              }
+          };
+      });
+    })
+  }
+
+  search_events_date(date){
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM `fechas_especiales` WHERE `fecha_especial` = ?', date, function (error, results, fields) {
+          if (error) {
+              reject(new Response(500, error, error));
+          } else {
+              if (results.length == 0) {
+                  reject(new Response(404, 'No existen eventos con esa fecha registrados', results));
+              } else {
+                  resolve(new Response(200, results, results));
+              }
+          };
+      });
+    })
+  }
+
+
   see_events_planning(){
     return new Promise((resolve, reject) => {
       connection.query('SELECT `nombre_corto`, `nombre_largo`, `numero_semana`, `fecha_especial` FROM `fechas_especiales` JOIN `semanas` WHERE idSemana = id_semana', function (error, results, fields) {

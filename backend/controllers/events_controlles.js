@@ -7,6 +7,19 @@ class Events_Controller{
     })
   }
 
+  search_events_name(name) {
+    return new Promise((resolve, reject) => {
+      Events_Model.search_events_name(name).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
+
+  
+  search_events_date(date) {
+    return new Promise((resolve, reject) => {
+      Events_Model.search_events_date(date).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
+
   see_events_planning() {
     return new Promise((resolve, reject) => {
       Events_Model.see_events_planning().then((res) => { resolve(res) }).catch((error) => { reject(error); })

@@ -7,6 +7,12 @@ class Sections_Controller{
     })
   }
 
+  search_sections(name) {
+    return new Promise((resolve, reject) => {
+      Sections_Model.search_sections(name).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
+
   see_activities_sections(id_section, id_subject) {
     return new Promise((resolve, reject) => {
       Sections_Model.see_activities_sections(id_section, id_subject).then((res) => { resolve(res) }).catch((error) => { reject(error); })
