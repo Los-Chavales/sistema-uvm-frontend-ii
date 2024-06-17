@@ -66,11 +66,11 @@ let state = ref(false);
     width: 100%;
   }
 
-  .container__logo{
+/*   .container__logo{
     /* margin: 5px ;*/ /* en la versión desktop y tablet darle más margin a los lados y mantener ese arriba y abajo */
- /*    padding: 0 55px 0 0; */
+ /*    padding: 0 55px 0 0; -
   }
-
+ */
   .header__container{
     display: none;
   }
