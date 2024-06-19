@@ -47,17 +47,6 @@ router.get('/mostrar_planificacion', function(req, res, next) {
   }) 
 });
 
-/* GET mostrar eventos para la planificación */
-router.get('/mostrar_planificacion', function(req, res, next) {
-  Events_Controller.see_events_planning()
-  .then((results) => {
-      res.send(results.result);
-  })
-  .catch((error) => {
-      res.status(error.code).send(error.message);
-  }) 
-});
-
 /* GET mostrar horarios para la planificación */
 router.get('/mostrar_horarios/:index_subject/:index_section', function(req, res, next) {
   Events_Controller.see_events_schedules(req.params.index_subject, req.params.index_section)
