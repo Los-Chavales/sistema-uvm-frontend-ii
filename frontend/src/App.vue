@@ -6,7 +6,7 @@ import Footer from "./common/Footer.vue"
 
 <template>
   <Header />
-  <div class="contenido">
+  <div class="content">
 
   </div>
   <Footer />
@@ -14,11 +14,14 @@ import Footer from "./common/Footer.vue"
 
 <style lang="scss" scoped>
 
- .contenido{
-  min-height: 100vh;
+ .content{
+/*   min-height: 100vh; */
+  min-height: 100%;
  }
 
  body{
+  position: relative;
   height: 100vh;
 }
+
 </style>
