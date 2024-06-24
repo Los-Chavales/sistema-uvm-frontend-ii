@@ -75,8 +75,9 @@ router.post('/registrar', checkLogin, function (req, res, next) {
   Events_Controller.register_events(req.body).then((result) => { 
     res.send(result.message)
   }).catch((error) => {
-    if (error.code && error.message) { res.status(error.code).send(error.message) }
-    else { res.status(500).send(error) }
+    res.send(error)
+ /*    if (error.code && error.message) { res.status(error.code).send(error.message) }
+    else { res.status(500).send(error) } */
   })
 });
 

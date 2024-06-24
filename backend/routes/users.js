@@ -77,8 +77,9 @@ router.post('/registrar/director', checkLoginDirector, function (req, res, next)
   Users_Controller.register_user_director(req.body).then((result) => { 
     res.send(result.message)
   }).catch((error) => {
-    if (error.code && error.message) { res.status(error.code).send(error.message) }
-    else { res.status(500).send(error) }
+    res.send(error)
+ /*    if (error.code && error.message) { res.status(error.code).send(error.message) }
+    else { res.status(500).send(error) } */
   })
 });
 
@@ -88,8 +89,9 @@ router.post('/registrar/profesor', checkLoginDirector, function (req, res, next)
   Users_Controller.register_user_teacher(req.body).then((result) => { 
     res.send(result.message)
   }).catch((error) => {
-    if (error.code && error.message) { res.status(error.code).send(error.message) }
-    else { res.status(500).send(error) }
+    res.send(error)
+    /* if (error.code && error.message) { res.status(error.code).send(error.message) }
+    else { res.status(500).send(error) } */
   })
 });
 

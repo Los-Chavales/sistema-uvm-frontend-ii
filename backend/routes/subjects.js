@@ -31,8 +31,9 @@ router.post('/registrar', checkLoginDirector, function (req, res, next) {
   Subjects_Controller.register_subject(req.body).then((result) => { 
     res.send(result.message)
   }).catch((error) => {
-    if (error.code && error.message) { res.status(error.code).send(error.message) }
-    else { res.status(500).send(error) }
+    res.send(error)
+   /*  if (error.code && error.message) { res.status(error.code).send(error.message) }
+    else { res.status(500).send(error) } */
   })
 });
 

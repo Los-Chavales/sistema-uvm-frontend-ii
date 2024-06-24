@@ -64,8 +64,9 @@ router.post('/registrar', checkLoginProfesor, function (req, res, next) {
   Activities_Controller.register_activities(req.body).then((result) => { 
     res.send(result.message)
   }).catch((error) => {
-    if (error.code && error.message) { res.status(error.code).send(error.message) }
-    else { res.status(500).send(error) }
+    res.send(error)
+    /* if (error.code && error.message) { res.status(error.code).send(error.message) }
+    else { res.status(500).send(error) } */
   })
 });
 

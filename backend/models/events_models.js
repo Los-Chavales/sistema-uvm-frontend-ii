@@ -1,5 +1,6 @@
 const connection = require('../config/conexionMySql');
 const Response = require('./response')
+const { validate_events } = require('./validations')
 
 class Events_Model{
   see_events(){
@@ -112,6 +113,7 @@ class Events_Model{
 
   register_events(register){
     return new Promise((resolve, reject) => {
+      if (validate_events(register, reject) !== true) return;
       connection.query('INSERT INTO `fechas_especiales` SET ?', register, function (error, results, fields) {
           if (error) {
               if (error.errno == 1048) reject(new Response(400, "No ingresó nungún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
@@ -127,6 +129,7 @@ class Events_Model{
 
   update_events(id, update){
     return new Promise((resolve, reject) => {
+      if (validate_events(update, reject) !== true) return;
       connection.query('UPDATE `fechas_especiales` SET ? WHERE `id_fecha_especial` = ?', [update, id], function (err, rows, fields) {
         if (err) {
           if (err.errno == 1048) reject("No ingresó nungún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', ''));

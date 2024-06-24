@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 var jwt = require('jsonwebtoken');
 const result = require('dotenv').config();
+const { validate_users } = require('./validations')
 
 class Users_Model {
   see_users(){
@@ -105,6 +106,7 @@ class Users_Model {
 
   register_user_director(register) {
     return new Promise((resolve, reject) => {
+      if (validate_users(register, reject) !== true) return;
         //if (nuevo.rol_user) delete nuevo.rol_user; 
         register.idRol = 2;
       if (!register.clave) reject("Ingrese una contraseña válida");
@@ -126,6 +128,7 @@ class Users_Model {
 
   register_user_teacher(register) {
     return new Promise((resolve, reject) => {
+      if (validate_users(register, reject) !== true) return;
         //if (nuevo.rol_user) delete nuevo.rol_user; 
         register.idRol = 3;
       if (!register.clave) reject("Ingrese una contraseña válida");
@@ -175,6 +178,7 @@ class Users_Model {
 
   update_user(id, update) {
     return new Promise((resolve, reject) => {
+        if (validate_users(update, reject) !== true) return;
         update.clave = bcrypt.hashSync(update.clave, saltRounds);
         if (update.idRol) {  
             reject(new Response(400, 'No puedes cambiarte de rol a ti mismo'))
@@ -200,6 +204,7 @@ class Users_Model {
 
   update_user_teacher(id, update) { // actualizar solo un profesor
     return new Promise((resolve, reject) => {
+        if (validate_users(update, reject) !== true) return;
         update.clave = bcrypt.hashSync(update.clave, saltRounds);
         if (update.idRol) {  
             reject(new Response(400, 'No puedes cambiarte de rol a ti mismo'))

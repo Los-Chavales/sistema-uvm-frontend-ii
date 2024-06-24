@@ -1,5 +1,6 @@
 const connection = require('../config/conexionMySql');
 const Response = require('./response')
+const { validate_sections } = require('./validations')
 
 class Sections_Model{
   see_sections(){
@@ -68,6 +69,7 @@ class Sections_Model{
 
   register_section(register){
     return new Promise((resolve, reject) => {
+      if (validate_sections(register, reject) !== true) return;
       connection.query('INSERT INTO `secciones` SET ?', register, function (error, results, fields) {
           if (error) {
               if (error.errno == 1048) reject(new Response(400, "No ingresó nungún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
@@ -83,6 +85,7 @@ class Sections_Model{
 
   update_section(id, update){
     return new Promise((resolve, reject) => {
+      if (validate_sections(update, reject) !== true) return; 
       connection.query('UPDATE `secciones` SET ? WHERE `id_seccion` = ?', [update, id], function (err, rows, fields) {
         if (err) {
           if (err.errno == 1048) reject("No ingresó nungún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', ''));
