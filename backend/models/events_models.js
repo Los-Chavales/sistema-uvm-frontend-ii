@@ -83,6 +83,32 @@ class Events_Model{
     })
   }
 
+  next_two_weeks_events(date){
+    return new Promise((resolve, reject) => {
+  /*     console.log("fecha entrante")
+      console.log(date) */
+  
+       let date_next_two_weeks = new Date(date)
+       date_next_two_weeks = new Date(date_next_two_weeks.setDate(date_next_two_weeks.getDate() + 14))
+       let date_format = date_next_two_weeks.toISOString() 
+ 
+ /*      console.log("fecha siguiente")
+      console.log(date_format) */
+
+       connection.query('SELECT * FROM `fechas_especiales` WHERE `fecha_especial` between ? and ?', [date, date_format], function (error, results, fields) {
+           if (error) {
+               reject(new Response(500, error, error));
+           } else {
+               if (results.length == 0) {
+                  reject(new Response(404, 'No existen eventos para las próximas dos semanas', results));
+               } else {
+                  resolve(new Response(200, results, results));
+               }
+           };
+       });
+     })
+  }
+
 
   register_events(register){
     return new Promise((resolve, reject) => {

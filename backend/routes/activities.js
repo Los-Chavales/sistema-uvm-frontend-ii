@@ -47,6 +47,17 @@ router.get('/mostrar_planificacion/:index_subject/:index_section', function(req,
   }) 
 });
 
+/* GET mostrar actividades durante las próximas dos semanas desde la fecha consultada */
+router.get('/mostrar_proximas_actividades/:date', function(req, res, next) {
+  Activities_Controller.next_two_weeks_activities(req.params.date)
+  .then((results) => {
+      res.send(results.result);
+  })
+  .catch((error) => {
+      res.status(error.code).send(error.message);
+  }) 
+});
+
 
 /* POST registrar actividades */
 router.post('/registrar', checkLoginProfesor, function (req, res, next) {

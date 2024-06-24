@@ -58,6 +58,18 @@ router.get('/mostrar_horarios/:index_subject/:index_section', function(req, res,
   }) 
 });
 
+/* GET mostrar eventos durante las próximas dos semanas desde la fecha consultada */
+router.get('/mostrar_proximos_eventos/:date', function(req, res, next) {
+  Events_Controller.next_two_weeks_events(req.params.date)
+  .then((results) => {
+      res.send(results.result);
+  })
+  .catch((error) => {
+      res.status(error.code).send(error.message);
+  }) 
+});
+
+
 /* POST registrar eventos */
 router.post('/registrar', checkLogin, function (req, res, next) {
   Events_Controller.register_events(req.body).then((result) => { 
