@@ -6,19 +6,23 @@
     <div class="calender">
         <div class="month">
             <h2>Mayo 2024</h2>
-            <div><p>botones</p></div>
+            <div>
+                <p>botones</p>
+            </div>
         </div>
         <table>
             <tr>
-                <th>Sun</th>
-                <th>Mon</th>
-                <th>The</th>
-                <th>Wed</th>
-                <th>Thu</th>
-                <th>Fri</th>
-                <th>Sat</th>
+                <th>N°</th>
+                <th>L</th>
+                <th>M</th>
+                <th>M</th>
+                <th>J</th>
+                <th>V</th>
+                <th>S</th>
+                <th>D</th>
             </tr>
             <tr>
+                <td class="tdNumber">0</td>
                 <td></td>
                 <td></td>
                 <td>1</td>
@@ -28,6 +32,7 @@
                 <td>5</td>
             </tr>
             <tr>
+                <td class="tdNumber">1</td>
                 <td>6</td>
                 <td>7</td>
                 <td>8</td>
@@ -37,6 +42,7 @@
                 <td>12</td>
             </tr>
             <tr>
+                <td class="tdNumber">2</td>
                 <td>13</td>
                 <td>14</td>
                 <td>15</td>
@@ -46,6 +52,7 @@
                 <td>19</td>
             </tr>
             <tr>
+                <td class="tdNumber">3</td>
                 <td>20</td>
                 <td>21</td>
                 <td>22</td>
@@ -55,6 +62,7 @@
                 <td>26</td>
             </tr>
             <tr>
+                <td class="tdNumber">4</td>
                 <td>27</td>
                 <td>28</td>
                 <td>29</td>
@@ -68,6 +76,8 @@
 </template>
 
 <style lang="scss" scoped>
+@import "@/assets/scss/variables.scss";
+
 .calender {
     border: 1px solid #88C426;
     /*max-width: 800px;*/
@@ -78,11 +88,10 @@
     line-height: 21px;
     /*font-weight: bold;
     /*color: black;*/
-    margin: 10% 10%;
+    margin: 2% 5%;
 }
 
 .month {
-    @import "@/assets/scss/variables.scss";
     display: flex;
     /*width: 933px;
     height: 33.823px;*/
@@ -91,7 +100,7 @@
     align-items: center;
     background: $color4;
     color: $color7
-    /*font-size: 80px;
+        /*font-size: 80px;
     letter-spacing: 1px;
     color: black;
     border: 3px solid blue;*/
@@ -103,10 +112,10 @@ td {
     width: 100%;
     table-layout: fixed;
     text-align: center;
-    font-size: 27px;
+    font-size: 20px;
     border-collapse: collapse;
-    border: 5px solid black;
-    font-family: Elaphant;
+    border: 1px solid $color4;
+    font-family: Poppins;
 }
 
 tr,
@@ -116,17 +125,22 @@ td {
 }
 
 th {
-    background: #009900;
+    background: $color3;
     color: white;
     font-family: arial black;
 }
 
 td {
-    background: #00264d;
-    color: yellow;
+    background: $color7;
+    color: $color5;
+}
+
+.tdNumber {
+    background: $color1;
 }
 
 td:hover {
-    background: green;
+    background: $color5;
+    color: $color7;
 }
 </style>
