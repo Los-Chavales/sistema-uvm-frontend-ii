@@ -64,7 +64,7 @@ router.post('/registrar', checkLoginProfesor, function (req, res, next) {
   Activities_Controller.register_activities(req.body).then((result) => { 
     res.send(result.message)
   }).catch((error) => {
-    res.send(error)
+    res.status(error.code).send(error)
     /* if (error.code && error.message) { res.status(error.code).send(error.message) }
     else { res.status(500).send(error) } */
   })
@@ -75,8 +75,9 @@ router.put('/actualizar/:index', checkLoginProfesor, function (req, res, next) {
   Activities_Controller.update_activities(req.params.index, req.body).then((results) => {
     if (results.message) { res.send(results.message) } else { res.send(results) }
   }).catch((error) => {
-    if (error.code && error.message) { res.status(error.code).send(error.message) }
-    else { res.status(500).send(error) }
+    res.status(error.code).send(error)
+/*     if (error.code && error.message) { res.status(error.code).send(error.message) }
+    else { res.status(500).send(error) } */
   })
 });
 

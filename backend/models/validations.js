@@ -1,18 +1,17 @@
 const Response = require('./response')
 
-function validate_users(user, decline) {
+function validate_users(user, decline, update) {
   const errors = [];
-  if(user.id_usuario === "" || user.id_usuario === undefined || isNaN(user.id_usuario)){
-    errors.push("La cédula del usuario es requerida")
+  if(!update){
+    if(user.id_usuario === "" || user.id_usuario === undefined || isNaN(user.id_usuario)){
+      errors.push("La cédula del usuario es requerida")
+    }
   }
   if(user.correo === "" || user.correo === undefined){
     errors.push("El correo del usuario es requerido")
   }
   if(user.nombre === "" || user.nombre === undefined){
     errors.push("El nombre del usuario es requerido")
-  }
-  if(user.apellido === "" || user.apellido === undefined){
-    errors.push("El apellido del usuario es requerido")
   }
   if(user.clave === "" || user.clave === undefined){
     errors.push("La clave del usuario es requerida")

@@ -75,7 +75,7 @@ router.post('/registrar', checkLogin, function (req, res, next) {
   Events_Controller.register_events(req.body).then((result) => { 
     res.send(result.message)
   }).catch((error) => {
-    res.send(error)
+    res.status(error.code).send(error)
  /*    if (error.code && error.message) { res.status(error.code).send(error.message) }
     else { res.status(500).send(error) } */
   })
@@ -86,8 +86,9 @@ router.put('/actualizar/:index', checkLogin, function (req, res, next) {
   Events_Controller.update_events(req.params.index, req.body).then((results) => {
     if (results.message) { res.send(results.message) } else { res.send(results) }
   }).catch((error) => {
-    if (error.code && error.message) { res.status(error.code).send(error.message) }
-    else { res.status(500).send(error) }
+    res.status(error.code).send(error)
+   /*  if (error.code && error.message) { res.status(error.code).send(error.message) }
+    else { res.status(500).send(error) } */
   })
 });
 
