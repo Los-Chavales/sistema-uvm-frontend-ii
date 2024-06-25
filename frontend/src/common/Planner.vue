@@ -1,9 +1,35 @@
 <script setup>
+function generatorDays() {
+    let weeksGen = [
+        { number: 0, days: [29, 30, 1, 2, 3, 4, 5] },
+    ]
+    for (let index = 1; index < 5; index++) {
+        weeksGen[index] = {};
+        weeksGen[index].number = index;
 
+        let aux = weeksGen[index - 1]['days'][6] + 1;
+        let daysAux = [];
+        for (let index = aux; index < aux + 7; index++) {
+            let auxDay = index
+            if (index > 31) auxDay = index - 31;
+            daysAux.push(auxDay);
+        }
+        weeksGen[index].days = daysAux;
+    }
+    console.log(weeksGen)
+    return weeksGen;
+}
+const datos = generatorDays();
+const monthly = new Vue({
+    el: "#monthly",
+    data: {
+        weeks: datos,
+    }
+})
 </script>
 
 <template>
-    <div class="calender">
+    <div id="monthly" class="calendar">
         <div class="month">
             <h2>Mayo 2024</h2>
             <div>
@@ -21,6 +47,11 @@
                 <th>S</th>
                 <th>D</th>
             </tr>
+            <tr v-for="(week, i) in weeks" :key="i">
+                <td class="tdNumber">{{ week.number }}</td>
+                <td v-for="(day, ind) in week.days" :key="ind">{{ day }}</td>
+            </tr>
+            <!--
             <tr>
                 <td class="tdNumber">0</td>
                 <td></td>
@@ -71,6 +102,8 @@
                 <td></td>
                 <td></td>
             </tr>
+            -->
+
         </table>
     </div>
 </template>
@@ -78,7 +111,7 @@
 <style lang="scss" scoped>
 @import "@/assets/scss/variables.scss";
 
-.calender {
+.calendar {
     border: 1px solid #88C426;
     /*max-width: 800px;*/
     font-family: Poppins;
