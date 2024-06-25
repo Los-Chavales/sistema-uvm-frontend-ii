@@ -19,13 +19,14 @@ function generatorDays() {
     console.log(weeksGen)
     return weeksGen;
 }
-const datos = generatorDays();
-const monthly = new Vue({
+const weeks = generatorDays();
+console.log(weeks)
+/* const monthly = new Vue({
     el: "#monthly",
     data: {
         weeks: datos,
     }
-})
+}) */
 </script>
 
 <template>
