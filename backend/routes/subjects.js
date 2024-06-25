@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const Subjects_Controller = require('../controllers/subjects_controller')
+const Subjects_Controller = require('../controllers/subjects_controllers')
 const { checkLogin ,checkLoginProfesor, checkLoginDirector, checkRoot, checkDatetime, decodificar } = require('../auth/auth')
 
 /* GET mostrar materias */

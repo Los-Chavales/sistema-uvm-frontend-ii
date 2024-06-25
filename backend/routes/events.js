@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const Events_Controller = require('../controllers/events_controlles')
+const Events_Controller = require('../controllers/events_controllers')
 const { checkLogin ,checkLoginProfesor, checkLoginDirector, checkRoot, checkDatetime, decodificar } = require('../auth/auth')
 
 /* GET mostrar eventos */

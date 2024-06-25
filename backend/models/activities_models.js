@@ -99,7 +99,7 @@ class Activities_Model{
       if (validate_activities(register, reject) !== true) return;
       connection.query('INSERT INTO `actividades`  SET ?', register, function (error, results, fields) {
           if (error) {
-              if (error.errno == 1048) reject(new Response(400, "No ingresó nungún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
+              if (error.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
               reject(error);
               console.error("Error SQL: ", error.sqlMessage);
           }
@@ -115,7 +115,7 @@ class Activities_Model{
       if (validate_activities(update, reject) !== true) return;
       connection.query('UPDATE `actividades` SET ? WHERE `id_actividad` = ?', [update, id], function (err, rows, fields) {
         if (err) {
-          if (err.errno == 1048) reject("No ingresó nungún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', ''));
+          if (err.errno == 1048) reject("No ingresó ningún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', ''));
           reject(new Response(500, err, err));
         } else {
           if (rows.affectedRows < 1) {

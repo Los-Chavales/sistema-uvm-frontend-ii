@@ -116,7 +116,7 @@ class Events_Model{
       if (validate_events(register, reject) !== true) return;
       connection.query('INSERT INTO `fechas_especiales` SET ?', register, function (error, results, fields) {
           if (error) {
-              if (error.errno == 1048) reject(new Response(400, "No ingresó nungún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
+              if (error.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
               reject(error);
               console.error("Error SQL: ", error.sqlMessage);
           }
@@ -132,7 +132,7 @@ class Events_Model{
       if (validate_events(update, reject) !== true) return;
       connection.query('UPDATE `fechas_especiales` SET ? WHERE `id_fecha_especial` = ?', [update, id], function (err, rows, fields) {
         if (err) {
-          if (err.errno == 1048) reject("No ingresó nungún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', ''));
+          if (err.errno == 1048) reject("No ingresó ningún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', ''));
           reject(new Response(500, err, err));
         } else {
           if (rows.affectedRows < 1) {

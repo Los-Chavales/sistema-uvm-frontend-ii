@@ -115,7 +115,7 @@ class Users_Model {
         connection.query('INSERT INTO usuarios SET ?', register, function (error, results, fields) {
             if (error) {
                 if (error.errno == 1062) reject(new Response(400, "La cédula '" + register.id_usuario + "' o el correo '" + register.correo + "' ya existen"));
-                if (error.errno == 1048) reject(new Response(400, "No ingresó nungún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
+                if (error.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
                 reject(error);
                 console.error("Error SQL: ", error.sqlMessage);
             }
@@ -137,7 +137,7 @@ class Users_Model {
         connection.query('INSERT INTO usuarios SET ?', register, function (error, results, fields) {
             if (error) {
                 if (error.errno == 1062) reject(new Response(400, "La cédula '" + register.id_usuario + "' o el correo '" + register.correo + "' ya existen"));
-                if (error.errno == 1048) reject(new Response(400, "No ingresó nungún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
+                if (error.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
                 reject(error);
                 console.error("Error SQL: ", error.sqlMessage);
             }
@@ -186,7 +186,7 @@ class Users_Model {
             connection.query('UPDATE `usuarios` SET ? WHERE `id_usuario` = ?', [update, id], function (err, rows, fields) {
                 if (err) {
                     if (err.errno == 1062) reject(new Response(400, "El correo '" + update.correo + "' ya existen"));
-                    if (err.errno == 1048) reject(new Response(400, "No ingresó nungún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', '')));
+                    if (err.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', '')));
                     reject(err);
                     console.error("Error SQL: ", err.sqlMessage);
                 } else {
@@ -214,7 +214,7 @@ class Users_Model {
             connection.query('UPDATE `usuarios` SET ? WHERE `id_usuario` = ? && `idRol` = 3', [update, id], function (err, rows, fields) {
                 if (err) {
                     if (err.errno == 1062) reject(new Response(400, "El correo '" + update.correo + "' ya existen"));
-                    if (err.errno == 1048) reject(new Response(400, "No ingresó nungún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', '')));
+                    if (err.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', '')));
                     reject(err);
                     console.error("Error SQL: ", err.sqlMessage);
                 } else {
