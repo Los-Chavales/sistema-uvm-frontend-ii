@@ -66,7 +66,7 @@ function validate_subjects(subject, decline) {
   }
 }
 
-function validate_events(event, decline) {
+function validate_events(event, decline, seeErrors) {
   const errors = [];
   if(event.fecha_especial === "" || event.fecha_especial === undefined || isNaN(Date.parse(event.fecha_especial))){
     errors.push("La fecha del evento es requerida")
@@ -85,6 +85,7 @@ function validate_events(event, decline) {
   }
  
   if(errors.length !== 0){
+    if(seeErrors) return errors;
     console.log(errors)
     return decline(new Response(415, "Uno o más datos son incorrectos", errors))
   }else{
@@ -179,7 +180,7 @@ function validate_schedules(schedules, decline) {
   }
 }
 
-function validate_periods(period, decline) {
+function validate_periods(period, decline, seeErrors) {
   const errors = [];
   if(period.fecha_inicio === "" || period.fecha_inicio === undefined || isNaN(Date.parse(period.fecha_inicio))){
     errors.push("La fecha del inicio es requerida")
@@ -195,6 +196,7 @@ function validate_periods(period, decline) {
   }
 
   if(errors.length !== 0){
+    if(seeErrors) return errors;
     console.log(errors)
     return decline(new Response(415, "Uno o más datos son incorrectos", errors))
   }else{

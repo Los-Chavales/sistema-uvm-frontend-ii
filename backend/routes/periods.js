@@ -37,6 +37,17 @@ router.post('/registrar', checkLoginDirector, function (req, res, next) {
   })
 });
 
+/* POST registrar peridos y fechas a la vez */
+router.post('/registrar_P&E', checkLoginDirector, function (req, res, next) {
+  Periods_Controller.register_periods_and_dates(req.body).then((result) => { 
+    res.send(result.message)
+  }).catch((error) => {
+    res.status(error.code).send(error)
+  /*   if (error.code && error.message) { res.status(error.code).send(error.message) }
+    else { res.status(500).send(error) } */
+  })
+});
+
 /* PUT editar periodos */
 router.put('/actualizar/:index', checkLoginDirector, function (req, res, next) {
   Periods_Controller.update_periods(req.params.index, req.body).then((results) => {
