@@ -25,6 +25,12 @@ class Activities_Controller{
     })
   }
 
+  next_two_weeks_activities(date) {
+    return new Promise((resolve, reject) => {
+      Activities_Model.next_two_weeks_activities(date).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
+
   register_activities(register) {
     return new Promise((resolve, reject) => {
       Activities_Model.register_activities(register).then((res) => { resolve(res) }).catch((error) => { reject(error) })

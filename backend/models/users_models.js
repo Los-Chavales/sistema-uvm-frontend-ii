@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 var jwt = require('jsonwebtoken');
 const result = require('dotenv').config();
+const { validate_users } = require('./validations')
 
 class Users_Model {
   see_users(){
@@ -105,6 +106,7 @@ class Users_Model {
 
   register_user_director(register) {
     return new Promise((resolve, reject) => {
+      if (validate_users(register, reject, false) !== true) return;
         //if (nuevo.rol_user) delete nuevo.rol_user; 
         register.idRol = 2;
       if (!register.clave) reject("Ingrese una contraseña válida");
@@ -112,8 +114,8 @@ class Users_Model {
         //console.log("clave: ", nuevo.clave_usuario)
         connection.query('INSERT INTO usuarios SET ?', register, function (error, results, fields) {
             if (error) {
-                if (error.errno == 1062) reject(new Response(400, "La cédula '" + register.id_usuario + "' ya existe"));
-                if (error.errno == 1048) reject(new Response(400, "No ingresó nungún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
+                if (error.errno == 1062) reject(new Response(400, "La cédula '" + register.id_usuario + "' o el correo '" + register.correo + "' ya existen"));
+                if (error.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
                 reject(error);
                 console.error("Error SQL: ", error.sqlMessage);
             }
@@ -126,6 +128,7 @@ class Users_Model {
 
   register_user_teacher(register) {
     return new Promise((resolve, reject) => {
+      if (validate_users(register, reject, false) !== true) return;
         //if (nuevo.rol_user) delete nuevo.rol_user; 
         register.idRol = 3;
       if (!register.clave) reject("Ingrese una contraseña válida");
@@ -133,8 +136,8 @@ class Users_Model {
         //console.log("clave: ", register.clave)
         connection.query('INSERT INTO usuarios SET ?', register, function (error, results, fields) {
             if (error) {
-                if (error.errno == 1062) reject(new Response(400, "La cédula '" + register.id_usuario + "' ya existe"));
-                if (error.errno == 1048) reject(new Response(400, "No ingresó nungún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
+                if (error.errno == 1062) reject(new Response(400, "La cédula '" + register.id_usuario + "' o el correo '" + register.correo + "' ya existen"));
+                if (error.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
                 reject(error);
                 console.error("Error SQL: ", error.sqlMessage);
             }
@@ -175,14 +178,17 @@ class Users_Model {
 
   update_user(id, update) {
     return new Promise((resolve, reject) => {
+        if (validate_users(update, reject, true) !== true) return;
         update.clave = bcrypt.hashSync(update.clave, saltRounds);
         if (update.idRol) {  
             reject(new Response(400, 'No puedes cambiarte de rol a ti mismo'))
         } else {
             connection.query('UPDATE `usuarios` SET ? WHERE `id_usuario` = ?', [update, id], function (err, rows, fields) {
                 if (err) {
-                    if (err.errno == 1048) reject("No ingresó nungún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', ''));
-                    reject(new Response(500, err, err));
+                    if (err.errno == 1062) reject(new Response(400, "El correo '" + update.correo + "' ya existen"));
+                    if (err.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', '')));
+                    reject(err);
+                    console.error("Error SQL: ", err.sqlMessage);
                 } else {
                     if (rows.affectedRows < 1) {
                         console.error('El usuario "' + id + '" no existe');
@@ -200,14 +206,17 @@ class Users_Model {
 
   update_user_teacher(id, update) { // actualizar solo un profesor
     return new Promise((resolve, reject) => {
+        if (validate_users(update, reject, true) !== true) return;
         update.clave = bcrypt.hashSync(update.clave, saltRounds);
         if (update.idRol) {  
             reject(new Response(400, 'No puedes cambiarte de rol a ti mismo'))
         } else {
             connection.query('UPDATE `usuarios` SET ? WHERE `id_usuario` = ? && `idRol` = 3', [update, id], function (err, rows, fields) {
                 if (err) {
-                    if (err.errno == 1048) reject("No ingresó nungún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', ''));
-                    reject(new Response(500, err, err));
+                    if (err.errno == 1062) reject(new Response(400, "El correo '" + update.correo + "' ya existen"));
+                    if (err.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', '')));
+                    reject(err);
+                    console.error("Error SQL: ", err.sqlMessage);
                 } else {
                     if (rows.affectedRows < 1) {
                         console.error('El usuario "' + id + '" no existe');

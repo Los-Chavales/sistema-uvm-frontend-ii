@@ -31,6 +31,12 @@ class Events_Controller{
       Events_Model.see_events_schedules(id_subject, id_section).then((res) => { resolve(res) }).catch((error) => { reject(error); })
     })
   }
+
+  next_two_weeks_events(date) {
+    return new Promise((resolve, reject) => {
+      Events_Model.next_two_weeks_events(date).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
     
   register_events(register) {
     return new Promise((resolve, reject) => {
