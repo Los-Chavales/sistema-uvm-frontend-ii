@@ -1,4 +1,5 @@
 <script setup>
+//Para generar los días, junto con el número de la semana
 function generatorDays() {
     let weeksGen = [
         { number: 0, days: [29, 30, 1, 2, 3, 4, 5] },
@@ -16,17 +17,16 @@ function generatorDays() {
         }
         weeksGen[index].days = daysAux;
     }
-    console.log(weeksGen)
+    //console.log(weeksGen)
     return weeksGen;
 }
 const weeks = generatorDays();
-console.log(weeks)
-/* const monthly = new Vue({
-    el: "#monthly",
-    data: {
-        weeks: datos,
-    }
-}) */
+console.log(weeks);
+
+//Para desplegar la ventana modal
+function openModal(idTD) {
+    console.log("sem-día:", idTD)
+}
 </script>
 
 <template>
@@ -50,7 +50,8 @@ console.log(weeks)
             </tr>
             <tr v-for="(week, i) in weeks" :key="i">
                 <td class="tdNumber">{{ week.number }}</td>
-                <td v-for="(day, ind) in week.days" :key="ind">{{ day }}</td>
+                <td v-for="(day, ind) in week.days" :key="`${i}-${ind}`" :id="`${i}-${day}`"
+                    v-on:click="() => openModal(`${i}-${day}`)">{{ day }}</td>
             </tr>
             <!--
             <tr>
@@ -150,31 +151,31 @@ td {
     border-collapse: collapse;
     border: 1px solid $color4;
     font-family: Poppins;
-}
+    height: 62px;
+    align-content: baseline;
 
-tr,
-th,
-td {
-    padding: 15px;
-}
+    th {
+        background: $color3;
+        color: white;
+        font-family: arial black;
+        align-content: center;
+    }
 
-th {
-    background: $color3;
-    color: white;
-    font-family: arial black;
-}
+    td {
+        background: $color7;
+        color: $color5;
+        padding-top: 5px;
+    }
 
-td {
-    background: $color7;
-    color: $color5;
+    td:hover {
+        background: $color5;
+        color: $color7;
+    }
 }
 
 .tdNumber {
     background: $color1;
-}
-
-td:hover {
-    background: $color5;
-    color: $color7;
+    align-content: center;
+    padding-top: 0px;
 }
 </style>
