@@ -5,7 +5,7 @@ const { validate_events } = require('./validations')
 class Events_Model{
   see_events(){
     return new Promise((resolve, reject) => {
-      connection.query('SELECT * FROM `fechas_especiales`', function (error, results, fields) {
+      connection.query('SELECT * FROM `fechas_especiales` ORDER BY `fechas_especiales`.`fecha_especial` ASC', function (error, results, fields) {
           if (error) {
               reject(new Response(500, error, error));
           } else {

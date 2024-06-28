@@ -5,7 +5,7 @@ const { validate_activities } = require('./validations')
 class Activities_Model{
   see_activities(){
     return new Promise((resolve, reject) => {
-      connection.query('SELECT * FROM `actividades`', function (error, results, fields) {
+      connection.query('SELECT * FROM `actividades` ORDER BY `actividades`.`fecha_actividad` ASC', function (error, results, fields) {
           if (error) {
               reject(new Response(500, error, error));
           } else {
