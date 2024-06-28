@@ -15,8 +15,8 @@ import Footer from "./common/Footer.vue"
 <style lang="scss" scoped>
 
  .content{
-/*   min-height: 100vh; */
-  min-height: 100%;
+    min-height: 100vh;
+/*   min-height: 100%; */
  }
 
  body{

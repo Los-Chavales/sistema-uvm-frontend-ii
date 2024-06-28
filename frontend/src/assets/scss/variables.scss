@@ -29,4 +29,5 @@ $color7 : #FFF;
 .button--white:hover{
   color: $secondary_color;
   outline: 2px solid $primary_color;
+  cursor: pointer;
 }
