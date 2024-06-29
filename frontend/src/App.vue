@@ -2,14 +2,32 @@
 /* import { RouterLink, RouterView } from 'vue-router' */
 import Header from "./common/Header.vue"
 import Footer from "./common/Footer.vue"
+import Dashboard from "./views/Dashboard.vue";
+import DashHeader from "./components/Dash-Header.vue";
+
+let rol = 'admin'
 </script>
 
 <template>
-  <Header />
-  <div class="content">
+  <div 
+  class="usr-content"
+  v-if="rol=='public'"
+  >
+    <Header />
+      <div class="content">
 
+      </div>
+    <Footer/>
   </div>
-  <Footer />
+  <div v-else  class="admin-content">
+    <DashHeader/>
+    <Dashboard/>
+    <div class="content">
+
+    </div>
+     <Footer/>
+  </div>
+  
 </template>
 
 <style lang="scss" scoped>
