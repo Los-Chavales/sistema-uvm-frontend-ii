@@ -1,9 +1,15 @@
 <script setup>
+  import { ref } from 'vue';
   import Delete from '@/assets/icons/Delete.vue';
+  import Modal_Confirm from '../Modal_Confirm.vue';
+  let state = ref(false);
+  const changeState = () => ( state.value = true )
 </script>
 
 <template>
-    <button class="button--delete"><Delete /></button>
+    <button @click="changeState" class="button--delete"><Delete /></button>
+    <Modal_Confirm v-show="state"/>
+
 </template>
 
 
