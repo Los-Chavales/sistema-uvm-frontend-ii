@@ -16,6 +16,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
+
 
 app.use('/usuarios', usersRouter);
 app.use('/materias', subjectsRouter);
@@ -39,13 +41,10 @@ app.use(function(err, req, res, next) {
   res.json('error')
 });
 
-
-
-app.use(cors());
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*'); // Allow all origins
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE'); // Allow specific HTTP methods
+  app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin:*'); // Allow all origins
+  res.header('Access-Control-Allow-Methods: GET,PUT,POST,DELETE'); // Allow specific HTTP methods
+  res.header('Acess-Control-Allow-Headers: Content-Type, X-Auth-Token, Origin, Authorization');
   // Handle preflight requests
   if (req.method === 'OPTIONS') {
       res.sendStatus(200);
@@ -56,8 +55,8 @@ app.use((req, res, next) => {
 
 
 
-/*app.listen(3000, () => {
+app.listen(3000, () => {
     console.log('Server is running on port 3000');
-});*/
+});
 
 module.exports = app;
