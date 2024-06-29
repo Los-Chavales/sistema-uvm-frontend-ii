@@ -32,6 +32,9 @@ export const useActivitiesStore = defineStore("activities", {
             this.options.error.statusError = true
             this.options.error.message = error.response.data
         }
+      },
+      async deleteActivies(id){
+        console.log(`eliminar actividad:${id}`)
       }
     },
 })

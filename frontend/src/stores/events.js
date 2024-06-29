@@ -32,6 +32,9 @@ export const useEventsStore = defineStore("events", {
             this.options.error.statusError = true
             this.options.error.message = error.response.data
         }
+      },
+      async deleteEvents(id){
+        console.log(`eliminar evento:${id}`)
       }
     },
 })

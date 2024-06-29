@@ -1,5 +1,5 @@
 <script setup>
-  import { defineProps, ref,  onMounted, computed } from 'vue'
+  import { defineProps, ref,  onMounted, computed } from 'vue';
   import { useActivitiesStore } from '@/stores/activities';
   import { useEventsStore } from '@/stores/events';
   import Edit_Button from './buttons/Edit_Button.vue';
@@ -27,6 +27,7 @@
     storeActivities.searchActivities('2024-05-27'); //!!!!!!!!!!!Cambiar la fecha
   });
 
+  const deleteActivity = storeActivities.deleteActivies;
 
 
   /* Store de eventos */
@@ -45,28 +46,23 @@
     storeEvents.searchEvents('2024-06-07'); //!!!!!!!!!!!Cambiar la fecha
   });
 
+  const deleteEvent = storeEvents.deleteEvents;
 
   /* Mostrar solo la hora en los detalles de cada actividad */
 
   function change_date_format( property ) {
       property = property.split("T")
-      console.log(property)
+ /*      console.log(property) */
       let hour = property[1].split(".000Z")
       hour = hour[0]
-      console.log(hour)
+   /*    console.log(hour) */
       property = hour 
       return property
   }
 
   /* función para desplegar el modal */
-let state = ref(false);
-  const changeState = () =>{
-    if(state.value){
-      state.value = false
-    } else{
-      state.value = true
-    }
-  }
+  let state = ref(false);
+  const changeState = () => ( state.value = !state.value )
 
   /* Verificar si mostrar ciertas cosas o no 
     
@@ -124,13 +120,13 @@ let state = ref(false);
 
              <!-- En caso de si tener actividades -->
 
-            <div v-else class="container_details" v-for="(activity, index) in getActivities"  v-bind:key="index">
+            <div v-else class="container_details" v-for="(activity) in getActivities" :key="activity.id_actividad">
               <button class="button_create button--white"  v-show="isEditor">Crear actividad</button>
-              <p class="part_p p--activity">{{ change_date_format(activity.fecha_actividad) }} {{ activity.nombre_actividad }} {{ activity.descripcion }}</p>
+              <p class="part_p p--activity" >{{ change_date_format(activity.fecha_actividad) }} {{ activity.nombre_actividad }} {{ activity.descripcion }}</p>
             
               <div class="box_buttons" v-show="isEditor">
                 <Edit_Button />
-                <Delete_Button />
+                <Delete_Button @click="deleteActivity(activity.id_actividad)" />
               </div>
             </div>
 
@@ -152,13 +148,13 @@ let state = ref(false);
 
             <!-- En caso de si tener eventos -->
 
-            <div v-else class="container_details" v-for="(event, index) in getEvents"  v-bind:key="index">
+            <div v-else class="container_details" v-for="(event) in getEvents" :key="event.id_fecha_especial">
               <button class="button_create button--white"  v-show="isEditor">Crear evento</button>
               <p class="part_p p--event">{{ change_date_format(event.fecha_especial) }} {{ event.nombre_largo }} {{ event.descripcion }}</p>
               
               <div class="box_buttons" v-show="isEditor">
                 <Edit_Button />
-                <Delete_Button />
+                <Delete_Button @click="deleteEvent(event.id_fecha_especial)" />
               </div>
             </div>
 
@@ -196,6 +192,8 @@ let state = ref(false);
     display: flex;
     justify-content: center;
     align-items: center; 
+
+    padding: 0 2%;
   }
 
   .modal_head{
@@ -207,9 +205,10 @@ let state = ref(false);
     align-items: center;
     flex-direction: column;
     background-color: $color4;
-    width: 17em;
-    height: 35em;
-/*     height: 795px; */
+  /*   width: 17em;
+    height: 35em; */
+    width: 80%;
+    height: 95%; 
     padding: 15px 30px 30px 30px;
     border-radius: 15px;
   }
@@ -338,26 +337,12 @@ let state = ref(false);
     flex-direction: row;
   }
 
-  @media (max-width: 375px) and (max-height: 667px) {
-    .modal{
-      height: 32em;
-    } 
-  }
-
-  
-  @media (max-width: 344px) and (max-height: 882px) {
-    .modal{
-      width: 16em;
-      height: 40em;
-    } 
-  }
-
-
   @media (min-width: 768px) {
     .modal{
-      width: 37em; 
-      height: 35em;
-  /*     height: 735px; */
+/*       width: 95%;  */
+      width: auto;
+      height: 70%;
+
     }
 
     .modal_body{
@@ -367,21 +352,12 @@ let state = ref(false);
   }
 
   
-  @media (max-width: 1024px) and (max-height: 600px) {
+  @media (min-width: 1024px) { 
     .modal{
-      width: auto; 
-      height: 28em;
-    } 
-  }
-
-  
-  @media (min-width: 1280px) {    
-    .modal{
-      height: 35em;
-    } 
-
-    .modal_part{
-      width: 25em; 
+  /*     width: 85%;  */
+      width: auto;
+      height: 90%;
+      min-width: none;
     } 
   }
 

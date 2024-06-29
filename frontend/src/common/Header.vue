@@ -12,13 +12,7 @@ import User from '@/assets/icons/User.vue';
 /* función para desplegar el menú */
 import { defineComponent, ref } from 'vue'
 let state = ref(false);
-  const changeState = () =>{
-    if(state.value){
-      state.value = false
-    } else{
-      state.value = true
-    }
-  }
+const changeState = () => ( state.value = !state.value )
 
 </script>
 
