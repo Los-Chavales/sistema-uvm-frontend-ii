@@ -321,6 +321,7 @@
     font-weight: 500;
     line-height: normal;
     text-align: start;
+    padding: 5px 0;
   }
 
   .p--activity{
@@ -341,14 +342,13 @@
     .modal{
 /*       width: 95%;  */
       width: auto;
-      height: 70%;
+      height: 60%;
 
     }
 
     .modal_body{
       flex-direction: row; 
     } 
-
   }
 
   
@@ -357,8 +357,10 @@
   /*     width: 85%;  */
       width: auto;
       height: 90%;
-      min-width: none;
     } 
+    .part_title{
+      min-width: 225px;
+    }
   }
 
 

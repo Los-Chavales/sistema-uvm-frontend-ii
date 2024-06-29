@@ -60,7 +60,7 @@ console.log(weeks);
                         <Modal_Events 
                             :day="day" 
                             :seeActivities="true" 
-                            :isEditor="true"
+                            :isEditor="false"
                         /> 
                     </td>
                  <!--     <td v-for="(day, ind) in week.days" :key="`${i}-${ind}`" :id="`${i}-${day}`"
