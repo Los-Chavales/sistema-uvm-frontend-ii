@@ -6,15 +6,25 @@
                Login
             </div>
             <form v-on:submit.prevent="login">
-               <input class="form-input" placeholder="Email" name="correo" type="email" v-model="correo" required/>
 
-               <input class="form-input" type="password" placeholder="Contraseña" name="clave" v-model="clave" required>
+               <input class="form-input" placeholder="Email" name="correo" type="email" v-model="correo" id="correo" />
+
+               <input class="form-input" type="password" placeholder="Contraseña" name="clave" v-model="clave" id="clave">
+
 
                <input class="form-submit" type="submit" value="Ingresar" />
 
             </form>
+            
+            <!--<h3>{{correo}}</h3>>--> <!--Renderizar los datos del correo-->
+            <!--<h3>{{clave}}</h3>>--> <!--Renderizar la contraseña-->
 
          </div>
+         <div v-if="error.length>0">
+                  <ul>
+                     <li class="errores" v-for="error in error" >{{ error }}</li>
+                  </ul>
+               </div>
 
       </div>
        
@@ -100,6 +110,17 @@ font-weight: 600;
 
 }
 
+.errores{
+  color:crimson;
+  font-family: poppins;
+  list-style-type:none;
+  text-align: center;
+  margin-right: 40px;
+  padding-top: 10px;
+  
+  
+}
+
 @media (min-width: 300px){ /*Mobile*/
 
 .login{
@@ -148,25 +169,64 @@ export default {
   data: () => ({
     correo: "",
     clave: "",
-    error: false,
+    error:[],
   }),
   methods: {
-    login () {
-      console.log(this.correo);
-      console.log(this.clave);
+    async login () {
+
+      console.log(this.correo)
+      console.log(this.clave)
+
       let json = {
          "correo": this.correo,
          "clave": this.clave
       };
+      
       axios.post('http://localhost:4000/usuarios/login',json)
       .then(data =>{
          console.log(data);
+      });
+
+      /*await this.axios.post('http://localhost:4000/usuarios/login',json)
+      .then( function(res){
+         if(res.data=== false){
+            console.log('Usuario no existente')
+         }else{
+            localStorage.setItem(res.data.token)
+         }
       })
-     
-    },
+      .catch(function(error){
+         console.log(error);
+      });*/
+      
+
+      this.error =[]
+
+      if(this.correo && this.clave){
+         return true;
+         
+      }
+      if(!this.correo && !this.clave){
+         this.error.push('*Ingrese los datos requeridos*')
+      }else if (!this.correo){
+         this.error.push('*Ingrese el correo*')
+      }else{
+         this.error.push('*Ingrese la clave*')
+      }
+    
+      
+      
+      
+   
+    },  
+
   },
 
 };
-         
 
+// MOSTRAR LOS USUARIOS EN LA BD (dentro de login())
+      /*axios.get('http://localhost:4000/usuarios/mostrar')
+      .then(data =>{
+         console.log(data);
+      })*/
 </script>
