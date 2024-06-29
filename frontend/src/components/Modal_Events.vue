@@ -1,5 +1,7 @@
 <script setup>
-  import { defineProps, ref } from 'vue'
+  import { defineProps, ref,  onMounted, computed } from 'vue'
+  import { useActivitiesStore } from '@/stores/activities';
+  import { useEventsStore } from '@/stores/events';
   import Edit_Button from './buttons/Edit_Button.vue';
   import Delete_Button from './buttons/Delete_Button.vue';
 
@@ -9,103 +11,42 @@
     isEditor: Boolean,
   })
 
-  let activities_examples = [
-    {
-      id_actividad: 1,
-      idNumeroSemana: 1,
-      nombre_actividad: "Evaluación presencial",
-      descripcion: "Evaluación sobre cifras significativas precisión y exactitud",
-      fecha_actividad: "2024-05-27T04:55:0.000Z",
-      idAsignados: 2,
-      idPeriodo: 1
-    },
-    {
-      id_actividad: 3,
-      idNumeroSemana: 1,
-      nombre_actividad: "forochat",
-      descripcion: "debate sobre programación reactiva",
-      fecha_actividad: "2024-05-27T14:00:00.000Z",
-      idAsignados: 1,
-      idPeriodo: 1
-    },
-    {
-      id_actividad: 4,
-      idNumeroSemana: 1,
-      nombre_actividad: "Programación Reactiva",
-      descripcion: "Conectar un backend a una aplicación hecha en React",
-      fecha_actividad: "2024-06-05T15:30:00.000Z",
-      idAsignados: 5,
-      idPeriodo: 1
-    },
-    {
-      id_actividad: 2,
-      idNumeroSemana: 2,
-      nombre_actividad: "Entregables UX UI",
-      descripcion: "Entrega de la documentación UX UI",
-      fecha_actividad: "2024-06-07T04:00:00.000Z",
-      idAsignados: 1,
-      idPeriodo: 1
-    },
-    {
-      id_actividad: 1,
-      idNumeroSemana: 1,
-      nombre_actividad: "Evaluación presencial",
-      descripcion: "Evaluación sobre cifras significativas precisión y exactitud",
-      fecha_actividad: "2024-05-27T04:00:00.000Z",
-      idAsignados: 2,
-      idPeriodo: 1
-    },
-    {
-      id_actividad: 3,
-      idNumeroSemana: 1,
-      nombre_actividad: "forochat",
-      descripcion: "debate sobre programación reactiva",
-      fecha_actividad: "2024-05-27T04:00:00.000Z",
-      idAsignados: 1,
-      idPeriodo: 1
-    },
-    {
-      id_actividad: 4,
-      idNumeroSemana: 1,
-      nombre_actividad: "Programación Reactiva",
-      descripcion: "Conectar un backend a una aplicación hecha en React",
-      fecha_actividad: "2024-06-05T04:00:00.000Z",
-      idAsignados: 5,
-      idPeriodo: 1
-    },
-    {
-      id_actividad: 2,
-      idNumeroSemana: 2,
-      nombre_actividad: "Entregables UX UI",
-      descripcion: "Entrega de la documentación UX UI",
-      fecha_actividad: "2024-06-07T04:00:00.000Z",
-      idAsignados: 1,
-      idPeriodo: 1
-    }
-  ]
+  /* Store de actividades */
 
-  let events_examples = [
-    {
-      id_fecha_especial: 6,
-      idSemana: 1,
-      fecha_especial: "2024-05-27T04:30:00.000Z",
-      nombre_corto: "algo",
-      nombre_largo: "también algo",
-      descripcion: "otro",
-      tipo_fecha: "otro",
-      idPeriodo: 1
-    },
-    {
-      id_fecha_especial: 1,
-      idSemana: 2,
-      fecha_especial: "2024-06-07T05:00:00.000Z",
-      nombre_corto: "corte de nota",
-      nombre_largo: "primer corte de notas",
-      descripcion: "Entrega de notas",
-      tipo_fecha: "corte de notas",
-      idPeriodo: 1
-    }
-  ]
+  let storeActivities = useActivitiesStore();
+
+  const getActivities = computed(() => {
+      return storeActivities.getActivities;
+  });
+
+  const getErrorActivities = computed(() => {
+      return storeActivities.getError;
+  });
+
+  onMounted(() => {
+    storeActivities.searchActivities('2024-05-27'); //!!!!!!!!!!!Cambiar la fecha
+  });
+
+
+
+  /* Store de eventos */
+
+  let storeEvents = useEventsStore();
+
+  const getEvents = computed(() => {
+      return storeEvents.getEvents;
+  });
+
+  const getErrorEvents = computed(() => {
+      return storeEvents.getError;
+  });
+
+  onMounted(() => {
+    storeEvents.searchEvents('2024-06-07'); //!!!!!!!!!!!Cambiar la fecha
+  });
+
+
+  /* Mostrar solo la hora en los detalles de cada actividad */
 
   function change_date_format( property ) {
       property = property.split("T")
@@ -169,32 +110,58 @@ let state = ref(false);
 
       <div class="modal_body">
 
+        <!-- Parte de mostrar actividades -->
+
         <div class="modal_part" v-show="seeActivities">
           <div class="part_container">
             <h3 class="part_title title_activities">Actividades</h3>
-            <div class="container_details" v-for="(activity, index) in activities_examples"  v-bind:key="index">
+            
+              <!-- En caso de no tener nada -->
+
+            <div class="container_details" v-if="getErrorActivities.statusError">
+              <p class="part_p p--activity">{{ getErrorActivities.message }}</p>
+            </div>
+
+             <!-- En caso de si tener actividades -->
+
+            <div v-else class="container_details" v-for="(activity, index) in getActivities"  v-bind:key="index">
               <button class="button_create button--white"  v-show="isEditor">Crear actividad</button>
               <p class="part_p p--activity">{{ change_date_format(activity.fecha_actividad) }} {{ activity.nombre_actividad }} {{ activity.descripcion }}</p>
+            
               <div class="box_buttons" v-show="isEditor">
                 <Edit_Button />
                 <Delete_Button />
               </div>
             </div>
+
           </div>
         </div>
 
 
+        <!-- Parte de mostrar eventos -->
+
         <div class="modal_part">
           <div class="part_container">
             <h3 class="part_title title_events">Eventos</h3>
-            <div class="container_details" v-for="(event, index) in events_examples"  v-bind:key="index">
+
+            <!-- En caso de no tener nada -->
+
+            <div class="container_details" v-if="getErrorEvents.statusError">
+              <p class="part_p p--event">{{ getErrorEvents.message }}</p>
+            </div>
+
+            <!-- En caso de si tener eventos -->
+
+            <div v-else class="container_details" v-for="(event, index) in getEvents"  v-bind:key="index">
               <button class="button_create button--white"  v-show="isEditor">Crear evento</button>
               <p class="part_p p--event">{{ change_date_format(event.fecha_especial) }} {{ event.nombre_largo }} {{ event.descripcion }}</p>
+              
               <div class="box_buttons" v-show="isEditor">
                 <Edit_Button />
                 <Delete_Button />
               </div>
             </div>
+
           </div>
         </div> 
 

@@ -1,11 +1,11 @@
 <script setup>
-import Modal_Events from '../components/Modal_Events.vue'
+
 </script>
 
 
 <template>
   <div class="about">
-<!--     <Modal_Events /> -->
+
   </div>
 </template>
 
