@@ -1,7 +1,13 @@
 <script setup>
-  import { defineComponent, ref } from 'vue'
+  import { defineProps, ref } from 'vue'
   import Edit_Button from './buttons/Edit_Button.vue';
   import Delete_Button from './buttons/Delete_Button.vue';
+
+  const props = defineProps({
+    day: String,
+    seeActivities: Boolean,
+    isEditor: Boolean,
+  })
 
   let activities_examples = [
     {
@@ -136,9 +142,9 @@ let state = ref(false);
       activar: isEditor
   
   */
-
+/* 
   let seeActivities = true;
-  let isEditor = true  
+  let isEditor = true   */
 
   //let seeActivities = false;
   //let isEditor = false
@@ -146,8 +152,8 @@ let state = ref(false);
 </script>
 
 <template>
-  <div @click="changeState" class="celda_simulada">
-
+  <div @click="changeState" class="cell">
+    {{ props.day }}
   </div>
 
   <div class="container_modal" v-show="state">
@@ -158,7 +164,7 @@ let state = ref(false);
         <div class="container_button">
           <button @click="changeState" class="modal_cerrar">cerrar X</button>
         </div>
-        <h2 class="modal_title" >1 de mayo de 2024</h2>
+        <h2 class="modal_title" >{{ props.day }} de mayo de 2024</h2>
       </div>
 
       <div class="modal_body">
@@ -203,17 +209,10 @@ let state = ref(false);
 <style lang="scss" scoped>
   @import "@/assets/scss/variables.scss";
 
-  .celda_simulada{
-    background-color: #fff;
-    height: 80px;
-    width: 60px;
+  .cell{
+    width: 100%;
+    height: 100%;
   }
-
-  .celda_simulada:hover{
-    background-color: greenyellow;
-  }
-
-
 
 
   /* Estructura del modal */
@@ -241,8 +240,8 @@ let state = ref(false);
     align-items: center;
     flex-direction: column;
     background-color: $color4;
-    width: 20em;
-    height: 43em;
+    width: 17em;
+    height: 35em;
 /*     height: 795px; */
     padding: 15px 30px 30px 30px;
     border-radius: 15px;
@@ -278,6 +277,7 @@ let state = ref(false);
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    text-align: start;
   }
 
   /* Contenedor del titulo del modal */
@@ -316,6 +316,7 @@ let state = ref(false);
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    text-align: start;
   }
 
   .title_activities{
@@ -353,6 +354,7 @@ let state = ref(false);
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    text-align: start;
   }
 
   .p--activity{
@@ -371,14 +373,23 @@ let state = ref(false);
 
   @media (max-width: 375px) and (max-height: 667px) {
     .modal{
+      height: 32em;
+    } 
+  }
+
+  
+  @media (max-width: 344px) and (max-height: 882px) {
+    .modal{
+      width: 16em;
       height: 40em;
     } 
   }
 
+
   @media (min-width: 768px) {
     .modal{
-      width: auto; 
-      height: 43em;
+      width: 37em; 
+      height: 35em;
   /*     height: 735px; */
     }
 
@@ -386,22 +397,21 @@ let state = ref(false);
       flex-direction: row; 
     } 
 
-    .modal_part{
-      height: 100%;
-      width: 19em; 
-    } 
   }
 
   
   @media (max-width: 1024px) and (max-height: 600px) {
     .modal{
       width: auto; 
-      height: 35em;
+      height: 28em;
     } 
   }
 
   
   @media (min-width: 1280px) {    
+    .modal{
+      height: 35em;
+    } 
 
     .modal_part{
       width: 25em; 

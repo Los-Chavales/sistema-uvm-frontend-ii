@@ -1,4 +1,6 @@
 <script setup>
+import Modal_Events from '@/components/Modal_Events.vue';
+
 //Para generar los días, junto con el número de la semana
 function generatorDays() {
     let weeksGen = [
@@ -24,9 +26,9 @@ const weeks = generatorDays();
 console.log(weeks);
 
 //Para desplegar la ventana modal
-function openModal(idTD) {
+/* function openModal(idTD) {
     console.log("sem-día:", idTD)
-}
+} */
 </script>
 
 <template>
@@ -50,8 +52,19 @@ function openModal(idTD) {
             </tr>
             <tr v-for="(week, i) in weeks" :key="i">
                 <td class="tdNumber">{{ week.number }}</td>
-                <td v-for="(day, ind) in week.days" :key="`${i}-${ind}`" :id="`${i}-${day}`"
-                    v-on:click="() => openModal(`${i}-${day}`)">{{ day }}</td>
+                    <td v-for="(day, ind) in week.days" :key="`${i}-${ind}`" :id="`${i}-${day}`">
+                        <!-- 
+                           seeActivities: muestra el bloque de actividades  
+                           isEditor: muestra las opciones de editar
+                        -->
+                        <Modal_Events 
+                            :day="day" 
+                            :seeActivities="true" 
+                            :isEditor="false"
+                        /> 
+                    </td>
+                 <!--     <td v-for="(day, ind) in week.days" :key="`${i}-${ind}`" :id="`${i}-${day}`"
+                    v-on:click="() => openModal(`${i}-${day}`)">{{ day }}</td>  -->
             </tr>
             <!--
             <tr>
@@ -170,6 +183,7 @@ td {
     td:hover {
         background: $color5;
         color: $color7;
+        cursor: pointer;
     }
 }
 

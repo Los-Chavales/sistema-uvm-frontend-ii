@@ -5,7 +5,7 @@ import Modal_Events from '../components/Modal_Events.vue'
 
 <template>
   <div class="about">
-    <Modal_Events />
+<!--     <Modal_Events /> -->
   </div>
 </template>
 
