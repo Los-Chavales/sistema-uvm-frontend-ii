@@ -5,7 +5,8 @@
     let storeActivities = useActivitiesStore();
 
     const props = defineProps({
-      idD: String
+      idD: String,
+      
     })
 
 
