@@ -1,24 +1,27 @@
 <script setup>
     import {  defineProps, ref } from 'vue';
-    
-      const props = defineProps({
-      deleteActivies: String
-    }) 
-   
-   
-  let state = ref(true);
-  const changeState = () => (state.value = false)
+    import { useActivitiesStore } from '@/stores/activities';
+
+    let storeActivities = useActivitiesStore();
+
+    const props = defineProps({
+      idD: String
+    })
+
+
+    const deleteActivity = storeActivities.deleteActivies;
+
 </script>
 
 
 <template>
-  <div class="container_modal" v-show='state'>
+  <div class="container_modal">
     <div class="modalConfirm">
       <div class="modalConfirm_part">
-        <h3 class="modalConfirm_title">¿Está seguro de que quiere eliminarlo?</h3>
+        <h3 class="modalConfirm_title">¿Está seguro de que quiere eliminarlo? {{ props.idD }}</h3>
         <div class="modalConfirm_buttons">
-          <button v-on:click="deleteActivies(id_actividades)" class="button_confirm button--white">Si</button>
-          <button @click="changeState" class="button_confirm button--white">No</button>
+          <button class="button_confirm button--white" @click="deleteActivity( props.idD )">Si</button>
+          <button  class="button_confirm button--white" @click="$emit('close')">No</button>
         </div>
       </div>
     </div>

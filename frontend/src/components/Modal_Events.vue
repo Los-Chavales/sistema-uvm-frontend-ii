@@ -27,9 +27,6 @@
     storeActivities.searchActivities('2024-05-27'); //!!!!!!!!!!!Cambiar la fecha
   });
 
-  const deleteActivity = storeActivities.deleteActivies;
-
-
   /* Store de eventos */
 
   let storeEvents = useEventsStore();
@@ -126,7 +123,9 @@
             
               <div class="box_buttons" v-show="isEditor">
                 <Edit_Button />
-                <Delete_Button @click="deleteActivity(activity.id_actividad)" />
+                <Delete_Button 
+                  :idDelete="activity.id_actividad"
+                 />
               </div>
             </div>
 
@@ -154,7 +153,9 @@
               
               <div class="box_buttons" v-show="isEditor">
                 <Edit_Button />
-                <Delete_Button @click="deleteEvent(event.id_fecha_especial)" />
+                <Delete_Button 
+                  :idDelete="event.id_fecha_especial"
+                />
               </div>
             </div>
 

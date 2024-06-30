@@ -1,14 +1,20 @@
 <script setup>
-  import { ref } from 'vue';
+  import {  defineProps, ref } from 'vue';
   import Delete from '@/assets/icons/Delete.vue';
   import Modal_Confirm from '../Modal_Confirm.vue';
+
+  const props = defineProps({
+    idDelete: String
+  })
+
+
   let state = ref(false);
   const changeState = () => ( state.value = !state.value )
 </script>
 
 <template>
     <button @click="changeState" class="button--delete"><Delete /></button>
-    <Modal_Confirm v-show="state" @close="changeState" />
+    <Modal_Confirm v-show="state" @close="changeState" :idD="idDelete"/>
 
 </template>
 
