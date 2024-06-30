@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import Modal_Events from '@/components/Modal_Events.vue';
 
 //Para generar los días del mes, agrupados en semanas
@@ -62,7 +62,7 @@ function completeDays(day, weekDay, week = [], c = 0) {
         //console.warn('restar');
         week[newWDm] = newDm;
         completeDays(newDm, newWDm, week, c);
-    }
+    };
     if (weekDay < 6 && !week[newWDM]) {
         //console.warn('sumar');
         week[newWDM] = newDM;
@@ -90,8 +90,13 @@ const months = [
 const year = ref(2024);
 const month = ref(4);
 const period = ref([0, 4]);
-const weeks = genDaysWeek(year.value, month.value, period.value[0], period.value[1]);
-console.log(year.value, month.value, period.value, weeks);
+
+const update = computed(() => {
+    return genDaysWeek(year.value, month.value, period.value[0], period.value[1]);
+})
+    
+const weeks = update;
+console.log(year.value, month.value, period.value, weeks.value);
 
 //Para cambiar entre meses
 function changeMonth(option) {
