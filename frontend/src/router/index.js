@@ -7,7 +7,10 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta: {
+        requireLogin : false,
+      }
     },
     {
       path: '/about',
@@ -15,7 +18,18 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      component: () => import('../views/AboutView.vue'),
+      meta: {
+        requireLogin : false,
+      }
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: ()=> import('../views/Login.vue'),
+      meta: {
+        requireLogin : false,
+      }
     },
     {
       path: '/calendario',
@@ -31,8 +45,84 @@ const router = createRouter({
       path: '/admin-dsh/profesores',
       name: 'Admin-Dashboard-profesores',
       component: () => import('../views/DashViews/Hadle_Profesor.vue')
-    }
+    },
+      /* 
+      component: () => import('../views/EventsView.vue'),
+      meta: {
+        requireLogin : false,
+      }
+    }, */
+
+
+
+    {
+      path: '/dashboardProfesor',
+      name: 'Profesor',
+      component: () => import('../views/DashboardTeacher.vue'),
+      meta: {
+        requireLogin : true,
+        rol_teacher : true,
+        rol_director : false,
+      }
+    },
+    {
+      path: '/dashboardDirector',
+      name: 'Director',
+      component: () => import('../views/DashboardDirector.vue'),
+      meta: {
+        requireLogin : true,
+        rol_teacher : false,
+        rol_director : true,
+      }
+    },
+
   ]
 })
+
+//Controlar a donde va el usuario
+router.beforeEach((to, from, next) => {
+  const auth = {
+    login: false,
+    rol: ""
+  } 
+
+  let cookie = $cookies.get('auth')
+  if(cookie !== null){
+    console.log("cookie en las rutas")
+    console.log(cookie)
+    auth.login = true;
+    auth.rol = cookie.rol_usuario
+  } else {
+    console.log("no hay cookies")
+  }
+
+  const needAuth = to.meta.requireLogin //Necesita autorización
+  const needTeacher =  to.meta.rol_teacher //Necesita el rol de profesor
+  const needDirector =  to.meta.rol_director //Necesita el rol de director
+
+  console.log(auth)
+  
+  if(needAuth && !auth.login){
+    next('login')
+  } else if(needTeacher){
+    if(auth.rol === "profesor"){
+      console.log("profesor")
+      next()
+    }else{
+      next('login')
+    }
+  }else if(needDirector){
+    if(auth.rol === "director"){
+      console.log("director")
+      next()
+    }else{
+      next('login')
+    }
+  } else {
+    next()
+  }
+
+}) 
+
 
 export default router
