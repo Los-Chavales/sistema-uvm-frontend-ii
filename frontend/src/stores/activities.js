@@ -36,7 +36,7 @@ export const useActivitiesStore = defineStore("activities", {
       },
       async deleteActivies(id_actividad){
         try{
-          const data= await axios.delete(`http://localhost:4000/actividades/eliminar/${id_actividad}`);
+          const data= await axios.delete(`${API_URL_BASE}/actividades/eliminar/${id_actividad}`);
 
           console.log(`eliminar actividad:${id_actividad}`)
         }
