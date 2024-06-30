@@ -161,13 +161,9 @@ function changeMonth(option) {
                            seeActivities: muestra el bloque de actividades  
                            isEditor: muestra las opciones de editar
                         -->
-                        <Modal_Events 
-                            :day="day" 
-                            :seeActivities="true" 
-                            :isEditor="true"
-                        /> 
-                    </td>
-                 <!--     <td v-for="(day, ind) in week.days" :key="`${i}-${ind}`" :id="`${i}-${day}`"
+                    <Modal_Events :day="day" :date="`${year}-${month + 1}-${day}`" :seeActivities="true" :isEditor="true" />
+                </td>
+                <!--     <td v-for="(day, ind) in week.days" :key="`${i}-${ind}`" :id="`${i}-${day}`"
                     v-on:click="() => openModal(`${i}-${day}`)">{{ day }}</td>  -->
             </tr>
             <!--
