@@ -15,6 +15,16 @@ import Footer from "./common/Footer.vue"
 <style lang="scss" scoped>
 
  
+
+
+
+
+
+
+
+
+
+
  /*.contenido{
  min-height: 100vh; 
  }*/
