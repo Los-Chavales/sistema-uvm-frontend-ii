@@ -1,22 +1,16 @@
 <script setup>
-    import {  defineProps, ref } from 'vue';
 
-   /*  const props = defineProps({
-      seeModal: Boolean,
-    }) */
-  let state = ref(true);
-  const changeState = () => (state.value = false)
 </script>
 
 
 <template>
-  <div class="container_modal" v-show='state'>
+  <div class="container_modal">
     <div class="modalConfirm">
       <div class="modalConfirm_part">
         <h3 class="modalConfirm_title">¿Está seguro de que quiere eliminarlo?</h3>
         <div class="modalConfirm_buttons">
           <button class="button_confirm button--white">Si</button>
-          <button @click="changeState" class="button_confirm button--white">No</button>
+          <button  class="button_confirm button--white" @click="$emit('close')">No</button>
         </div>
       </div>
     </div>
