@@ -3,7 +3,7 @@ import { computed, ref } from 'vue';
 import Modal_Events from '@/components/Modal_Events.vue';
 
 //Para generar los días del mes, agrupados en semanas
-function genDaysWeek(year = 0, month = 0, semS = 0, semF = 4) {
+function genDaysWeek(year = 0, month = 0, semS = 0, semF = 0) {
     //Si no se especifica, usar el mes y año actual
     const today = new Date();
     if (!(year && month)) {
@@ -12,22 +12,26 @@ function genDaysWeek(year = 0, month = 0, semS = 0, semF = 4) {
     }
     //Obtener el rango de días del mes indicado
     const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0).getDate();
+    const firstDate = firstDay.getDate();
+    const lastDay = new Date(year, month + 1, 0);
+    const lastDate = lastDay.getDate();
     //const preDay = new Date(year, month, 0);
     const weeks = [
         { number: semS, days: [] },
     ]
     //Generar la primera semana
     const sem1 = weeks[0].days;
-    sem1[firstDay.getDay()] = firstDay.getDate();//Ubicar el primer día del mes
+    sem1[firstDay.getDay()] = firstDate;//Ubicar el primer día del mes
     //Rellenar el resto de los días
-    completeDays(firstDay.getDate(), firstDay.getDay(), sem1);
+    completeDays(firstDate, firstDay.getDay(), sem1);
     for (let dw = 0; dw < sem1.length; dw++) {
         sem1[dw] = new Date(year, month, sem1[dw]).getDate();
     }
     //Generar el resto de las semanas
     let weeksGen = weeks;
-    for (let index = 1; index < semF - semS + 1; index++) {
+    let indSF = semF;
+    if (semF == 0) indSF = calWeeks(firstDay, lastDay, lastDay.getDay());
+    for (let index = 1; index < indSF + 1; index++) {
         let indexAux = index + semS;
         weeksGen[index] = {};
         weeksGen[index].number = indexAux;
@@ -36,7 +40,7 @@ function genDaysWeek(year = 0, month = 0, semS = 0, semF = 4) {
         let daysAux = [];
         for (let index = aux; index < aux + 7; index++) {
             let auxDay = index
-            if (index > lastDay) auxDay = index - lastDay;
+            if (index > lastDate) auxDay = index - lastDate;
             daysAux.push(auxDay);
         }
         weeksGen[index].days = daysAux;
@@ -70,6 +74,13 @@ function completeDays(day, weekDay, week = [], c = 0) {
     }
     return
 }
+//Calcular número de semanas
+function calWeeks(fDay = new Date(), lDay = new Date(), startWeek = 0) {
+    const daysDifference = (lDay - fDay) / (1000 * 3600 * 24);
+    const numWeeks = Math.ceil((daysDifference + fDay.getDay() - startWeek) / 7);
+    console.debug('Numero de semanas', numWeeks);
+    return numWeeks;
+}
 
 //Meses
 const months = [
@@ -89,14 +100,14 @@ const months = [
 
 const year = ref(2024);
 const month = ref(4);
-const period = ref([0, 4]);
+const period = ref([0, undefined]);
 
 const update = computed(() => {
     return genDaysWeek(year.value, month.value, period.value[0], period.value[1]);
 })
-    
+
 const weeks = update;
-console.log(year.value, month.value, period.value, weeks.value);
+console.info(year.value, month.value, period.value, weeks.value);
 
 //Para cambiar entre meses
 function changeMonth(option) {
