@@ -1,5 +1,7 @@
 <script setup>
+import { ref } from 'vue';
 import Modal_Events from '@/components/Modal_Events.vue';
+
 //Para generar los días del mes, agrupados en semanas
 function genDaysWeek(year = 0, month = 0, semS = 0, semF = 4) {
     //Si no se especifica, usar el mes y año actual
@@ -85,23 +87,44 @@ const months = [
     'Diciembre'
 ]
 
-let year = 2024;
-let month = 4;
-const weeks = genDaysWeek(year, month, 0, 0+4);
-console.log(weeks);
+const year = ref(2024);
+const month = ref(4);
+const period = ref([0, 4]);
+const weeks = genDaysWeek(year.value, month.value, period.value[0], period.value[1]);
+console.log(year.value, month.value, period.value, weeks);
 
-//Para desplegar la ventana modal
-/* function openModal(idTD) {
-    console.log("sem-día:", idTD)
-} */
+//Para cambiar entre meses
+function changeMonth(option) {
+    //console.log('Inicio', month.value, year.value)
+    if (option === '+') {
+        if (month.value >= 11) {
+            month.value = -1;
+            year.value++;
+        }
+        month.value++;
+    } else if (option === '-') {
+        if (month.value <= 0) {
+            month.value = 12;
+            year.value--;
+        }
+        month.value--;
+    }
+    //console.log('Final', month.value, year.value)
+}
+
 </script>
 
 <template>
     <div id="monthly" class="calendar">
         <div class="month">
-            <h2>{{months[month] + ' ' + year}}</h2>
-            <div>
-                <p>botones</p>
+            <h2>{{ months[month] + ' ' + year }}</h2>
+            <div class="arrows">
+                <span @click="changeMonth('-')">
+                    <i class="fa-solid fa-circle-chevron-left"></i>
+                </span>
+                <span @click="changeMonth('+')">
+                    <i class="fa-solid fa-circle-chevron-right"></i>
+                </span>
             </div>
         </div>
         <table>
@@ -113,7 +136,7 @@ console.log(weeks);
                 <th>M</th>
                 <th>J</th>
                 <th>V</th>
-                <th>S</th>                
+                <th>S</th>
             </tr>
             <tr v-for="(week, i) in weeks" :key="i">
                 <td class="tdNumber">{{ week.number }}</td>
@@ -215,13 +238,17 @@ console.log(weeks);
     border: 3px solid blue;*/
 }
 
+.month h2 {
+    font-size: 21px;
+}
+
 table,
 th,
 td {
     width: 100%;
     table-layout: fixed;
     text-align: center;
-    font-size: 20px;
+    font-size: 18px;
     border-collapse: collapse;
     border: 1px solid $color4;
     font-family: Poppins;
@@ -252,5 +279,14 @@ td {
     background: $color1;
     align-content: center;
     padding-top: 0px;
+}
+
+.arrows {
+    display: flex;
+    //width: 56px;
+    //height: 24px;
+    //justify-content: center;
+    align-items: flex-start;
+    gap: 9px;
 }
 </style>
