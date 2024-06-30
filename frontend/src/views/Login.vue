@@ -55,6 +55,7 @@ background: rgba(255, 255, 255, 0.19);
 backdrop-filter: blur(40px);
 display: inline-flex;
 height: 378px;
+width: 389px;
 padding: 11px 29px;
 flex-direction: column;
 align-items: center;
@@ -126,22 +127,35 @@ font-weight: 600;
   
 }
 
-@media (min-width: 300px){ /*Mobile*/
+@media (max-width: 700px){ /*Mobile*/
 
-.login{
-border-radius: 30px;
-border: 1px solid #FFF;
-background: rgba(255, 255, 255, 0.19);
-backdrop-filter: blur(40px);
-display: inline-flex;
-height: 378px;
-padding: 11px 29px;
-flex-direction: column;
-align-items: center;
-gap: 34px;
-flex-shrink: 0;
-margin-left: 1px;
-}
+   .login{
+      border-radius: 30px;
+      border: 1px solid #FFF;
+      background: rgba(255, 255, 255, 0.19);
+      backdrop-filter: blur(40px);
+      display: inline-flex;
+      height: 378px;
+      padding: 11px 29px;
+      flex-direction: column;
+      align-items: center;
+      gap: 34px;
+      flex-shrink: 0;
+      margin-left: 1px;
+
+      width: 330px;
+   }
+
+   .form-input{
+      display: inline-block;
+      text-align: center;
+      width: 300px;
+   }
+
+   .form-submit{
+      width: 300px;
+   }
+
 }
 
 @media (min-width: 700px){ /*Tablet*/
