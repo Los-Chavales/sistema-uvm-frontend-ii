@@ -1,10 +1,11 @@
 const connection = require('../config/conexionMySql');
 const Response = require('./response')
+const { validate_events } = require('./validations')
 
 class Events_Model{
   see_events(){
     return new Promise((resolve, reject) => {
-      connection.query('SELECT * FROM `fechas_especiales`', function (error, results, fields) {
+      connection.query('SELECT * FROM `fechas_especiales` ORDER BY `fechas_especiales`.`fecha_especial` ASC', function (error, results, fields) {
           if (error) {
               reject(new Response(500, error, error));
           } else {
@@ -83,12 +84,39 @@ class Events_Model{
     })
   }
 
+  next_two_weeks_events(date){
+    return new Promise((resolve, reject) => {
+  /*     console.log("fecha entrante")
+      console.log(date) */
+  
+       let date_next_two_weeks = new Date(date)
+       date_next_two_weeks = new Date(date_next_two_weeks.setDate(date_next_two_weeks.getDate() + 14))
+       let date_format = date_next_two_weeks.toISOString() 
+ 
+ /*      console.log("fecha siguiente")
+      console.log(date_format) */
+
+       connection.query('SELECT * FROM `fechas_especiales` WHERE `fecha_especial` between ? and ?', [date, date_format], function (error, results, fields) {
+           if (error) {
+               reject(new Response(500, error, error));
+           } else {
+               if (results.length == 0) {
+                  reject(new Response(404, 'No existen eventos para las próximas dos semanas', results));
+               } else {
+                  resolve(new Response(200, results, results));
+               }
+           };
+       });
+     })
+  }
+
 
   register_events(register){
     return new Promise((resolve, reject) => {
+      if (validate_events(register, reject) !== true) return;
       connection.query('INSERT INTO `fechas_especiales` SET ?', register, function (error, results, fields) {
           if (error) {
-              if (error.errno == 1048) reject(new Response(400, "No ingresó nungún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
+              if (error.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
               reject(error);
               console.error("Error SQL: ", error.sqlMessage);
           }
@@ -101,9 +129,10 @@ class Events_Model{
 
   update_events(id, update){
     return new Promise((resolve, reject) => {
+      if (validate_events(update, reject) !== true) return;
       connection.query('UPDATE `fechas_especiales` SET ? WHERE `id_fecha_especial` = ?', [update, id], function (err, rows, fields) {
         if (err) {
-          if (err.errno == 1048) reject("No ingresó nungún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', ''));
+          if (err.errno == 1048) reject("No ingresó ningún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', ''));
           reject(new Response(500, err, err));
         } else {
           if (rows.affectedRows < 1) {

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const Events_Controller = require('../controllers/events_controlles')
+const Events_Controller = require('../controllers/events_controllers')
 const { checkLogin ,checkLoginProfesor, checkLoginDirector, checkRoot, checkDatetime, decodificar } = require('../auth/auth')
 
 /* GET mostrar eventos */
@@ -58,13 +58,26 @@ router.get('/mostrar_horarios/:index_subject/:index_section', function(req, res,
   }) 
 });
 
+/* GET mostrar eventos durante las próximas dos semanas desde la fecha consultada */
+router.get('/mostrar_proximos_eventos/:date', function(req, res, next) {
+  Events_Controller.next_two_weeks_events(req.params.date)
+  .then((results) => {
+      res.send(results.result);
+  })
+  .catch((error) => {
+      res.status(error.code).send(error.message);
+  }) 
+});
+
+
 /* POST registrar eventos */
 router.post('/registrar', checkLogin, function (req, res, next) {
   Events_Controller.register_events(req.body).then((result) => { 
     res.send(result.message)
   }).catch((error) => {
-    if (error.code && error.message) { res.status(error.code).send(error.message) }
-    else { res.status(500).send(error) }
+    res.status(error.code).send(error)
+ /*    if (error.code && error.message) { res.status(error.code).send(error.message) }
+    else { res.status(500).send(error) } */
   })
 });
 
@@ -73,8 +86,9 @@ router.put('/actualizar/:index', checkLogin, function (req, res, next) {
   Events_Controller.update_events(req.params.index, req.body).then((results) => {
     if (results.message) { res.send(results.message) } else { res.send(results) }
   }).catch((error) => {
-    if (error.code && error.message) { res.status(error.code).send(error.message) }
-    else { res.status(500).send(error) }
+    res.status(error.code).send(error)
+   /*  if (error.code && error.message) { res.status(error.code).send(error.message) }
+    else { res.status(500).send(error) } */
   })
 });
 

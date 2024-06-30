@@ -1,4 +1,5 @@
 <script setup>
+import { RouterLink, RouterView } from 'vue-router'
 
 </script>
 
@@ -11,9 +12,10 @@
       <img class="containerFontPage__logo" src="../assets/img/png/logo_uvm.png">
     </div>
     <div class="containerp">
-      <p class="containerp__p">Manténgase informado sobre la planificación del periodo académico. <a class="containerp__a" href="#">Comienza ya</a></p>
+      <p class="containerp__p">Manténgase informado sobre la planificación del periodo académico. <RouterLink class="containerp__a" to="/calendario">Comienza ya</RouterLink></p>
     </div>
   </main>
+  <RouterView />
 </template>
 
 <style lang="scss" scoped>

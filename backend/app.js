@@ -8,9 +8,15 @@ var usersRouter = require('./routes/users');
 var subjectsRouter = require('./routes/subjects');
 var sectionsRouter = require('./routes/sections');
 var eventsRouter = require('./routes/events');
-var activitiessRouter = require('./routes/activities');
+var activitiesRouter = require('./routes/activities');
+var weeksRouter = require('./routes/weeks');
+var schedulesRouter = require('./routes/schedules');
+var periodsRouter = require('./routes/periods');
+
 
 var app = express();
+
+app.use(cors())
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -23,7 +29,10 @@ app.use('/usuarios', usersRouter);
 app.use('/materias', subjectsRouter);
 app.use('/secciones', sectionsRouter);
 app.use('/eventos', eventsRouter);
-app.use('/actividades', activitiessRouter);
+app.use('/actividades', activitiesRouter);
+app.use('/semanas', weeksRouter);
+app.use('/horarios', schedulesRouter);
+app.use('/periodos', periodsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
