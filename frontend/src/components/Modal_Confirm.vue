@@ -1,9 +1,11 @@
 <script setup>
     import {  defineProps, ref } from 'vue';
-
-   /*  const props = defineProps({
-      seeModal: Boolean,
-    }) */
+    
+      const props = defineProps({
+      deleteActivies: String
+    }) 
+   
+   
   let state = ref(true);
   const changeState = () => (state.value = false)
 </script>
@@ -15,7 +17,7 @@
       <div class="modalConfirm_part">
         <h3 class="modalConfirm_title">¿Está seguro de que quiere eliminarlo?</h3>
         <div class="modalConfirm_buttons">
-          <button class="button_confirm button--white">Si</button>
+          <button v-on:click="deleteActivies(id_actividades)" class="button_confirm button--white">Si</button>
           <button @click="changeState" class="button_confirm button--white">No</button>
         </div>
       </div>
@@ -59,6 +61,8 @@
     font-size: 25px;
     font-weight: 700;
     text-align: center;
+    line-height: 1.8;
+    
   }
 
   .modalConfirm_buttons{

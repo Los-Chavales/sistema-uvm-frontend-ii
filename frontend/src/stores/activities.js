@@ -33,8 +33,18 @@ export const useActivitiesStore = defineStore("activities", {
             this.options.error.message = error.response.data
         }
       },
-      async deleteActivies(id){
-        console.log(`eliminar actividad:${id}`)
+      async deleteActivies(id_actividad){
+        console.log(`eliminar actividad:${id_actividad}`)
+        /*try{
+          const data= await axios.delete(`http://localhost:4000/actividades/eliminar/${id_actividad}`);
+
+          console.log(`eliminar actividad:${data.id_actividad}`)
+        }
+        catch (error){
+          console.log(error)
+          console.log(error.response.data)
+        }*/
+          
       }
     },
 })
