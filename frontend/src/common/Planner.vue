@@ -1,8 +1,75 @@
 <script setup>
 import Modal_Events from '@/components/Modal_Events.vue';
+//Para generar los días del mes, agrupados en semanas
+function genDaysWeek(year = 0, month = 0) {
+    //Si no se especifica, usar el mes y año actual
+    const today = new Date();
+    if (!(year && month)) {
+        year = today.getFullYear();
+        month = today.getMonth();
+    }
+    //Obtener el rango de días del mes indicado
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0).getDate();
+    //const preDay = new Date(year, month, 0);
+    const weeks = [
+        { number: 0, days: [] },
+    ]
+    //Generar la primera semana
+    const sem1 = weeks[0].days;
+    sem1[firstDay.getDay()] = firstDay.getDate();//Ubicar el primer día del mes
+    //Rellenar el resto de los días
+    completeDays(firstDay.getDate(), firstDay.getDay(), sem1);
+    for (let dw = 0; dw < sem1.length; dw++) {
+        sem1[dw] = new Date(year, month, sem1[dw]).getDate();
+    }
+    //Generar el resto de las semanas
+    let weeksGen = weeks;
+    for (let index = 1; index < 5; index++) {
+        weeksGen[index] = {};
+        weeksGen[index].number = index;
 
-//Para generar los días, junto con el número de la semana
-function generatorDays() {
+        let aux = weeksGen[index - 1]['days'][6] + 1;
+        let daysAux = [];
+        for (let index = aux; index < aux + 7; index++) {
+            let auxDay = index
+            if (index > lastDay) auxDay = index - lastDay;
+            daysAux.push(auxDay);
+        }
+        weeksGen[index].days = daysAux;
+    }
+    //console.log(weeksGen)
+    return weeksGen;
+}
+//Para completar los días de la primera semana
+function completeDays(day, weekDay, week = [], c = 0) {
+    //console.debug(weekDay, day, week, c);
+    c = c + 1;
+    if (c > 14) return "Se excedió";
+    if (!Array.isArray(week) || (!day && day !== 0) || (!weekDay && weekDay !== 0)) return 'e1'
+    if (weekDay > 6 || weekDay < 0) return 'e2'
+    if (week[0] && week.length == 7) return week
+
+    let newWDm = weekDay - 1;
+    let newDm = day - 1;
+    let newWDM = weekDay + 1;
+    let newDM = day + 1;
+
+    if (weekDay > 0 && !week[newWDm]) {
+        //console.warn('restar');
+        week[newWDm] = newDm;
+        completeDays(newDm, newWDm, week, c);
+    }
+    if (weekDay < 6 && !week[newWDM]) {
+        //console.warn('sumar');
+        week[newWDM] = newDM;
+        completeDays(newDM, newWDM, week, c);
+    }
+    return
+}
+
+//Esta era de prueba
+/*function generatorDays() {
     let weeksGen = [
         { number: 0, days: [29, 30, 1, 2, 3, 4, 5] },
     ]
@@ -21,8 +88,8 @@ function generatorDays() {
     }
     //console.log(weeksGen)
     return weeksGen;
-}
-const weeks = generatorDays();
+}*/
+const weeks = genDaysWeek(2024,4);
 console.log(weeks);
 
 //Para desplegar la ventana modal
@@ -42,28 +109,24 @@ console.log(weeks);
         <table>
             <tr>
                 <th>N°</th>
+                <th>D</th>
                 <th>L</th>
                 <th>M</th>
                 <th>M</th>
                 <th>J</th>
                 <th>V</th>
-                <th>S</th>
-                <th>D</th>
+                <th>S</th>                
             </tr>
             <tr v-for="(week, i) in weeks" :key="i">
                 <td class="tdNumber">{{ week.number }}</td>
-                    <td v-for="(day, ind) in week.days" :key="`${i}-${ind}`" :id="`${i}-${day}`">
-                        <!-- 
+                <td v-for="(day, ind) in week.days" :key="`${i}-${ind}`" :id="`${i}-${day}`">
+                    <!-- 
                            seeActivities: muestra el bloque de actividades  
                            isEditor: muestra las opciones de editar
                         -->
-                        <Modal_Events 
-                            :day="day" 
-                            :seeActivities="true" 
-                            :isEditor="false"
-                        /> 
-                    </td>
-                 <!--     <td v-for="(day, ind) in week.days" :key="`${i}-${ind}`" :id="`${i}-${day}`"
+                    <Modal_Events :day="day" :seeActivities="true" :isEditor="false" />
+                </td>
+                <!--     <td v-for="(day, ind) in week.days" :key="`${i}-${ind}`" :id="`${i}-${day}`"
                     v-on:click="() => openModal(`${i}-${day}`)">{{ day }}</td>  -->
             </tr>
             <!--
