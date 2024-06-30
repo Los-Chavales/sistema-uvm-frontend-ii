@@ -110,6 +110,11 @@ font-weight: 600;
 
 }
 
+.form-submit:hover{
+   cursor: pointer;
+}
+
+
 .errores{
   color:crimson;
   font-family: poppins;
@@ -182,10 +187,42 @@ export default {
          "clave": this.clave
       };
       
-      axios.post('http://localhost:4000/usuarios/login',json)
-      .then(data =>{
-         console.log(data);
-      });
+      this.error =[]
+
+
+      if(this.correo && this.clave){
+         axios.post('http://localhost:4000/usuarios/login',json)
+         .then(data =>{
+         /*    console.log(data);
+            console.log(data.data) */
+            let rol = data.data.rol_usuario
+            this.$cookies.set('auth', data.data)
+        /*     console.log("Cookie:")
+            let cookie = this.$cookies.get('auth')
+            console.log(cookie) */
+
+            if(rol === "profesor"){
+               console.log("profesor")
+               this.$router.push({ path: '/dashboardProfesor' })
+            }else if(rol === "director"){
+               console.log("director")
+               this.$router.push({ path: '/dashboardDirector' })
+            } 
+
+         }).catch((err) => {
+            console.log(err);
+            console.log(err.response.data)
+            this.error.push(`*${err.response.data}*`)
+         })
+      }
+      if(!this.correo && !this.clave){
+         this.error.push('*Ingrese los datos requeridos*')
+      }else if (!this.correo){
+         this.error.push('*Ingrese el correo*')
+      }else  if (!this.clave){
+         this.error.push('*Ingrese la clave*')
+      }
+
 
       /*await this.axios.post('http://localhost:4000/usuarios/login',json)
       .then( function(res){
@@ -198,23 +235,6 @@ export default {
       .catch(function(error){
          console.log(error);
       });*/
-      
-
-      this.error =[]
-
-      if(this.correo && this.clave){
-         return true;
-         
-      }
-      if(!this.correo && !this.clave){
-         this.error.push('*Ingrese los datos requeridos*')
-      }else if (!this.correo){
-         this.error.push('*Ingrese el correo*')
-      }else{
-         this.error.push('*Ingrese la clave*')
-      }
-    
-      
       
       
    
