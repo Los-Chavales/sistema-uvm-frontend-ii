@@ -1,7 +1,7 @@
 <script setup>
 import Modal_Events from '@/components/Modal_Events.vue';
 //Para generar los días del mes, agrupados en semanas
-function genDaysWeek(year = 0, month = 0) {
+function genDaysWeek(year = 0, month = 0, semS = 0, semF = 4) {
     //Si no se especifica, usar el mes y año actual
     const today = new Date();
     if (!(year && month)) {
@@ -13,7 +13,7 @@ function genDaysWeek(year = 0, month = 0) {
     const lastDay = new Date(year, month + 1, 0).getDate();
     //const preDay = new Date(year, month, 0);
     const weeks = [
-        { number: 0, days: [] },
+        { number: semS, days: [] },
     ]
     //Generar la primera semana
     const sem1 = weeks[0].days;
@@ -25,9 +25,10 @@ function genDaysWeek(year = 0, month = 0) {
     }
     //Generar el resto de las semanas
     let weeksGen = weeks;
-    for (let index = 1; index < 5; index++) {
+    for (let index = 1; index < semF - semS + 1; index++) {
+        let indexAux = index + semS;
         weeksGen[index] = {};
-        weeksGen[index].number = index;
+        weeksGen[index].number = indexAux;
 
         let aux = weeksGen[index - 1]['days'][6] + 1;
         let daysAux = [];
@@ -68,28 +69,25 @@ function completeDays(day, weekDay, week = [], c = 0) {
     return
 }
 
-//Esta era de prueba
-/*function generatorDays() {
-    let weeksGen = [
-        { number: 0, days: [29, 30, 1, 2, 3, 4, 5] },
-    ]
-    for (let index = 1; index < 5; index++) {
-        weeksGen[index] = {};
-        weeksGen[index].number = index;
+//Meses
+const months = [
+    'Enero',
+    'Febrero',
+    'Marzo',
+    'Abril',
+    'Mayo',
+    'Junio',
+    'Julio',
+    'Agosto',
+    'Septiembre',
+    'Octubre',
+    'Noviembre',
+    'Diciembre'
+]
 
-        let aux = weeksGen[index - 1]['days'][6] + 1;
-        let daysAux = [];
-        for (let index = aux; index < aux + 7; index++) {
-            let auxDay = index
-            if (index > 31) auxDay = index - 31;
-            daysAux.push(auxDay);
-        }
-        weeksGen[index].days = daysAux;
-    }
-    //console.log(weeksGen)
-    return weeksGen;
-}*/
-const weeks = genDaysWeek(2024,4);
+let year = 2024;
+let month = 4;
+const weeks = genDaysWeek(year, month, 0, 0+4);
 console.log(weeks);
 
 //Para desplegar la ventana modal
@@ -101,7 +99,7 @@ console.log(weeks);
 <template>
     <div id="monthly" class="calendar">
         <div class="month">
-            <h2>Mayo 2024</h2>
+            <h2>{{months[month] + ' ' + year}}</h2>
             <div>
                 <p>botones</p>
             </div>
