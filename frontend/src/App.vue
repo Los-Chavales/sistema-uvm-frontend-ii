@@ -4,8 +4,10 @@ import Header from "./common/Header.vue"
 import Footer from "./common/Footer.vue"
 import Dashboard from "./views/Dashboard.vue";
 import DashHeader from "./components/Dash-Header.vue";
+import { sbWidth } from "./components/DashSideBar/sidebar-state";
+import { RouterView } from "vue-router";
 
-let rol = 'admin'
+let rol = 'public'
 </script>
 
 <template>
@@ -21,9 +23,10 @@ let rol = 'admin'
   </div>
   <div v-else  class="admin-content">
     <DashHeader/>
-    <Dashboard/>
-    <div class="content">
 
+    <Dashboard/>
+    <div class="content" :style=" { 'margin-left:': sbWidth
+     }">
     </div>
      <Footer/>
   </div>

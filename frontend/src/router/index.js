@@ -26,6 +26,11 @@ const router = createRouter({
       path: '/admin-dsh',
       name: 'Admin-Dashboard',
       component: () => import('../views/Dashboard.vue')
+    },
+    {
+      path: '/admin-dsh/profesores',
+      name: 'Admin-Dashboard-profesores',
+      component: () => import('../views/DashViews/Hadle_Profesor.vue')
     }
   ]
 })
