@@ -31,7 +31,7 @@ const changeState = () => ( state.value = !state.value )
             <li class="ul__links__li--responsive"><House /><RouterLink to="/">Inicio</RouterLink></li>
             <li class="ul__links__li--responsive"><Calendar /><RouterLink to="/calendario">Calendario</RouterLink></li>
             <li class="ul__links__li--responsive"><Folder /><a href="#">Planificaciones</a></li>
-            <li class="ul__links__li--responsive"><User /><a href="#">Login</a></li>
+            <li class="ul__links__li--responsive"><User /><RouterLink to="/login">Login</RouterLink></li>
           </ul>
         </nav>
       </div>
@@ -44,7 +44,7 @@ const changeState = () => ( state.value = !state.value )
           <li class="ul__links__li"><RouterLink class="a__color5" to="/">Inicio</RouterLink></li>
           <li class="ul__links__li"><RouterLink class="a__color5" to="/calendario">Calendario</RouterLink></li>
           <li class="ul__links__li"><a class="a__color5" href="#">Planificaciones</a></li>
-          <li class="ul__links__li"><a class="button--white a__color5" href="#">Login</a></li>
+          <li class="ul__links__li"><RouterLink class="a__color5" to="/login">Login</RouterLink></li>
         </ul>
       </nav>
     </div>

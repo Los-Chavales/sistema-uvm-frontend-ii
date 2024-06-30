@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from "axios"
+const API_URL_BASE = import.meta.env.VITE_API_BASE
 
 export const useEventsStore = defineStore("events", {
     state: () => ({
@@ -22,7 +23,7 @@ export const useEventsStore = defineStore("events", {
     actions: {
       async searchEvents(date) {
         try {
-          const data = await axios.get(`http://localhost:4000/eventos/mostrar/fecha/${date}`)
+            const data = await axios.get(`${API_URL_BASE}/eventos/mostrar/fecha/${date}`)
             console.log(data.data)
             this.options.events = data.data
           }
