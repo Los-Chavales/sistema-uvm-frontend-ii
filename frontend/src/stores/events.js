@@ -26,6 +26,7 @@ export const useEventsStore = defineStore("events", {
             const data = await axios.get(`${API_URL_BASE}/eventos/mostrar/fecha/${date}`)
             console.log(data.data)
             this.options.events = data.data
+            this.options.error.statusError = false
           }
           catch (error) {
    /*          console.log(error)

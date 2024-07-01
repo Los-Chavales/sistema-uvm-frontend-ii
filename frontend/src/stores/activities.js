@@ -26,6 +26,7 @@ export const useActivitiesStore = defineStore("activities", {
           const data = await axios.get(`${API_URL_BASE}/actividades/mostrar/fecha/${date}`)
             console.log(data.data)
             this.options.activities = data.data
+            this.options.error.statusError = false
           }
           catch (error) {
 /*             console.log(error)
