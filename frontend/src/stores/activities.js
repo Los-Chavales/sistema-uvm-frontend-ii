@@ -28,8 +28,8 @@ export const useActivitiesStore = defineStore("activities", {
             this.options.activities = data.data
           }
           catch (error) {
-            console.log(error)
-            console.log(error.response.data)
+/*             console.log(error)
+            console.log(error.response.data) */
             this.options.error.statusError = true
             this.options.error.message = error.response.data
         }

@@ -6,8 +6,8 @@
   import Delete_Button from './buttons/Delete_Button.vue';
 
   const props = defineProps({
-    day: String,
-    date: String,
+    day: Number,
+    date: Date,
     seeActivities: Boolean,
     isEditor: Boolean,
   })
@@ -15,6 +15,11 @@
   /* Store de actividades */
 
   let storeActivities = useActivitiesStore();
+
+  let prop = props.date
+  let title_modal = prop.toLocaleDateString('es-ES', {  year: 'numeric', month: 'long', day: 'numeric'})
+  let searchFormat =  prop.toLocaleDateString('en-CA', {  year: 'numeric', month: 'numeric', day: 'numeric'})
+
 
   const getActivities = computed(() => {
       return storeActivities.getActivities;
@@ -25,8 +30,7 @@
   });
 
   onMounted(() => {
-    console.log(props.date)
-    storeActivities.searchActivities(props.date); //Ejemplo '2024-05-27'
+    storeActivities.searchActivities(searchFormat); //Ejemplo '2024-05-27'
   });
 
   /* Store de eventos */
@@ -42,7 +46,7 @@
   });
 
   onMounted(() => {
-    storeEvents.searchEvents(props.date); //Ejemplo '2024-06-07'
+    storeEvents.searchEvents(searchFormat); //Ejemplo '2024-06-07'
   });
 
   const deleteEvent = storeEvents.deleteEvents;
@@ -100,7 +104,7 @@
         <div class="container_button">
           <button @click="changeState" class="modal_cerrar">cerrar X</button>
         </div>
-        <h2 class="modal_title" >{{ props.day }} de mayo de 2024</h2>
+        <h2 class="modal_title" >{{ title_modal }}</h2>
       </div>
 
       <div class="modal_body">
