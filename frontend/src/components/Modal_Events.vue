@@ -7,6 +7,7 @@
 
   const props = defineProps({
     day: String,
+    date: String,
     seeActivities: Boolean,
     isEditor: Boolean,
   })
@@ -24,7 +25,8 @@
   });
 
   onMounted(() => {
-    storeActivities.searchActivities('2024-05-27'); //!!!!!!!!!!!Cambiar la fecha
+    console.log(props.date)
+    storeActivities.searchActivities(props.date); //Ejemplo '2024-05-27'
   });
 
   const deleteActivity = storeActivities.deleteActivies;
@@ -43,7 +45,7 @@
   });
 
   onMounted(() => {
-    storeEvents.searchEvents('2024-06-07'); //!!!!!!!!!!!Cambiar la fecha
+    storeEvents.searchEvents(props.date); //Ejemplo '2024-06-07'
   });
 
   const deleteEvent = storeEvents.deleteEvents;
