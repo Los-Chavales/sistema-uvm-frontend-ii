@@ -116,11 +116,13 @@ const month = ref(4);
 const period = ref([0, undefined]);
 
 const update = computed(() => {
-    return genDaysWeek(year.value, month.value, period.value[0], period.value[1]);
+    let weekCalendar = genDaysWeek(year.value, month.value, period.value[0], period.value[1]);
+    console.info(year.value, month.value, period.value, weekCalendar);
+    return weekCalendar
 })
 
 const weeks = update;
-console.info(year.value, month.value, period.value, weeks.value);
+
 
 //Para cambiar entre meses
 function changeMonth(option) {
@@ -148,10 +150,10 @@ function changeMonth(option) {
         <div class="month">
             <h2>{{ months[month] + ' ' + year }}</h2>
             <div class="arrows">
-                <span @click="changeMonth('-')">
+                <span class="arrow" @click="changeMonth('-')">
                     <i class="fa-solid fa-circle-chevron-left"></i>
                 </span>
-                <span @click="changeMonth('+')">
+                <span class="arrow" @click="changeMonth('+')">
                     <i class="fa-solid fa-circle-chevron-right"></i>
                 </span>
             </div>
@@ -167,7 +169,7 @@ function changeMonth(option) {
                 <th>V</th>
                 <th>S</th>
             </tr>
-            <tr v-for="(week, i) in weeks" :key="i">
+            <tr v-for="(week, i) in weeks" :key="`${month}-${i}`">
                 <td class="tdNumber">{{ week.number }}</td>
                 <td v-for="(day, ind) in week.days" :key="`${i}-${ind}`" :id="`${i}-${day}`">
                     <!-- 
@@ -265,5 +267,9 @@ td {
     //justify-content: center;
     align-items: flex-start;
     gap: 9px;
+}
+
+.arrow:hover {
+    cursor: pointer;
 }
 </style>

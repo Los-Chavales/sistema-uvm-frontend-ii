@@ -1,15 +1,23 @@
 <script setup>
 import Planner from "../common/Planner.vue";
+import Entity_Button from "../components/buttons/Entity_Button.vue";
 </script>
 
 <template>
-    <h1>Gestión de Eventos</h1>
-    <p>Aquí puedes crear y visualisar los eventos</p>
+    <div class="topDiv">
+        <div>
+            <h1>Gestión de Eventos</h1>
+            <p>Aquí puedes crear y visualisar los eventos</p>
+        </div>
+        <div class="optionPeriod">
+            <Entity_Button message="Periodos"/>
+        </div>
+    </div>
     <Planner />
 </template>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/variables.scss";
+@import "../assets/scss/variables.scss";
 
 h1 {
     color: #FFF;
@@ -30,4 +38,20 @@ p {
     font-weight: 400;
     line-height: normal;
 }
+
+.topDiv {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 3%;
+}
+
+.optionPeriod {
+    padding: 2px;
+    background-color: $color1;
+    border-radius: 10px;
+}
+
 </style>

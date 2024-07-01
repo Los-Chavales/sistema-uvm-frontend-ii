@@ -14,20 +14,21 @@ $color7 : #FFF;
 
 
 /* para el botón blanco de crear entidad, login en el nav, y descargar*/
-.button--white{
+.button--white {
   background-color: #FFF;
   display: flex;
   width: 125px;
   height: 30px;
-  padding: 7px 40px;
   justify-content: center;
   align-items: center;
   border-radius: 5px;
   color: $color5;
+  border: none;
+  font-family: Poppins;
 }
 
+
 .button--white:hover{
-  color: $secondary_color;
-  outline: 2px solid $primary_color;
+  color: rgb(87, 104, 199);
   cursor: pointer;
 }
