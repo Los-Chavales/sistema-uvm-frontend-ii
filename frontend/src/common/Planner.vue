@@ -81,6 +81,19 @@ function calWeeks(fDay = new Date(), lDay = new Date(), startWeek = 0) {
     console.debug('Numero de semanas', numWeeks);
     return numWeeks;
 }
+//Cambiar de mes en v-for
+function calMonth(d, m, w, arr) {
+    if (w === 0 && d > 25) {
+        //console.log(d, m, w,'restar')
+        return m - 1;
+    } else if (w + 1 == arr.length && d < 7) {
+        //console.log(d, m, w,'sumar')
+        return m + 1;
+    } else {
+        //console.log(d, m, w,'igual')
+        return m;
+    }
+}
 
 //Meses
 const months = [
@@ -161,64 +174,12 @@ function changeMonth(option) {
                            seeActivities: muestra el bloque de actividades  
                            isEditor: muestra las opciones de editar
                         -->
-                    <Modal_Events :day="day" :date="`${year}-${month + 1}-${day}`" :seeActivities="true" :isEditor="true" />
+                    <Modal_Events :day="day" :date="new Date(year, calMonth(day, month, i, weeks), day)"
+                        :seeActivities="true" :isEditor="true" />
                 </td>
                 <!--     <td v-for="(day, ind) in week.days" :key="`${i}-${ind}`" :id="`${i}-${day}`"
                     v-on:click="() => openModal(`${i}-${day}`)">{{ day }}</td>  -->
             </tr>
-            <!--
-            <tr>
-                <td class="tdNumber">0</td>
-                <td></td>
-                <td></td>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td class="tdNumber">1</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-                <td>10</td>
-                <td>11</td>
-                <td>12</td>
-            </tr>
-            <tr>
-                <td class="tdNumber">2</td>
-                <td>13</td>
-                <td>14</td>
-                <td>15</td>
-                <td>16</td>
-                <td>17</td>
-                <td>18</td>
-                <td>19</td>
-            </tr>
-            <tr>
-                <td class="tdNumber">3</td>
-                <td>20</td>
-                <td>21</td>
-                <td>22</td>
-                <td>23</td>
-                <td>24</td>
-                <td>25</td>
-                <td>26</td>
-            </tr>
-            <tr>
-                <td class="tdNumber">4</td>
-                <td>27</td>
-                <td>28</td>
-                <td>29</td>
-                <td>30</td>
-                <td>31</td>
-                <td></td>
-                <td></td>
-            </tr>
-            -->
-
         </table>
     </div>
 </template>
