@@ -51,6 +51,25 @@ class Activities_Model{
     })
   }
 
+  
+  search_activities_month(dateStart, dateFinish) {
+    console.log("Modelo")
+    console.log(dateStart)
+    console.log(dateFinish)
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM `actividades` WHERE `fecha_actividad` < ? AND `fecha_actividad` >= ?;', [dateFinish, dateStart], function (error, results, fields) {
+        if (error) {
+          reject(new Response(500, error, error));
+        } else {
+          if (results.length == 0) {
+            reject(new Response(404, 'No existen actividades para el mes seleccionado', results));
+          } else {
+            resolve(new Response(200, results, results));
+          }
+        };
+      });
+    })
+  }
 
   see_activities_planning(id_subject, id_section){
     return new Promise((resolve, reject) => {

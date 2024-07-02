@@ -36,6 +36,20 @@ router.get('/mostrar/fecha/:fecha', function(req, res, next) {
   }) 
 });
 
+/* GET buscar actividades por mes (YYYY-MM) */
+router.get('/mostrar/mes', function (req, res, next) {
+  Activities_Controller.search_activities_month(req.body) //{year: 2024, month: 5} month desde el 0 al 11
+    .then((results) => {
+      console.log(results.message);
+      res.status(results.code).send(results.result);
+    })
+    .catch((error) => {
+      //console.log(error)
+      if (!error.code || !error.message) return res.status(500).send(error);
+      res.status(error.code).send(error.message);
+    })
+});
+
 /* GET mostrar actividades para la planificación */
 router.get('/mostrar_planificacion/:index_subject/:index_section', function(req, res, next) {
   Activities_Controller.see_activities_planning(req.params.index_subject, req.params.index_section)
