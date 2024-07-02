@@ -46,15 +46,16 @@ const router = createRouter({
       name: 'Admin-Dashboard-profesores',
       component: () => import('../views/DashViews/Hadle_Profesor.vue')
     },
-      /* 
-      component: () => import('../views/EventsView.vue'),
-      meta: {
-        requireLogin : false,
-      }
-    }, */
-
-
-
+    {
+      path: '/admin-dsh/materias',
+      name: 'Admin-Dashboard-Materias',
+      component: () => import('../views/DashViews/Handle_Subject.vue')
+    },
+    {
+      path: '/admin-dsh/secciones',
+      name: 'Admin-Dashboard-Secciones',
+      component: () => import('../views/DashViews/Handle_section.vue')
+    },
     {
       path: '/dashboardProfesor',
       name: 'Profesor',

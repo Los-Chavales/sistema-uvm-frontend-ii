@@ -7,7 +7,7 @@ import DashHeader from "./components/Dash-Header.vue";
 import { sbWidth } from "./components/DashSideBar/sidebar-state";
 import { RouterView } from "vue-router";
 
-let rol = 'public'
+let rol = 'admin'
 </script>
 
 <template>
@@ -17,6 +17,7 @@ let rol = 'public'
   >
     <Header />
       <div class="content">
+        <RouterView />
 
       </div>
     <Footer/>
@@ -25,8 +26,8 @@ let rol = 'public'
     <DashHeader/>
 
     <Dashboard/>
-    <div class="content" :style=" { 'margin-left:': sbWidth
-     }">
+    <div class="content" :style=" { 'margin-left:': sbWidth }">
+      <RouterView />
     </div>
      <Footer/>
   </div>
@@ -36,8 +37,8 @@ let rol = 'public'
 <style lang="scss" scoped>
 
  .content{
-    min-height: 100vh;
-/*   min-height: 100%; */
+/*   min-height: 100vh; */
+  min-height: 100%;
  }
 
  body{

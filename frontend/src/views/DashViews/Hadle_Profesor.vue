@@ -1,18 +1,36 @@
 <script setup>
+    import { mapActions, mapState } from 'pinia';
+    import { userStore } from '@/stores/Dash_Stores/users'
+    import { computed, onMounted } from 'vue';
+    import DashTable from '@/components/DashMain/DashTable.vue';
+    const store  = userStore();
+    const getProfessors = computed(() => {
+        return store.getUser;
+        
+    })
+    console.log(getProfessors.value)
+    
+    const users = computed(() => {
+        return store.users
+    })
+    console.log(users.value)
+    onMounted(() => {
+        store.getProfessors();
+    })
 
 </script>
 
 <template>
-    <div class="gestorContainer">
-        <span class="gestorContainer-text">
-            <h1>Gestión de Profesores</h1>
-        <h3>Aquí puedes crear y gestionar profesores</h3>
-        </span>
-        <button ></button>
-        <div class="handleTable">
-
-        </div>
-    </div>
+    <DashTable
+    :tableHead="['Profesor','Correo','Rol']"
+    :forBody="['nombre','correo','tipo_rol']"
+    :options="true"
+    :forTable="users"
+    mainButton="Añadir profesor"
+    h1Title="Gestión de Profesores"
+    h3Title="Aquí puedes crear y gestionar profesores"
+    >
+    </DashTable>
 </template>
 
 <style lang="scss">
