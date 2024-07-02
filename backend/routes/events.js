@@ -1,83 +1,97 @@
 var express = require('express');
 var router = express.Router();
 const Events_Controller = require('../controllers/events_controllers')
-const { checkLogin ,checkLoginProfesor, checkLoginDirector, checkRoot, checkDatetime, decodificar } = require('../auth/auth')
+const { checkLogin, checkLoginProfesor, checkLoginDirector, checkRoot, checkDatetime, decodificar } = require('../auth/auth')
 
 /* GET mostrar eventos */
-router.get('/mostrar', function(req, res, next) {
+router.get('/mostrar', function (req, res, next) {
   Events_Controller.see_events()
-  .then((results) => {
+    .then((results) => {
       res.send(results.result);
-  })
-  .catch((error) => {
+    })
+    .catch((error) => {
       res.status(error.code).send(error.message);
-  }) 
+    })
 });
 
 /* GET buscar eventos por nombre*/
-router.get('/mostrar/nombre/:nombre', function(req, res, next) {
+router.get('/mostrar/nombre/:nombre', function (req, res, next) {
   Events_Controller.search_events_name(req.params.nombre)
-  .then((results) => {
+    .then((results) => {
       res.send(results.result);
-  })
-  .catch((error) => {
+    })
+    .catch((error) => {
       res.status(error.code).send(error.message);
-  }) 
+    })
 });
 
 /* GET buscar eventos por fecha */
-router.get('/mostrar/fecha/:fecha', function(req, res, next) {
+router.get('/mostrar/fecha/:fecha', function (req, res, next) {
   Events_Controller.search_events_date(req.params.fecha)
-  .then((results) => {
+    .then((results) => {
       res.send(results.result);
-  })
-  .catch((error) => {
+    })
+    .catch((error) => {
       res.status(error.code).send(error.message);
-  }) 
+    })
+});
+
+/* GET buscar eventos por mes (YYYY-MM) */
+router.get('/mostrar/mes', function (req, res, next) {
+  Events_Controller.search_events_month(req.body) //{year: 2024, month: 5} month desde el 0 al 11
+    .then((results) => {
+      console.log(results.message);
+      res.status(results.code).send(results.result);
+    })
+    .catch((error) => {
+      //console.log(error)
+      if (!error.code || !error.message) return res.status(500).send(error);
+      res.status(error.code).send(error.message);
+    })
 });
 
 /* GET mostrar eventos para la planificación */
-router.get('/mostrar_planificacion', function(req, res, next) {
+router.get('/mostrar_planificacion', function (req, res, next) {
   Events_Controller.see_events_planning()
-  .then((results) => {
+    .then((results) => {
       res.send(results.result);
-  })
-  .catch((error) => {
+    })
+    .catch((error) => {
       res.status(error.code).send(error.message);
-  }) 
+    })
 });
 
 /* GET mostrar horarios para la planificación */
-router.get('/mostrar_horarios/:index_subject/:index_section', function(req, res, next) {
+router.get('/mostrar_horarios/:index_subject/:index_section', function (req, res, next) {
   Events_Controller.see_events_schedules(req.params.index_subject, req.params.index_section)
-  .then((results) => {
+    .then((results) => {
       res.send(results.result);
-  })
-  .catch((error) => {
+    })
+    .catch((error) => {
       res.status(error.code).send(error.message);
-  }) 
+    })
 });
 
 /* GET mostrar eventos durante las próximas dos semanas desde la fecha consultada */
-router.get('/mostrar_proximos_eventos/:date', function(req, res, next) {
+router.get('/mostrar_proximos_eventos/:date', function (req, res, next) {
   Events_Controller.next_two_weeks_events(req.params.date)
-  .then((results) => {
+    .then((results) => {
       res.send(results.result);
-  })
-  .catch((error) => {
+    })
+    .catch((error) => {
       res.status(error.code).send(error.message);
-  }) 
+    })
 });
 
 
 /* POST registrar eventos */
 router.post('/registrar', checkLogin, function (req, res, next) {
-  Events_Controller.register_events(req.body).then((result) => { 
+  Events_Controller.register_events(req.body).then((result) => {
     res.send(result.message)
   }).catch((error) => {
     res.status(error.code).send(error)
- /*    if (error.code && error.message) { res.status(error.code).send(error.message) }
-    else { res.status(500).send(error) } */
+    /*    if (error.code && error.message) { res.status(error.code).send(error.message) }
+       else { res.status(500).send(error) } */
   })
 });
 
@@ -87,8 +101,8 @@ router.put('/actualizar/:index', checkLogin, function (req, res, next) {
     if (results.message) { res.send(results.message) } else { res.send(results) }
   }).catch((error) => {
     res.status(error.code).send(error)
-   /*  if (error.code && error.message) { res.status(error.code).send(error.message) }
-    else { res.status(500).send(error) } */
+    /*  if (error.code && error.message) { res.status(error.code).send(error.message) }
+     else { res.status(500).send(error) } */
   })
 });
 
