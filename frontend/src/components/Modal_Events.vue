@@ -15,54 +15,54 @@
   let prop = props.date
   let title_modal = prop.toLocaleDateString('es-ES', {  year: 'numeric', month: 'long', day: 'numeric'})
   let searchFormat =  prop.toLocaleDateString('en-CA', {  year: 'numeric', month: 'numeric', day: 'numeric'})
-  console.log(searchFormat)
 
   /* Store de actividades */
 
   let storeActivities = useActivitiesStore();
 
-  let getActivities = storeActivities.getActivitiesDetails;
-
-  if(getActivities.length !== 0){
-    getActivities = getActivities.find(({ date }) => date ===  searchFormat)
-    console.log("HAY actividades para ti")
-    console.log(getActivities)
-
-    if(getActivities !== undefined){
-      getActivities = getActivities.activitiesList
+  const getActivities = computed(() => {
+    let getActivitiesList = storeActivities.getActivitiesDetails;
+    if(getActivitiesList.length !== 0){
+    getActivitiesList = getActivitiesList.find(({ date }) => date ===  searchFormat)
+  
+    if(getActivitiesList !== undefined){
+      getActivitiesList = getActivitiesList.activitiesList
     }else{
-      getActivities = []
+      getActivitiesList = []
     }
   }
+    return getActivitiesList;
+  });
 
 
   /* Store de eventos */
 
   let storeEvents = useEventsStore();
-
-  let getEvents = storeEvents.getEventsDetails;
-
-  if(getEvents.length !== 0){
-    getEvents = getEvents.find(({ date }) => date ===  searchFormat)
-    console.log("HAY eventos para ti")
-    console.log(getEvents) 
   
-    if(getEvents !== undefined){
-      getEvents = getEvents.eventsList
+
+  //let getEvents = storeEvents.getEventsDetails;
+
+  const getEvents = computed(() => {
+    let getEventsList = storeEvents.getEventsDetails
+    if(getEventsList.length !== 0){
+    getEventsList = getEventsList.find(({ date }) => date ===  searchFormat)
+  
+    if(getEventsList !== undefined){
+      getEventsList = getEventsList.eventsList
     }else{
-      getEvents = []
+      getEventsList = []
     }
   }
+    return getEventsList;
+  });
 
   /* Mostrar solo la hora en los detalles de cada actividad */
 
   function change_date_format( property ) {
     if(property !== undefined){
       property = property.split("T")
-      console.log(property) 
       let hour = property[1].split(".000Z")
       hour = hour[0]
-      console.log(hour) 
       property = hour 
       return property
     }

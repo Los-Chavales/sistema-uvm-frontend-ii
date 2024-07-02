@@ -17,6 +17,9 @@ export const useEventsStore = defineStore("events", {
       return state.options.events
     },
     getEventsDetails(state) {
+      return state.options.events 
+    },
+  /*   getEventsDetails(state) {
       //return state.options.events = []
       return state.options.events = [
         {
@@ -90,7 +93,7 @@ export const useEventsStore = defineStore("events", {
           ]
         }
       ] 
-    },
+    }, */
     getError(state) {
       return state.options.error
     }
@@ -104,10 +107,26 @@ export const useEventsStore = defineStore("events", {
         this.options.error.statusError = false
       }
       catch (error) {
-        /*          console.log(error)
-                 console.log(error.response.data) */
+        console.log(error)
+        console.log(error.response.data) 
         this.options.error.statusError = true
         this.options.error.message = error.response.data
+      }
+    },
+    async searchEventsMonths(year, month) {
+      try {
+/*        console.log("En la store")
+       console.log(year)
+       console.log(month) */
+       const data = await axios.get(`${API_URL_BASE}/eventos/mostrar/mes/${year}/${month}`)
+       this.options.events = data.data
+       this.options.error.statusError = false
+      }
+      catch (error) {
+        console.log(error)
+        //console.log(error.response.data) 
+    /*     this.options.error.statusError = true
+        this.options.error.message = error.response.data */
       }
     },
     async deleteEvents(id) {

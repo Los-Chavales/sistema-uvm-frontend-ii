@@ -53,9 +53,6 @@ class Activities_Model{
 
   
   search_activities_month(dateStart, dateFinish) {
-    console.log("Modelo")
-    console.log(dateStart)
-    console.log(dateFinish)
     return new Promise((resolve, reject) => {
       connection.query('SELECT * FROM `actividades` WHERE `fecha_actividad` < ? AND `fecha_actividad` >= ?;', [dateFinish, dateStart], function (error, results, fields) {
         if (error) {

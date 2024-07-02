@@ -27,7 +27,7 @@ const getErrorActivities = computed(() => {
 
 onMounted(() => {
   console.log(props.date)
-  storeActivities.searchActivities(props.date); //Ejemplo '2024-05-27'
+  storeActivities.searchActivities('2024-05-27'); //Ejemplo props.date
 });
 
 const deleteActivity = storeActivities.deleteActivies;
@@ -54,13 +54,15 @@ const deleteEvent = storeEvents.deleteEvents;
 /* Mostrar solo la hora en los detalles de cada actividad */
 
 function change_date_format(property) {
-  property = property.split("T")
-  /*      console.log(property) */
-  let hour = property[1].split(".000Z")
-  hour = hour[0]
-  /*    console.log(hour) */
-  property = hour
-  return property
+  if(property !== undefined){
+    property = property.split("T")
+    /*      console.log(property) */
+    let hour = property[1].split(".000Z")
+    hour = hour[0]
+    /*    console.log(hour) */
+    property = hour
+    return property
+  }
 }
 
 

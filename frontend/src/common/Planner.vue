@@ -1,6 +1,23 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import Modal_Events from '@/components/Modal_Events.vue';
+import { useEventsStore } from '@/stores/events';
+import { useActivitiesStore } from '@/stores/activities';
+
+
+//Llamar a la store de eventos
+let storeEvents = useEventsStore();
+
+const callStoreEvents = (yearDate, monthDate) =>{
+    storeEvents.searchEventsMonths(yearDate, monthDate)
+}
+
+//Llamar a la store de actividades
+let storeActivities = useActivitiesStore();
+
+const callStoreActivities = (yearDate, monthDate) =>{
+    storeActivities.searchActivitiesMonths(yearDate, monthDate)
+}
 
 //Para generar los días del mes, agrupados en semanas
 function genDaysWeek(year = 0, month = 0, semS = 0, semF = 0) {
@@ -46,6 +63,10 @@ function genDaysWeek(year = 0, month = 0, semS = 0, semF = 0) {
         weeksGen[index].days = daysAux;
     }
     //console.log(weeksGen)
+
+    //Llamar a las sotres
+    callStoreEvents(year, month)
+    callStoreActivities(year, month)
     return weeksGen;
 }
 //Para completar los días de la primera semana
