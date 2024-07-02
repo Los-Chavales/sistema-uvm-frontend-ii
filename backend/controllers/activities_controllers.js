@@ -1,6 +1,7 @@
-const Activities_Model = require('../models/activities_models')
+const Activities_Model = require('../models/activities_models');
+const Response = require('../models/response');
 
-class Activities_Controller{
+class Activities_Controller {
   see_activities() {
     return new Promise((resolve, reject) => {
       Activities_Model.see_activities().then((res) => { resolve(res) }).catch((error) => { reject(error); })
@@ -20,14 +21,14 @@ class Activities_Controller{
   }
 
   search_activities_month(date) {//{year: 2024, month: 5}
-    console.log("controlador")
-    console.log(date)
+    console.log("controlador", date)
     let dateStart = new Date(date.year, date.month, 1);
     let dateFinish = new Date(date.year, date.month + 1, 1);
     return new Promise((resolve, reject) => {
       Activities_Model.search_activities_month(dateStart, dateFinish)
         .then((res) => {
           const arrActivities = res.message;
+          //console.log(arrActivities)
           if (!Array.isArray(arrActivities) || !arrActivities.length > 0) return reject(new Response(500, 'Error array', res));
 
           // Para agrupar las actividades con fechas comunes
@@ -63,19 +64,19 @@ class Activities_Controller{
     return new Promise((resolve, reject) => {
       Activities_Model.register_activities(register).then((res) => { resolve(res) }).catch((error) => { reject(error) })
     })
-  }  
+  }
 
   update_activities(id, update) {
     return new Promise((resolve, reject) => {
       Activities_Model.update_activities(id, update).then((res) => { resolve(res) }).catch((error) => { reject(error) })
     })
-  } 
+  }
 
   delete_activities(id) {
     return new Promise((resolve, reject) => {
       Activities_Model.delete_activities(id).then((res) => { resolve(res) }).catch((error) => { reject(error) })
     })
-  } 
+  }
 }
 
 module.exports = new Activities_Controller();
