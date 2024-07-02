@@ -44,7 +44,7 @@ router.get('/mostrar/mes', function (req, res, next) {
       res.status(results.code).send(results.result);
     })
     .catch((error) => {
-      //console.log(error)
+      //console.log(error);
       if (!error.code || !error.message) return res.status(500).send(error);
       res.status(error.code).send(error.message);
     })
