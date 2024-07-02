@@ -23,12 +23,14 @@ $color7 : #FFF;
   align-items: center;
   border-radius: 5px;
   color: $color5;
-  border: none;
+  border:none;
   font-family: Poppins;
+  display: flex;
 }
 
 
 .button--white:hover{
-  color: rgb(87, 104, 199);
+  color: $secondary_color;
+  outline: 2px solid $primary_color;
   cursor: pointer;
 }

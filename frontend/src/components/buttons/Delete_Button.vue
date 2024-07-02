@@ -27,8 +27,8 @@
     background: #D74526;
     border: none;
     display: flex;
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     padding: 10px;
     justify-content: center;
     align-items: center;
@@ -38,6 +38,7 @@
     font-weight: 900;
     line-height: normal;
     margin: 2px;
+    float: right;
   }
 
   .button--delete:hover{
