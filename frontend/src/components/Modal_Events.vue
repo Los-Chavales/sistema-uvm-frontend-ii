@@ -6,62 +6,68 @@
   import Delete_Button from './buttons/Delete_Button.vue';
 
   const props = defineProps({
-    day: String,
-    date: String,
+    day: Number,
+    date: Date,
     seeActivities: Boolean,
     isEditor: Boolean,
   })
+  
+  let prop = props.date
+  let title_modal = prop.toLocaleDateString('es-ES', {  year: 'numeric', month: 'long', day: 'numeric'})
+  let searchFormat =  prop.toLocaleDateString('en-CA', {  year: 'numeric', month: 'numeric', day: 'numeric'})
+  console.log(searchFormat)
 
   /* Store de actividades */
 
   let storeActivities = useActivitiesStore();
 
-  const getActivities = computed(() => {
-      return storeActivities.getActivities;
-  });
+  let getActivities = storeActivities.getActivitiesDetails;
 
-  const getErrorActivities = computed(() => {
-      return storeActivities.getError;
-  });
+  if(getActivities.length !== 0){
+    getActivities = getActivities.find(({ date }) => date ===  searchFormat)
+    console.log("HAY actividades para ti")
+    console.log(getActivities)
 
-  onMounted(() => {
-    console.log(props.date)
-    storeActivities.searchActivities(props.date); //Ejemplo '2024-05-27'
-  });
-
-  const deleteActivity = storeActivities.deleteActivies;
+    if(getActivities !== undefined){
+      getActivities = getActivities.activitiesList
+    }else{
+      getActivities = []
+    }
+  }
 
 
   /* Store de eventos */
 
   let storeEvents = useEventsStore();
 
-  const getEvents = computed(() => {
-      return storeEvents.getEvents;
-  });
+  let getEvents = storeEvents.getEventsDetails;
 
-  const getErrorEvents = computed(() => {
-      return storeEvents.getError;
-  });
-
-  onMounted(() => {
-    storeEvents.searchEvents(props.date); //Ejemplo '2024-06-07'
-  });
-
-  const deleteEvent = storeEvents.deleteEvents;
+  if(getEvents.length !== 0){
+    getEvents = getEvents.find(({ date }) => date ===  searchFormat)
+    console.log("HAY eventos para ti")
+    console.log(getEvents) 
+  
+    if(getEvents !== undefined){
+      getEvents = getEvents.eventsList
+    }else{
+      getEvents = []
+    }
+  }
 
   /* Mostrar solo la hora en los detalles de cada actividad */
 
   function change_date_format( property ) {
+    if(property !== undefined){
       property = property.split("T")
- /*      console.log(property) */
+      console.log(property) 
       let hour = property[1].split(".000Z")
       hour = hour[0]
-   /*    console.log(hour) */
+      console.log(hour) 
       property = hour 
       return property
+    }
   }
-
+ 
   /* función para desplegar el modal */
   let state = ref(false);
   const changeState = () => ( state.value = !state.value )
@@ -103,7 +109,7 @@
         <div class="container_button">
           <button @click="changeState" class="modal_cerrar">cerrar X</button>
         </div>
-        <h2 class="modal_title" >{{ props.day }} de mayo de 2024</h2>
+        <h2 class="modal_title" >{{ title_modal }}</h2>
       </div>
 
       <div class="modal_body">
@@ -116,8 +122,8 @@
             
               <!-- En caso de no tener nada -->
 
-            <div class="container_details" v-if="getErrorActivities.statusError">
-              <p class="part_p p--activity">{{ getErrorActivities.message }}</p>
+            <div class="container_details" v-if="getActivities.length === 0">
+              <p class="part_p p--activity">No hay nada para hoy</p>
             </div>
 
              <!-- En caso de si tener actividades -->
@@ -128,7 +134,9 @@
             
               <div class="box_buttons" v-show="isEditor">
                 <Edit_Button />
-                <Delete_Button @click="deleteActivity(activity.id_actividad)" />
+                <Delete_Button 
+                  :idDelete="activity.id_actividad"
+                 />
               </div>
             </div>
 
@@ -144,8 +152,8 @@
 
             <!-- En caso de no tener nada -->
 
-            <div class="container_details" v-if="getErrorEvents.statusError">
-              <p class="part_p p--event">{{ getErrorEvents.message }}</p>
+            <div class="container_details" v-if="getEvents.length === 0">
+              <p class="part_p p--activity">No hay nada para hoy</p>
             </div>
 
             <!-- En caso de si tener eventos -->
@@ -156,7 +164,9 @@
               
               <div class="box_buttons" v-show="isEditor">
                 <Edit_Button />
-                <Delete_Button @click="deleteEvent(event.id_fecha_especial)" />
+                <Delete_Button 
+                  :idDelete="event.id_fecha_especial"
+                />
               </div>
             </div>
 

@@ -37,7 +37,7 @@ class Activities_Model{
 
   search_activities_date(date){
     return new Promise((resolve, reject) => {
-      connection.query('SELECT * FROM `actividades` WHERE `fecha_actividad` =  ?', date, function (error, results, fields) {
+      connection.query(`SELECT * FROM actividades WHERE fecha_actividad LIKE "${date}%"`, function (error, results, fields) {
           if (error) {
               reject(new Response(500, error, error));
           } else {

@@ -37,7 +37,7 @@ class Events_Model {
 
   search_events_date(date) {
     return new Promise((resolve, reject) => {
-      connection.query('SELECT * FROM `fechas_especiales` WHERE `fecha_especial` = ?', date, function (error, results, fields) {
+      connection.query(`SELECT * FROM fechas_especiales WHERE fecha_especial LIKE "${date}%"`, function (error, results, fields) {
         if (error) {
           reject(new Response(500, error, error));
         } else {

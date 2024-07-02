@@ -1,11 +1,11 @@
 <script setup>
-
+import Delete_Button from '@/components/buttons/Delete_Button.vue';
 </script>
 
 
 <template>
-  <div class="about">
-
+  <div class="about"> 
+    <Delete_Button />
   </div>
 </template>
 
