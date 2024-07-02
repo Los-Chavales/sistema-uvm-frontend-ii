@@ -44,39 +44,23 @@ const router = createRouter({
     {
       path: '/admin-dsh/profesores',
       name: 'Admin-Dashboard-profesores',
-      component: () => import('../views/DashViews/Hadle_Profesor.vue')
+      component: () => import('../views/DashViews/Hadle_Profesor.vue'),
     },
     {
       path: '/admin-dsh/materias',
       name: 'Admin-Dashboard-Materias',
-      component: () => import('../views/DashViews/Handle_Subject.vue')
-    },
-    {
-      path: '/admin-dsh/secciones',
-      name: 'Admin-Dashboard-Secciones',
-      component: () => import('../views/DashViews/Handle_section.vue')
-    },
-    {
-      path: '/dashboardProfesor',
-      name: 'Profesor',
-      component: () => import('../views/DashboardTeacher.vue'),
-      meta: {
-        requireLogin : true,
-        rol_teacher : true,
-        rol_director : false,
-      }
-    },
-    {
-      path: '/dashboardDirector',
-      name: 'Director',
-      component: () => import('../views/DashboardDirector.vue'),
+      component: () => import('../views/DashViews/Handle_Subject.vue'),
       meta: {
         requireLogin : true,
         rol_teacher : false,
         rol_director : true,
       }
     },
-
+    {
+      path: '/admin-dsh/secciones',
+      name: 'Admin-Dashboard-Secciones',
+      component: () => import('../views/DashViews/Handle_section.vue')
+    },
   ]
 })
 

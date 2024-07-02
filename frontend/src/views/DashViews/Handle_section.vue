@@ -4,7 +4,7 @@
     import DashTable from '@/components/DashMain/DashTable.vue';
     const store  = sectionStore();
     const getSection = computed(() => {
-        return store.section;
+        return store.sections;
         
     })
     
