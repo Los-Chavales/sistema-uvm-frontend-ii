@@ -60,11 +60,14 @@
 
   function change_date_format( property ) {
     if(property !== undefined){
-      property = property.split("T")
+      let timeEvent = new Date(property).toLocaleTimeString('es-VE');
+      //console.debug(timeEvent);
+      /*property = property.split("T")
       let hour = property[1].split(".000Z")
       hour = hour[0]
       property = hour 
-      return property
+      return property*/
+      return timeEvent;
     }
   }
  
@@ -352,9 +355,9 @@
 
   @media (min-width: 768px) {
     .modal{
-/*       width: 95%;  */
-      width: auto;
-      height: 60%;
+      width: 95%;
+      /*width: auto;*/
+      /*height: 60%;*/
 
     }
 
@@ -366,8 +369,8 @@
   
   @media (min-width: 1024px) { 
     .modal{
-  /*     width: 85%;  */
-      width: auto;
+      width: 85%;
+      /*width: auto;*/
       height: 90%;
     } 
     .part_title{
