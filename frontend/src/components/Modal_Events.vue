@@ -60,7 +60,7 @@
 
   function change_date_format( property ) {
     if(property !== undefined){
-      let timeEvent = new Date(property).toLocaleTimeString('es-VE');
+      let timeEvent = new Date(property).toLocaleTimeString('es-VE', { hour: "2-digit", minute: "2-digit" });
       //console.debug(timeEvent);
       /*property = property.split("T")
       let hour = property[1].split(".000Z")
@@ -133,7 +133,8 @@
 
             <div v-else class="container_details" v-for="(activity) in getActivities" :key="activity.id_actividad">
               <button class="button_create button--white"  v-show="isEditor">Crear actividad</button>
-              <p class="part_p p--activity" >{{ change_date_format(activity.fecha_actividad) }} {{ activity.nombre_actividad }} {{ activity.descripcion }}</p>
+              <h4 class="part_titleH4">{{ activity.nombre_actividad }} </h4>
+              <p class="part_p p--activity" >{{ activity.descripcion }} <span class="hour">{{ change_date_format(activity.fecha_actividad) }} </span></p>
             
               <div class="box_buttons" v-show="isEditor">
                 <Edit_Button />
@@ -163,7 +164,8 @@
 
             <div v-else class="container_details" v-for="(event) in getEvents" :key="event.id_fecha_especial">
               <button class="button_create button--white"  v-show="isEditor">Crear evento</button>
-              <p class="part_p p--event">{{ change_date_format(event.fecha_especial) }} {{ event.nombre_largo }} {{ event.descripcion }}</p>
+              <h4 class="part_titleH4">{{ event.nombre_largo }}</h4>
+              <p class="part_p p--event">{{ event.descripcion }} <span class="hour">{{ change_date_format(event.fecha_especial) }}</span></p>
               
               <div class="box_buttons" v-show="isEditor">
                 <Edit_Button />
@@ -222,7 +224,7 @@
     background-color: $color4;
   /*   width: 17em;
     height: 35em; */
-    width: 80%;
+    width: 93%;
     height: 95%; 
     padding: 15px 30px 30px 30px;
     border-radius: 15px;
@@ -329,9 +331,18 @@
     line-height: normal;
   }
 
+  .part_titleH4{
+    margin-top: 10px;
+    text-align: start;
+    color: #000;
+    font-family: Poppins;
+    font-weight: 700;
+    font-size: 20px;
+  }
+
   .part_p{
     font-family: Poppins;
-    font-size: 20px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
@@ -346,6 +357,12 @@
   
   .p--event{
     color: $secondary_color;
+  }
+
+  .hour{
+    font-size: 14px;
+    display: flex;
+    flex-wrap: wrap;
   }
 
   .box_buttons{
