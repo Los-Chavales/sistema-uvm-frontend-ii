@@ -214,7 +214,7 @@
   }
 
   .modal_head{
-    width: 100%;
+    width: -webkit-fill-available;
   }
 
   .modal{
@@ -224,7 +224,7 @@
     background-color: $color4;
   /*   width: 17em;
     height: 35em; */
-    width: 93%;
+    /*width: 93%;*/
     height: 95%; 
     padding: 15px 30px 30px 30px;
     border-radius: 15px;
@@ -281,7 +281,7 @@
     background-color: #FFF;
     border-radius: 7px;
     margin: 10px;
-    width: 100%;
+    /*width: 100%;*/
     height: 100%;
     overflow: auto;
   }
@@ -289,6 +289,7 @@
 
   .part_container{
     padding: 14px 18px;
+    width: 75vw;
   }
 
   /* información del contenido, titulos, parrafos... */
@@ -370,29 +371,31 @@
     flex-direction: row;
   }
 
-  @media (min-width: 768px) {
-    .modal{
-      width: 95%;
-      /*width: auto;*/
-      /*height: 60%;*/
-
+  @media (min-width: 768px) and (max-width: 991px) {
+    .containerFrontPage {
+      height: 620px;
     }
-
-    .modal_body{
-      flex-direction: row; 
-    } 
   }
 
-  
-  @media (min-width: 1024px) { 
-    .modal{
-      width: 85%;
+  @media (min-width: 780px) {
+    .part_container {
+      width: 41vw;
       /*width: auto;*/
-      height: 90%;
-    } 
-    .part_title{
-      min-width: 225px;
+      /*height: 60%;*/
     }
+
+    .modal_body {
+      flex-direction: row;
+    }
+  }
+
+
+  @media (min-width: 1024px) {
+    /*.part_container {
+      /*width: 85%;
+      /*width: auto;
+      height: 41vw;
+    }*/
   }
 
 
