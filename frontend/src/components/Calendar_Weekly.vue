@@ -214,16 +214,16 @@ function changeMonth(option) {
                 <tr>
                     <td class="tdNumber" rowspan="2">{{ week.number }}</td>
                     <td v-for="(day, ind) in week.days" :key="`${i}-${ind}-acts`" :id="`${i}-${day}-acts`">
-                        <Modal_Events :description="'actividad'"
+                        <Modal_Events :description="'Frontend II: 1era Evaluación'"
                             :date="new Date(year, calMonth(day, month, i, weeks), day)" :seeActivities="true"
-                            :isEditor="false" :isPlannig="true" />
+                            :isEditor="false" :isPlannig="true" :isEvent="false" />
                     </td>
                 </tr>
                 <tr>
                     <td v-for="(day, ind) in week.days" :key="`${i}-${ind}-events`" :id="`${i}-${day}-events`">
-                        <Modal_Events :description="'Evento'"
+                        <Modal_Events :description="'Verificación Classroom'"
                             :date="new Date(year, calMonth(day, month, i, weeks), day)" :seeActivities="true"
-                            :isEditor="false" :isPlannig="true" />
+                            :isEditor="false" :isPlannig="true" :isEvent="true" />
                     </td>
                 </tr>
             </tbody>

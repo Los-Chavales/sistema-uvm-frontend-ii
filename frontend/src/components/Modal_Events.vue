@@ -12,6 +12,7 @@
     isEditor: Boolean,
     description: String,
     isPlannig: Boolean,
+    isEvent: Boolean,
   })
   
   let prop = props.date
@@ -102,8 +103,11 @@
 </script>
 
 <template>
-  <div @click="changeState" class="cell" v-bind:class="{ planning: props.isPlannig }">
-    {{ !props.isPlannig ? props.day : props.description }}
+  <div v-if="!props.isPlannig" @click="changeState" class="cell">
+    {{ props.day }}
+  </div>
+  <div v-else @click="changeState" class="cell planning" :class="[props.isEvent ? 'textEvent' : 'textAct']">
+    {{ props.description }}
   </div>
 
   <div class="container_modal" v-show="state">
@@ -189,7 +193,7 @@
 <style lang="scss" scoped>
   @import "@/assets/scss/variables.scss";
 
-  .cell{
+  .cell {
     width: 100%;
     height: 100%;
     padding-top: 5px;
@@ -198,8 +202,20 @@
 
   .planning {
     align-content: center;
-    font-size: x-small;
+    font-size: 11px;
+    line-height: 11px;
     padding-top: 0px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  .textEvent {
+    color: $secondary_color;
+  }
+  
+  .textAct {
+    color: black;
   }
 
 
