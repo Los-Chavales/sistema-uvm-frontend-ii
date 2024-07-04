@@ -8,14 +8,14 @@ import { useActivitiesStore } from '@/stores/activities';
 //Llamar a la store de eventos
 let storeEvents = useEventsStore();
 
-const callStoreEvents = (yearDate, monthDate) =>{
+const callStoreEvents = (yearDate, monthDate) => {
     storeEvents.searchEventsMonths(yearDate, monthDate)
 }
 
 //Llamar a la store de actividades
 let storeActivities = useActivitiesStore();
 
-const callStoreActivities = (yearDate, monthDate) =>{
+const callStoreActivities = (yearDate, monthDate) => {
     storeActivities.searchActivitiesMonths(yearDate, monthDate)
 }
 
@@ -149,8 +149,8 @@ const months = [
     'Diciembre'
 ]
 
-const year = ref(upTRef(0,'year'));//2024 por 0
-const month = ref(upTRef(0,'month'));//4 por 0
+const year = ref(upTRef(0, 'year'));//2024 por 0
+const month = ref(upTRef(0, 'month'));//4 por 0
 const period = ref([0, undefined]);
 
 const update = computed(() => {
@@ -197,29 +197,28 @@ function changeMonth(option) {
             </div>
         </div>
         <table>
-            <tr>
-                <th>N°</th>
-                <th>D</th>
-                <th>L</th>
-                <th>M</th>
-                <th>M</th>
-                <th>J</th>
-                <th>V</th>
-                <th>S</th>
-            </tr>
-            <tr v-for="(week, i) in weeks" :key="`${month}-${i}`">
-                <td class="tdNumber">{{ week.number }}</td>
-                <td v-for="(day, ind) in week.days" :key="`${i}-${ind}`" :id="`${i}-${day}`">
-                    <!-- 
-                           seeActivities: muestra el bloque de actividades  
-                           isEditor: muestra las opciones de editar
-                        -->
-                    <Modal_Events :day="day" :date="new Date(year, calMonth(day, month, i, weeks), day)"
-                        :seeActivities="true" :isEditor="true" />
-                </td>
-                <!--     <td v-for="(day, ind) in week.days" :key="`${i}-${ind}`" :id="`${i}-${day}`"
-                    v-on:click="() => openModal(`${i}-${day}`)">{{ day }}</td>  -->
-            </tr>
+            <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>D</th>
+                    <th>L</th>
+                    <th>M</th>
+                    <th>M</th>
+                    <th>J</th>
+                    <th>V</th>
+                    <th>S</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(week, i) in weeks" :key="`${month}-${i}`">
+                    <td class="tdNumber">{{ week.number }}</td>
+                    <td v-for="(day, ind) in week.days" :key="`${i}-${ind}`" :id="`${i}-${day}`">
+                        <Modal_Events :day="day" :date="new Date(year, calMonth(day, month, i, weeks), day)"
+                            :seeActivities="true" :isEditor="true" />
+                    </td>
+                </tr>
+                <!--seeActivities: muestra el bloque de actividades  isEditor: muestra las opciones de editar-->
+            </tbody>
         </table>
     </div>
 </template>
@@ -270,19 +269,20 @@ td {
     border: 1px solid $color4;
     font-family: Poppins;
     height: 62px;
-    align-content: baseline;
+    align-content: center;
 
     th {
         background: $color3;
         color: white;
-        font-family: arial black;
-        align-content: center;
+        font-family: Poppins;
+        font-weight: bold;
+        /*align-content: center;*/
     }
 
     td {
         background: $color7;
         color: $color5;
-        padding-top: 5px;
+        /*padding-top: 5px;*/
     }
 
     td:hover {
@@ -294,8 +294,9 @@ td {
 
 .tdNumber {
     background: $color1;
-    align-content: center;
+    /*align-content: center;*/
     padding-top: 0px;
+    font-weight: 600;
 }
 
 .arrows {
