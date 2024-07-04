@@ -209,15 +209,23 @@ function changeMonth(option) {
                     <th>S</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr v-for="(week, i) in weeks" :key="`${month}-${i}`">
-                    <td class="tdNumber">{{ week.number }}</td>
-                    <td v-for="(day, ind) in week.days" :key="`${i}-${ind}`" :id="`${i}-${day}`">
-                        <Modal_Events :day="day" :date="new Date(year, calMonth(day, month, i, weeks), day)"
-                            :seeActivities="true" :isEditor="true" />
+
+            <tbody v-for="(week, i) in weeks" :key="`${month}-${i}`">
+                <tr>
+                    <td class="tdNumber" rowspan="2">{{ week.number }}</td>
+                    <td v-for="(day, ind) in week.days" :key="`${i}-${ind}-acts`" :id="`${i}-${day}-acts`">
+                        <Modal_Events :description="'Frontend II: 1era Evaluación'"
+                            :date="new Date(year, calMonth(day, month, i, weeks), day)" :seeActivities="true"
+                            :isEditor="false" :isPlannig="true" :isEvent="false" />
                     </td>
                 </tr>
-                <!--seeActivities: muestra el bloque de actividades  isEditor: muestra las opciones de editar-->
+                <tr>
+                    <td v-for="(day, ind) in week.days" :key="`${i}-${ind}-events`" :id="`${i}-${day}-events`">
+                        <Modal_Events :description="'Verificación Classroom'"
+                            :date="new Date(year, calMonth(day, month, i, weeks), day)" :seeActivities="true"
+                            :isEditor="false" :isPlannig="true" :isEvent="true" />
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -273,16 +281,14 @@ td {
 
     th {
         background: $color3;
-        color: white;
-        font-family: Poppins;
+        color: $color7;
         font-weight: bold;
-        /*align-content: center;*/
     }
 
     td {
         background: $color7;
         color: $color5;
-        /*padding-top: 5px;*/
+        height: 40px;
     }
 
     td:hover {
@@ -294,9 +300,8 @@ td {
 
 .tdNumber {
     background: $color1;
-    /*align-content: center;*/
-    padding-top: 0px;
     font-weight: 600;
+    padding-top: 0px;
 }
 
 .arrows {
