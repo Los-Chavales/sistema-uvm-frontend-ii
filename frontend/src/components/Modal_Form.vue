@@ -1,4 +1,5 @@
 <script setup>
+import Form_Activity from './forms/Form_Activity.vue';
 
 </script>
 
@@ -17,12 +18,13 @@
 
       <div class="modalForm_part">
   
+        <!-- Aquí van los forms -->
+         <Form_Activity />
 
       </div>
-      <div class="modalForm_part">
-  
 
-      </div>
+     <!--  <div class="modalForm_part">
+      </div> -->
 
     </div>
 
@@ -54,11 +56,14 @@
   }
 
   .modalForm{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     background-color: $color4;
     padding: 15px;
     border-radius: 15px;
-    width: 86%;
-    height: 85%; 
+    //width: 86%;
+    height: 95%; 
     box-sizing: border-box;
   }
 
@@ -98,9 +103,11 @@
   .modalForm_body{
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-direction: column;
     width: 100%;
-    height: 95%;
+    height: 100%;
+    overflow: hidden;
   }
   
    /* Contenedor de las secciones blancas modal */
@@ -109,16 +116,43 @@
     background-color: #FFF;
     border-radius: 7px;
     margin: 10px;
-    width: 100%;
+    // width: 100%;
+    padding: 12px;
+    width: 75vw;
     height: 100%;
     overflow: auto;
   }
 
   @media (min-width: 768px) {
-    *{
-      background-color: aqua;
+    .modalForm{
+      height: 70vh; 
+    }
+
+    .modalForm_head{
+      margin-bottom: 5px;
+    }
+    .modalForm_body{
+      flex-direction: row;
+    }
+    .modalForm_part{
+      width: 41vw;
     }
   }
+
+
+  
+  @media (min-width: 1024px) {
+    .modalForm{
+      height: 95%; 
+    }
+  } 
+
+  @media (min-width: 1024px) and (min-height: 1366px) {
+    .modalForm{
+      height: 70vh; 
+    }
+  }
+
 
   
 </style>

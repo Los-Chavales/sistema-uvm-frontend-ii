@@ -79,6 +79,9 @@
   let stateForm = ref(false);
   const changeStateModalForm = () => ( stateForm.value = !stateForm.value )
 
+  let stateFormEvent = ref(false)
+  const changeStateModalFormEvent = () => ( stateForm.value = !stateForm.value )
+
   /* Verificar si mostrar ciertas cosas o no 
     
     Calendario normal 
@@ -168,7 +171,8 @@
             <!-- En caso de si tener eventos -->
 
             <div v-else class="container_details" v-for="(event) in getEvents" :key="event.id_fecha_especial">
-              <button class="button_create button--white"  v-show="isEditor">Crear evento</button>
+              <button class="button_create button--white"  @click="changeStateModalFormEvent"  v-show="isEditor">Crear evento</button>
+              <Modal_Form @closeModalForm="changeStateModalFormEvent" v-show="stateFormEvent" />
               <h4 class="part_titleH4">{{ event.nombre_largo }}</h4>
               <p class="part_p p--event">{{ event.descripcion }} <span class="hour">{{ change_date_format(event.fecha_especial) }}</span></p>
               
