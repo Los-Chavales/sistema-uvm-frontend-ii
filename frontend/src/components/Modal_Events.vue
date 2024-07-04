@@ -4,6 +4,7 @@
   import { useEventsStore } from '@/stores/events';
   import Edit_Button from './buttons/Edit_Button.vue';
   import Delete_Button from './buttons/Delete_Button.vue';
+  import Modal_Form from './Modal_Form.vue';
 
   const props = defineProps({
     day: Number,
@@ -75,6 +76,9 @@
   let state = ref(false);
   const changeState = () => ( state.value = !state.value )
 
+  let stateForm = ref(false);
+  const changeStateModalForm = () => ( stateForm.value = !stateForm.value )
+
   /* Verificar si mostrar ciertas cosas o no 
     
     Calendario normal 
@@ -132,7 +136,8 @@
              <!-- En caso de si tener actividades -->
 
             <div v-else class="container_details" v-for="(activity) in getActivities" :key="activity.id_actividad">
-              <button class="button_create button--white"  v-show="isEditor">Crear actividad</button>
+              <button class="button_create button--white" @click="changeStateModalForm" v-show="isEditor">Crear actividad</button>
+              <Modal_Form @closeModalForm="changeStateModalForm" v-show="stateForm" />
               <h4 class="part_titleH4">{{ activity.nombre_actividad }} </h4>
               <p class="part_p p--activity" >{{ activity.descripcion }} <span class="hour">{{ change_date_format(activity.fecha_actividad) }} </span></p>
             
@@ -247,6 +252,7 @@
     line-height: normal;
     text-decoration-line: underline;
   }
+
   .modal_cerrar:hover{
     cursor: pointer;
     background-color: $secondary_color;
@@ -263,7 +269,7 @@
     text-align: start;
   }
 
-  /* Contenedor del titulo del modal */
+  /* Contenedor de las partes del modal */
 
   .modal_body{
     display: flex;
