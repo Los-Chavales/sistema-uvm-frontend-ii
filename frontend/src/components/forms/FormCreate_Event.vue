@@ -180,7 +180,8 @@ let title_from_teacher = prop.toLocaleDateString('es-ES', { weekday: 'long' })
     font-size: 32px;
     font-style: normal;
     font-weight: 600;
-    line-height: normal
+    line-height: normal;
+    cursor: pointer;
   }
 
   @media (max-width: 375px) {

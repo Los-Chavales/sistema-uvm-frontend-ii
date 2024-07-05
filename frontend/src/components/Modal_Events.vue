@@ -132,17 +132,7 @@
         <div class="modal_part" v-show="seeActivities">
           <div class="part_container">
             <h3 class="part_title title_activities">Actividades</h3>
-
-            <!-- En caso de no tener nada -->
-
-            <div class="container_details" v-if="getActivities.length === 0">
-              <p class="part_p p--activity">No hay nada para hoy</p>
-            </div>
-
-            <!-- En caso de si tener actividades -->
-
-            <div v-else class="container_details" v-for="(activity) in getActivities" :key="activity.id_actividad">
-              <button class="button_create button--white" @click="changeStateModalFormActivity" v-show="isEditor">Crear actividad</button>
+            <button class="button_create button--white" @click="changeStateModalFormActivity" v-show="isEditor">Crear actividad</button>
               
               <Modal_Form 
                 @closeModalForm="changeStateModalFormActivity" 
@@ -155,6 +145,15 @@
                 :formCreateActivity="stateFormActivity"
               />
 
+            <!-- En caso de no tener nada -->
+
+            <div class="container_details" v-if="getActivities.length === 0">
+              <p class="part_p p--activity">No hay nada para hoy</p>
+            </div>
+
+            <!-- En caso de si tener actividades -->
+
+            <div v-else class="container_details" v-for="(activity) in getActivities" :key="activity.id_actividad">
               <h4 class="part_titleH4">{{ activity.nombre_actividad }} </h4>
               <p class="part_p p--activity">{{ activity.descripcion }} <span class="hour">{{
                   change_date_format(activity.fecha_actividad) }} </span></p>
@@ -174,6 +173,18 @@
         <div class="modal_part">
           <div class="part_container">
             <h3 class="part_title title_events">Eventos</h3>
+            <button class="button_create button--white"  @click="changeStateModalFormEvent"  v-show="isEditor">Crear evento</button>
+             
+             <Modal_Form 
+               @closeModalForm="changeStateModalFormEvent" 
+               v-show="stateFormEvent" 
+               :dateWeek="props.date"
+               :titleDay="title_modal"
+               :formDire="false"
+               :formTeacher="true"
+               :weekNumber="props.weekNumber"
+               :formCreateEvent="stateFormEvent"
+             />
 
             <!-- En caso de no tener nada -->
 
@@ -184,19 +195,6 @@
             <!-- En caso de si tener eventos -->
 
             <div v-else class="container_details" v-for="(event) in getEvents" :key="event.id_fecha_especial">
-              <button class="button_create button--white"  @click="changeStateModalFormEvent"  v-show="isEditor">Crear evento</button>
-             
-              <Modal_Form 
-                @closeModalForm="changeStateModalFormEvent" 
-                v-show="stateFormEvent" 
-                :dateWeek="props.date"
-                :titleDay="title_modal"
-                :formDire="false"
-                :formTeacher="true"
-                :weekNumber="props.weekNumber"
-                :formCreateEvent="stateFormEvent"
-              />
-
               <h4 class="part_titleH4">{{ event.nombre_largo }}</h4>
               <p class="part_p p--event">{{ event.descripcion }} <span class="hour">{{
                   change_date_format(event.fecha_especial) }}</span></p>

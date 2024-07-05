@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import axios from "axios"
 const API_URL_BASE = import.meta.env.VITE_API_BASE
 
@@ -109,6 +109,26 @@ export const useActivitiesStore = defineStore("activities", {
         /*this.options.error.statusError = true
         this.options.error.message = error.response.data */
       }
+    },
+    async postActivities(token, activity){
+      const json = JSON.stringify({ 
+        idNumeroSemana: activity.idNumeroSemana, 
+        nombre_actividad: activity.nombre_actividad,
+        descripcion: activity.descripcion,
+        fecha_actividad: activity.fecha_actividad
+      });
+      const data = await axios.post(`${API_URL_BASE}/actividades/registrar`, json, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }).then(response => {
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+      
     },
     async deleteActivies(id_actividad) {
       try {

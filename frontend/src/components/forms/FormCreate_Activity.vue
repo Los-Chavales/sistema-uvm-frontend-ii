@@ -1,5 +1,15 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, defineModel, ref, computed } from 'vue';
+import { useActivitiesStore } from '@/stores/activities';
+
+class CreateActivity {
+  constructor(idNumeroSemana, nombre_actividad, descripcion, fecha_actividad) {
+      this.idNumeroSemana = idNumeroSemana;
+      this.nombre_actividad = nombre_actividad;
+      this.descripcion = descripcion;
+      this.fecha_actividad = fecha_actividad;
+  }
+}
 
 const props = defineProps({
     dateWeek: Date,
@@ -12,11 +22,33 @@ const props = defineProps({
 let prop = props.dateWeek
 let title_from_teacher = prop.toLocaleDateString('es-ES', { weekday: 'long' })
 
+let nombre = ref('');
+let descripcion = ref('');
+let hora_actividad = ref('');
+
+
+
+let storeActivities = useActivitiesStore();
+
+const postActivity = computed(() => {
+  let cookie = $cookies.get('auth')
+  if(cookie !== null){
+    let token = cookie.token
+    storeActivities.postActivities(token)
+    let fecha_actividad = props.dateWeek.toLocaleDateString('en-CA', {  year: 'numeric', month: 'numeric', day: 'numeric'})
+    fecha_actividad = `${fecha_actividad} ${hora_actividad.value}:00`
+    const activityCreate = new CreateActivity(props.weekNumber, nombre.value, descripcion.value, fecha_actividad)
+    storeActivities.postActivities(token, activityCreate)
+
+  } else {
+    console.log("no hay cookies")
+  }
+});
 
 </script>
 
 <template>
-  <form class="formCreateActivity">
+  <form class="formCreateActivity" @submit.prevent="postActivity">
 
     <div class="formCreateActivity_head">
       <h2 class="formCreateActivity_title">Añadir Actividad</h2>
@@ -24,8 +56,14 @@ let title_from_teacher = prop.toLocaleDateString('es-ES', { weekday: 'long' })
     </div>
    
     <div class="formCreateActivity_body">
-      <input class="formCreateActivity_input" placeholder="Nombre" type="text">
-      <textarea  class="formCreateActivity_textarea" placeholder="Descripción" ></textarea>
+      <input class="formCreateActivity_input" placeholder="Nombre" type="text"  v-model="nombre">
+      <textarea  class="formCreateActivity_textarea" placeholder="Descripción"  v-model="descripcion"></textarea>
+      <div class="formCreateActivity_containerLabel">
+        <label class="formCreateActivity_label" for="timeActivity">
+          Hora de la actividad:
+          <input type="time" id="timeActivity" v-model="hora_actividad">
+        </label>
+      </div>
       <input class="formCreateActivity_input--submit" type="submit" value="Añadir" />
     </div>
 
@@ -129,6 +167,17 @@ let title_from_teacher = prop.toLocaleDateString('es-ES', { weekday: 'long' })
     line-height: normal;
   }
 
+  .formCreateActivity_containerLabel{
+    margin: 0 0 25px 0;
+  }
+
+  .formCreateActivity_label{
+    color: #000;
+    font-family: "Inria Sans";
+    font-size: 24px;
+    font-weight: 400;
+  }
+
   .formCreateActivity_input--submit{
     display: flex;
     padding: 6px 0px;
@@ -146,7 +195,8 @@ let title_from_teacher = prop.toLocaleDateString('es-ES', { weekday: 'long' })
     font-size: 32px;
     font-style: normal;
     font-weight: 600;
-    line-height: normal
+    line-height: normal;
+    cursor: pointer;
   }
 
 </style>
