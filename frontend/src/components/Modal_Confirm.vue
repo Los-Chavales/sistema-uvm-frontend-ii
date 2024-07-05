@@ -1,16 +1,30 @@
 <script setup>
     import {  defineProps, ref } from 'vue';
     import { useActivitiesStore } from '@/stores/activities';
+    import { useEventsStore } from '@/stores/events';
 
     let storeActivities = useActivitiesStore();
+    let storeEvents = useEventsStore();
 
     const props = defineProps({
-      idD: String,
-      
+      /*idD: String,*/
+      actD: String,
+      evnD: String
+     
     })
 
 
     const deleteActivity = storeActivities.deleteActivies;
+    const deleteEvent = storeEvents.deleteEvents;
+
+    const deleteSubmit=()=>{
+      if (props.actD){
+        deleteActivity(props.actD)
+      }else{
+        deleteEvent(props.evnD)
+      }
+
+    }
 
 </script>
 
@@ -19,9 +33,9 @@
   <div class="container_modal">
     <div class="modalConfirm">
       <div class="modalConfirm_part">
-        <h3 class="modalConfirm_title">¿Está seguro de que quiere eliminarlo? {{ props.idD }}</h3>
+        <h3 class="modalConfirm_title">¿Está seguro de que quiere eliminarlo? {{ props.actD }} {{ props.evnD }}</h3> <!--{{ props.idD }}-->
         <div class="modalConfirm_buttons">
-          <button class="button_confirm button--white" @click="deleteActivity( props.idD )">Si</button>
+          <button class="button_confirm button--white" @click="deleteSubmit">Si</button> <!--@click="deleteActivity( props.idD )"   @click="deleteActivity( props.actD );deleteEvent( props.evnD )"-->
           <button  class="button_confirm button--white" @click="$emit('close')">No</button>
         </div>
       </div>
@@ -81,7 +95,8 @@
     margin: 10px;
     font-size: 20px;
     border: none;
-    width: 30px;
+    width: 90px;
     border: solid 2px $color5;
+    
   }
 </style>

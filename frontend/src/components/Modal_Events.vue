@@ -30,7 +30,7 @@
   });
 
   onMounted(() => {
-    storeActivities.searchActivities(searchFormat); //Ejemplo '2024-05-27'
+    storeActivities.searchActivities('2024-05-27'); //Ejemplo '2024-05-27' searchFormat
   });
 
   /* Store de eventos */
@@ -46,7 +46,7 @@
   });
 
   onMounted(() => {
-    storeEvents.searchEvents(searchFormat); //Ejemplo '2024-06-07'
+    storeEvents.searchEvents('2024-05-27'); //Ejemplo '2024-06-07' searchFormat
   });
 
   const deleteEvent = storeEvents.deleteEvents;
@@ -130,8 +130,8 @@
               <div class="box_buttons" v-show="isEditor">
                 <Edit_Button />
                 <Delete_Button 
-                  :idDelete="activity.id_actividad"
-                 />
+                  :Actividades="activity.id_actividad"
+                 /> <!--:idDelete="activity.id_actividad"-->
               </div>
             </div>
 
@@ -160,8 +160,8 @@
               <div class="box_buttons" v-show="isEditor">
                 <Edit_Button />
                 <Delete_Button 
-                  :idDelete="event.id_fecha_especial"
-                />
+                  :Eventos="event.id_fecha_especial"
+                /> <!--:idDelete="event.id_fecha_especial"-->
               </div>
             </div>
 
