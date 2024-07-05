@@ -1,5 +1,18 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, ref, computed } from 'vue';
+import { useEventsStore } from '@/stores/events';
+
+
+class CreateEvent {
+  constructor(idSemana, fecha_especial, nombre_corto, nombre_largo, descripcion, tipo_fecha) {
+      this.idSemana = idSemana, 
+      this.fecha_especial = fecha_especial,
+      this.nombre_corto = nombre_corto,
+      this.nombre_largo = nombre_largo,
+      this.descripcion = descripcion,
+      this.tipo_fecha = tipo_fecha
+  }
+}
 
 const props = defineProps({
     dateWeek: Date,
@@ -13,11 +26,32 @@ const props = defineProps({
 let prop = props.dateWeek
 let title_from_teacher = prop.toLocaleDateString('es-ES', { weekday: 'long' })
 
+let tipo_fecha = ref('');
+let nombre_corto = ref('');
+let nombre_largo = ref('');
+let descripcion = ref('');
+let hora_evento = ref('');
+
+let storeEvents = useEventsStore();
+
+const postEvent = computed(() => {
+  let cookie = $cookies.get('auth')
+  if(cookie !== null){
+    let token = cookie.token
+    let fecha_especial = props.dateWeek.toLocaleDateString('en-CA', {  year: 'numeric', month: 'numeric', day: 'numeric'})
+    fecha_especial= `${fecha_especial} ${hora_evento.value}:00`
+    const eventCreate = new CreateEvent(props.weekNumber, fecha_especial, nombre_corto.value, nombre_largo.value, descripcion.value, tipo_fecha.value)
+    storeEvents.postEvents(token, eventCreate)
+
+  } else {
+    console.log("no hay cookies")
+  }
+});
 
 </script>
 
 <template>
-  <form class="formCreateEvent">
+  <form class="formCreateEvent" @submit.prevent="postEvent">
 
     <div class="formCreateEvent_head">
       <h2 class="formCreateEvent_title">Añadir Evento</h2>
@@ -27,16 +61,22 @@ let title_from_teacher = prop.toLocaleDateString('es-ES', { weekday: 'long' })
    
     <div class="formCreateEvent_body">
       <div class="formCreateEvent_Containerselect">
-        <select class="formCreateEvent_select">
+        <select class="formCreateEvent_select" v-model="tipo_fecha">
           <option class="FormCreateEvent_select-hide" >Tipo de evento</option>
           <option class="formCreateEvent_option" value="Encuentro">Encuentro</option>
           <option class="formCreateEvent_option" value="Conferencia">Conferencia</option>
           <option class="formCreateEvent_option" value="Feria">Feria</option>
         </select>
       </div>
-      <input class="formCreateEvent_input" placeholder="Nombre corto" type="text">
-      <input class="formCreateEvent_input" placeholder="Nombre largo" type="text">
-      <textarea  class="formCreateEvent_textarea" placeholder="Descripción" ></textarea>
+      <input class="formCreateEvent_input" placeholder="Nombre corto" type="text"  v-model="nombre_corto">
+      <input class="formCreateEvent_input" placeholder="Nombre largo" type="text" v-model="nombre_largo">
+      <textarea  class="formCreateEvent_textarea" placeholder="Descripción" v-model="descripcion"></textarea>
+      <div class="formCreateActivity_containerLabel">
+        <label class="formCreateActivity_label" for="timeActivity">
+          Hora de la actividad:
+          <input type="time" id="timeActivity" v-model="hora_evento">
+        </label>
+      </div>
       <input class="formCreateEvent_input--submit" type="submit" value="Añadir" />
     </div>
 
@@ -182,6 +222,17 @@ let title_from_teacher = prop.toLocaleDateString('es-ES', { weekday: 'long' })
     font-weight: 600;
     line-height: normal;
     cursor: pointer;
+  }
+
+  .formCreateActivity_containerLabel{
+    margin: 0 0 25px 0;
+  }
+
+  .formCreateActivity_label{
+    color: #000;
+    font-family: "Inria Sans";
+    font-size: 24px;
+    font-weight: 400;
   }
 
   @media (max-width: 375px) {

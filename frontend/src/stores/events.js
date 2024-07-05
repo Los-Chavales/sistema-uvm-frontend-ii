@@ -19,81 +19,6 @@ export const useEventsStore = defineStore("events", {
     getEventsDetails(state) {
       return state.options.events 
     },
-  /*   getEventsDetails(state) {
-      //return state.options.events = []
-      return state.options.events = [
-        {
-          date: "2024-05-27",
-          eventsList:[
-            {
-              "id_fecha_especial": 6,
-              "idSemana": 2,
-              "fecha_especial": "2024-05-07T08:00:00.000Z",
-              "nombre_corto": "PROBANDO",
-              "nombre_largo": "feria de proyectos",
-              "descripcion": "defensa de proyectos en varias materias",
-              "tipo_fecha": "Feria",
-              "idPeriodo": 1
-            },
-            {
-              "id_fecha_especial": 7,
-              "idSemana": 2,
-              "fecha_especial": "2024-05-07T12:00:00.000Z",
-              "nombre_corto": "PROBANDO",
-              "nombre_largo": "feria de proyectos",
-              "descripcion": "defensa de proyectos en varias materias",
-              "tipo_fecha": "Feria",
-              "idPeriodo": 1
-            },
-            {
-              "id_fecha_especial": 8,
-              "idSemana": 2,
-              "fecha_especial": "2024-05-07T09:00:00.000Z",
-              "nombre_corto": "PROBANDO",
-              "nombre_largo": "feria de proyectos",
-              "descripcion": "defensa de proyectos en varias materias",
-              "tipo_fecha": "Feria",
-              "idPeriodo": 1
-            },
-            {
-              "id_fecha_especial": 9,
-              "idSemana": 2,
-              "fecha_especial": "2024-05-07T09:00:00.000Z",
-              "nombre_corto": "nueva",
-              "nombre_largo": "feria de proyectos",
-              "descripcion": "defensa de proyectos en varias materias",
-              "tipo_fecha": "Feria",
-              "idPeriodo": 1
-            },
-            {
-              "id_fecha_especial": 10,
-              "idSemana": 2,
-              "fecha_especial": "2024-05-07T09:00:00.000Z",
-              "nombre_corto": "nueva",
-              "nombre_largo": "NEW",
-              "descripcion": "defensa de proyectos en varias materias",
-              "tipo_fecha": "Feria",
-              "idPeriodo": 1
-            }
-          ]
-        },
-        {
-          date: "2024-06-07",
-          eventsList:[
-            {
-              "id_fecha_especial": 1,
-              "idSemana": 2,
-              "fecha_especial": "2024-06-07T04:00:00.000Z",
-              "nombre_corto": "corte de nota",
-              "nombre_largo": "primer corte de notas",
-              "descripcion": "Entrega de notas",
-              "tipo_fecha": "corte de notas",
-              "idPeriodo": 1
-            }
-          ]
-        }
-      ] 
-    }, */
     getError(state) {
       return state.options.error
     }
@@ -128,6 +53,28 @@ export const useEventsStore = defineStore("events", {
     /*     this.options.error.statusError = true
         this.options.error.message = error.response.data */
       }
+    },
+    async postEvents(token, event){
+      const json = JSON.stringify({ 
+        idSemana: event.idSemana, 
+        fecha_especial: event.fecha_especial,
+        nombre_corto: event.nombre_corto,
+        nombre_largo: event.nombre_largo,
+        descripcion: event.descripcion,
+        tipo_fecha: event.tipo_fecha
+      });
+      const data = await axios.post(`${API_URL_BASE}/eventos/registrar`, json, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }).then(response => {
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+      
     },
     async deleteEvents(id) {
       console.log(`eliminar evento:${id}`)
