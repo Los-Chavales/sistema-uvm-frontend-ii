@@ -6,7 +6,12 @@ const props = defineProps({
     titleDay: String,
     formDire: Boolean,
     formTeacher: Boolean,
+    weekNumber: Number,
 })
+
+
+let prop = props.dateWeek
+let title_from_teacher = prop.toLocaleDateString('es-ES', { weekday: 'long' })
 
 
 </script>
@@ -16,7 +21,8 @@ const props = defineProps({
 
     <div class="formCreateEvent_head">
       <h2 class="formCreateEvent_title">Añadir Evento</h2>
-      <h3 class="formCreateEvent_title--h3" v-show="formDire">{{ props.titleDay }}</h3>
+      <h3 class="formCreateEvent_title--h3" v-if="formDire">{{ props.titleDay }}</h3>
+      <h3 class="formCreateEvent_title--h3" v-else-if="formTeacher">Semana {{ props.weekNumber }} {{ title_from_teacher }}</h3>
     </div>
    
     <div class="formCreateEvent_body">

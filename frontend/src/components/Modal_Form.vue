@@ -9,6 +9,8 @@ const props = defineProps({
     formDire: Boolean,
     formTeacher: Boolean,
     weekNumber: Number,
+    formCreateActivity: Boolean,
+    formCreateEvent: Boolean,
 })
 
 </script>
@@ -30,7 +32,7 @@ const props = defineProps({
   
         <!-- Aquí van los forms -->
 
-        <FormCreate_Activity
+        <FormCreate_Activity v-if="formCreateActivity"
           :dateWeek="props.dateWeek"
           :titleDay= "props.titleDay"
           :formDire= "props.formDire"
@@ -38,12 +40,13 @@ const props = defineProps({
           :weekNumber="props.weekNumber"
         /> 
         
-<!--          <FormCreate_Event 
+        <FormCreate_Event v-else-if="formCreateEvent"
             :dateWeek="props.dateWeek"
             :titleDay= "props.titleDay"
             :formDire= "props.formDire"
             :formTeacher="props.formTeacher"
-         />  -->
+            :weekNumber="props.weekNumber"
+         />  
 
       </div>
 

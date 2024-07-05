@@ -66,12 +66,6 @@
   function change_date_format( property ) {
     if(property !== undefined){
       let timeEvent = new Date(property).toLocaleTimeString('es-VE', { hour: "2-digit", minute: "2-digit" });
-      //console.debug(timeEvent);
-      /*property = property.split("T")
-      let hour = property[1].split(".000Z")
-      hour = hour[0]
-      property = hour 
-      return property*/
       return timeEvent;
     }
   }
@@ -80,8 +74,13 @@
   let state = ref(false);
   const changeState = () => ( state.value = !state.value )
 
-  let stateForm = ref(false);
-  const changeStateModalForm = () => ( stateForm.value = !stateForm.value )
+  //Hay que hacer una función de abrir y cerrar para cada modal
+  
+  let stateFormActivity = ref(false);
+  const changeStateModalFormActivity = () => ( stateFormActivity.value = !stateFormActivity.value )
+  
+  let stateFormEvent = ref(false);
+  const changeStateModalFormEvent = () => ( stateFormEvent.value = !stateFormEvent.value )
 
   /* Verificar si mostrar ciertas cosas o no 
     
@@ -143,16 +142,17 @@
             <!-- En caso de si tener actividades -->
 
             <div v-else class="container_details" v-for="(activity) in getActivities" :key="activity.id_actividad">
-              <button class="button_create button--white" @click="changeStateModalForm" v-show="isEditor">Crear actividad</button>
+              <button class="button_create button--white" @click="changeStateModalFormActivity" v-show="isEditor">Crear actividad</button>
               
               <Modal_Form 
-                @closeModalForm="changeStateModalForm" 
-                v-show="stateForm" 
+                @closeModalForm="changeStateModalFormActivity" 
+                v-show="stateFormActivity" 
                 :dateWeek="props.date"
                 :titleDay="title_modal"
                 :formDire="false"
                 :formTeacher="true"
                 :weekNumber="props.weekNumber"
+                :formCreateActivity="stateFormActivity"
               />
 
               <h4 class="part_titleH4">{{ activity.nombre_actividad }} </h4>
@@ -184,16 +184,17 @@
             <!-- En caso de si tener eventos -->
 
             <div v-else class="container_details" v-for="(event) in getEvents" :key="event.id_fecha_especial">
-              <button class="button_create button--white"  @click="changeStateModalForm"  v-show="isEditor">Crear evento</button>
+              <button class="button_create button--white"  @click="changeStateModalFormEvent"  v-show="isEditor">Crear evento</button>
              
               <Modal_Form 
-                @closeModalForm="changeStateModalForm" 
-                v-show="stateForm" 
+                @closeModalForm="changeStateModalFormEvent" 
+                v-show="stateFormEvent" 
                 :dateWeek="props.date"
                 :titleDay="title_modal"
                 :formDire="false"
                 :formTeacher="true"
                 :weekNumber="props.weekNumber"
+                :formCreateEvent="stateFormEvent"
               />
 
               <h4 class="part_titleH4">{{ event.nombre_largo }}</h4>
