@@ -11,6 +11,10 @@
     date: Date,
     seeActivities: Boolean,
     isEditor: Boolean,
+    description: String,
+    isPlannig: Boolean,
+    isEvent: Boolean,
+    weekNumber: Number,
   })
   
   let prop = props.date
@@ -79,9 +83,6 @@
   let stateForm = ref(false);
   const changeStateModalForm = () => ( stateForm.value = !stateForm.value )
 
-  let stateFormEvent = ref(false)
-  const changeStateModalFormEvent = () => ( stateForm.value = !stateForm.value )
-
   /* Verificar si mostrar ciertas cosas o no 
     
     Calendario normal 
@@ -107,8 +108,11 @@
 </script>
 
 <template>
-  <div @click="changeState" class="cell">
+  <div v-if="!props.isPlannig" @click="changeState" class="cell">
     {{ props.day }}
+  </div>
+  <div v-else @click="changeState" class="cell planning" :class="[props.isEvent ? 'textEvent' : 'textAct']">
+    {{ props.description }}
   </div>
 
   <div class="container_modal" v-show="state">
@@ -119,7 +123,7 @@
         <div class="container_button">
           <button @click="changeState" class="modal_cerrar">cerrar X</button>
         </div>
-        <h2 class="modal_title" >{{ title_modal }}</h2>
+        <h2 class="modal_title">{{ title_modal }}</h2>
       </div>
 
       <div class="modal_body">
@@ -129,26 +133,35 @@
         <div class="modal_part" v-show="seeActivities">
           <div class="part_container">
             <h3 class="part_title title_activities">Actividades</h3>
-            
-              <!-- En caso de no tener nada -->
+
+            <!-- En caso de no tener nada -->
 
             <div class="container_details" v-if="getActivities.length === 0">
               <p class="part_p p--activity">No hay nada para hoy</p>
             </div>
 
-             <!-- En caso de si tener actividades -->
+            <!-- En caso de si tener actividades -->
 
             <div v-else class="container_details" v-for="(activity) in getActivities" :key="activity.id_actividad">
               <button class="button_create button--white" @click="changeStateModalForm" v-show="isEditor">Crear actividad</button>
-              <Modal_Form @closeModalForm="changeStateModalForm" v-show="stateForm" />
+              
+              <Modal_Form 
+                @closeModalForm="changeStateModalForm" 
+                v-show="stateForm" 
+                :dateWeek="props.date"
+                :titleDay="title_modal"
+                :formDire="false"
+                :formTeacher="true"
+                :weekNumber="props.weekNumber"
+              />
+
               <h4 class="part_titleH4">{{ activity.nombre_actividad }} </h4>
-              <p class="part_p p--activity" >{{ activity.descripcion }} <span class="hour">{{ change_date_format(activity.fecha_actividad) }} </span></p>
-            
+              <p class="part_p p--activity">{{ activity.descripcion }} <span class="hour">{{
+                  change_date_format(activity.fecha_actividad) }} </span></p>
+
               <div class="box_buttons" v-show="isEditor">
                 <Edit_Button />
-                <Delete_Button 
-                  :idDelete="activity.id_actividad"
-                 />
+                <Delete_Button :idDelete="activity.id_actividad" />
               </div>
             </div>
 
@@ -171,21 +184,30 @@
             <!-- En caso de si tener eventos -->
 
             <div v-else class="container_details" v-for="(event) in getEvents" :key="event.id_fecha_especial">
-              <button class="button_create button--white"  @click="changeStateModalFormEvent"  v-show="isEditor">Crear evento</button>
-              <Modal_Form @closeModalForm="changeStateModalFormEvent" v-show="stateFormEvent" />
+              <button class="button_create button--white"  @click="changeStateModalForm"  v-show="isEditor">Crear evento</button>
+             
+              <Modal_Form 
+                @closeModalForm="changeStateModalForm" 
+                v-show="stateForm" 
+                :dateWeek="props.date"
+                :titleDay="title_modal"
+                :formDire="false"
+                :formTeacher="true"
+                :weekNumber="props.weekNumber"
+              />
+
               <h4 class="part_titleH4">{{ event.nombre_largo }}</h4>
-              <p class="part_p p--event">{{ event.descripcion }} <span class="hour">{{ change_date_format(event.fecha_especial) }}</span></p>
-              
+              <p class="part_p p--event">{{ event.descripcion }} <span class="hour">{{
+                  change_date_format(event.fecha_especial) }}</span></p>
+
               <div class="box_buttons" v-show="isEditor">
                 <Edit_Button />
-                <Delete_Button 
-                  :idDelete="event.id_fecha_especial"
-                />
+                <Delete_Button :idDelete="event.id_fecha_especial" />
               </div>
             </div>
 
           </div>
-        </div> 
+        </div>
 
       </div>
 
@@ -198,9 +220,29 @@
 <style lang="scss" scoped>
   @import "@/assets/scss/variables.scss";
 
-  .cell{
+  .cell {
     width: 100%;
     height: 100%;
+    padding-top: 5px;
+    align-content: baseline;
+  }
+
+  .planning {
+    align-content: center;
+    font-size: 11px;
+    line-height: 11px;
+    padding-top: 0px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  .textEvent {
+    color: $secondary_color;
+  }
+  
+  .textAct {
+    color: black;
   }
 
 

@@ -1,5 +1,15 @@
 <script setup>
-import Form_Activity from './forms/Form_Activity.vue';
+import { defineProps } from 'vue';
+import FormCreate_Activity from './forms/FormCreate_Activity.vue';
+import FormCreate_Event from './forms/FormCreate_Event.vue';
+
+const props = defineProps({
+    dateWeek: Date,
+    titleDay: String,
+    formDire: Boolean,
+    formTeacher: Boolean,
+    weekNumber: Number,
+})
 
 </script>
 
@@ -19,7 +29,21 @@ import Form_Activity from './forms/Form_Activity.vue';
       <div class="modalForm_part">
   
         <!-- Aquí van los forms -->
-         <Form_Activity />
+
+        <FormCreate_Activity
+          :dateWeek="props.dateWeek"
+          :titleDay= "props.titleDay"
+          :formDire= "props.formDire"
+          :formTeacher="props.formTeacher"
+          :weekNumber="props.weekNumber"
+        /> 
+        
+<!--          <FormCreate_Event 
+            :dateWeek="props.dateWeek"
+            :titleDay= "props.titleDay"
+            :formDire= "props.formDire"
+            :formTeacher="props.formTeacher"
+         />  -->
 
       </div>
 
@@ -63,7 +87,7 @@ import Form_Activity from './forms/Form_Activity.vue';
     padding: 15px;
     border-radius: 15px;
     //width: 86%;
-    height: 95%; 
+    //height: 95%; 
     box-sizing: border-box;
   }
 
@@ -88,8 +112,10 @@ import Form_Activity from './forms/Form_Activity.vue';
     font-size: 20px;
     font-style: normal;
     font-weight: 500;
-    line-height: normal;
     text-decoration-line: underline;
+    line-height: 20px;
+   /*  margin-right: -12px; */
+    margin: -5px -5px 1px 1px;
   }
   
   .modalForm_cerrar:hover{
@@ -106,7 +132,7 @@ import Form_Activity from './forms/Form_Activity.vue';
     justify-content: center;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    //height: 100%;
     overflow: hidden;
   }
   
@@ -118,41 +144,20 @@ import Form_Activity from './forms/Form_Activity.vue';
     margin: 10px;
     // width: 100%;
     padding: 12px;
-    width: 75vw;
-    height: 100%;
+    //width: 75vw;
+    //height: auto;
+    //height: 100%;
     overflow: auto;
   }
 
   @media (min-width: 768px) {
-    .modalForm{
-      height: 70vh; 
-    }
-
     .modalForm_head{
       margin-bottom: 5px;
     }
     .modalForm_body{
       flex-direction: row;
     }
-    .modalForm_part{
-      width: 41vw;
-    }
   }
-
-
-  
-  @media (min-width: 1024px) {
-    .modalForm{
-      height: 95%; 
-    }
-  } 
-
-  @media (min-width: 1024px) and (min-height: 1366px) {
-    .modalForm{
-      height: 70vh; 
-    }
-  }
-
 
   
 </style>

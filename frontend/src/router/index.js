@@ -37,6 +37,11 @@ const router = createRouter({
       component: () => import('../views/EventsView.vue')
     },
     {
+      path: '/planificaciones',
+      name: 'Planificaciones',
+      component: () => import('../views/PlanningView.vue')
+    },
+    {
       path: '/admin-dsh',
       name: 'Admin-Dashboard',
       component: () => import('../views/Dashboard.vue')
