@@ -214,7 +214,7 @@ function changeMonth(option) {
                     <td class="tdNumber">{{ week.number }}</td>
                     <td v-for="(day, ind) in week.days" :key="`${i}-${ind}`" :id="`${i}-${day}`">
                         <Modal_Events :day="day" :date="new Date(year, calMonth(day, month, i, weeks), day)"
-                            :seeActivities="true" :isEditor="true" />
+                            :seeActivities="true" :isEditor="true" :weekNumber="week.number" />
                     </td>
                 </tr>
                 <!--seeActivities: muestra el bloque de actividades  isEditor: muestra las opciones de editar-->

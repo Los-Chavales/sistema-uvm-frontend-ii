@@ -4,6 +4,7 @@
   import { useEventsStore } from '@/stores/events';
   import Edit_Button from './buttons/Edit_Button.vue';
   import Delete_Button from './buttons/Delete_Button.vue';
+  import Modal_Form from './Modal_Form.vue';
 
   const props = defineProps({
     day: Number,
@@ -13,6 +14,7 @@
     description: String,
     isPlannig: Boolean,
     isEvent: Boolean,
+    weekNumber: Number,
   })
   
   let prop = props.date
@@ -64,12 +66,6 @@
   function change_date_format( property ) {
     if(property !== undefined){
       let timeEvent = new Date(property).toLocaleTimeString('es-VE', { hour: "2-digit", minute: "2-digit" });
-      //console.debug(timeEvent);
-      /*property = property.split("T")
-      let hour = property[1].split(".000Z")
-      hour = hour[0]
-      property = hour 
-      return property*/
       return timeEvent;
     }
   }
@@ -77,6 +73,14 @@
   /* función para desplegar el modal */
   let state = ref(false);
   const changeState = () => ( state.value = !state.value )
+
+  //Hay que hacer una función de abrir y cerrar para cada modal
+  
+  let stateFormActivity = ref(false);
+  const changeStateModalFormActivity = () => ( stateFormActivity.value = !stateFormActivity.value )
+  
+  let stateFormEvent = ref(false);
+  const changeStateModalFormEvent = () => ( stateFormEvent.value = !stateFormEvent.value )
 
   /* Verificar si mostrar ciertas cosas o no 
     
@@ -128,6 +132,18 @@
         <div class="modal_part" v-show="seeActivities">
           <div class="part_container">
             <h3 class="part_title title_activities">Actividades</h3>
+            <button class="button_create button--white" @click="changeStateModalFormActivity" v-show="isEditor">Crear actividad</button>
+              
+              <Modal_Form 
+                @closeModalForm="changeStateModalFormActivity" 
+                v-show="stateFormActivity" 
+                :dateWeek="props.date"
+                :titleDay="title_modal"
+                :formDire="false"
+                :formTeacher="true"
+                :weekNumber="props.weekNumber"
+                :formCreateActivity="stateFormActivity"
+              />
 
             <!-- En caso de no tener nada -->
 
@@ -138,7 +154,6 @@
             <!-- En caso de si tener actividades -->
 
             <div v-else class="container_details" v-for="(activity) in getActivities" :key="activity.id_actividad">
-              <button class="button_create button--white" v-show="isEditor">Crear actividad</button>
               <h4 class="part_titleH4">{{ activity.nombre_actividad }} </h4>
               <p class="part_p p--activity">{{ activity.descripcion }} <span class="hour">{{
                   change_date_format(activity.fecha_actividad) }} </span></p>
@@ -158,6 +173,18 @@
         <div class="modal_part">
           <div class="part_container">
             <h3 class="part_title title_events">Eventos</h3>
+            <button class="button_create button--white"  @click="changeStateModalFormEvent"  v-show="isEditor">Crear evento</button>
+             
+             <Modal_Form 
+               @closeModalForm="changeStateModalFormEvent" 
+               v-show="stateFormEvent" 
+               :dateWeek="props.date"
+               :titleDay="title_modal"
+               :formDire="false"
+               :formTeacher="true"
+               :weekNumber="props.weekNumber"
+               :formCreateEvent="stateFormEvent"
+             />
 
             <!-- En caso de no tener nada -->
 
@@ -168,7 +195,6 @@
             <!-- En caso de si tener eventos -->
 
             <div v-else class="container_details" v-for="(event) in getEvents" :key="event.id_fecha_especial">
-              <button class="button_create button--white" v-show="isEditor">Crear evento</button>
               <h4 class="part_titleH4">{{ event.nombre_largo }}</h4>
               <p class="part_p p--event">{{ event.descripcion }} <span class="hour">{{
                   change_date_format(event.fecha_especial) }}</span></p>
@@ -271,6 +297,7 @@
     line-height: normal;
     text-decoration-line: underline;
   }
+
   .modal_cerrar:hover{
     cursor: pointer;
     background-color: $secondary_color;
@@ -287,7 +314,7 @@
     text-align: start;
   }
 
-  /* Contenedor del titulo del modal */
+  /* Contenedor de las partes del modal */
 
   .modal_body{
     display: flex;
