@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, ref, computed } from 'vue';
 import { useEventsStore } from '@/stores/events';
-
+import Modal_Message from '../Modal_Message.vue';
 
 class CreateEvent {
   constructor(idSemana, fecha_especial, nombre_corto, nombre_largo, descripcion, tipo_fecha) {
@@ -48,6 +48,7 @@ const postEvent = computed(() => {
   }
 });
 
+
 </script>
 
 <template>
@@ -62,7 +63,7 @@ const postEvent = computed(() => {
     <div class="formCreateEvent_body">
       <div class="formCreateEvent_Containerselect">
         <select class="formCreateEvent_select" v-model="tipo_fecha">
-          <option class="FormCreateEvent_select-hide" >Tipo de evento</option>
+          <option value="" disabled selected>Tipo de evento</option>
           <option class="formCreateEvent_option" value="Encuentro">Encuentro</option>
           <option class="formCreateEvent_option" value="Conferencia">Conferencia</option>
           <option class="formCreateEvent_option" value="Feria">Feria</option>
@@ -81,6 +82,9 @@ const postEvent = computed(() => {
     </div>
 
   </form>
+
+ <!--  <Modal_Message />
+ -->
 </template>
 
 <style lang="scss" scoped>
@@ -120,7 +124,6 @@ const postEvent = computed(() => {
   }
 
   .formCreateEvent_select{
-    display: flex;
     width: 100%;
     margin: 0 0 25px 0;
     border: 1px solid $color5;
@@ -134,13 +137,7 @@ const postEvent = computed(() => {
     cursor: pointer;
   }
 
-  .FormCreateEvent_select-hide {
-    display: none;  
-  }
-
-
   .formCreateEvent_input{
-    display: flex;
     display: flex;
     width: 100%;
     height: 50px;
