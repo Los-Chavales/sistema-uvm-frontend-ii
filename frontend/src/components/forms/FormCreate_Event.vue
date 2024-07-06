@@ -183,6 +183,7 @@ const postEvent = computed(() => {
     display: flex;
     width: 100%;
     height: 80px;
+    min-height: 60px;
     padding: 10px;
     margin: 0 0 25px 0;
     justify-content: center;
@@ -242,17 +243,12 @@ const postEvent = computed(() => {
     font-weight: 400;
   }
 
+
   /* Tablet */
   @media (min-width: 500px) {
     .formCreateEvent{
       /*height: 590px;*/
       width: 360px;
-    }
-  }
-  @media (max-height: 665px) {
-    .formCreateEvent_textarea {
-      height: 80px;
-      font-size: 14px;
     }
   }
 
