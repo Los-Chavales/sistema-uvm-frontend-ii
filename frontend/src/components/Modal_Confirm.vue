@@ -14,16 +14,27 @@
     })
 
 
-    const deleteActivity = storeActivities.deleteActivies;
+    const deleteActivity = storeActivities.deleteActivities;
     const deleteEvent = storeEvents.deleteEvents;
 
     const deleteSubmit=()=>{
-      if (props.actD){
-        deleteActivity(props.actD)
-      }else{
-        deleteEvent(props.evnD)
+      let cookie= $cookies.get('auth')
+      /*console.log(cookie);*/
+      let token
+      /*console.log("Desde el Modal_Confirm")*/
+      if (props.actD && cookie !==null){
+        token= cookie.token
+        console.log(cookie.token)
+        deleteActivity(props.actD, token)
+        
+      }else if(props.evnD && cookie !==null){
+        token= cookie.token
+        console.log(cookie.token)
+        deleteEvent(props.evnD, token)
+        
+      }else if (cookie === null){
+        console.log("Inicie sesión")
       }
-
     }
 
 </script>
