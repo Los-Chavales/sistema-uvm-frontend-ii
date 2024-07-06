@@ -1,10 +1,11 @@
 const Events_Model = require('../models/events_models');
+const Weeks_Model = require('../models/weeks_models');
 const Response = require('../models/response');
 
 class EventsMonths {
   constructor(date) {
-      this.date = date;
-      this.eventsList = [];
+    this.date = date;
+    this.eventsList = [];
   }
 }
 
@@ -29,7 +30,7 @@ class Events_Controller {
 
   search_events_month(date) {//{year: 2024, month: 5}
     let dateStart = new Date(date.year, date.month, 1);
-    let dateFinish = new Date(dateStart.getFullYear(), dateStart.getMonth()+1 , 1);
+    let dateFinish = new Date(dateStart.getFullYear(), dateStart.getMonth() + 1, 1);
     return new Promise((resolve, reject) => {
       Events_Model.search_events_month(dateStart, dateFinish)
         .then((res) => {
@@ -43,7 +44,7 @@ class Events_Controller {
             dateEvent = dateEvent.split('T')[0]// Extraer solo la fecha (sin la hora)
             datesMonth.push(dateEvent)
           }
-          datesMonth = datesMonth.filter(function(item, index, array) {
+          datesMonth = datesMonth.filter(function (item, index, array) {
             return array.indexOf(item) === index;
           })
 
@@ -54,7 +55,7 @@ class Events_Controller {
             for (let j = 0; j < arrEvents.length; j++) {
               let dateEventFormat = arrEvents[j].fecha_especial.toISOString();// Obtener el valor de la propiedad fecha_especial y convertir en String
               dateEventFormat = dateEventFormat.split('T')[0]
-              if(datesMonth[i] === dateEventFormat){
+              if (datesMonth[i] === dateEventFormat) {
                 listEvents.push(arrEvents[j])
               }
             }
@@ -63,18 +64,6 @@ class Events_Controller {
             daysMonthList.push(daysMonth)
           }
 
-          // Para agrupar los eventos con fechas comunes
-  /*         const daysMonth = {};
-          for (const event of arrEvents) {
-            //console.log(event);
-            let dateEvent = event.fecha_especial.toISOString();// Obtener el valor de la propiedad fecha_especial y convertir en String
-            dateEvent = dateEvent.split('T')[0]// Extraer solo la fecha (sin la hora)
-            if (!daysMonth[dateEvent]) {// Comprobar si ya existe un array para esa fecha_especial
-              daysMonth[dateEvent] = [];// Si no existe, crear un nuevo array
-            }
-            daysMonth[dateEvent].push(event);// Agregar el objeto al array correspondiente
-          }
- */
           resolve(new Response(200, `Hay ${arrEvents.length} eventos`, daysMonthList));
         })
         .catch((error) => { reject(error); })
@@ -101,7 +90,21 @@ class Events_Controller {
 
   register_events(register) {
     return new Promise((resolve, reject) => {
-      Events_Model.register_events(register).then((res) => { resolve(res) }).catch((error) => { reject(error) })
+      let weekNumber = register.idSemana
+      let weekDay = register.fecha_especial
+      weekDay = new Date(weekDay)
+      weekDay = weekDay.toLocaleDateString('en-CA', { year: 'numeric', month: 'numeric', day: 'numeric' })
+
+      Weeks_Model.search_weeks(weekNumber, weekDay).then((res) => {
+
+        register.idSemana = res.result[0].id_semana
+
+        Events_Model.register_events(register).then((res) => { 
+          resolve(res) 
+        }).catch((error) => { reject(error) })
+
+      }).catch((error) => { reject(error); })
+
     })
   }
 

@@ -18,14 +18,14 @@ class Weeks_Model{
       });
     })
   }
-  search_weeks(number){
+  search_weeks(number, date){
     return new Promise((resolve, reject) => {
-      connection.query('SELECT * FROM `semanas` WHERE `numero_semana` = ?', number, function (error, results, fields) {
+      connection.query('SELECT * FROM `semanas` WHERE `numero_semana` = ? AND ? BETWEEN `fecha_inicio` AND `fecha_cierre`', [number,date] , function (error, results, fields) {
           if (error) {
               reject(new Response(500, error, error));
           } else {
               if (results.length == 0) {
-                  reject(new Response(404, 'No existen semanas con ese número registradas', results));
+                  reject(new Response(404, 'No existe una semana registrada con esos datos', results));
               } else {
                   resolve(new Response(200, results, results));
               }
