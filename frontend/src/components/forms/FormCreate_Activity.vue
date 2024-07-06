@@ -58,10 +58,8 @@ const postActivity = computed(() => {
       <input class="formCreateActivity_input" placeholder="Nombre" type="text"  v-model="nombre">
       <textarea  class="formCreateActivity_textarea" placeholder="Descripción"  v-model="descripcion"></textarea>
       <div class="formCreateActivity_containerLabel">
-        <label class="formCreateActivity_label" for="timeActivity">
-          Hora de la actividad:
-          <input type="time" id="timeActivity" v-model="hora_actividad">
-        </label>
+        <label class="formCreateActivity_label" for="timeActivity">Hora de la actividad:</label>
+        <input type="time" id="timeActivity" v-model="hora_actividad">
       </div>
       <input class="formCreateActivity_input--submit" type="submit" value="Añadir" />
     </div>
@@ -73,7 +71,10 @@ const postActivity = computed(() => {
   @import "@/assets/scss/variables.scss";
 
   .formCreateActivity{
-    height: 100%;
+    //height: 100%;
+    //height: 478px;
+    width: 68vw;
+    //height: 75vh;
     display: flex;
     flex-direction: column;
     padding: 22px 10px;
@@ -197,5 +198,31 @@ const postActivity = computed(() => {
     line-height: normal;
     cursor: pointer;
   }
+
+    /* Tablet */
+  @media (min-width: 500px){
+    .formCreateActivity{
+      //height: 590px;
+      width: 320px;
+    }
+    .formCreateActivity_head, 
+    .formCreateActivity_input,
+    .formCreateActivity_textarea,
+    .formCreateActivity_containerLabel{
+      margin: 0 0 15px 0;
+    }
+  }
+
+
+  @media (max-width: 375px) {
+    .formCreateActivity{
+      height: 70vh;
+      width: 68vw;
+    }
+    .formCreateActivity_input--submit{
+      margin: 0 0 25px 0;
+    }
+  }
+
 
 </style>

@@ -88,7 +88,8 @@ const postEvent = computed(() => {
 
 
   .formCreateEvent{
-    height: 100%;
+    height: 75vh;
+    width: 68vw;
     display: flex;
     flex-direction: column;
     padding: 22px 10px;
@@ -205,7 +206,7 @@ const postEvent = computed(() => {
   .formCreateEvent_input--submit{
     display: flex;
     padding: 6px 0px;
-    //margin: 0 0 25px 0;
+    margin: 0 0 25px 0;
     width: 100%;
     justify-content: center;
     align-items: center;
@@ -235,75 +236,25 @@ const postEvent = computed(() => {
     font-weight: 400;
   }
 
-  @media (max-width: 375px) {
-    .formCreateEvent_head{
-      margin: 0 0 15px 0;
-    }
-    .formCreateEvent_title--h3{
-      font-size: 20px;
-    }
-    .formCreateEvent_title{
-      font-size: 30px;
-    }
-    .formCreateEvent_input{
-      height: 45px;
-      padding: 10px;
-    }
-    .formCreateEvent_select{
-      margin: 0 0 15px 0;
-    }
-    .formCreateEvent_input{
-      margin: 0 0 15px 0;
-    }
-
-  }
-  @media (min-width: 1024px) and (max-height: 600px) {
+  /* Tablet */
+  @media (min-width: 500px){
     .formCreateEvent{
-      height: 75vh;
-      width: 28vw;
-      padding: 0 10px;
+      height: 590px;
+      width: 320px;
     }
-    .formCreateEvent_title{
-      font-size: 1.5em;
-    }
-    .formCreateEvent_head{
+    .formCreateEvent_head, 
+    .formCreateEvent_select,
+    .formCreateEvent_input,
+    .formCreateEvent_textarea,
+    .formCreateActivity_containerLabel{
       margin: 0 0 15px 0;
     }
-    .formCreateEvent_select{
-      margin: 0 0 15px 0;
-    }
-    .formCreateEvent_input{
-      margin: 0 0 15px 0;
-    }
-    .formCreateEvent_textarea{
-      margin: 0 0 15px 0;
-      height: 30%;
-    }
-
-
   }
 
-  @media (min-width: 1280px) {
+  @media (max-width: 1024px) and (max-height: 600px) {
     .formCreateEvent{
-      padding: 10px;
-      width: 28vw;
+      height: 475px;
     }
-    .formCreateEvent_title{
-      font-size: 1.5em;
-    }
-    .formCreateEvent_select{
-      margin: 0 0 25px 0;
-    }
-    .formCreateEvent_input{
-      margin: 0 0 25px 0;
-    }
-    .formCreateEvent_textarea{
-      margin: 0 0 15px 0;
-      height: 150px;
-    }
-
-    
   }
-
 
 </style>

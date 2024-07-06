@@ -1,4 +1,5 @@
 const Activities_Model = require('../models/activities_models');
+const Weeks_Model = require('../models/weeks_models');
 const Response = require('../models/response');
 
 class ActivitiesMonths {
@@ -85,7 +86,21 @@ class Activities_Controller {
 
   register_activities(register) {
     return new Promise((resolve, reject) => {
-      Activities_Model.register_activities(register).then((res) => { resolve(res) }).catch((error) => { reject(error) })
+      let weekNumber = register.idNumeroSemana
+      let weekDay = register.fecha_actividad
+      weekDay = new Date(weekDay)
+      weekDay = weekDay.toLocaleDateString('en-CA', {  year: 'numeric', month: 'numeric', day: 'numeric'})
+
+      Weeks_Model.search_weeks(weekNumber, weekDay).then((res) => {
+
+        register.idNumeroSemana = res.result[0].id_semana
+        
+        Activities_Model.register_activities(register).then((res) => {
+          resolve(res) 
+        }).catch((error) => { reject(error) })
+
+      }).catch((error) => { reject(error); })
+
     })
   }
 

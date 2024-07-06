@@ -6,9 +6,9 @@ class Weeks_Controller{
       Weeks_Model.see_weeks().then((res) => { resolve(res) }).catch((error) => { reject(error); })
     })
   }
-  search_weeks(number) {
+  search_weeks(number, date) {
     return new Promise((resolve, reject) => {
-      Weeks_Model.search_weeks(number).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+      Weeks_Model.search_weeks(number, date).then((res) => { resolve(res) }).catch((error) => { reject(error); })
     })
   }
   register_week(register) {
