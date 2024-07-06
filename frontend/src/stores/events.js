@@ -9,6 +9,10 @@ export const useEventsStore = defineStore("events", {
       error: {
         statusError: false,
         message: ''
+      },
+      errorForm: {
+        statusErrorForm: false,
+        messageForm: ''
       }
     }
   }),
@@ -21,6 +25,9 @@ export const useEventsStore = defineStore("events", {
     },
     getError(state) {
       return state.options.error
+    },
+    getErrorForm(state) {
+      return state.options.errorForm
     }
   },
   actions: {
@@ -70,9 +77,13 @@ export const useEventsStore = defineStore("events", {
         }
       }).then(response => {
         console.log(response.data);
+        this.options.errorForm.statusError = false
       })
       .catch(err => {
         console.log(err);
+        console.log(err.response.data.message)
+        this.options.errorForm.statusErrorForm = true
+        this.options.errorForm.messageForm = err.response.data.message
       });
       
     },

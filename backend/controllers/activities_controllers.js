@@ -4,8 +4,8 @@ const Response = require('../models/response');
 
 class ActivitiesMonths {
   constructor(date) {
-      this.date = date;
-      this.activitiesList = [];
+    this.date = date;
+    this.activitiesList = [];
   }
 }
 
@@ -30,7 +30,7 @@ class Activities_Controller {
 
   search_activities_month(date) {//{year: 2024, month: 5}
     let dateStart = new Date(date.year, date.month, 1);
-    let dateFinish = new Date(dateStart.getFullYear(), dateStart.getMonth()+1 , 1); 
+    let dateFinish = new Date(dateStart.getFullYear(), dateStart.getMonth() + 1, 1);
     return new Promise((resolve, reject) => {
       Activities_Model.search_activities_month(dateStart, dateFinish)
         .then((res) => {
@@ -45,7 +45,7 @@ class Activities_Controller {
             dateActivity = dateActivity.split('T')[0]// Extraer solo la fecha (sin la hora)
             datesMonth.push(dateActivity)
           }
-          datesMonth = datesMonth.filter(function(item, index, array) {
+          datesMonth = datesMonth.filter(function (item, index, array) {
             return array.indexOf(item) === index;
           })
 
@@ -56,7 +56,7 @@ class Activities_Controller {
             for (let j = 0; j < arrActivities.length; j++) {
               let dateActivityFormat = arrActivities[j].fecha_actividad.toISOString();// Obtener el valor de la propiedad fecha_actividad y convertir en String
               dateActivityFormat = dateActivityFormat.split('T')[0]
-              if(datesMonth[i] === dateActivityFormat){
+              if (datesMonth[i] === dateActivityFormat) {
                 listActivities.push(arrActivities[j])
               }
             }
@@ -65,7 +65,7 @@ class Activities_Controller {
             daysMonthList.push(daysMonth)
           }
 
-        
+
           resolve(new Response(200, `Hay ${arrActivities.length} actividades`, daysMonthList));
         })
         .catch((error) => { reject(error); })
@@ -89,14 +89,14 @@ class Activities_Controller {
       let weekNumber = register.idNumeroSemana
       let weekDay = register.fecha_actividad
       weekDay = new Date(weekDay)
-      weekDay = weekDay.toLocaleDateString('en-CA', {  year: 'numeric', month: 'numeric', day: 'numeric'})
+      weekDay = weekDay.toLocaleDateString('en-CA', { year: 'numeric', month: 'numeric', day: 'numeric' })
 
       Weeks_Model.search_weeks(weekNumber, weekDay).then((res) => {
 
         register.idNumeroSemana = res.result[0].id_semana
-        
+
         Activities_Model.register_activities(register).then((res) => {
-          resolve(res) 
+          resolve(res)
         }).catch((error) => { reject(error) })
 
       }).catch((error) => { reject(error); })
@@ -106,7 +106,21 @@ class Activities_Controller {
 
   update_activities(id, update) {
     return new Promise((resolve, reject) => {
-      Activities_Model.update_activities(id, update).then((res) => { resolve(res) }).catch((error) => { reject(error) })
+      let weekNumber = update.idNumeroSemana
+      let weekDay = update.fecha_actividad
+      weekDay = new Date(weekDay)
+      weekDay = weekDay.toLocaleDateString('en-CA', { year: 'numeric', month: 'numeric', day: 'numeric' })
+
+      Weeks_Model.search_weeks(weekNumber, weekDay).then((res) => {
+
+        update.idNumeroSemana = res.result[0].id_semana
+
+        Activities_Model.update_activities(id, update).then((res) => { 
+          resolve(res) 
+        }).catch((error) => { reject(error) })
+
+      }).catch((error) => { reject(error); })
+
     })
   }
 

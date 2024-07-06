@@ -116,8 +116,7 @@ class Activities_Model{
       connection.query('INSERT INTO `actividades`  SET ?', register, function (error, results, fields) {
           if (error) {
               if (error.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
-              reject(error);
-              console.error("Error SQL: ", error.sqlMessage);
+              reject(new Response(500, err, err));
           }
           if (results) {
               resolve(new Response(200, "Registro exitoso", results));
