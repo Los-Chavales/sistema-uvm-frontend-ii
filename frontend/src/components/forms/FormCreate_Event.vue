@@ -245,32 +245,20 @@ const postEvent = computed(() => {
   }
 
   /* Tablet */
-  @media (min-width: 500px){
+  @media (min-width: 500px) {
     .formCreateEvent{
       /*height: 590px;*/
       width: 360px;
     }
-    /*
-    .formCreateEvent_head, 
-    .formCreateEvent_select,
-    .formCreateEvent_input,
-    .formCreateEvent_textarea,
-    .formCreateActivity_containerLabel{
-      margin: 0 0 15px 0;
-    }
-    .formCreateEvent_input--submit {
-      margin: 0px
-    }*/
   }
-
-  /*Desktop*/
   @media (max-height: 665px) {
-    .formCreateEvent_textarea{
+    .formCreateEvent_textarea {
       height: 80px;
       font-size: 14px;
     }
   }
 
+  /*Desktop*/
   @media (min-width: 1000px) and (min-height: 666px) {
     .formCreateEvent{
       height: 80vh;
@@ -282,7 +270,7 @@ const postEvent = computed(() => {
     .formCreateEvent_select,
     .formCreateEvent_input,
     .formCreateEvent_textarea,
-    .formCreateActivity_containerLabel{
+    .formCreateActivity_containerLabel {
       margin: 0 0 0px 0;
     }
     .formCreateEvent_textarea{
@@ -294,19 +282,21 @@ const postEvent = computed(() => {
     }
   }
 
-  @media (min-width: 1440px) and (min-height: 850px) {
+  //Pantallas grandes
+  @media (min-width: 1440px) {
+    .formCreateEvent{
+      width: 380px;
+    }    
+  }
+  @media (min-height: 850px) {
     .formCreateEvent{
       height: 72vh;
       max-height: 710px;
-      width: 380px;
     }
     .formCreateEvent_textarea{
       height: 170px;
       font-size: 20px;
     }
-    
   }
-
-
 
 </style>
