@@ -19,12 +19,13 @@
     font-style: normal;
     font-weight: 900;
     line-height: normal;
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 2px;
+    float: left;
   }
 
   .button--edit:hover{

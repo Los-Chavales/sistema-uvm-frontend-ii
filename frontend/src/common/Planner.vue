@@ -1,14 +1,31 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import Modal_Events from '@/components/Modal_Events.vue';
+import { useEventsStore } from '@/stores/events';
+import { useActivitiesStore } from '@/stores/activities';
+
+
+//Llamar a la store de eventos
+let storeEvents = useEventsStore();
+
+const callStoreEvents = (yearDate, monthDate) =>{
+    storeEvents.searchEventsMonths(yearDate, monthDate)
+}
+
+//Llamar a la store de actividades
+let storeActivities = useActivitiesStore();
+
+const callStoreActivities = (yearDate, monthDate) =>{
+    storeActivities.searchActivitiesMonths(yearDate, monthDate)
+}
 
 //Para generar los días del mes, agrupados en semanas
 function genDaysWeek(year = 0, month = 0, semS = 0, semF = 0) {
     //Si no se especifica, usar el mes y año actual
-    const today = new Date();
     if (!(year && month)) {
-        year = today.getFullYear();
-        month = today.getMonth();
+        const today = upToday();
+        year = today[0];
+        month = today[1];
     }
     //Obtener el rango de días del mes indicado
     const firstDay = new Date(year, month, 1);
@@ -46,6 +63,10 @@ function genDaysWeek(year = 0, month = 0, semS = 0, semF = 0) {
         weeksGen[index].days = daysAux;
     }
     //console.log(weeksGen)
+
+    //Llamar a las sotres
+    callStoreEvents(year, month)
+    callStoreActivities(year, month)
     return weeksGen;
 }
 //Para completar los días de la primera semana
@@ -94,6 +115,23 @@ function calMonth(d, m, w, arr) {
         return m;
     }
 }
+//Actualizar varibles con el día actual
+function upToday() {
+    const today = new Date();
+    year.value = today.getFullYear();
+    month.value = today.getMonth();
+    return [year.value, month.value]
+}
+function upTRef(value = 0, type = '') {
+    const today = new Date();
+    if (type === 'year') {
+        return value ? value : today.getFullYear();
+    }
+    if (type === 'month') {
+        return value ? value : today.getMonth();
+    }
+    return 0
+}
 
 //Meses
 const months = [
@@ -111,8 +149,8 @@ const months = [
     'Diciembre'
 ]
 
-const year = ref(2024);
-const month = ref(4);
+const year = ref(upTRef(0,'year'));//2024 por 0
+const month = ref(upTRef(0,'month'));//4 por 0
 const period = ref([0, undefined]);
 
 const update = computed(() => {

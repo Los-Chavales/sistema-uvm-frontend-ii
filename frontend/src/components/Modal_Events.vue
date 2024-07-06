@@ -11,58 +11,66 @@
     seeActivities: Boolean,
     isEditor: Boolean,
   })
+  
+  let prop = props.date
+  let title_modal = prop.toLocaleDateString('es-ES', {  year: 'numeric', month: 'long', day: 'numeric'})
+  let searchFormat =  prop.toLocaleDateString('en-CA', {  year: 'numeric', month: 'numeric', day: 'numeric'})
 
   /* Store de actividades */
 
   let storeActivities = useActivitiesStore();
 
-  let prop = props.date
-  let title_modal = prop.toLocaleDateString('es-ES', {  year: 'numeric', month: 'long', day: 'numeric'})
-  let searchFormat =  prop.toLocaleDateString('en-CA', {  year: 'numeric', month: 'numeric', day: 'numeric'})
-
-
   const getActivities = computed(() => {
-      return storeActivities.getActivities;
+    let getActivitiesList = storeActivities.getActivitiesDetails;
+    if(getActivitiesList.length !== 0){
+    getActivitiesList = getActivitiesList.find(({ date }) => date ===  searchFormat)
+  
+    if(getActivitiesList !== undefined){
+      getActivitiesList = getActivitiesList.activitiesList
+    }else{
+      getActivitiesList = []
+    }
+  }
+    return getActivitiesList;
   });
 
-  const getErrorActivities = computed(() => {
-      return storeActivities.getError;
-  });
-
-  onMounted(() => {
-    storeActivities.searchActivities('2024-05-27'); //Ejemplo '2024-05-27' searchFormat
-  });
 
   /* Store de eventos */
 
   let storeEvents = useEventsStore();
+  
+
+  //let getEvents = storeEvents.getEventsDetails;
 
   const getEvents = computed(() => {
-      return storeEvents.getEvents;
+    let getEventsList = storeEvents.getEventsDetails
+    if(getEventsList.length !== 0){
+    getEventsList = getEventsList.find(({ date }) => date ===  searchFormat)
+  
+    if(getEventsList !== undefined){
+      getEventsList = getEventsList.eventsList
+    }else{
+      getEventsList = []
+    }
+  }
+    return getEventsList;
   });
-
-  const getErrorEvents = computed(() => {
-      return storeEvents.getError;
-  });
-
-  onMounted(() => {
-    storeEvents.searchEvents('2024-05-27'); //Ejemplo '2024-06-07' searchFormat
-  });
-
-  const deleteEvent = storeEvents.deleteEvents;
 
   /* Mostrar solo la hora en los detalles de cada actividad */
 
   function change_date_format( property ) {
-      property = property.split("T")
- /*      console.log(property) */
+    if(property !== undefined){
+      let timeEvent = new Date(property).toLocaleTimeString('es-VE', { hour: "2-digit", minute: "2-digit" });
+      //console.debug(timeEvent);
+      /*property = property.split("T")
       let hour = property[1].split(".000Z")
       hour = hour[0]
-   /*    console.log(hour) */
       property = hour 
-      return property
+      return property*/
+      return timeEvent;
+    }
   }
-
+ 
   /* función para desplegar el modal */
   let state = ref(false);
   const changeState = () => ( state.value = !state.value )
@@ -117,15 +125,16 @@
             
               <!-- En caso de no tener nada -->
 
-            <div class="container_details" v-if="getErrorActivities.statusError">
-              <p class="part_p p--activity">{{ getErrorActivities.message }}</p>
+            <div class="container_details" v-if="getActivities.length === 0">
+              <p class="part_p p--activity">No hay nada para hoy</p>
             </div>
 
              <!-- En caso de si tener actividades -->
 
             <div v-else class="container_details" v-for="(activity) in getActivities" :key="activity.id_actividad">
               <button class="button_create button--white"  v-show="isEditor">Crear actividad</button>
-              <p class="part_p p--activity" >{{ change_date_format(activity.fecha_actividad) }} {{ activity.nombre_actividad }} {{ activity.descripcion }}</p>
+              <h4 class="part_titleH4">{{ activity.nombre_actividad }} </h4>
+              <p class="part_p p--activity" >{{ activity.descripcion }} <span class="hour">{{ change_date_format(activity.fecha_actividad) }} </span></p>
             
               <div class="box_buttons" v-show="isEditor">
                 <Edit_Button />
@@ -147,15 +156,16 @@
 
             <!-- En caso de no tener nada -->
 
-            <div class="container_details" v-if="getErrorEvents.statusError">
-              <p class="part_p p--event">{{ getErrorEvents.message }}</p>
+            <div class="container_details" v-if="getEvents.length === 0">
+              <p class="part_p p--activity">No hay nada para hoy</p>
             </div>
 
             <!-- En caso de si tener eventos -->
 
             <div v-else class="container_details" v-for="(event) in getEvents" :key="event.id_fecha_especial">
               <button class="button_create button--white"  v-show="isEditor">Crear evento</button>
-              <p class="part_p p--event">{{ change_date_format(event.fecha_especial) }} {{ event.nombre_largo }} {{ event.descripcion }}</p>
+              <h4 class="part_titleH4">{{ event.nombre_largo }}</h4>
+              <p class="part_p p--event">{{ event.descripcion }} <span class="hour">{{ change_date_format(event.fecha_especial) }}</span></p>
               
               <div class="box_buttons" v-show="isEditor">
                 <Edit_Button />
@@ -214,7 +224,7 @@
     background-color: $color4;
   /*   width: 17em;
     height: 35em; */
-    width: 80%;
+    width: 93%;
     height: 95%; 
     padding: 15px 30px 30px 30px;
     border-radius: 15px;
@@ -321,9 +331,18 @@
     line-height: normal;
   }
 
+  .part_titleH4{
+    margin-top: 10px;
+    text-align: start;
+    color: #000;
+    font-family: Poppins;
+    font-weight: 700;
+    font-size: 20px;
+  }
+
   .part_p{
     font-family: Poppins;
-    font-size: 20px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
@@ -340,6 +359,12 @@
     color: $secondary_color;
   }
 
+  .hour{
+    font-size: 14px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   .box_buttons{
     display: flex;
     flex-direction: row;
@@ -347,9 +372,9 @@
 
   @media (min-width: 768px) {
     .modal{
-/*       width: 95%;  */
-      width: auto;
-      height: 60%;
+      width: 95%;
+      /*width: auto;*/
+      /*height: 60%;*/
 
     }
 
@@ -361,8 +386,8 @@
   
   @media (min-width: 1024px) { 
     .modal{
-  /*     width: 85%;  */
-      width: auto;
+      width: 85%;
+      /*width: auto;*/
       height: 90%;
     } 
     .part_title{

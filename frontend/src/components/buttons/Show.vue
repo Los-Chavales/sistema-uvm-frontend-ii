@@ -1,24 +1,10 @@
 <script setup>
-  import {  defineProps, ref } from 'vue';
-  import Delete from '@/assets/icons/Delete.vue';
-  import Modal_Confirm from '../Modal_Confirm.vue';
-
-  const props = defineProps({
-    /*idDelete: String*/
-    Actividades:String,
-    Eventos:String
-    
-  })
-
-
-  let state = ref(false);
-  const changeState = () => ( state.value = !state.value )
 </script>
 
 <template>
-    <button @click="changeState" class="button--delete"><Delete /></button>
-    <Modal_Confirm v-show="state" @close="changeState" :actD="Actividades" :evnD="Eventos" /> <!--:idD="idDelete"/>-->
-
+    <span class="button--delete">
+      <i class="fa-solid fa-eye"></i>
+    </span>
 </template>
 
 
@@ -41,7 +27,7 @@
     font-weight: 900;
     line-height: normal;
     margin: 2px;
-    float: right;
+    float:left;
   }
 
   .button--delete:hover{

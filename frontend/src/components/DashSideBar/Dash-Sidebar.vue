@@ -16,11 +16,11 @@
             </div>
         </span>
         <div class="sidebar-user-img"></div>
-        <SidebarLink to="/home" icon="fas fa-gauge">General</SidebarLink>
+        <SidebarLink to="/" icon="fas fa-gauge">General</SidebarLink>
         <SidebarLink to="/admin-dsh/profesores" icon="fas fa-user-tie">Profesores</SidebarLink>
-        <SidebarLink to="/home" icon="fas fa-book">Materias</SidebarLink>
+        <SidebarLink to="/admin-dsh/materias" icon="fas fa-book">Materias</SidebarLink>
         <SidebarLink to="/home" icon="fa-solid fa-calendar">Eventos</SidebarLink>
-        <SidebarLink to="/home" icon="fas fa-chalkboard-user">Secciones</SidebarLink>
+        <SidebarLink to="/admin-dsh/secciones" icon="fas fa-chalkboard-user">Secciones</SidebarLink>
 
 
         <span
