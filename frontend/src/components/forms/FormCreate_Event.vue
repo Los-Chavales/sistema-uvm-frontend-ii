@@ -99,6 +99,15 @@ const postEvent = computed(() => {
     margin: 0 0 25px 0;
   }
 
+  .formCreateEvent_body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      height: inherit;
+      /*row-gap: 6px;*/
+    }
+
   .formCreateEvent_title{
     color: #000;
     text-align: center;
@@ -141,11 +150,10 @@ const postEvent = computed(() => {
 
   .formCreateEvent_input{
     display: flex;
-    display: flex;
     width: 100%;
     height: 50px;
     padding: 10px;
-    margin: 0 0 25px 0;
+    margin: 0 0 15px 0;
     justify-content: center;
     align-items: center;
     align-self: stretch;
@@ -176,7 +184,7 @@ const postEvent = computed(() => {
     resize: none;
     display: flex;
     width: 100%;
-    height: 150px;
+    height: 80px;
     padding: 10px;
     margin: 0 0 25px 0;
     justify-content: center;
@@ -189,7 +197,7 @@ const postEvent = computed(() => {
 
     color: #000;
     font-family: "Inria Sans";
-    font-size: 20px;
+    font-size: 14px;
     font-style: normal;
   }
 
@@ -239,9 +247,10 @@ const postEvent = computed(() => {
   /* Tablet */
   @media (min-width: 500px){
     .formCreateEvent{
-      height: 590px;
-      width: 320px;
+      /*height: 590px;*/
+      width: 360px;
     }
+    /*
     .formCreateEvent_head, 
     .formCreateEvent_select,
     .formCreateEvent_input,
@@ -249,12 +258,55 @@ const postEvent = computed(() => {
     .formCreateActivity_containerLabel{
       margin: 0 0 15px 0;
     }
+    .formCreateEvent_input--submit {
+      margin: 0px
+    }*/
   }
 
-  @media (max-width: 1024px) and (max-height: 600px) {
-    .formCreateEvent{
-      height: 475px;
+  /*Desktop*/
+  @media (max-height: 665px) {
+    .formCreateEvent_textarea{
+      height: 80px;
+      font-size: 14px;
     }
   }
+
+  @media (min-width: 1000px) and (min-height: 666px) {
+    .formCreateEvent{
+      height: 80vh;
+      max-height: 645px;
+      width: 360px;
+    }
+    
+    .formCreateEvent_head, 
+    .formCreateEvent_select,
+    .formCreateEvent_input,
+    .formCreateEvent_textarea,
+    .formCreateActivity_containerLabel{
+      margin: 0 0 0px 0;
+    }
+    .formCreateEvent_textarea{
+      height: 100px;
+      font-size: 16px;
+    }
+    .formCreateEvent_input--submit {
+      margin: 0px
+    }
+  }
+
+  @media (min-width: 1440px) and (min-height: 850px) {
+    .formCreateEvent{
+      height: 72vh;
+      max-height: 710px;
+      width: 380px;
+    }
+    .formCreateEvent_textarea{
+      height: 170px;
+      font-size: 20px;
+    }
+    
+  }
+
+
 
 </style>
