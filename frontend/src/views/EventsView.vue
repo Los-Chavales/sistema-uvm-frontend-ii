@@ -27,7 +27,7 @@ const changeState = () => (state.value = !state.value)
 @import "../assets/scss/variables.scss";
 
 h1 {
-    color: #FFF;
+    color: $color7;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.58);
     font-family: Ubuntu;
     font-size: 40px;
@@ -37,7 +37,7 @@ h1 {
 }
 
 p {
-    color: #FFF;
+    color: $color7;
     text-shadow: 0px 1px 4px rgba(0, 0, 0, 0.74);
     font-family: Ubuntu;
     font-size: 20px;

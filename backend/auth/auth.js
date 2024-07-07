@@ -47,7 +47,7 @@ function checkLoginProfesor(req, res, next) {
     if (valLogin !== true) return res.status(401).send('Token inválido:  \n' + valLogin);
 
     if (Utoken.rol !== 'profesor') {
-        return res.status(403).send(['Usted no posee permisos de profesor:', Utoken]);
+        return res.status(403).send(['Usted no posee permisos de profesor', Utoken]);
     };
 
     next();
@@ -62,7 +62,7 @@ function checkLoginDirector(req, res, next) {
     if (valLogin !== true) return res.status(401).send('Token inválido:  \n' + valLogin);
     
     if (Utoken.rol !== 'director') {
-        return res.status(403).send(['Usted no posee permisos de director:', Utoken]);
+        return res.status(403).send(['Usted no posee permisos de director', Utoken]);
     };
 
     next();
@@ -81,7 +81,7 @@ function checkRoot(req, res, next) {
         return res.status(403).send(['Usted no posee permisos de usuario root', Utoken]);
     };
 
-    if (Utoken.id == req.body.cedula_usuario) return res.status(403).send(['No puede cambiarse a sí mismo de rol:', Utoken]);
+    if (Utoken.id == req.body.cedula_usuario) return res.status(403).send(['No puede cambiarse a sí mismo de rol', Utoken]);
 
     next();
 }

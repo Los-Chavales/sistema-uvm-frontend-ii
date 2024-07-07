@@ -116,8 +116,7 @@ class Users_Model {
             if (error) {
                 if (error.errno == 1062) reject(new Response(400, "La cédula '" + register.id_usuario + "' o el correo '" + register.correo + "' ya existen"));
                 if (error.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
-                reject(error);
-                console.error("Error SQL: ", error.sqlMessage);
+                reject(new Response(500, error.sqlMessage, error));
             }
             if (results) {
                 resolve(new Response(200, "Registro exitoso", results));
@@ -138,8 +137,7 @@ class Users_Model {
             if (error) {
                 if (error.errno == 1062) reject(new Response(400, "La cédula '" + register.id_usuario + "' o el correo '" + register.correo + "' ya existen"));
                 if (error.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
-                reject(error);
-                console.error("Error SQL: ", error.sqlMessage);
+                reject(new Response(500, error.sqlMessage, error));
             }
             if (results) {
                 resolve(new Response(200, "Registro exitoso", results));

@@ -16,8 +16,8 @@ router.get('/mostrar', function(req, res, next) {
 });
 
 /* GET buscar semanas */
-router.get('/mostrar/:numero', function(req, res, next) {
-  Weeks_Controller.search_weeks(req.params.numero)
+router.get('/mostrar/:numero/:fecha', function(req, res, next) {
+  Weeks_Controller.search_weeks(req.params.numero, req.params.fecha)
   .then((results) => {
       res.send(results.result);
   })
