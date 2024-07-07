@@ -26,11 +26,12 @@ const props = defineProps({
 let prop = props.dateWeek
 let title_from_teacher = prop.toLocaleDateString('es-ES', { weekday: 'long' })
 
-let date = props.dayData.fecha_especial
- date = date.split('.000Z')
-date = date[0]
+let dateTemp = new Date(props.dayData.fecha_especial);
+let date = new Date(dateTemp.getTime() - (dateTemp.getTimezoneOffset() * 60000)).toISOString();
+date = date.split('.000Z');
+date = date[0];
 //console.log("date") 
-console.log(props.dayData.fecha_especial)
+console.log('UTC+00:00', props.dayData.fecha_especial, '\nUTC-04:00', date);
 /* date = new Date(date)
 console.log(date)
 let prueba = date.toLocaleString('sv-SE');
