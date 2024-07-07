@@ -48,6 +48,9 @@ const postEvent = computed(() => {
   }
 });
 
+//función para desplegar el modal 
+let stateMessageModal = ref(false);
+const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageModal.value)
 
 </script>
 
@@ -78,13 +81,13 @@ const postEvent = computed(() => {
           <input type="time" id="timeActivity" v-model="hora_evento">
         </label>
       </div>
-      <input class="formCreateEvent_input--submit" type="submit" value="Añadir" />
+      <input class="formCreateEvent_input--submit" type="submit" value="Añadir"  @click="changeStateMessageModal" />
     </div>
 
   </form>
 
- <!--  <Modal_Message />
- -->
+  <Modal_Message v-show="stateMessageModal" @closeModalMessage="changeStateMessageModal" />
+
 </template>
 
 <style lang="scss" scoped>

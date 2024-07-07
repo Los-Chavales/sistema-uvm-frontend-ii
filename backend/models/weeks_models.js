@@ -25,7 +25,7 @@ class Weeks_Model{
               reject(new Response(500, error, error));
           } else {
               if (results.length == 0) {
-                  reject(new Response(404, 'No existe una semana registrada con esos datos', results));
+                  reject(new Response(404, 'Esta semana no forma parte del periodo académico', results));
               } else {
                   resolve(new Response(200, results, results));
               }

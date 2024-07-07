@@ -10,9 +10,10 @@ export const useEventsStore = defineStore("events", {
         statusError: false,
         message: ''
       },
-      errorForm: {
+      resultForm: {
         statusErrorForm: false,
-        messageForm: ''
+        messageForm: '',
+        listDetails: []
       }
     }
   }),
@@ -26,8 +27,8 @@ export const useEventsStore = defineStore("events", {
     getError(state) {
       return state.options.error
     },
-    getErrorForm(state) {
-      return state.options.errorForm
+    getFormResult(state) {
+      return state.options.resultForm
     }
   },
   actions: {
@@ -76,14 +77,18 @@ export const useEventsStore = defineStore("events", {
           'Content-Type': 'application/json'
         }
       }).then(response => {
-        console.log(response.data);
-        this.options.errorForm.statusError = false
+        //console.log(response.data);
+        this.options.resultForm.statusError = false
+        this.options.resultForm.messageForm = response.data
+        this.options.resultForm.listDetails = []
       })
       .catch(err => {
-        console.log(err);
-        console.log(err.response.data.message)
-        this.options.errorForm.statusErrorForm = true
-        this.options.errorForm.messageForm = err.response.data.message
+        // console.log(err);
+        // console.log(err.response.data.message)
+        // console.log(err.response.data.result)
+        this.options.resultForm.statusErrorForm = true
+        this.options.resultForm.messageForm = err.response.data.message
+        this.options.resultForm.listDetails = err.response.data.result
       });
       
     },

@@ -4,37 +4,28 @@ import { useEventsStore } from '@/stores/events';
 
 let storeEvents = useEventsStore();
 
-const getErrorEvents = computed(() => {
-  return storeEvents.getErrorForm;
+const getFormResult = computed(() => {
+  return storeEvents.getFormResult;
 }); 
  
 
-//const getErrorEvents = storeEvents.getErrorForm;
-
-// función para desplegar el modal 
-let stateMessageModal = ref(getErrorEvents.statusErrorForm)
-const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageModal.value)
-
-let messageShow = getErrorEvents.messageForm
-
-console.log("Dentro del modal del mensage")
-console.log(stateMessageModal.value)
-console.log(messageShow) 
- 
 </script>
 
 <template>
-  <div class="container_modal" v-show="stateMessageModal">
+  <div class="container_modal">
     <div class="modalMessage">
 
       <div class="modal_head">
         <div class="container_button">
-          <button @click="changeStateMessageModal" class="modal_cerrar">cerrar X</button>
+          <button class="modal_cerrar" @click="$emit('closeModalMessage')">cerrar X</button>
         </div>
       </div>
 
       <div class="modalMessage_part">
-        <p style="color:black">{{ messageShow }}</p> 
+        <h4 class="modalMessage_h4" >{{ getFormResult.messageForm }}</h4>
+        <ul class="modalMessage_p" v-if="getFormResult.listDetails.length > 0" v-for="(detail, i) in getFormResult.listDetails"  :key="i">
+          <li>{{ detail }}</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -99,6 +90,25 @@ console.log(messageShow)
     background-color: #fff;
     border-radius: 15px;
     padding: 30px 20px;
+  }
+
+  .modalMessage_h4, .modalMessage_p{
+    color: #000;
+    font-family: Poppins;
+    font-weight: 500;
+    line-height: 1.8;
+  }
+
+  .modalMessage_h4{
+    font-weight: 700;
+    text-align: center;
+    font-size: 25px;
+  }
+
+  .modalMessage_p{
+    font-weight: 500;
+    font-size: 18px;
+    text-align: left;
   }
 
 </style>
