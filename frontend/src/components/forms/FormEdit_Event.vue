@@ -3,7 +3,7 @@ import { defineProps, ref, computed } from 'vue';
 import { useEventsStore } from '@/stores/events';
 import Modal_Message from '../Modal_Message.vue';
 
-class CreateEvent {
+class UpdateEvent {
   constructor(idSemana, fecha_especial, nombre_corto, nombre_largo, descripcion, tipo_fecha) {
       this.idSemana = idSemana, 
       this.fecha_especial = fecha_especial,
@@ -20,41 +20,35 @@ const props = defineProps({
     formDire: Boolean,
     formTeacher: Boolean,
     weekNumber: Number,
+    dayData: Object
 })
-
 
 let prop = props.dateWeek
 let title_from_teacher = prop.toLocaleDateString('es-ES', { weekday: 'long' })
 
-let tipo_fecha = ref('');
-let nombre_corto = ref('');
-let nombre_largo = ref('');
-let descripcion = ref('');
-let hora_evento = ref('00:00');
+let date = props.dayData.fecha_especial
+ date = date.split('.000Z')
+date = date[0]
+//console.log("date") 
+console.log(props.dayData.fecha_especial)
+/* date = new Date(date)
+console.log(date)
+let prueba = date.toLocaleString('sv-SE');
+console.log("prueba")
+console.log(prueba) */
 
-let storeEvents = useEventsStore();
-
-const postEvent = computed(() => {
-  let cookie = $cookies.get('auth')
-  if(cookie !== null){
-    let token = cookie.token
-    let fecha_especial = props.dateWeek.toLocaleDateString('en-CA', {  year: 'numeric', month: 'numeric', day: 'numeric'})
-    fecha_especial= `${fecha_especial} ${hora_evento.value}:00`
-    const eventCreate = new CreateEvent(props.weekNumber, fecha_especial, nombre_corto.value, nombre_largo.value, descripcion.value, tipo_fecha.value)
-    storeEvents.postEvents(token, eventCreate)
-
-  } else {
-    console.log("no hay cookies")
-  }
-});
-
-//función para desplegar el modal 
-let stateMessageModal = ref(false);
-const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageModal.value)
+let id_fecha_especial = props.dayData.id_fecha_especial
+let tipo_fecha = ref(props.dayData.tipo_fecha);
+let nombre_corto = ref(props.dayData.nombre_corto);
+let nombre_largo = ref(props.dayData.nombre_largo);
+let descripcion = ref(props.dayData.descripcion);
+// let fecha_especial = ref(prueba);
+let fecha_especial = ref(date);
 
 </script>
 
 <template>
+
   <form class="formCreateEvent" @submit.prevent="postEvent">
 
     <div class="formCreateEvent_head">
@@ -62,8 +56,9 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
       <h3 class="formCreateEvent_title--h3" v-if="formDire">{{ props.titleDay }}</h3>
       <h3 class="formCreateEvent_title--h3" v-else-if="formTeacher">Semana {{ props.weekNumber }} {{ title_from_teacher }}</h3>
     </div>
-   
+
     <div class="formCreateEvent_body">
+
       <div class="formCreateEvent_Containerselect">
         <select class="formCreateEvent_select" v-model="tipo_fecha">
           <option value="" disabled selected>Tipo de evento</option>
@@ -73,31 +68,23 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
           <option class="formCreateEvent_option" value="corte de notas">Corte de notas</option>
         </select>
       </div>
+
+      <input class="formCreateEvent_select--datetime" type="datetime-local" v-model="fecha_especial">
+
+
       <input class="formCreateEvent_input" placeholder="Nombre corto" type="text"  v-model="nombre_corto">
       <input class="formCreateEvent_input" placeholder="Nombre largo" type="text" v-model="nombre_largo">
       <textarea  class="formCreateEvent_textarea" placeholder="Descripción" v-model="descripcion"></textarea>
-      <div class="formCreateActivity_containerLabel">
-        <label class="formCreateActivity_label" for="timeActivity">
-          Hora de la actividad:
-          <input type="time" id="timeActivity" v-model="hora_evento">
-        </label>
-      </div>
+ 
       <input class="formCreateEvent_input--submit" type="submit" value="Añadir"  @click="changeStateMessageModal" />
     </div>
 
   </form>
 
-  <Modal_Message 
-    v-show="stateMessageModal" 
-    @closeModalMessage="changeStateMessageModal"
-    :typeMessage="'event'" 
-  />
-
 </template>
 
 <style lang="scss" scoped>
   @import "@/assets/scss/variables.scss";
-
 
   .formCreateEvent{
     height: 75vh;
@@ -142,6 +129,20 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
 
   .formCreateEvent_select{
     width: 100%;
+    margin: 0 0 25px 0;
+    border: 1px solid $color5;
+    background: #FFF;
+
+    color: #000;
+    font-family: Poppins;
+    font-size: 20px;
+    outline: none;
+
+    cursor: pointer;
+  }
+
+  .formCreateEvent_select--datetime{
+    width: 215px;
     margin: 0 0 25px 0;
     border: 1px solid $color5;
     background: #FFF;
@@ -300,5 +301,6 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
       font-size: 20px;
     }
   }
+
 
 </style>

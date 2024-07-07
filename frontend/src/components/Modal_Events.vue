@@ -82,6 +82,9 @@
   let stateFormEvent = ref(false);
   const changeStateModalFormEvent = () => ( stateFormEvent.value = !stateFormEvent.value )
 
+  let stateFormEventEdit = ref(false);
+  const changeStateModalFormEventEdit = () => ( stateFormEventEdit.value = !stateFormEventEdit.value )
+
   /* Verificar si mostrar ciertas cosas o no 
     
     Calendario normal 
@@ -202,7 +205,28 @@
                   change_date_format(event.fecha_especial) }}</span></p>
 
               <div class="box_buttons" v-show="isEditor">
-                <Edit_Button />
+                <Edit_Button  @click="changeStateModalFormEventEdit" />
+
+                <Modal_Form 
+                  @closeModalForm="changeStateModalFormEventEdit" 
+                  v-show="stateFormEventEdit" 
+                  :dateWeek="props.date"
+                  :titleDay="title_modal"
+                  :formDire="false"
+                  :formTeacher="true"
+                  :weekNumber="props.weekNumber"
+                  :formEditEvent="stateFormEventEdit"
+                  :dayData="{
+                    id_fecha_especial: event.id_fecha_especial,
+                    idSemana: event.idSemana,
+                    fecha_especial: event.fecha_especial,
+                    nombre_corto: event.nombre_corto,
+                    nombre_largo: event.nombre_largo,
+                    descripcion: event.descripcion,
+                    tipo_fecha: event.tipo_fecha
+                  }"
+                />
+
                 <Delete_Button 
                   :Eventos="event.id_fecha_especial"
                 /> <!--:idDelete="event.id_fecha_especial"-->
