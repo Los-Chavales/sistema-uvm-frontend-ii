@@ -14,6 +14,17 @@ router.get('/mostrar', function(req, res, next) {
   }) 
 });
 
+/* GET buscar actividades por id*/
+router.get('/mostrar/id/:id', function(req, res, next) {
+  Activities_Controller.search_activities_id(req.params.id)
+  .then((results) => {
+      res.send(results.result);
+  })
+  .catch((error) => {
+      res.status(error.code).send(error.message);
+  }) 
+});
+
 /* GET buscar actividades por nombre*/
 router.get('/mostrar/nombre/:nombre', function(req, res, next) {
   Activities_Controller.search_activities_name(req.params.nombre)

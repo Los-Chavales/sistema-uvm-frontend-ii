@@ -19,6 +19,22 @@ class Events_Model {
     })
   }
 
+  search_events_id(id) {
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM `fechas_especiales` WHERE `id_fecha_especial` = ?', id, function (error, results, fields) {
+        if (error) {
+          reject(new Response(500, error, error));
+        } else {
+          if (results.length == 0) {
+            reject(new Response(404, 'No existen eventos con ese id registrados', results));
+          } else {
+            resolve(new Response(200, results, results));
+          }
+        };
+      });
+    })
+  }
+
   search_events_name(name) {
     return new Promise((resolve, reject) => {
       connection.query('SELECT * FROM `fechas_especiales` WHERE `nombre_corto` = ?', name, function (error, results, fields) {

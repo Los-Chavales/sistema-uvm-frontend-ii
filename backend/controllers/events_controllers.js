@@ -16,6 +16,12 @@ class Events_Controller {
     })
   }
 
+  search_events_id(id) {
+    return new Promise((resolve, reject) => {
+      Events_Model.search_events_id(id).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
+
   search_events_name(name) {
     return new Promise((resolve, reject) => {
       Events_Model.search_events_name(name).then((res) => { resolve(res) }).catch((error) => { reject(error); })

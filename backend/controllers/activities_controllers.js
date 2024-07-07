@@ -16,6 +16,12 @@ class Activities_Controller {
     })
   }
 
+  search_activities_id(id) {
+    return new Promise((resolve, reject) => {
+      Activities_Model.search_activities_id(id).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
+
   search_activities_name(name) {
     return new Promise((resolve, reject) => {
       Activities_Model.search_activities_name(name).then((res) => { resolve(res) }).catch((error) => { reject(error); })

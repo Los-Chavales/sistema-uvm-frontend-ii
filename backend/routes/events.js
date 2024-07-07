@@ -14,6 +14,17 @@ router.get('/mostrar', function (req, res, next) {
     })
 });
 
+/* GET buscar eventos por id*/
+router.get('/mostrar/id/:id', function (req, res, next) {
+  Events_Controller.search_events_id(req.params.id)
+    .then((results) => {
+      res.send(results.result);
+    })
+    .catch((error) => {
+      res.status(error.code).send(error.message);
+    })
+});
+
 /* GET buscar eventos por nombre*/
 router.get('/mostrar/nombre/:nombre', function (req, res, next) {
   Events_Controller.search_events_name(req.params.nombre)
