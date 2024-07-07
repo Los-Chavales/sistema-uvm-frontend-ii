@@ -30,7 +30,7 @@ let tipo_fecha = ref('');
 let nombre_corto = ref('');
 let nombre_largo = ref('');
 let descripcion = ref('');
-let hora_evento = ref('');
+let hora_evento = ref('00:00');
 
 let storeEvents = useEventsStore();
 
@@ -86,7 +86,11 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
 
   </form>
 
-  <Modal_Message v-show="stateMessageModal" @closeModalMessage="changeStateMessageModal" />
+  <Modal_Message 
+    v-show="stateMessageModal" 
+    @closeModalMessage="changeStateMessageModal"
+    :typeMessage="'event'" 
+  />
 
 </template>
 

@@ -78,7 +78,7 @@ export const useEventsStore = defineStore("events", {
         }
       }).then(response => {
         //console.log(response.data);
-        this.options.resultForm.statusError = false
+        this.options.resultForm.statusErrorForm = false
         this.options.resultForm.messageForm = response.data
         this.options.resultForm.listDetails = []
       })

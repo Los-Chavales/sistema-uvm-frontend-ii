@@ -1,6 +1,7 @@
 <script setup>
 import { defineProps, defineModel, ref, computed } from 'vue';
 import { useActivitiesStore } from '@/stores/activities';
+import Modal_Message from '../Modal_Message.vue';
 
 class CreateActivity {
   constructor(idNumeroSemana, nombre_actividad, descripcion, fecha_actividad) {
@@ -24,7 +25,7 @@ let title_from_teacher = prop.toLocaleDateString('es-ES', { weekday: 'long' })
 
 let nombre = ref('');
 let descripcion = ref('');
-let hora_actividad = ref('');
+let hora_actividad = ref('00:00');
 
 
 
@@ -44,6 +45,11 @@ const postActivity = computed(() => {
   }
 });
 
+
+//función para desplegar el modal 
+let stateMessageModal = ref(false);
+const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageModal.value)
+
 </script>
 
 <template>
@@ -61,10 +67,17 @@ const postActivity = computed(() => {
         <label class="formCreateActivity_label" for="timeActivity">Hora de la actividad:</label>
         <input type="time" id="timeActivity" v-model="hora_actividad">
       </div>
-      <input class="formCreateActivity_input--submit" type="submit" value="Añadir" />
+      <input class="formCreateActivity_input--submit" type="submit" value="Añadir" @click="changeStateMessageModal" />
     </div>
 
   </form>
+
+  <Modal_Message 
+    v-show="stateMessageModal" 
+    @closeModalMessage="changeStateMessageModal"
+    :typeMessage="'activity'" 
+  />
+
 </template>
 
 <style lang="scss" scoped>

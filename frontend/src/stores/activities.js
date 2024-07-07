@@ -9,6 +9,11 @@ export const useActivitiesStore = defineStore("activities", {
       error: {
         statusError: false,
         message: ''
+      },
+      resultForm: {
+        statusErrorForm: false,
+        messageForm: '',
+        listDetails: []
       }
     }
   }),
@@ -21,6 +26,9 @@ export const useActivitiesStore = defineStore("activities", {
     },
     getError(state) {
       return state.options.error
+    },
+    getFormResult(state) {
+      return state.options.resultForm
     }
   },
   actions: {
@@ -67,10 +75,20 @@ export const useActivitiesStore = defineStore("activities", {
           'Content-Type': 'application/json'
         }
       }).then(response => {
-        console.log(response.data);
+        this.options.resultForm.statusErrorForm = false
+        this.options.resultForm.messageForm = response.data
+        this.options.resultForm.listDetails = []
       })
       .catch(err => {
-        console.log(err);
+        if(Array.isArray(err.response.data)){
+          this.options.resultForm.statusErrorForm = true
+          this.options.resultForm.messageForm = err.response.data[0]
+          this.options.resultForm.listDetails = []
+        }else{
+          this.options.resultForm.statusErrorForm = true
+          this.options.resultForm.messageForm = err.response.data.message
+          this.options.resultForm.listDetails = err.response.data.result
+        }
       });
       
     },

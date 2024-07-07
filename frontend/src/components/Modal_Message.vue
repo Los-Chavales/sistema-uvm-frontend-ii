@@ -1,13 +1,32 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { defineProps, ref, computed } from 'vue';
 import { useEventsStore } from '@/stores/events';
+import { useActivitiesStore } from '@/stores/activities';
 
-let storeEvents = useEventsStore();
+const props = defineProps({
+    typeMessage: String,
+})
+
+/* let storeEvents = useEventsStore();
+
+let getFormResult = computed(() => {
+  return storeEvents.getFormResult;
+});  */
+
+console.log(props.typeMessage)
+
+let useStore;
+
+if(props.typeMessage === "event"){
+  useStore = useEventsStore();
+}else if(props.typeMessage === "activity"){
+  useStore = useActivitiesStore();
+}
 
 const getFormResult = computed(() => {
-  return storeEvents.getFormResult;
+  return useStore.getFormResult;
 }); 
- 
+
 
 </script>
 
