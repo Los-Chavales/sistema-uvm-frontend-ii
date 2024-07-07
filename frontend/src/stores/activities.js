@@ -92,16 +92,22 @@ export const useActivitiesStore = defineStore("activities", {
       });
       
     },
-    async deleteActivies(id_actividad) {
-      try {
-        const data = await axios.delete(`${API_URL_BASE}/actividades/eliminar/${id_actividad}`);
-
-        console.log(`eliminar actividad:${id_actividad}`)
+    async deleteActivities(id_actividad,token) {//Eliminar actividades recibe el id de la actividad y el token que se genera al hacer el login
+      try{
+        /*console.log("HOLAAAA es la STORE")
+        console.log(token)*/
+        await axios.delete(`${API_URL_BASE}/actividades/eliminar/${id_actividad}`,{
+          headers:{
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log(`eliminaste la actividad:${id_actividad}`)
       }
-      catch (error) {
+      catch (error){
         console.log(error)
         console.log(error.response.data)
       }
+      
 
     }
   },

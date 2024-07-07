@@ -160,7 +160,9 @@
 
               <div class="box_buttons" v-show="isEditor">
                 <Edit_Button />
-                <Delete_Button :idDelete="activity.id_actividad" />
+                <Delete_Button 
+                  :Actividades="activity.id_actividad"
+                 /> <!--:idDelete="activity.id_actividad"-->
               </div>
             </div>
 
@@ -201,7 +203,9 @@
 
               <div class="box_buttons" v-show="isEditor">
                 <Edit_Button />
-                <Delete_Button :idDelete="event.id_fecha_especial" />
+                <Delete_Button 
+                  :Eventos="event.id_fecha_especial"
+                /> <!--:idDelete="event.id_fecha_especial"-->
               </div>
             </div>
 

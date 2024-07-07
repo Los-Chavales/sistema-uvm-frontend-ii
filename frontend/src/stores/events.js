@@ -92,8 +92,21 @@ export const useEventsStore = defineStore("events", {
       });
       
     },
-    async deleteEvents(id) {
-      console.log(`eliminar evento:${id}`)
+    async deleteEvents(id_fecha_especial,token) {//Eliminar evento recibe el id de la fecha especial y el token que se genera al hacer el login
+      try{
+        /*console.log("HOLAAAA es la STORE DE EVENTOOS")
+        console.log(token)*/
+        await axios.delete(`${API_URL_BASE}/eventos/eliminar/${id_fecha_especial}`,{
+          headers:{
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log(`exito has eliminado el evento:${id_fecha_especial}`)
+      }
+      catch (error){
+        console.log(error)
+        console.log(error.response.data)
+      }
     }
   },
 })

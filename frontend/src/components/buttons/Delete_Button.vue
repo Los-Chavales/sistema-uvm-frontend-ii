@@ -4,7 +4,10 @@
   import Modal_Confirm from '../Modal_Confirm.vue';
 
   const props = defineProps({
-    idDelete: String
+    /*idDelete: String*/
+    Actividades:String,
+    Eventos:String
+    
   })
 
 
@@ -14,7 +17,7 @@
 
 <template>
     <button @click="changeState" class="button--delete"><Delete /></button>
-    <Modal_Confirm v-show="state" @close="changeState" :idD="idDelete"/>
+    <Modal_Confirm v-show="state" @close="changeState" :actD="Actividades" :evnD="Eventos" /> <!--:idD="idDelete"/>-->
 
 </template>
 
