@@ -6,6 +6,7 @@ export const useEventsStore = defineStore("events", {
   state: () => ({
     options: {
       events: [],
+      event:[],
       error: {
         statusError: false,
         message: ''
@@ -20,6 +21,9 @@ export const useEventsStore = defineStore("events", {
   getters: {
     getEvents(state) {
       return state.options.events
+    },
+    getEvent(state) {
+      return state.options.event
     },
     getEventsDetails(state) {
       return state.options.events 
@@ -62,6 +66,16 @@ export const useEventsStore = defineStore("events", {
         this.options.error.message = error.response.data */
       }
     },
+    async searchEventsID(id){
+      try {
+        const data = await axios.get(`${API_URL_BASE}/eventos/mostrar/id/${id}`)
+        this.options.event.push(data.data)
+        this.options.error.statusError = false
+      }
+      catch (error) {
+        console.log(error)
+      } 
+    },
     async postEvents(token, event){
       const json = JSON.stringify({ 
         idSemana: event.idSemana, 
@@ -91,6 +105,34 @@ export const useEventsStore = defineStore("events", {
         this.options.resultForm.listDetails = err.response.data.result
       });
       
+    },
+    async updateEvents(token, eventUpdate, id) {
+      const json = JSON.stringify({ 
+        fecha_especial: eventUpdate.fecha_especial,
+        nombre_corto: eventUpdate.nombre_corto,
+        nombre_largo: eventUpdate.nombre_largo,
+        descripcion: eventUpdate.descripcion,
+        tipo_fecha: eventUpdate.tipo_fecha
+      });
+      const data = await axios.put(`${API_URL_BASE}/eventos/actualizar/${id}`, json, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }).then(response => {
+        console.log(response.data);
+        this.options.resultForm.statusErrorForm = false
+        this.options.resultForm.messageForm = response.data
+        this.options.resultForm.listDetails = []
+      })
+      .catch(err => {
+        console.log(err.response.data);
+        // console.log(err.response.data.message)
+        // console.log(err.response.data.result)
+        this.options.resultForm.statusErrorForm = true
+        this.options.resultForm.messageForm = err.response.data.message
+        this.options.resultForm.listDetails = err.response.data.result
+      });
     },
     async deleteEvents(id_fecha_especial,token) {//Eliminar evento recibe el id de la fecha especial y el token que se genera al hacer el login
       try{

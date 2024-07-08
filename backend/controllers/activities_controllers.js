@@ -112,12 +112,11 @@ class Activities_Controller {
 
   update_activities(id, update) {
     return new Promise((resolve, reject) => {
-      let weekNumber = update.idNumeroSemana
       let weekDay = update.fecha_actividad
       weekDay = new Date(weekDay)
       weekDay = weekDay.toLocaleDateString('en-CA', { year: 'numeric', month: 'numeric', day: 'numeric' })
 
-      Weeks_Model.search_weeks(weekNumber, weekDay).then((res) => {
+      Weeks_Model.search_weeksByDate(weekDay).then((res) => {
 
         update.idNumeroSemana = res.result[0].id_semana
 

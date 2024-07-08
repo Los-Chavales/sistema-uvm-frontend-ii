@@ -1,11 +1,10 @@
 <script setup>
-import { defineProps, ref, computed } from 'vue';
+import { defineProps, ref, computed, onMounted } from 'vue';
 import { useEventsStore } from '@/stores/events';
 import Modal_Message from '../Modal_Message.vue';
 
-class UpdateEvent {
-  constructor(idSemana, fecha_especial, nombre_corto, nombre_largo, descripcion, tipo_fecha) {
-      this.idSemana = idSemana, 
+ class UpdateEvent {
+  constructor(fecha_especial, nombre_corto, nombre_largo, descripcion, tipo_fecha) {
       this.fecha_especial = fecha_especial,
       this.nombre_corto = nombre_corto,
       this.nombre_largo = nombre_largo,
@@ -20,37 +19,55 @@ const props = defineProps({
     formDire: Boolean,
     formTeacher: Boolean,
     weekNumber: Number,
-    dayData: Object
-})
+    eventID: Number,
+    dataEdit: Object
+}) 
+
+/* console.log("ID que llega al form:")
+console.log(props.eventID)
+console.log("Objeto que llega al form")
+console.log(props.dataEdit) */
 
 let prop = props.dateWeek
 let title_from_teacher = prop.toLocaleDateString('es-ES', { weekday: 'long' })
 
-let dateTemp = new Date(props.dayData.fecha_especial);
+let dateTemp = new Date(props.dataEdit.fecha_especial);
 let date = new Date(dateTemp.getTime() - (dateTemp.getTimezoneOffset() * 60000)).toISOString();
 date = date.split('.000Z');
 date = date[0];
-//console.log("date") 
-console.log('UTC+00:00', props.dayData.fecha_especial, '\nUTC-04:00', date);
-/* date = new Date(date)
-console.log(date)
-let prueba = date.toLocaleString('sv-SE');
-console.log("prueba")
-console.log(prueba) */
 
-let id_fecha_especial = props.dayData.id_fecha_especial
-let tipo_fecha = ref(props.dayData.tipo_fecha);
-let nombre_corto = ref(props.dayData.nombre_corto);
-let nombre_largo = ref(props.dayData.nombre_largo);
-let descripcion = ref(props.dayData.descripcion);
-// let fecha_especial = ref(prueba);
-let fecha_especial = ref(date);
+console.log('UTC+00:00', props.dataEdit.fecha_especial, '\nUTC-04:00', date); 
+
+
+let idEvent = props.eventID;
+let tipo_fecha = ref(props.dataEdit.tipo_fecha); 
+let nombre_corto = ref(props.dataEdit.nombre_corto); 
+let nombre_largo = ref(props.dataEdit.nombre_largo); 
+let descripcion = ref(props.dataEdit.descripcion);  
+let fecha_especial = ref(date)
+
+
+let storeEvents = useEventsStore();
+
+const putEvent = computed(() => {
+  let cookie = $cookies.get('auth')
+  if(cookie !== null){
+    let token = cookie.token
+    console.log("TOKEN::")
+    console.log(token)
+    const eventUpdate = new UpdateEvent(fecha_especial.value, nombre_corto.value, nombre_largo.value, descripcion.value, tipo_fecha.value)
+    storeEvents.updateEvents(token, eventUpdate, idEvent)
+  } else {
+    console.log("no hay cookies")
+  }
+});
+ 
 
 </script>
 
 <template>
 
-  <form class="formCreateEvent" @submit.prevent="postEvent">
+  <form class="formCreateEvent" @submit.prevent="putEvent">
 
     <div class="formCreateEvent_head">
       <h2 class="formCreateEvent_title">Añadir Evento</h2>

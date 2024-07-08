@@ -13,7 +13,8 @@ const props = defineProps({
     formCreateActivity: Boolean,
     formCreateEvent: Boolean,
     formEditEvent: Boolean,
-    dayData: Object
+    eventID: Number,
+    dataEdit: Object
 })
 
 </script>
@@ -59,7 +60,8 @@ const props = defineProps({
           :formDire= "props.formDire"
           :formTeacher="props.formTeacher"
           :weekNumber="props.weekNumber"
-          :dayData="props.dayData"
+          :eventID="props.eventID"
+          :dataEdit="props.dataEdit"
         />
 
       </div>

@@ -1,10 +1,40 @@
 <script setup>
-  import Edit from '@/assets/icons/Edit.vue';
+import { defineProps, ref,  onMounted, computed } from 'vue';
+import Edit from '@/assets/icons/Edit.vue';
+import Modal_Form from '../Modal_Form.vue';
+
+const props = defineProps({
+    dateWeek: Date,
+    titleDay: String,
+    formDire: Boolean,
+    formTeacher: Boolean,
+    weekNumber: Number,
+    formEditEvent: Boolean,
+    eventID: Number,
+    dataEdit: Object
+})
+
+let stateFormEventEdit = ref(false);
+const changeStateModalFormEventEdit = () => ( stateFormEventEdit.value = !stateFormEventEdit.value )
 
 </script>
 
 <template>
-  <button class="button--edit" style="color:#fff"><Edit /></button>
+  <button @click="changeStateModalFormEventEdit" class="button--edit" style="color:#fff"><Edit /></button>
+  <Modal_Form 
+    @closeModalForm="changeStateModalFormEventEdit"
+    v-show="stateFormEventEdit"
+
+    :dateWeek="props.dateWeek"
+    :titleDay= "props.titleDay"
+    :formDire= "props.formDire"
+    :formTeacher="props.formTeacher"
+    :weekNumber="props.weekNumber"
+    :eventID="props.eventID"
+    :dataEdit="props.dataEdit"
+
+    :formEditEvent="stateFormEventEdit"
+  />
 </template>
 
 
