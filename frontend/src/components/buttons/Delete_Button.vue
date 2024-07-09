@@ -4,9 +4,8 @@
   import Modal_Confirm from '../Modal_Confirm.vue';
 
   const props = defineProps({
-    /*idDelete: String*/
-    Actividades:String,
-    Eventos:String
+    Actividades:Number,
+    Eventos:Number
     
   })
 

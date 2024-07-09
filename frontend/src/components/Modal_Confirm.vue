@@ -8,8 +8,8 @@
 
     const props = defineProps({
       /*idD: String,*/
-      actD: String,
-      evnD: String
+      actD: Number,
+      evnD: Number
      
     })
 
@@ -44,7 +44,7 @@
   <div class="container_modal">
     <div class="modalConfirm">
       <div class="modalConfirm_part">
-        <h3 class="modalConfirm_title">¿Está seguro de que quiere eliminarlo? {{ props.actD }} {{ props.evnD }}</h3> <!--{{ props.idD }}-->
+        <h3 class="modalConfirm_title">¿Está seguro de que quiere eliminarlo?</h3> <!--{{ props.idD }}-->
         <div class="modalConfirm_buttons">
           <button class="button_confirm button--white" @click="deleteSubmit">Si</button> <!--@click="deleteActivity( props.idD )"   @click="deleteActivity( props.actD );deleteEvent( props.evnD )"-->
           <button  class="button_confirm button--white" @click="$emit('close')">No</button>
