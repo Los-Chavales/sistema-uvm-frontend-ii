@@ -171,7 +171,7 @@ class Events_Model {
           } else if (rows.changedRows > 0) {
             resolve(new Response(200, "Se ha actualizado exitosamente", rows));
           } else {
-            reject(new Response(200, 'No se modificó el evento "' + id + '", debido a que los datos ingresados son iguales.', rows));
+            resolve(new Response(200, 'No se modificó el evento, debido a que los datos ingresados son iguales.', rows));
           }
         }
       })

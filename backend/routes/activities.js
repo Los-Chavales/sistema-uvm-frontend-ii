@@ -98,7 +98,7 @@ router.post('/registrar', checkLoginProfesor, function (req, res, next) {
 /* PUT editar actividad */
 router.put('/actualizar/:index', checkLoginProfesor, function (req, res, next) {
   Activities_Controller.update_activities(req.params.index, req.body).then((results) => {
-    if (results.message) { res.send(results.message) } else { res.send(results) }
+    res.send(results.message)
   }).catch((error) => {
     res.status(error.code).send(error)
 /*     if (error.code && error.message) { res.status(error.code).send(error.message) }

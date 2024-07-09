@@ -155,7 +155,7 @@ class Activities_Model{
           } else if (rows.changedRows > 0) {
             resolve(new Response(200, "Se ha actualizado exitosamente", rows));
           } else {
-            reject(new Response(200, 'No se modificó la actividad "' + id + '", debido a que los datos ingresados son iguales.', rows));
+            resolve(new Response(200, 'No se modificó la actividad, debido a que los datos ingresados son iguales.', rows));
           }
         }
       })

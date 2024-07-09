@@ -23,20 +23,13 @@ const props = defineProps({
     dataEdit: Object
 }) 
 
-/* console.log("ID que llega al form:")
-console.log(props.eventID)
-console.log("Objeto que llega al form")
-console.log(props.dataEdit) */
-
 let prop = props.dateWeek
 let title_from_teacher = prop.toLocaleDateString('es-ES', { weekday: 'long' })
 
 let dateTemp = new Date(props.dataEdit.fecha_especial);
 let date = new Date(dateTemp.getTime() - (dateTemp.getTimezoneOffset() * 60000)).toISOString();
 date = date.split('.000Z');
-date = date[0];
-
-console.log('UTC+00:00', props.dataEdit.fecha_especial, '\nUTC-04:00', date); 
+date = date[0]; 
 
 
 let idEvent = props.eventID;
@@ -53,15 +46,16 @@ const putEvent = computed(() => {
   let cookie = $cookies.get('auth')
   if(cookie !== null){
     let token = cookie.token
-    console.log("TOKEN::")
-    console.log(token)
     const eventUpdate = new UpdateEvent(fecha_especial.value, nombre_corto.value, nombre_largo.value, descripcion.value, tipo_fecha.value)
     storeEvents.updateEvents(token, eventUpdate, idEvent)
   } else {
     console.log("no hay cookies")
   }
 });
- 
+
+//función para desplegar el modal 
+let stateMessageModal = ref(false);
+const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageModal.value)
 
 </script>
 
@@ -98,6 +92,12 @@ const putEvent = computed(() => {
     </div>
 
   </form>
+
+  <Modal_Message 
+    v-show="stateMessageModal" 
+    @closeModalMessage="changeStateMessageModal"
+    :typeMessage="'event'" 
+  />
 
 </template>
 

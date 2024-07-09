@@ -52,24 +52,18 @@ export const useEventsStore = defineStore("events", {
     },
     async searchEventsMonths(year, month) {
       try {
-/*        console.log("En la store")
-       console.log(year)
-       console.log(month) */
        const data = await axios.get(`${API_URL_BASE}/eventos/mostrar/mes/${year}/${month}`)
        this.options.events = data.data
        this.options.error.statusError = false
       }
       catch (error) {
         console.log(error)
-        //console.log(error.response.data) 
-    /*     this.options.error.statusError = true
-        this.options.error.message = error.response.data */
       }
     },
     async searchEventsID(id){
       try {
         const data = await axios.get(`${API_URL_BASE}/eventos/mostrar/id/${id}`)
-        this.options.event.push(data.data)
+        this.options.event = data.data
         this.options.error.statusError = false
       }
       catch (error) {
@@ -120,15 +114,11 @@ export const useEventsStore = defineStore("events", {
           'Content-Type': 'application/json'
         }
       }).then(response => {
-        console.log(response.data);
         this.options.resultForm.statusErrorForm = false
         this.options.resultForm.messageForm = response.data
         this.options.resultForm.listDetails = []
       })
       .catch(err => {
-        console.log(err.response.data);
-        // console.log(err.response.data.message)
-        // console.log(err.response.data.result)
         this.options.resultForm.statusErrorForm = true
         this.options.resultForm.messageForm = err.response.data.message
         this.options.resultForm.listDetails = err.response.data.result
@@ -136,8 +126,6 @@ export const useEventsStore = defineStore("events", {
     },
     async deleteEvents(id_fecha_especial,token) {//Eliminar evento recibe el id de la fecha especial y el token que se genera al hacer el login
       try{
-        /*console.log("HOLAAAA es la STORE DE EVENTOOS")
-        console.log(token)*/
         await axios.delete(`${API_URL_BASE}/eventos/eliminar/${id_fecha_especial}`,{
           headers:{
             'Authorization': `Bearer ${token}`
