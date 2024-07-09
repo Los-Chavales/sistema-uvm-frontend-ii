@@ -26,6 +26,17 @@ router.get('/mostrar/:numero/:fecha', function(req, res, next) {
   }) 
 });
 
+/* GET buscar semanas por una fecha */
+router.get('/mostrar/:fecha', function(req, res, next) {
+  Weeks_Controller.search_weeksByDate(req.params.fecha)
+  .then((results) => {
+      res.send(results.result);
+  })
+  .catch((error) => {
+      res.status(error.code).send(error.message);
+  }) 
+});
+
 /* POST registrar semanas */
 router.post('/registrar', checkLoginDirector, function (req, res, next) {
   Weeks_Controller.register_week(req.body).then((result) => { 

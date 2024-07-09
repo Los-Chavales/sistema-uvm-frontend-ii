@@ -16,6 +16,12 @@ class Activities_Controller {
     })
   }
 
+  search_activities_id(id) {
+    return new Promise((resolve, reject) => {
+      Activities_Model.search_activities_id(id).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
+
   search_activities_name(name) {
     return new Promise((resolve, reject) => {
       Activities_Model.search_activities_name(name).then((res) => { resolve(res) }).catch((error) => { reject(error); })
@@ -106,12 +112,11 @@ class Activities_Controller {
 
   update_activities(id, update) {
     return new Promise((resolve, reject) => {
-      let weekNumber = update.idNumeroSemana
       let weekDay = update.fecha_actividad
       weekDay = new Date(weekDay)
       weekDay = weekDay.toLocaleDateString('en-CA', { year: 'numeric', month: 'numeric', day: 'numeric' })
 
-      Weeks_Model.search_weeks(weekNumber, weekDay).then((res) => {
+      Weeks_Model.search_weeksByDate(weekDay).then((res) => {
 
         update.idNumeroSemana = res.result[0].id_semana
 

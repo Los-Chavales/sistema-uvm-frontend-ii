@@ -11,6 +11,11 @@ class Weeks_Controller{
       Weeks_Model.search_weeks(number, date).then((res) => { resolve(res) }).catch((error) => { reject(error); })
     })
   }
+  search_weeksByDate(date) {
+    return new Promise((resolve, reject) => {
+      Weeks_Model.search_weeksByDate(date).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
   register_week(register) {
     return new Promise((resolve, reject) => {
       Weeks_Model.register_week(register).then((res) => { resolve(res) }).catch((error) => { reject(error) })

@@ -33,6 +33,21 @@ class Weeks_Model{
       });
     })
   }
+  search_weeksByDate(date){
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM `semanas` WHERE ? BETWEEN `fecha_inicio` AND `fecha_cierre`', date , function (error, results, fields) {
+          if (error) {
+              reject(new Response(500, error, error));
+          } else {
+              if (results.length == 0) {
+                  reject(new Response(404, 'Esta semana no forma parte del periodo académico', results));
+              } else {
+                  resolve(new Response(200, results, results));
+              }
+          };
+      });
+    })
+  }
   register_week(register){
     return new Promise((resolve, reject) => {
       if (validate_weeks(register, reject) !== true) return;

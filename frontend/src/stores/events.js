@@ -6,6 +6,7 @@ export const useEventsStore = defineStore("events", {
   state: () => ({
     options: {
       events: [],
+      event:[],
       error: {
         statusError: false,
         message: ''
@@ -20,6 +21,9 @@ export const useEventsStore = defineStore("events", {
   getters: {
     getEvents(state) {
       return state.options.events
+    },
+    getEvent(state) {
+      return state.options.event
     },
     getEventsDetails(state) {
       return state.options.events 
@@ -48,19 +52,23 @@ export const useEventsStore = defineStore("events", {
     },
     async searchEventsMonths(year, month) {
       try {
-/*        console.log("En la store")
-       console.log(year)
-       console.log(month) */
        const data = await axios.get(`${API_URL_BASE}/eventos/mostrar/mes/${year}/${month}`)
        this.options.events = data.data
        this.options.error.statusError = false
       }
       catch (error) {
         console.log(error)
-        //console.log(error.response.data) 
-    /*     this.options.error.statusError = true
-        this.options.error.message = error.response.data */
       }
+    },
+    async searchEventsID(id){
+      try {
+        const data = await axios.get(`${API_URL_BASE}/eventos/mostrar/id/${id}`)
+        this.options.event = data.data
+        this.options.error.statusError = false
+      }
+      catch (error) {
+        console.log(error)
+      } 
     },
     async postEvents(token, event){
       const json = JSON.stringify({ 
@@ -92,10 +100,32 @@ export const useEventsStore = defineStore("events", {
       });
       
     },
+    async updateEvents(token, eventUpdate, id) {
+      const json = JSON.stringify({ 
+        fecha_especial: eventUpdate.fecha_especial,
+        nombre_corto: eventUpdate.nombre_corto,
+        nombre_largo: eventUpdate.nombre_largo,
+        descripcion: eventUpdate.descripcion,
+        tipo_fecha: eventUpdate.tipo_fecha
+      });
+      const data = await axios.put(`${API_URL_BASE}/eventos/actualizar/${id}`, json, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }).then(response => {
+        this.options.resultForm.statusErrorForm = false
+        this.options.resultForm.messageForm = response.data
+        this.options.resultForm.listDetails = []
+      })
+      .catch(err => {
+        this.options.resultForm.statusErrorForm = true
+        this.options.resultForm.messageForm = err.response.data.message
+        this.options.resultForm.listDetails = err.response.data.result
+      });
+    },
     async deleteEvents(id_fecha_especial,token) {//Eliminar evento recibe el id de la fecha especial y el token que se genera al hacer el login
       try{
-        /*console.log("HOLAAAA es la STORE DE EVENTOOS")
-        console.log(token)*/
         await axios.delete(`${API_URL_BASE}/eventos/eliminar/${id_fecha_especial}`,{
           headers:{
             'Authorization': `Bearer ${token}`

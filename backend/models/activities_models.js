@@ -19,6 +19,22 @@ class Activities_Model{
     })
   }
 
+  search_activities_id(id){
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM `actividades` WHERE `id_actividad` = ?', id, function (error, results, fields) {
+          if (error) {
+              reject(new Response(500, error, error));
+          } else {
+              if (results.length == 0) {
+                  reject(new Response(404, 'No existen actividades registradas con ese id', results));
+              } else {
+                  resolve(new Response(200, results, results));
+              }
+          };
+      });
+    })
+  }
+
   search_activities_name(name){
     return new Promise((resolve, reject) => {
       connection.query('SELECT * FROM `actividades` WHERE `nombre_actividad` =  ?', name, function (error, results, fields) {
@@ -139,7 +155,7 @@ class Activities_Model{
           } else if (rows.changedRows > 0) {
             resolve(new Response(200, "Se ha actualizado exitosamente", rows));
           } else {
-            reject(new Response(200, 'No se modificó la actividad "' + id + '", debido a que los datos ingresados son iguales.', rows));
+            resolve(new Response(200, 'No se modificó la actividad, debido a que los datos ingresados son iguales.', rows));
           }
         }
       })
