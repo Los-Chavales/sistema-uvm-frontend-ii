@@ -64,7 +64,7 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
   <form class="formCreateEvent" @submit.prevent="putEvent">
 
     <div class="formCreateEvent_head">
-      <h2 class="formCreateEvent_title">Añadir Evento</h2>
+      <h2 class="formCreateEvent_title">Editar Evento</h2>
       <h3 class="formCreateEvent_title--h3" v-if="formDire">{{ props.titleDay }}</h3>
       <h3 class="formCreateEvent_title--h3" v-else-if="formTeacher">Semana {{ props.weekNumber }} {{ title_from_teacher }}</h3>
     </div>
