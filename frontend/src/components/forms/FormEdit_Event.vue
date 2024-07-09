@@ -88,7 +88,7 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
       <input class="formCreateEvent_input" placeholder="Nombre largo" type="text" v-model="nombre_largo">
       <textarea  class="formCreateEvent_textarea" placeholder="Descripción" v-model="descripcion"></textarea>
  
-      <input class="formCreateEvent_input--submit" type="submit" value="Añadir"  @click="changeStateMessageModal" />
+      <input class="formCreateEvent_input--submit" type="submit" value="Actualizar"  @click="changeStateMessageModal" />
     </div>
 
   </form>
