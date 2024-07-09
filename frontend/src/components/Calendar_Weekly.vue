@@ -8,16 +8,8 @@ import { useActivitiesStore } from '@/stores/activities';
 //Llamar a la store de eventos
 let storeEvents = useEventsStore();
 
-const callStoreEvents = (yearDate, monthDate) => {
-    storeEvents.searchEventsMonths(yearDate, monthDate)
-}
-
 //Llamar a la store de actividades
 let storeActivities = useActivitiesStore();
-
-const callStoreActivities = (yearDate, monthDate) => {
-    storeActivities.searchActivitiesMonths(yearDate, monthDate)
-}
 
 //Para generar los días del mes, agrupados en semanas
 function genDaysWeek(year = 0, month = 0, semS = 0, semF = 0) {
@@ -65,8 +57,11 @@ function genDaysWeek(year = 0, month = 0, semS = 0, semF = 0) {
     //console.log(weeksGen)
 
     //Llamar a las sotres
-    callStoreEvents(year, month)
-    callStoreActivities(year, month)
+
+    onMounted(() => {
+        storeEvents.searchEventsMonths(year, month);
+        storeActivities.searchActivitiesMonths(year, month);
+    });
     return weeksGen;
 }
 //Para completar los días de la primera semana
