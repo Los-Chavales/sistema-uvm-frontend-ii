@@ -163,6 +163,7 @@
                 <Edit_Button />
                 <Delete_Button 
                   :Actividades="activity.id_actividad"
+                  :dateWeek="props.date"
                  /> <!--:idDelete="activity.id_actividad"-->
               </div>
             </div>
@@ -222,6 +223,7 @@
 
                 <Delete_Button 
                   :Eventos="event.id_fecha_especial"
+                  :dateWeek="props.date"
                 /> <!--:idDelete="event.id_fecha_especial"-->
               </div>
             </div>
