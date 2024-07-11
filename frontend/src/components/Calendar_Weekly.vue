@@ -1,9 +1,8 @@
 <script setup>
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref, onMounted, onUpdated } from 'vue';
 import Modal_Events from '@/components/Modal_Events.vue';
 import { useEventsStore } from '@/stores/events';
 import { useActivitiesStore } from '@/stores/activities';
-
 
 //Llamar a la store de eventos
 let storeEvents = useEventsStore();
@@ -56,12 +55,6 @@ function genDaysWeek(year = 0, month = 0, semS = 0, semF = 0) {
     }
     //console.log(weeksGen)
 
-    //Llamar a las sotres
-
-    onMounted(() => {
-        storeEvents.searchEventsMonths(year, month);
-        storeActivities.searchActivitiesMonths(year, month);
-    });
     return weeksGen;
 }
 //Para completar los días de la primera semana
@@ -152,6 +145,19 @@ const update = computed(() => {
     let weekCalendar = genDaysWeek(year.value, month.value, period.value[0], period.value[1]);
     console.info(year.value, month.value, period.value, weekCalendar);
     return weekCalendar
+})
+
+
+//Llamar a las sotres
+
+onMounted(() => {
+    storeActivities.searchActivitiesMonths(year.value, month.value);
+    storeEvents.searchEventsMonths(year.value, month.value);
+})
+
+onUpdated(() => {
+    storeActivities.searchActivitiesMonths(year.value, month.value);
+    storeEvents.searchEventsMonths(year.value, month.value);
 })
 
 const weeks = update;
