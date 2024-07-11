@@ -70,7 +70,7 @@ export const useEventsStore = defineStore("events", {
         console.log(error)
       } 
     },
-    async postEvents(token, event){
+    async postEvents(token, event, year, month){
       const json = JSON.stringify({ 
         idSemana: event.idSemana, 
         fecha_especial: event.fecha_especial,
@@ -89,11 +89,9 @@ export const useEventsStore = defineStore("events", {
         this.options.resultForm.statusErrorForm = false
         this.options.resultForm.messageForm = response.data
         this.options.resultForm.listDetails = []
+        this.searchEventsMonths(year, month) //Volver a mostrar los datos
       })
       .catch(err => {
-        // console.log(err);
-        // console.log(err.response.data.message)
-        // console.log(err.response.data.result)
         this.options.resultForm.statusErrorForm = true
         this.options.resultForm.messageForm = err.response.data.message
         this.options.resultForm.listDetails = err.response.data.result

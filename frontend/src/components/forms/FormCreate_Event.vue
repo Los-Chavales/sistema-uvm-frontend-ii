@@ -1,5 +1,4 @@
 <script setup>
-import { useRoute, useRouter } from 'vue-router';
 import { defineProps, ref, computed } from 'vue';
 import { useEventsStore } from '@/stores/events';
 import Modal_Message from '../Modal_Message.vue';
@@ -23,9 +22,9 @@ const props = defineProps({
     weekNumber: Number,
 })
 
-
 let prop = props.dateWeek
 let title_from_teacher = prop.toLocaleDateString('es-ES', { weekday: 'long' })
+
 
 let tipo_fecha = ref('');
 let nombre_corto = ref('');
@@ -39,27 +38,22 @@ const postEvent = computed(() => {
   let cookie = $cookies.get('auth')
   if(cookie !== null){
     let token = cookie.token
+    let year = prop.getFullYear();
+    let month = prop.getMonth();
     let fecha_especial = props.dateWeek.toLocaleDateString('en-CA', {  year: 'numeric', month: 'numeric', day: 'numeric'})
     fecha_especial= `${fecha_especial} ${hora_evento.value}:00`
     const eventCreate = new CreateEvent(props.weekNumber, fecha_especial, nombre_corto.value, nombre_largo.value, descripcion.value, tipo_fecha.value)
-    storeEvents.postEvents(token, eventCreate)
+    storeEvents.postEvents(token, eventCreate, year, month)
 
   } else {
     console.log("no hay cookies")
   }
 });
 
-const router = useRouter()
 
-let successConsult = storeEvents.getFormResult
-
+//función para desplegar el modal 
 let stateMessageModal = ref(false);
-const changeStateMessageModal = (reload) =>{ 
-  stateMessageModal.value = !stateMessageModal.value
-  if(reload && !successConsult.statusErrorForm){
-    router.go()
-  }
-}
+const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageModal.value)
 
 </script>
 
@@ -91,14 +85,14 @@ const changeStateMessageModal = (reload) =>{
           <input type="time" id="timeActivity" v-model="hora_evento">
         </label>
       </div>
-      <input class="formCreateEvent_input--submit" type="submit" value="Añadir"  @click="changeStateMessageModal(false)" />
+      <input class="formCreateEvent_input--submit" type="submit" value="Añadir"  @click="changeStateMessageModal" />
     </div>
 
   </form>
 
   <Modal_Message 
     v-show="stateMessageModal" 
-    @closeModalMessage="changeStateMessageModal(true)"
+    @closeModalMessage="changeStateMessageModal"
     :typeMessage="'event'" 
   />
 
