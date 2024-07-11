@@ -1,5 +1,6 @@
 <script setup>
-import { defineProps, ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { defineProps, ref, computed } from 'vue';
 import { useEventsStore } from '@/stores/events';
 import Modal_Message from '../Modal_Message.vue';
 
@@ -54,8 +55,18 @@ const putEvent = computed(() => {
 });
 
 //función para desplegar el modal 
+
+const router = useRouter()
+
+let successConsult = storeEvents.getFormResult
+
 let stateMessageModal = ref(false);
-const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageModal.value)
+const changeStateMessageModal = (reload) =>{ 
+  stateMessageModal.value = !stateMessageModal.value
+  if(reload && !successConsult.statusErrorForm){
+    router.go()
+  }
+}
 
 </script>
 
@@ -88,14 +99,14 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
       <input class="formCreateEvent_input" placeholder="Nombre largo" type="text" v-model="nombre_largo">
       <textarea  class="formCreateEvent_textarea" placeholder="Descripción" v-model="descripcion"></textarea>
  
-      <input class="formCreateEvent_input--submit" type="submit" value="Añadir"  @click="changeStateMessageModal" />
+      <input class="formCreateEvent_input--submit" type="submit" value="Añadir"  @click="changeStateMessageModal(false)" />
     </div>
 
   </form>
 
   <Modal_Message 
     v-show="stateMessageModal" 
-    @closeModalMessage="changeStateMessageModal"
+    @closeModalMessage="changeStateMessageModal(true)"
     :typeMessage="'event'" 
   />
 
