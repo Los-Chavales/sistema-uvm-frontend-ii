@@ -7,15 +7,18 @@ const props = defineProps({
     typeMessage: String,
 })
 
-/* let storeEvents = useEventsStore();
-
-let getFormResult = computed(() => {
-  return storeEvents.getFormResult;
-});  */
 
 console.log(props.typeMessage)
 
 let useStore;
+let loginState;
+
+let cookie = $cookies.get('auth')
+if(cookie !== null){
+    loginState = true
+  } else {
+    loginState = false
+}
 
 if(props.typeMessage === "event"){
   useStore = useEventsStore();
@@ -40,12 +43,17 @@ const getFormResult = computed(() => {
         </div>
       </div>
 
-      <div class="modalMessage_part">
+      <div class="modalMessage_part" v-if="loginState">
         <h4 class="modalMessage_h4" >{{ getFormResult.messageForm }}</h4>
         <ul class="modalMessage_p" v-if="getFormResult.listDetails.length > 0" v-for="(detail, i) in getFormResult.listDetails"  :key="i">
           <li>{{ detail }}</li>
         </ul>
       </div>
+
+      <div class="modalMessage_part" v-else>
+        <h4 class="modalMessage_h4" >Inicia Sesión</h4>
+      </div>
+
     </div>
   </div>
 

@@ -224,7 +224,7 @@
                 <Delete_Button 
                   :Eventos="event.id_fecha_especial"
                   :dateWeek="props.date"
-                /> <!--:idDelete="event.id_fecha_especial"-->
+                />
               </div>
             </div>
 
@@ -391,6 +391,7 @@
     margin: 15px 0 ;
     background-color: #e7e2e2;
     border-radius: 7px;
+    overflow-wrap: anywhere;
   }
 
   .button_create{

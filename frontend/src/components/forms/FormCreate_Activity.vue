@@ -2,6 +2,7 @@
 import { defineProps, defineModel, ref, computed } from 'vue';
 import { useActivitiesStore } from '@/stores/activities';
 import Modal_Message from '../Modal_Message.vue';
+import Submit_Button from '../buttons/Submit_Button.vue';
 
 class CreateActivity {
   constructor(idNumeroSemana, nombre_actividad, descripcion, fecha_actividad) {
@@ -41,9 +42,6 @@ const postActivity = computed(() => {
     fecha_actividad = `${fecha_actividad} ${hora_actividad.value}:00`
     const activityCreate = new CreateActivity(props.weekNumber, nombre.value, descripcion.value, fecha_actividad)
     storeActivities.postActivities(token, activityCreate, year, month)
-
-  } else {
-    console.log("no hay cookies")
   }
 });
 
@@ -69,7 +67,7 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
         <label class="formCreateActivity_label" for="timeActivity">Hora de la actividad:</label>
         <input type="time" id="timeActivity" v-model="hora_actividad">
       </div>
-      <input class="formCreateActivity_input--submit" type="submit" value="Añadir" @click="changeStateMessageModal" />
+      <Submit_Button @click="changeStateMessageModal" :message="'Añadir'"/>
     </div>
 
   </form>
@@ -96,7 +94,7 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
   }
   
   .formCreateActivity_head{
-    margin: 0 0 25px 0;
+    margin: 0 0 15px 0;
   }
 
   .formCreateActivity_title{

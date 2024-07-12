@@ -25,7 +25,7 @@ const props = defineProps({
     font-size: 32px;
     font-weight: 600;
     background-color: $color4;
-
+    width: 100%;
 }
 
 .submitB:hover {

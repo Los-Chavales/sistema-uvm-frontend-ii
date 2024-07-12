@@ -2,6 +2,7 @@
 import { defineProps, ref, computed } from 'vue';
 import { useEventsStore } from '@/stores/events';
 import Modal_Message from '../Modal_Message.vue';
+import Submit_Button from '../buttons/Submit_Button.vue';
 
  class UpdateEvent {
   constructor(fecha_especial, nombre_corto, nombre_largo, descripcion, tipo_fecha) {
@@ -50,8 +51,6 @@ const putEvent = computed(() => {
     let month = prop.getMonth();
     const eventUpdate = new UpdateEvent(fecha_especial.value, nombre_corto.value, nombre_largo.value, descripcion.value, tipo_fecha.value)
     storeEvents.updateEvents(token, eventUpdate, idEvent, year, month)
-  } else {
-    console.log("no hay cookies")
   }
 });
 
@@ -89,8 +88,8 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
       <input class="formCreateEvent_input" placeholder="Nombre corto" type="text"  v-model="nombre_corto">
       <input class="formCreateEvent_input" placeholder="Nombre largo" type="text" v-model="nombre_largo">
       <textarea  class="formCreateEvent_textarea" placeholder="Descripción" v-model="descripcion"></textarea>
- 
-      <input class="formCreateEvent_input--submit" type="submit" value="Actualizar"  @click="changeStateMessageModal" />
+
+      <Submit_Button @click="changeStateMessageModal" :message="'Actualizar'"/>
     </div>
 
   </form>
@@ -115,9 +114,9 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
   }
   
   .formCreateEvent_head{
-    margin: 0 0 25px 0;
-  }
-
+    margin: 0 0 15px 0;
+  } 
+ 
   .formCreateEvent_body {
       display: flex;
       flex-direction: column;
@@ -162,14 +161,15 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
   }
 
   .formCreateEvent_select--datetime{
-    width: 215px;
+    //width: 215px;
+    width: 240px;
     margin: 0 0 25px 0;
     border: 1px solid $color5;
     background: #FFF;
 
     color: #000;
     font-family: Poppins;
-    font-size: 20px;
+    font-size: 18px;
     outline: none;
 
     cursor: pointer;
@@ -239,28 +239,6 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
     line-height: normal;
   }
 
-  .formCreateEvent_input--submit{
-    display: flex;
-    padding: 6px 0px;
-    margin: 0 0 25px 0;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    align-self: stretch;
-    border-radius: 10px;
-    background: $color4;
-    border: none;
-
-    color: #FFF;
-    text-align: center;
-    font-family: Poppins;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    cursor: pointer;
-  }
-
   .formCreateActivity_containerLabel{
     margin: 0 0 25px 0;
   }
@@ -272,6 +250,12 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
     font-weight: 400;
   }
 
+  @media (min-width: 414px) {
+    .formCreateEvent_select--datetime{
+      width: 260px;
+      font-size: 20px;
+    }
+  }
 
   /* Tablet */
   @media (min-width: 500px) {
@@ -299,9 +283,6 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
     .formCreateEvent_textarea{
       height: 100px;
       font-size: 16px;
-    }
-    .formCreateEvent_input--submit {
-      margin: 0px
     }
   }
 
