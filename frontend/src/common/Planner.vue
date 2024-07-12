@@ -20,17 +20,20 @@ let storeActivities = useActivitiesStore();
 } */
 
 //Para generar los días del mes, agrupados en semanas
-function genDaysWeek(year = 0, month = 0, semS = 0, semF = 0) {
+function genDaysWeek(Year = 0, Month = 0, semS = 0, semF = 0) {
     //Si no se especifica, usar el mes y año actual
-    if (!(year && month)) {
+    //console.debug(Year, Month)
+    if (!Year) {
         const today = upToday();
-        year = today[0];
-        month = today[1];
+        if (!(Month ^ Month === 0) || !(Year && Month)) { Month = today[1]; month.value = today[1] };
+        Year = today[0];
+        year.value = today[0];
+        //console.debug('en IF', Year, Month);
     }
     //Obtener el rango de días del mes indicado
-    const firstDay = new Date(year, month, 1);
+    const firstDay = new Date(Year, Month, 1);
     const firstDate = firstDay.getDate();
-    const lastDay = new Date(year, month + 1, 0);
+    const lastDay = new Date(Year, Month + 1, 0);
     const lastDate = lastDay.getDate();
     //const preDay = new Date(year, month, 0);
     const weeks = [
@@ -42,7 +45,7 @@ function genDaysWeek(year = 0, month = 0, semS = 0, semF = 0) {
     //Rellenar el resto de los días
     completeDays(firstDate, firstDay.getDay(), sem1);
     for (let dw = 0; dw < sem1.length; dw++) {
-        sem1[dw] = new Date(year, month, sem1[dw]).getDate();
+        sem1[dw] = new Date(Year, Month, sem1[dw]).getDate();
     }
     //Generar el resto de las semanas
     let weeksGen = weeks;
@@ -65,8 +68,8 @@ function genDaysWeek(year = 0, month = 0, semS = 0, semF = 0) {
     //console.log(weeksGen)
 
     //Llamar a las sotres
-/*     callStoreEvents(year, month)
-    callStoreActivities(year, month) */
+    /*     callStoreEvents(year, month)
+        callStoreActivities(year, month) */
     return weeksGen;
 }
 //Para completar los días de la primera semana
@@ -102,7 +105,7 @@ function calWeeks(fDay = new Date(), lDay = new Date(), startWeek = 0) {
     console.debug('Numero de semanas', numWeeks);
     return numWeeks;
 }
-//Cambiar de mes en v-for
+//Cambiar el mes de los días en v-for
 function calMonth(d, m, w, arr) {
     if (w === 0 && d > 25) {
         //console.log(d, m, w,'restar')
@@ -118,20 +121,18 @@ function calMonth(d, m, w, arr) {
 //Actualizar varibles con el día actual
 function upToday() {
     const today = new Date();
-    year.value = today.getFullYear();
-    month.value = today.getMonth();
-    return [year.value, month.value]
+    return [today.getFullYear(), today.getMonth()]
 }
-function upTRef(value = 0, type = '') {
+/*function upTRef(value = 0, type = '') {
     const today = new Date();
     if (type === 'year') {
         return value ? value : today.getFullYear();
     }
     if (type === 'month') {
-        return value ? value : today.getMonth();
+        return (value ^ value === 0) ? value : today.getMonth();
     }
     return 0
-}
+}*/
 
 //Meses
 const months = [
@@ -149,8 +150,8 @@ const months = [
     'Diciembre'
 ]
 
-const year = ref(upTRef(0, 'year'));//2024 por 0
-const month = ref(upTRef(0, 'month'));//4 por 0
+const year = ref(0);
+const month = ref(0);
 const period = ref([0, undefined]);
 
 const update = computed(() => {
