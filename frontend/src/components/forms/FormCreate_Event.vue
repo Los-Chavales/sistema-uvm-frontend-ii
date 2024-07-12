@@ -2,6 +2,7 @@
 import { defineProps, ref, computed } from 'vue';
 import { useEventsStore } from '@/stores/events';
 import Modal_Message from '../Modal_Message.vue';
+import Submit_Button from '../buttons/Submit_Button.vue';
 
 class CreateEvent {
   constructor(idSemana, fecha_especial, nombre_corto, nombre_largo, descripcion, tipo_fecha) {
@@ -44,9 +45,6 @@ const postEvent = computed(() => {
     fecha_especial= `${fecha_especial} ${hora_evento.value}:00`
     const eventCreate = new CreateEvent(props.weekNumber, fecha_especial, nombre_corto.value, nombre_largo.value, descripcion.value, tipo_fecha.value)
     storeEvents.postEvents(token, eventCreate, year, month)
-
-  } else {
-    console.log("no hay cookies")
   }
 });
 
@@ -85,7 +83,7 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
           <input type="time" id="timeActivity" v-model="hora_evento">
         </label>
       </div>
-      <input class="formCreateEvent_input--submit" type="submit" value="Añadir"  @click="changeStateMessageModal" />
+      <Submit_Button @click="changeStateMessageModal" :message="'Añadir'"/>
     </div>
 
   </form>
@@ -111,7 +109,7 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
   }
   
   .formCreateEvent_head{
-    margin: 0 0 25px 0;
+    margin: 0 0 15px 0;
   }
 
   .formCreateEvent_body {

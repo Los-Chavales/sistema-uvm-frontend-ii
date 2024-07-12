@@ -32,8 +32,6 @@
         console.log(cookie.token)
         deleteEvent(props.evnD, token, year, month)
         
-      }else if (cookie === null){
-        console.log("Inicie sesión")
       }
     }
 
