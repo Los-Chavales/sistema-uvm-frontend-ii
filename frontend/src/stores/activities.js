@@ -44,6 +44,7 @@ export const useActivitiesStore = defineStore("activities", {
         console.log(error.response.data) */
         this.options.error.statusError = true
         this.options.error.message = error.response.data
+        this.options.activities = []
       }
     },
     async searchActivitiesMonths(year, month) {
@@ -57,12 +58,13 @@ export const useActivitiesStore = defineStore("activities", {
       }
       catch (error) {
         console.log(error)
+        this.options.activities = []
         //console.log(error.response.data) 
         /*this.options.error.statusError = true
         this.options.error.message = error.response.data */
       }
     },
-    async postActivities(token, activity){
+    async postActivities(token, activity, year, month){
       const json = JSON.stringify({ 
         idNumeroSemana: activity.idNumeroSemana, 
         nombre_actividad: activity.nombre_actividad,
@@ -78,6 +80,7 @@ export const useActivitiesStore = defineStore("activities", {
         this.options.resultForm.statusErrorForm = false
         this.options.resultForm.messageForm = response.data
         this.options.resultForm.listDetails = []
+        this.searchActivitiesMonths(year, month)
       })
       .catch(err => {
         if(Array.isArray(err.response.data)){
@@ -92,7 +95,7 @@ export const useActivitiesStore = defineStore("activities", {
       });
       
     },
-    async deleteActivities(id_actividad,token) {//Eliminar actividades recibe el id de la actividad y el token que se genera al hacer el login
+    async deleteActivities(id_actividad,token, year, month) {//Eliminar actividades recibe el id de la actividad y el token que se genera al hacer el login
       try{
         /*console.log("HOLAAAA es la STORE")
         console.log(token)*/
@@ -102,6 +105,7 @@ export const useActivitiesStore = defineStore("activities", {
           }
         });
         console.log(`eliminaste la actividad:${id_actividad}`)
+        this.searchActivitiesMonths(year, month)
       }
       catch (error){
         console.log(error)

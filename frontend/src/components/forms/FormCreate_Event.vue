@@ -22,9 +22,9 @@ const props = defineProps({
     weekNumber: Number,
 })
 
-
 let prop = props.dateWeek
 let title_from_teacher = prop.toLocaleDateString('es-ES', { weekday: 'long' })
+
 
 let tipo_fecha = ref('');
 let nombre_corto = ref('');
@@ -38,15 +38,18 @@ const postEvent = computed(() => {
   let cookie = $cookies.get('auth')
   if(cookie !== null){
     let token = cookie.token
+    let year = prop.getFullYear();
+    let month = prop.getMonth();
     let fecha_especial = props.dateWeek.toLocaleDateString('en-CA', {  year: 'numeric', month: 'numeric', day: 'numeric'})
     fecha_especial= `${fecha_especial} ${hora_evento.value}:00`
     const eventCreate = new CreateEvent(props.weekNumber, fecha_especial, nombre_corto.value, nombre_largo.value, descripcion.value, tipo_fecha.value)
-    storeEvents.postEvents(token, eventCreate)
+    storeEvents.postEvents(token, eventCreate, year, month)
 
   } else {
     console.log("no hay cookies")
   }
 });
+
 
 //función para desplegar el modal 
 let stateMessageModal = ref(false);

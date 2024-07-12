@@ -9,28 +9,28 @@
     const props = defineProps({
       /*idD: String,*/
       actD: Number,
-      evnD: Number
-     
+      evnD: Number,
+      dateWeek: Date
     })
 
-
+    let prop = props.dateWeek
     const deleteActivity = storeActivities.deleteActivities;
     const deleteEvent = storeEvents.deleteEvents;
 
     const deleteSubmit=()=>{
       let cookie= $cookies.get('auth')
-      /*console.log(cookie);*/
       let token
-      /*console.log("Desde el Modal_Confirm")*/
+      let year = prop.getFullYear();
+      let month = prop.getMonth();
       if (props.actD && cookie !==null){
         token= cookie.token
         console.log(cookie.token)
-        deleteActivity(props.actD, token)
+        deleteActivity(props.actD, token, year, month)
         
       }else if(props.evnD && cookie !==null){
         token= cookie.token
         console.log(cookie.token)
-        deleteEvent(props.evnD, token)
+        deleteEvent(props.evnD, token, year, month)
         
       }else if (cookie === null){
         console.log("Inicie sesión")

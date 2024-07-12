@@ -5,8 +5,8 @@
 
   const props = defineProps({
     Actividades:Number,
-    Eventos:Number
-    
+    Eventos:Number,
+    dateWeek: Date
   })
 
 
@@ -16,7 +16,7 @@
 
 <template>
     <button @click="changeState" class="button--delete"><Delete /></button>
-    <Modal_Confirm v-show="state" @close="changeState" :actD="Actividades" :evnD="Eventos" /> <!--:idD="idDelete"/>-->
+    <Modal_Confirm v-show="state" @close="changeState" :actD="Actividades" :evnD="Eventos"  :dateWeek="props.dateWeek" /> <!--:idD="idDelete"/>-->
 
 </template>
 

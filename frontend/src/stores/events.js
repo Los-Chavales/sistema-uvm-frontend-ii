@@ -48,6 +48,7 @@ export const useEventsStore = defineStore("events", {
         console.log(error.response.data) 
         this.options.error.statusError = true
         this.options.error.message = error.response.data
+        this.options.events = []
       }
     },
     async searchEventsMonths(year, month) {
@@ -58,6 +59,7 @@ export const useEventsStore = defineStore("events", {
       }
       catch (error) {
         console.log(error)
+        this.options.events = []
       }
     },
     async searchEventsID(id){
@@ -68,9 +70,10 @@ export const useEventsStore = defineStore("events", {
       }
       catch (error) {
         console.log(error)
+        this.options.event = []
       } 
     },
-    async postEvents(token, event){
+    async postEvents(token, event, year, month){
       const json = JSON.stringify({ 
         idSemana: event.idSemana, 
         fecha_especial: event.fecha_especial,
@@ -89,18 +92,16 @@ export const useEventsStore = defineStore("events", {
         this.options.resultForm.statusErrorForm = false
         this.options.resultForm.messageForm = response.data
         this.options.resultForm.listDetails = []
+        this.searchEventsMonths(year, month) //Volver a mostrar los datos
       })
       .catch(err => {
-        // console.log(err);
-        // console.log(err.response.data.message)
-        // console.log(err.response.data.result)
         this.options.resultForm.statusErrorForm = true
         this.options.resultForm.messageForm = err.response.data.message
         this.options.resultForm.listDetails = err.response.data.result
       });
       
     },
-    async updateEvents(token, eventUpdate, id) {
+    async updateEvents(token, eventUpdate, id, year, month) {
       const json = JSON.stringify({ 
         fecha_especial: eventUpdate.fecha_especial,
         nombre_corto: eventUpdate.nombre_corto,
@@ -117,6 +118,7 @@ export const useEventsStore = defineStore("events", {
         this.options.resultForm.statusErrorForm = false
         this.options.resultForm.messageForm = response.data
         this.options.resultForm.listDetails = []
+        this.searchEventsMonths(year, month) //Volver a mostrar los datos
       })
       .catch(err => {
         this.options.resultForm.statusErrorForm = true
@@ -124,7 +126,7 @@ export const useEventsStore = defineStore("events", {
         this.options.resultForm.listDetails = err.response.data.result
       });
     },
-    async deleteEvents(id_fecha_especial,token) {//Eliminar evento recibe el id de la fecha especial y el token que se genera al hacer el login
+    async deleteEvents(id_fecha_especial,token, year, month) {//Eliminar evento recibe el id de la fecha especial y el token que se genera al hacer el login
       try{
         await axios.delete(`${API_URL_BASE}/eventos/eliminar/${id_fecha_especial}`,{
           headers:{
@@ -132,6 +134,7 @@ export const useEventsStore = defineStore("events", {
           }
         });
         console.log(`exito has eliminado el evento:${id_fecha_especial}`)
+        this.searchEventsMonths(year, month) //Volver a mostrar los datos
       }
       catch (error){
         console.log(error)

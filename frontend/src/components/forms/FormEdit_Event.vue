@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref, computed, onMounted } from 'vue';
+import { defineProps, ref, computed } from 'vue';
 import { useEventsStore } from '@/stores/events';
 import Modal_Message from '../Modal_Message.vue';
 
@@ -46,8 +46,10 @@ const putEvent = computed(() => {
   let cookie = $cookies.get('auth')
   if(cookie !== null){
     let token = cookie.token
+    let year = prop.getFullYear();
+    let month = prop.getMonth();
     const eventUpdate = new UpdateEvent(fecha_especial.value, nombre_corto.value, nombre_largo.value, descripcion.value, tipo_fecha.value)
-    storeEvents.updateEvents(token, eventUpdate, idEvent)
+    storeEvents.updateEvents(token, eventUpdate, idEvent, year, month)
   } else {
     console.log("no hay cookies")
   }
