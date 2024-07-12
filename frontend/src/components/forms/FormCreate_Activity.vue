@@ -35,10 +35,12 @@ const postActivity = computed(() => {
   let cookie = $cookies.get('auth')
   if(cookie !== null){
     let token = cookie.token
+    let year = prop.getFullYear();
+    let month = prop.getMonth();
     let fecha_actividad = props.dateWeek.toLocaleDateString('en-CA', {  year: 'numeric', month: 'numeric', day: 'numeric'})
     fecha_actividad = `${fecha_actividad} ${hora_actividad.value}:00`
     const activityCreate = new CreateActivity(props.weekNumber, nombre.value, descripcion.value, fecha_actividad)
-    storeActivities.postActivities(token, activityCreate)
+    storeActivities.postActivities(token, activityCreate, year, month)
 
   } else {
     console.log("no hay cookies")
