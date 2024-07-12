@@ -161,14 +161,15 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
   }
 
   .formCreateEvent_select--datetime{
-    width: 215px;
+    //width: 215px;
+    width: 240px;
     margin: 0 0 25px 0;
     border: 1px solid $color5;
     background: #FFF;
 
     color: #000;
     font-family: Poppins;
-    font-size: 20px;
+    font-size: 18px;
     outline: none;
 
     cursor: pointer;
@@ -249,6 +250,12 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
     font-weight: 400;
   }
 
+  @media (min-width: 414px) {
+    .formCreateEvent_select--datetime{
+      width: 260px;
+      font-size: 20px;
+    }
+  }
 
   /* Tablet */
   @media (min-width: 500px) {
