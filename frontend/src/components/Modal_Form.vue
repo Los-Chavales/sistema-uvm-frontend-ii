@@ -14,6 +14,7 @@ const props = defineProps({
     formCreateActivity: Boolean,
     formCreateEvent: Boolean,
     formEditEvent: Boolean,
+    formEditActivity: Boolean,
     eventID: Number,
     dataEdit: Object
 })

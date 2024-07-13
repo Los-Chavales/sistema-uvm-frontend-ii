@@ -2,6 +2,7 @@
 import { defineProps, defineModel, ref, computed } from 'vue';
 import { useActivitiesStore } from '@/stores/activities';
 import Modal_Message from '../Modal_Message.vue';
+import Submit_Button from '../buttons/Submit_Button.vue';
 
 class UpdateActivity {
   constructor(tipo_dia, fecha_actividad,nombre_actividad, descripcion) {
@@ -24,6 +25,12 @@ const props = defineProps({
 
 let prop = props.dateWeek
 let title_from_teacher = prop.toLocaleDateString('es-ES', { weekday: 'long' })
+
+let dateTemp = new Date(props.dataEdit.fecha_actividad);
+let date = new Date(dateTemp.getTime() - (dateTemp.getTimezoneOffset() * 60000)).toISOString();
+date = date.split('.000Z');
+date = date[0]; 
+
 
 let tipo_dia = ref(props.dataEdit.tipo_dia); 
 let nombre_actividad = ref(props.dataEdit.nombre_actividad); 
@@ -59,28 +66,14 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
         </div>
        
         <div class="formCreateActivity_body">
-            <div class="formEditActivity_Containerselect">
 
-                <select class="formCreateEvent_select" v-model="tipo_dia">
-                  <option value="" disabled selected>Día de la semana</option>
-                  <option class="formCreateEvent_option" value="Lunes">Lunes</option>
-                  <option class="formCreateEvent_option" value="Martes">Martes</option>
-                  <option class="formCreateEvent_option" value="Miércoles">Miércoles</option>
-                  <option class="formCreateEvent_option" value="Jueves">Jueves</option>
-                  <option class="formCreateEvent_option" value="Viernes">Viernes</option>
-                  <option class="formCreateEvent_option" value="Sábado">Sábado</option>
-                  <option class="formCreateEvent_option" value="Domingo">Domingo</option>
-                </select>
-
-            </div>
-
-              <input class="formCreateEvent_select--datetime" type="datetime-local" v-model="fecha_actividad">
+          <input class="formCreateEvent_select--datetime" type="datetime-local" v-model="fecha_actividad">
 
           <input class="formCreateActivity_input" placeholder="Nombre Corto" type="text"  v-model="nombre_actividad">
 
           <textarea  class="formCreateActivity_textarea" placeholder="Descripción"  v-model="descripcion"></textarea>
           
-          <input class="formCreateActivity_input--submit" type="submit" value="Añadir" @click="changeStateMessageModal" />
+          <Submit_Button @click="changeStateMessageModal" :message="'Actualizar'"/>
         </div>
     
       </form>
@@ -139,6 +132,21 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
     color: #000;
     font-family: Poppins;
     font-size: 20px;
+    outline: none;
+
+    cursor: pointer;
+  }
+
+  .formCreateEvent_select--datetime{
+    //width: 215px;
+    width: 240px;
+    margin: 0 0 25px 0;
+    border: 1px solid $color5;
+    background: #FFF;
+
+    color: #000;
+    font-family: Poppins;
+    font-size: 18px;
     outline: none;
 
     cursor: pointer;
@@ -218,26 +226,13 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
   font-weight: 400;
 }
 
-.formCreateActivity_input--submit{
-  display: flex;
-  padding: 6px 0px;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  align-self: stretch;
-  border-radius: 10px;
-  background: $color4;
-  border: none;
+  @media (min-width: 414px) {
+    .formCreateEvent_select--datetime{
+      width: 260px;
+      font-size: 20px;
+    }
+  }
 
-  color: #FFF;
-  text-align: center;
-  font-family: Poppins;
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  cursor: pointer;
-}
 
   /* Tablet */
 @media (min-width: 500px){
@@ -258,9 +253,6 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
   .formCreateActivity{
     height: 70vh;
     width: 68vw;
-  }
-  .formCreateActivity_input--submit{
-    margin: 0 0 25px 0;
   }
 }
 </style>

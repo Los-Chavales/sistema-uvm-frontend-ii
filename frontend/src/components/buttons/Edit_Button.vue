@@ -13,22 +13,26 @@ const props = defineProps({
     eventID: Number,
     dataEdit: Object,
     activityID:Number, //actividades
-    formEditActivity: Boolean
+    formEditActivity: Boolean,
+    renderForm: String
 })
-
+/* 
 let stateFormEventEdit = ref(false);
 const changeStateModalFormEventEdit = () => ( stateFormEventEdit.value = !stateFormEventEdit.value )
 
 let stateFormActivityEdit = ref(false);
-const changeStateModalFormActivityEdit = () => (stateFormActivityEdit.value = !stateFormActivityEdit.value)
+const changeStateModalFormActivityEdit = () => (stateFormActivityEdit.value = !stateFormActivityEdit.value) */
+
+let stateFormEdit = ref(false);
+const changeStateModalFormEdit = () => ( stateFormEdit.value = !stateFormEdit.value )
 
 </script>
 
 <template>
-  <button @click="changeStateModalFormActivityEdit" class="button--edit" style="color:#fff"><Edit /></button> <!--"changeStateModalFormEventEdit" eventos-->
- <!-- <Modal_Form 
-    @closeModalForm="changeStateModalFormEventEdit"
-    v-show="stateFormEventEdit"
+  <button @click="changeStateModalFormEdit" class="button--edit" style="color:#fff"><Edit /></button> <!--"changeStateModalFormEventEdit" eventos-->
+ <Modal_Form 
+    @closeModalForm="changeStateModalFormEdit"
+    v-if="props.renderForm === 'event' && stateFormEdit"
 
     :dateWeek="props.dateWeek"
     :titleDay= "props.titleDay"
@@ -38,13 +42,13 @@ const changeStateModalFormActivityEdit = () => (stateFormActivityEdit.value = !s
     :eventID="props.eventID"
     :dataEdit="props.dataEdit"
 
-    :formEditEvent="stateFormEventEdit"
+    :formEditEvent="stateFormEdit"
     
-  /> -->
+  /> 
 
  <Modal_Form
-  @closeModalForm="changeStateModalFormActivityEdit"
-    v-show="stateFormActivityEdit"
+  @closeModalForm="changeStateModalFormEdit"
+    v-if="props.renderForm === 'activity' && stateFormEdit"
     :titleDay= "props.titleDay"
     :formDire= "props.formDire"
     :formTeacher="props.formTeacher"
@@ -53,7 +57,7 @@ const changeStateModalFormActivityEdit = () => (stateFormActivityEdit.value = !s
     :activityID="props.activityID"
     :dataEdit="props.dataEdit"
 
-    :formEditActivity="stateFormActivityEdit"
+    :formEditActivity="stateFormEdit"
   />
   
 </template>

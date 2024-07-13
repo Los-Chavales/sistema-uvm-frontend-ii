@@ -174,6 +174,7 @@
                     descripcion: activity.descripcion,
                     tipo_dia: activity.tipo_dia,
                   }"
+                  :renderForm="'activity'"
                 />
                 <Delete_Button 
                   :Actividades="activity.id_actividad"
@@ -233,6 +234,7 @@
                     descripcion: event.descripcion,
                     tipo_fecha: event.tipo_fecha,
                   }"
+                  :renderForm="'event'"
                 />
 
                 <Delete_Button 
