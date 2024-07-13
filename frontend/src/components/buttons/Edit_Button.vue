@@ -11,17 +11,22 @@ const props = defineProps({
     weekNumber: Number,
     formEditEvent: Boolean,
     eventID: Number,
-    dataEdit: Object
+    dataEdit: Object,
+    activityID:Number, //actividades
+    formEditActivity: Boolean
 })
 
 let stateFormEventEdit = ref(false);
 const changeStateModalFormEventEdit = () => ( stateFormEventEdit.value = !stateFormEventEdit.value )
 
+let stateFormActivityEdit = ref(false);
+const changeStateModalFormActivityEdit = () => (stateFormActivityEdit.value = !stateFormActivityEdit.value)
+
 </script>
 
 <template>
-  <button @click="changeStateModalFormEventEdit" class="button--edit" style="color:#fff"><Edit /></button>
-  <Modal_Form 
+  <button @click="changeStateModalFormActivityEdit" class="button--edit" style="color:#fff"><Edit /></button> <!--"changeStateModalFormEventEdit" eventos-->
+ <!-- <Modal_Form 
     @closeModalForm="changeStateModalFormEventEdit"
     v-show="stateFormEventEdit"
 
@@ -34,7 +39,23 @@ const changeStateModalFormEventEdit = () => ( stateFormEventEdit.value = !stateF
     :dataEdit="props.dataEdit"
 
     :formEditEvent="stateFormEventEdit"
+    
+  /> -->
+
+ <Modal_Form
+  @closeModalForm="changeStateModalFormActivityEdit"
+    v-show="stateFormActivityEdit"
+    :titleDay= "props.titleDay"
+    :formDire= "props.formDire"
+    :formTeacher="props.formTeacher"
+    :weekNumber="props.weekNumber"
+    :dateWeek="props.dateWeek"
+    :activityID="props.activityID"
+    :dataEdit="props.dataEdit"
+
+    :formEditActivity="stateFormActivityEdit"
   />
+  
 </template>
 
 
