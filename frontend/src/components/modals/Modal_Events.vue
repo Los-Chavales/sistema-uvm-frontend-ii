@@ -2,14 +2,15 @@
   import { defineProps, ref,  onMounted, computed } from 'vue';
   import { useActivitiesStore } from '@/stores/activities';
   import { useEventsStore } from '@/stores/events';
-  import Edit_Button from './buttons/Edit_Button.vue';
-  import Delete_Button from './buttons/Delete_Button.vue';
+  import Edit_Button from '../buttons/Edit_Button.vue';
+  import Delete_Button from '../buttons/Delete_Button.vue';
   import Modal_Form from './Modal_Form.vue';
 
   const props = defineProps({
     day: Number,
     date: Date,
     seeActivities: Boolean,
+    seeEvents: Boolean,
     isEditor: Boolean,
     description: String,
     isPlannig: Boolean,
@@ -174,7 +175,7 @@
 
         <!-- Parte de mostrar eventos -->
 
-        <div class="modal_part">
+        <div class="modal_part" v-show="seeEvents">
           <div class="part_container">
             <h3 class="part_title title_events">Eventos</h3>
             <button class="button_create button--white"  @click="changeStateModalFormEvent"  v-show="isEditor">Crear evento</button>

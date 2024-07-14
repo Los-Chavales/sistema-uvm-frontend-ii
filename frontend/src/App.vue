@@ -1,7 +1,7 @@
 <script setup>
 /* import { RouterLink, RouterView } from 'vue-router' */
-import Header from "./common/Header.vue"
-import Footer from "./common/Footer.vue"
+import Header from "./components/Header.vue"
+import Footer from "./components/Footer.vue"
 import Dashboard from "./views/Dashboard.vue";
 import DashHeader from "./components/Dash-Header.vue";
 import { sbWidth } from "./components/DashSideBar/sidebar-state";

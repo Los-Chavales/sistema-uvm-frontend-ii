@@ -2,8 +2,8 @@
 import { defineProps, ref, onMounted, computed } from 'vue';
 import { useActivitiesStore } from '@/stores/activities';
 import { useEventsStore } from '@/stores/events';
-import Edit_Button from './buttons/Edit_Button.vue';
-import Delete_Button from './buttons/Delete_Button.vue';
+import Edit_Button from '../buttons/Edit_Button.vue';
+import Delete_Button from '../buttons/Delete_Button.vue';
 
 const props = defineProps({
   day: String,

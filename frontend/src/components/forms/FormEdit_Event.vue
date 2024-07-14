@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, ref, computed } from 'vue';
 import { useEventsStore } from '@/stores/events';
-import Modal_Message from '../Modal_Message.vue';
+import Modal_Message from '../modals/Modal_Message.vue';
 import Submit_Button from '../buttons/Submit_Button.vue';
 
  class UpdateEvent {

@@ -1,7 +1,7 @@
 <script setup>
   import {  defineProps, ref } from 'vue';
   import Delete from '@/assets/icons/Delete.vue';
-  import Modal_Confirm from '../Modal_Confirm.vue';
+  import Modal_Confirm from '../modals/Modal_Confirm.vue';
 
   const props = defineProps({
     Actividades:Number,
