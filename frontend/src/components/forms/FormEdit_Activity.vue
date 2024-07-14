@@ -1,12 +1,11 @@
 <script setup>
-import { defineProps, defineModel, ref, computed } from 'vue';
+import { defineProps, ref, computed } from 'vue';
 import { useActivitiesStore } from '@/stores/activities';
 import Modal_Message from '../Modal_Message.vue';
 import Submit_Button from '../buttons/Submit_Button.vue';
 
 class UpdateActivity {
-  constructor(tipo_dia, fecha_actividad,nombre_actividad, descripcion) {
-      this.tipo_dia = tipo_dia,
+  constructor(fecha_actividad,nombre_actividad, descripcion) {
       this.fecha_actividad = fecha_actividad,
       this.nombre_actividad = nombre_actividad,
       this.descripcion = descripcion 
@@ -31,21 +30,21 @@ let date = new Date(dateTemp.getTime() - (dateTemp.getTimezoneOffset() * 60000))
 date = date.split('.000Z');
 date = date[0]; 
 
-
-let tipo_dia = ref(props.dataEdit.tipo_dia); 
+let idActivity = props.activityID;
 let nombre_actividad = ref(props.dataEdit.nombre_actividad); 
 let descripcion = ref(props.dataEdit.descripcion);  
-let fecha_actividad = ref(date)
-let idActivity = props.activityID;
+let fecha_actividad = ref(date);
 
 let storeActivities = useActivitiesStore();
 
 const putActivity = computed(() => {
   let cookie = $cookies.get('auth')
   if(cookie !== null){
+    let year = prop.getFullYear();
+    let month = prop.getMonth();
     let token = cookie.token
-    const activityUpdate = new UpdateActivity(tipo_dia.value,nombre_actividad.value, descripcion.value, fecha_actividad.value)
-    storeActivities.updateActivity(token, activityUpdate, idActivity)
+    const activityUpdate = new UpdateActivity(nombre_actividad.value, descripcion.value, fecha_actividad.value)
+    storeActivities.updateActivity(token, activityUpdate, idActivity, year, month)
   } else {
     console.log("no hay cookies")
   }

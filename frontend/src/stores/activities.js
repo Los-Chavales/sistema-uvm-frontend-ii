@@ -95,31 +95,31 @@ export const useActivitiesStore = defineStore("activities", {
       });
       
     },
-    async updateActivity(token, activityUpdate, id_actividad) {
+    async updateActivity(token, activityUpdate, id_actividad, year, month) {
       const json = JSON.stringify({ 
         fecha_actividad: activityUpdate.fecha_actividad,
         nombre_actividad: activityUpdate.nombre_actividad,
         descripcion: activityUpdate.descripcion,
-        tipo_dia: activityUpdate.tipo_dia
       });
-      try{
-        console.log(" Actualizando Actividades ")
-        console.log(token)
-        await axios.put(`${API_URL_BASE}/actividades/actualizar/${id_actividad}`, json,{
-          headers:{
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
+      console.log(" Actualizando Actividades ")
+      console.log(token)
+      const data = await axios.put(`${API_URL_BASE}/actividades/actualizar/${id_actividad}`, json, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }).then(response => {
+        this.options.resultForm.statusErrorForm = false
+        this.options.resultForm.messageForm = response.data
+        this.options.resultForm.listDetails = []
+        this.searchEventsMonths(year, month) //Volver a mostrar los datos
         console.log(`se actualizó la actividad:${id_actividad}`)
-      }
-      catch (error){
-        console.log(error)
-        console.log(error.response.data)
+      })
+      .catch(err => {
         this.options.resultForm.statusErrorForm = true
         this.options.resultForm.messageForm = err.response.data.message
         this.options.resultForm.listDetails = err.response.data.result
-      }
+      });
     },
     async deleteActivities(id_actividad,token, year, month) {//Eliminar actividades recibe el id de la actividad y el token que se genera al hacer el login
       try{
