@@ -112,7 +112,7 @@ export const useActivitiesStore = defineStore("activities", {
         this.options.resultForm.statusErrorForm = false
         this.options.resultForm.messageForm = response.data
         this.options.resultForm.listDetails = []
-        this.searchEventsMonths(year, month) //Volver a mostrar los datos
+        this.searchActivitiesMonths(year, month) //Volver a mostrar los datos
         console.log(`se actualizó la actividad:${id_actividad}`)
       })
       .catch(err => {

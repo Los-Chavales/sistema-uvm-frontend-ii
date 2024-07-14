@@ -43,7 +43,7 @@ const putActivity = computed(() => {
     let year = prop.getFullYear();
     let month = prop.getMonth();
     let token = cookie.token
-    const activityUpdate = new UpdateActivity(nombre_actividad.value, descripcion.value, fecha_actividad.value)
+    const activityUpdate = new UpdateActivity( fecha_actividad.value, nombre_actividad.value, descripcion.value)
     storeActivities.updateActivity(token, activityUpdate, idActivity, year, month)
   } else {
     console.log("no hay cookies")
