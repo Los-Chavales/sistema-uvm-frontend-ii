@@ -65,15 +65,6 @@ onUpdated(() => {
                             :isPlannig="true" 
                             :isEvent="false" 
                         />
-                    <!--     <Modal_Events 
-                            :description="'Frontend II: 1era Evaluación'"
-                            :date="new Date(year, calMonth(day, month, i, weeks), day)" 
-                            :seeActivities="true"
-                            :seeEvents="false" 
-                            :isEditor="false" 
-                            :isPlannig="true" 
-                            :isEvent="false" 
-                        /> -->
                     </td>
                 </tr>
                 <tr>
@@ -87,15 +78,6 @@ onUpdated(() => {
                             :isPlannig="true" 
                             :isEvent="true" 
                         />
-                    <!--     <Modal_Events 
-                            :description="'Verificación Classroom'"
-                            :date="new Date(year, calMonth(day, month, i, weeks), day)" 
-                            :seeActivities="false"
-                            :seeEvents="true" 
-                            :isEditor="false" 
-                            :isPlannig="true" 
-                            :isEvent="true" 
-                        /> -->
                     </td>
                 </tr>
             </tbody>

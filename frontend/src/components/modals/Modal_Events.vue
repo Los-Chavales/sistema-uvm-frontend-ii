@@ -113,7 +113,12 @@
     {{ props.day }}
   </div>
   <div v-else @click="changeState" class="cell planning" :class="[props.isEvent ? 'textEvent' : 'textAct']">
-    {{ props.description }}
+    <p v-if="props.isEvent && getEvents.length > 0">
+      {{ getEvents[0].nombre_corto }}
+    </p>
+    <p v-else-if="!props.isEvent && getActivities.length > 0">
+      {{ getActivities[0].nombre_actividad }}
+    </p>
   </div>
 
   <div class="container_modal" v-show="state">
@@ -258,6 +263,7 @@
     font-family: Poppins;
     font-style: normal;
     font-weight: 500;
+    text-overflow: ellipsis;
   }
 
   .textEvent {
