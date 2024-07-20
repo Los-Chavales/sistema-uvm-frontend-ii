@@ -60,7 +60,7 @@ onUpdated(() => {
                             :date="new Date(year, calMonth(day, month, i, weeks), day)"
                             :seeActivities="true" 
                             :seeEvents="true" 
-                            :isEditor="true" 
+                            :isEditor="false" 
                             :weekNumber="week.number" 
                         />
                     </td>

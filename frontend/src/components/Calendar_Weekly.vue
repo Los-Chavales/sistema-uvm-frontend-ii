@@ -57,26 +57,30 @@ onUpdated(() => {
                     <td class="tdNumber" rowspan="2">{{ week.number }}</td>
                     <td v-for="(day, ind) in week.days" :key="`${i}-${ind}-acts`" :id="`${i}-${day}-acts`">
                         <Modal_Events 
+                            :day="day" 
                             :description="'Frontend II: 1era Evaluación'"
                             :date="new Date(year, calMonth(day, month, i, weeks), day)" 
                             :seeActivities="true"
                             :seeEvents="false" 
-                            :isEditor="false" 
+                            :isEditor="true" 
                             :isPlannig="true" 
                             :isEvent="false" 
+                            :weekNumber="week.number" 
                         />
                     </td>
                 </tr>
                 <tr>
                     <td v-for="(day, ind) in week.days" :key="`${i}-${ind}-events`" :id="`${i}-${day}-events`">
                         <Modal_Events 
+                            :day="day" 
                             :description="'Verificación Classroom'"
                             :date="new Date(year, calMonth(day, month, i, weeks), day)" 
                             :seeActivities="false"
                             :seeEvents="true" 
-                            :isEditor="false" 
+                            :isEditor="true" 
                             :isPlannig="true" 
                             :isEvent="true" 
+                            :weekNumber="week.number" 
                         />
                     </td>
                 </tr>

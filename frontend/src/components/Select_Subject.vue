@@ -1,0 +1,43 @@
+<script setup>
+import { onMounted, onUpdated, computed, ref } from 'vue';
+import { useAssignedStore } from "@/stores/assigned";
+import { useActivitiesStore } from '@/stores/activities';
+
+const storeAssigned = useAssignedStore();
+const storeActivities = useActivitiesStore(); 
+
+let select_planification = ref(0);
+
+let cookie = $cookies.get('auth')
+onMounted(() => {
+    if(cookie !== null){
+      let idTeacher = cookie.id_usuario
+      storeAssigned.searchAssignedOptions(idTeacher)
+    }
+})
+
+const getAssignedList = computed(() => {
+  return storeAssigned.getAssignedList;
+});
+
+
+const selectOption = () => {
+    if(cookie !== null && select_planification.value !== 0){
+        let dateMoment = storeActivities.getDateMoment
+        let idTeacher = cookie.id_usuario
+        storeAssigned.searchAssignedOne(idTeacher, select_planification.value)
+        storeActivities.searchActivitiesMonthsIdAssigned(dateMoment.yearMoment, dateMoment.monthMoment)
+    }
+}
+
+</script>
+
+<template>
+    <div v-if="getAssignedList.length > 0">
+      <select v-model="select_planification">
+        <option value=0 disabled selected>Escoger Planificación</option>
+        <option v-for="(assigned) in getAssignedList" :value=assigned.id_asignado>{{ assigned.nombre_materia }} {{ assigned.nombre_seccion }}</option>
+      </select>
+      <buttton style="background-color: white; color:black;" @click="selectOption" >Ver</buttton>
+    </div>
+</template>
