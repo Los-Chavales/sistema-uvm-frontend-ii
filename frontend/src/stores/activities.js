@@ -37,22 +37,42 @@ export const useActivitiesStore = defineStore("activities", {
     }
   },
   actions: {
+    async obtainIdAssigned(idAssigned) {
+      this.options.id_asignado = idAssigned
+    },
+    async searchActivitiesMonthsIdAssigned(year, month) {
+      let idAssignedMoment = this.options.id_asignado
+      try {
+        const data = await axios.get(`${API_URL_BASE}/actividades/mostrar/mes/${year}/${month}/${idAssignedMoment}`)
+        this.options.activities = data.data
+        this.options.error.statusError = false
+      }
+      catch (error) {
+        console.log(error)
+        this.options.activities = []
+      }
+    }, 
     async searchAllActivities() {
       try {
         const data = await axios.get(`${API_URL_BASE}/actividades/mostrar`)
+        //const data = await axios.get(`${API_URL_BASE}/actividades/mostrar/asignados/${this.options.id_asignado}`)
+        //Tiene el problema de que que solo se muestra luego de darle click dos veces al botón
 
         let header = ["Fecha", "Nombre Actividad", "Descripción"];
         let activitiesList = [header]
 
         if(data.data.length > 0) {
           for (let i = 0; i < data.data.length; i++) {
+            let date = new Date(data.data[i].fecha_actividad) 
+            date = date.toLocaleDateString('es-ES')
             activitiesList.push([
-              data.data[i].fecha_actividad, 
+              date, 
               data.data[i].nombre_actividad, 
               data.data[i].descripcion
             ])
           }
         }
+
         this.options.activitiesDownload = activitiesList
         this.options.error.statusError = false
       }
@@ -78,21 +98,6 @@ export const useActivitiesStore = defineStore("activities", {
     async searchActivitiesMonths(year, month) {
       try {
         const data = await axios.get(`${API_URL_BASE}/actividades/mostrar/mes/${year}/${month}`)
-        this.options.activities = data.data
-        this.options.error.statusError = false
-      }
-      catch (error) {
-        console.log(error)
-        this.options.activities = []
-      }
-    },
-    async obtainIdAssigned(idAssigned) {
-      this.options.id_asignado = idAssigned
-    },
-    async searchActivitiesMonthsIdAssigned(year, month) {
-      let idAssignedMoment = this.options.id_asignado
-      try {
-        const data = await axios.get(`${API_URL_BASE}/actividades/mostrar/mes/${year}/${month}/${idAssignedMoment}`)
         this.options.activities = data.data
         this.options.error.statusError = false
       }

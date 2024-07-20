@@ -46,8 +46,10 @@ export const useEventsStore = defineStore("events", {
         if(data.data.length > 0) {
           for (let i = 0; i < data.data.length; i++) {
             if(data.data[i].tipo_fecha !== "corte de notas" && data.data[i].tipo_fecha !== "Feriado"){
+              let date = new Date(data.data[i].fecha_especial) 
+              date = date.toLocaleDateString('es-ES')
               eventsList.push([
-                data.data[i].fecha_especial, 
+                date, 
                 data.data[i].nombre_largo, 
                 data.data[i].descripcion,
                 data.data[i].tipo_fecha 
