@@ -12,6 +12,7 @@ var activitiesRouter = require('./routes/activities');
 var weeksRouter = require('./routes/weeks');
 var schedulesRouter = require('./routes/schedules');
 var periodsRouter = require('./routes/periods');
+var assignedRouter = require('./routes/assigned');
 
 
 var app = express();
@@ -33,6 +34,7 @@ app.use('/actividades', activitiesRouter);
 app.use('/semanas', weeksRouter);
 app.use('/horarios', schedulesRouter);
 app.use('/periodos', periodsRouter);
+app.use('/asignados', assignedRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

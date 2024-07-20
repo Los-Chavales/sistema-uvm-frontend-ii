@@ -6,6 +6,8 @@ export const useActivitiesStore = defineStore("activities", {
   state: () => ({
     options: {
       activities: [],
+      activitiesDownload: [],
+      id_asignado: 0,
       error: {
         statusError: false,
         message: ''
@@ -18,6 +20,9 @@ export const useActivitiesStore = defineStore("activities", {
     }
   }),
   getters: {
+    getActivitiesDownload(state) {
+      return state.options.activitiesDownload
+    },
     getActivities(state) {
       return state.options.activities
     },
@@ -32,6 +37,31 @@ export const useActivitiesStore = defineStore("activities", {
     }
   },
   actions: {
+    async searchAllActivities() {
+      try {
+        const data = await axios.get(`${API_URL_BASE}/actividades/mostrar`)
+
+        let header = ["Fecha", "Nombre Actividad", "Descripción"];
+        let activitiesList = [header]
+
+        if(data.data.length > 0) {
+          for (let i = 0; i < data.data.length; i++) {
+            activitiesList.push([
+              data.data[i].fecha_actividad, 
+              data.data[i].nombre_actividad, 
+              data.data[i].descripcion
+            ])
+          }
+        }
+        this.options.activitiesDownload = activitiesList
+        this.options.error.statusError = false
+      }
+      catch (error) {
+        this.options.error.statusError = true
+        this.options.error.message = error.response.data
+        this.options.activitiesDownload = []
+      }
+    },
     async searchActivities(date) {
       try {
         const data = await axios.get(`${API_URL_BASE}/actividades/mostrar/fecha/${date}`)
@@ -40,8 +70,6 @@ export const useActivitiesStore = defineStore("activities", {
         this.options.error.statusError = false
       }
       catch (error) {
-        /*console.log(error)
-        console.log(error.response.data) */
         this.options.error.statusError = true
         this.options.error.message = error.response.data
         this.options.activities = []
@@ -49,9 +77,6 @@ export const useActivitiesStore = defineStore("activities", {
     },
     async searchActivitiesMonths(year, month) {
       try {
-   /*      console.log("En la store de actividades")
-        console.log(year)
-        console.log(month) */
         const data = await axios.get(`${API_URL_BASE}/actividades/mostrar/mes/${year}/${month}`)
         this.options.activities = data.data
         this.options.error.statusError = false
@@ -59,9 +84,21 @@ export const useActivitiesStore = defineStore("activities", {
       catch (error) {
         console.log(error)
         this.options.activities = []
-        //console.log(error.response.data) 
-        /*this.options.error.statusError = true
-        this.options.error.message = error.response.data */
+      }
+    },
+    async obtainIdAssigned(idAssigned) {
+      this.options.id_asignado = idAssigned
+    },
+    async searchActivitiesMonthsIdAssigned(year, month) {
+      let idAssignedMoment = this.options.id_asignado
+      try {
+        const data = await axios.get(`${API_URL_BASE}/actividades/mostrar/mes/${year}/${month}/${idAssignedMoment}`)
+        this.options.activities = data.data
+        this.options.error.statusError = false
+      }
+      catch (error) {
+        console.log(error)
+        this.options.activities = []
       }
     },
     async postActivities(token, activity, year, month){

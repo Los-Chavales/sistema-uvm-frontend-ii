@@ -78,6 +78,55 @@ class Activities_Controller {
     })
   }
 
+  search_activities_month_ByAssigned(date, idAssigned) {
+    let dateStart = new Date(date.year, date.month, 1);
+    let dateFinish = new Date(dateStart.getFullYear(), dateStart.getMonth() + 1, 1);
+    return new Promise((resolve, reject) => {
+      Activities_Model.search_activities_month_ByAssigned(dateStart, dateFinish, idAssigned)
+      .then((res) => { 
+        const arrActivities = res.message;
+        //console.log(arrActivities)
+        if (!Array.isArray(arrActivities) || !arrActivities.length > 0) return reject(new Response(500, 'Error array', res));
+
+
+        let datesMonth = []
+        for (const date of arrActivities) {
+          let dateActivity = date.fecha_actividad.toISOString();// Obtener el valor de la propiedad fecha_actividad y convertir en String
+          dateActivity = dateActivity.split('T')[0]// Extraer solo la fecha (sin la hora)
+          datesMonth.push(dateActivity)
+        }
+        datesMonth = datesMonth.filter(function (item, index, array) {
+          return array.indexOf(item) === index;
+        })
+
+        let daysMonthList = []
+
+        for (let i = 0; i < datesMonth.length; i++) {
+          let listActivities = []
+          for (let j = 0; j < arrActivities.length; j++) {
+            let dateActivityFormat = arrActivities[j].fecha_actividad.toISOString();// Obtener el valor de la propiedad fecha_actividad y convertir en String
+            dateActivityFormat = dateActivityFormat.split('T')[0]
+            if (datesMonth[i] === dateActivityFormat) {
+              listActivities.push(arrActivities[j])
+            }
+          }
+          let daysMonth = new ActivitiesMonths(datesMonth[i])
+          daysMonth.activitiesList = listActivities
+          daysMonthList.push(daysMonth)
+        }
+        
+        resolve(new Response(200, `Hay ${arrActivities.length} actividades`, daysMonthList));
+
+      }).catch((error) => { reject(error); })
+    })
+  }
+
+  search_activities_Assigned(idAssigned) {
+    return new Promise((resolve, reject) => {
+      Activities_Model.search_activities_Assigned(idAssigned).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
+
   see_activities_planning(id_subject, id_section) {
     return new Promise((resolve, reject) => {
       Activities_Model.see_activities_planning(id_subject, id_section).then((res) => { resolve(res) }).catch((error) => { reject(error); })

@@ -79,6 +79,7 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
           <option class="formCreateEvent_option" value="Conferencia">Conferencia</option>
           <option class="formCreateEvent_option" value="Feria">Feria</option>
           <option class="formCreateEvent_option" value="corte de notas">Corte de notas</option>
+          <option class="formCreateEvent_option" value="Feriado">Feriado</option>
         </select>
       </div>
 
