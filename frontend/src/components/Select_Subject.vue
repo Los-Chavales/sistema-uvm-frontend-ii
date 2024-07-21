@@ -28,7 +28,14 @@ const selectOption = () => {
         let dateMoment = storeActivities.getDateMoment
         let idTeacher = cookie.id_usuario
         storeAssigned.searchAssignedOne(idTeacher, select_planification.value)
-        storeActivities.searchActivitiesMonthsIdAssigned(dateMoment.yearMoment, dateMoment.monthMoment)
+        .then(() => {
+          storeActivities.searchActivitiesMonthsIdAssigned(dateMoment.yearMoment, dateMoment.monthMoment);
+        })
+        .catch(() => {
+          console.error('Error al actualizar Assingend');
+        })
+        
+        
     }
 }
 
