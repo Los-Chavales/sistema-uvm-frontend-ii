@@ -48,8 +48,6 @@ export const useActivitiesStore = defineStore("activities", {
       this.options.id_asignado = idAssigned
     },
     async searchActivitiesMonthsIdAssigned(year, month) {
-      console.log("El id asignado")
-      console.log(this.options.id_asignado)
       this.options.dateMoment.yearMoment = year
       this.options.dateMoment.monthMoment = month
       let idAssignedMoment = this.options.id_asignado
@@ -65,8 +63,10 @@ export const useActivitiesStore = defineStore("activities", {
     }, 
     async searchAllActivities() {
       try {
-        const data = await axios.get(`${API_URL_BASE}/actividades/mostrar`)
-        //const data = await axios.get(`${API_URL_BASE}/actividades/mostrar/asignados/${this.options.id_asignado}`)
+        //const data = await axios.get(`${API_URL_BASE}/actividades/mostrar`)
+        console.log("en descargar")
+        console.log(this.options.id_asignado)
+        const data = await axios.get(`${API_URL_BASE}/actividades/mostrar/asignados/${this.options.id_asignado}`)
         //Tiene el problema de que que solo se muestra luego de darle click dos veces al botón
 
         let header = ["Fecha", "Nombre Actividad", "Descripción"];

@@ -41,13 +41,7 @@ export const useAssignedStore = defineStore("assigned", {
         const data = await axios.get(`${API_URL_BASE}/asignados/mostrar/${idTeacher}`)
         this.options.assigned = data.data
         this.options.optionList = data.data[0].asignados
-        this.options.subjectName = data.data[0].asignados[0].nombre_materia
-        this.options.sectionName = data.data[0].asignados[0].nombre_seccion
-        this.options.id_asignado = data.data[0].asignados[0].id_asignado 
         this.options.error.statusError = false
-        console.log("Se ejecuta uno")
-        console.log(this.options.id_asignado)
-        storeActivities.obtainIdAssigned(this.options.id_asignado)
       }
       catch (error) {
         this.options.error.statusError = true
@@ -64,8 +58,6 @@ export const useAssignedStore = defineStore("assigned", {
         this.options.sectionName = data.data[0].nombre_seccion
         this.options.id_asignado = data.data[0].id_asignado
         this.options.error.statusError = false
-        console.log("Se ejecuta el otro")
-        console.log(this.options.id_asignado)
         storeActivities.obtainIdAssigned(this.options.id_asignado)
         //this.searchActivitiesIdAssigned(this.options.yearMoment, this.options.id_asignado)
       }

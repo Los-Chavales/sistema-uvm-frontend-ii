@@ -30,6 +30,7 @@ const selectOption = () => {
         storeAssigned.searchAssignedOne(idTeacher, select_planification.value)
         .then(() => {
           storeActivities.searchActivitiesMonthsIdAssigned(dateMoment.yearMoment, dateMoment.monthMoment);
+          storeActivities.searchAllActivities()
         })
         .catch(() => {
           console.error('Error al actualizar Assingend');
