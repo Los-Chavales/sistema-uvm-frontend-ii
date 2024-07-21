@@ -1,8 +1,19 @@
 <script setup>
+import { computed } from 'vue';
 import { to_toggle, toggle, sbWidth } from './sidebar-state';
 import { ref } from 'vue';
+import { userStore } from '@/stores/Dash_Stores/users';
 import SidebarLink from '@/components/DashSideBar/sidebar-links.vue'
 let usr_name = ref('Admin')
+
+const storeUser = userStore();
+
+storeUser.userOnlineData($cookies.get('auth'))
+
+const getUserOnlineRol = computed(() => {
+  return storeUser.getUserOnlineRol;
+});
+
 </script>
 
 <template>
@@ -17,7 +28,11 @@ let usr_name = ref('Admin')
         <SidebarLink to="/" icon="fas fa-gauge">General</SidebarLink>
         <SidebarLink to="/admin-dsh/profesores" icon="fas fa-user-tie">Profesores</SidebarLink>
         <SidebarLink to="/admin-dsh/materias" icon="fas fa-book">Materias</SidebarLink>
-        <SidebarLink to="/calendario" icon="fa-solid fa-calendar">Eventos</SidebarLink>
+
+        <SidebarLink v-if="getUserOnlineRol === 'director'" to="/calendario" icon="fa-solid fa-calendar">Eventos</SidebarLink>
+        <SidebarLink v-else-if="getUserOnlineRol === 'profesor'" to="/planificaciones" icon="fa-solid fa-calendar">Eventos</SidebarLink>
+        <SidebarLink v-else to="/calendario-publico" icon="fa-solid fa-calendar">Eventos</SidebarLink>
+
         <SidebarLink to="/admin-dsh/secciones" icon="fas fa-chalkboard-user">Secciones</SidebarLink>
 
 

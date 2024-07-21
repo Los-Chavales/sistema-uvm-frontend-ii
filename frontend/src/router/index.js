@@ -39,12 +39,22 @@ const router = createRouter({
     {
       path: '/calendario',
       name: 'Calendario',
-      component: () => import('../views/EventsView.vue')
+      component: () => import('../views/EventsView.vue'),
+      meta: {
+        requireLogin : true,
+        rol_teacher : false,
+        rol_director : true,
+      }
     },
     {
       path: '/planificaciones',
       name: 'Planificaciones',
-      component: () => import('../views/PlanningView.vue')
+      component: () => import('../views/PlanningView.vue'),
+      meta: {
+        requireLogin: true,
+        rol_teacher : true,
+        rol_director : false,
+      }
     },
     {
       path: '/admin-dsh',
