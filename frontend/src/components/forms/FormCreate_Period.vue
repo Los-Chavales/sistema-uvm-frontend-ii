@@ -84,7 +84,7 @@ const changeStateMessageModal = () => (stateMessageModal.value = !stateMessageMo
 
   </form>
 
-  <Modal_Message v-show="stateMessageModal" @closeModalMessage="changeStateMessageModal" :typeMessage="'event'" />
+  <Modal_Message v-show="stateMessageModal" @closeModalMessage="changeStateMessageModal" :typeMessage="'period'" />
 
 </template>
 
