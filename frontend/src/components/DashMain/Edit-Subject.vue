@@ -1,7 +1,5 @@
 <script setup>
   import { defineProps, ref,  onMounted, computed } from 'vue';
-  import { userStore } from '@/stores/Dash_Stores/users'
-
   const props = defineProps({
     state: {
       type: Boolean,
@@ -32,29 +30,6 @@
     seccion: 'B1'
   }
 ]
-
-let data = ref(
-  {
-  nombre: '',
-  apellido: '',
-  correo: '',
-  id_usuario: '',
-  materias : []
-
-}
-)
-
-let dataMateria = ref(
-  {}
-)
-let toggle = false
-const sendSubject = ( nombre, seccion) => {
-  toggle = !toggle;
-  let dataMateria = {}
-  dataMateria.nombre_materia = nombre;
-  dataMateria.seccion= seccion;
-  console.log(dataMateria)
-}
 </script>
 
 <template>
@@ -65,7 +40,7 @@ const sendSubject = ( nombre, seccion) => {
 
       <div class="modal_head">
         <div class="container_button">
-          <button @click="changeState('create')" class="modal_cerrar">cerrar X</button>
+          <button @click="changeState('edit')" class="modal_cerrar">cerrar X</button>
         </div>
         <h2 class="modal_title">{{ title_modal }}</h2>
       </div>
@@ -76,17 +51,16 @@ const sendSubject = ( nombre, seccion) => {
 
         <div class="modal_part">
           <div class="part_container">
-            <h3 class="part_title title_activities">Añadir Profesores</h3>
+            <h3 class="part_title title_activities">Editar Materia</h3>
 
             <form v-on:submit.prevent="login">
 
-              <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="data.nombre" id="nombre" />
-              <input class="form-input text-input" placeholder="Apellido" name="apellido" type="text" v-model="data.apellido" id="apellido" />
-              <input class="form-input text-input" placeholder="Email" name="correo" type="email" v-model="data.correo" id="correo" />
-              <input class="form-input text-input" placeholder="Cedula" name="cedula" type="text" v-model="data.cedula" id="cedula" />
+              <select name="Trimestre"  id="" class="select"></select>
+              <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="usr_name" id="nombre" />
+              <input class="form-input description" placeholder="Descripción" name="apellido" type="text" v-model="correo" id="apellido" />
 
 
-              <input class="form-submit" type="submit" value="Ingresar" />
+              <input class="form-submit" type="submit" value="Actualizar" />
 
             </form>
           </div>
@@ -114,13 +88,13 @@ const sendSubject = ( nombre, seccion) => {
                 <div class="title_container">
                   <span class="icon_container">  
                   <i class="fa-solid fa-calendar"></i>
-                    <h3 class="part_title subject_title">Asignar materias</h3>
+                    <h3 class="part_title subject_title">Editar Profesores</h3>
                 </span>
                 </div>
               </div>
-                <span v-for="subject in subjects" :key="subject.id_materia" class="subject_check"><input type='checkbox' @click="sendSubject(subject.nombre_materia, subject.seccion)">{{ subject.nombre_materia }} ({{ subject.seccion }})</span>
+                <span v-for="subject in subjects" :key="subject.id_materia" class="subject_check"><input type='checkbox'>{{ subject.nombre_materia }} ({{ subject.seccion }})</span>
             </div>
-            <h1>{{ data }}</h1>
+
           </div>
         </div>
 
@@ -267,6 +241,24 @@ const sendSubject = ( nombre, seccion) => {
   outline: none;
 
   }
+
+  .select{
+  display: flex;
+  width: 300px;
+  padding: 13px;
+  color: #000;
+  font-size: 24px;
+  line-height: normal;
+  margin-bottom: 18px;
+  outline: solid 1px #000;
+  height: 40px;
+  }
+
+  .description{
+    height: 150px;
+    text-align: justify;
+  }
+
 
 .form-input::placeholder{
 color:#000000;
