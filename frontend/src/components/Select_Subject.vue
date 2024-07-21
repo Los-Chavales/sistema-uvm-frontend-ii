@@ -23,8 +23,6 @@ const getAssignedList = computed(() => {
 
 const selectOption = () => {
     if(cookie !== null && select_planification.value !== 0){
-      console.log("EN LA FUNCION")
-      console.log(select_planification.value)
         let dateMoment = storeActivities.getDateMoment
         let idTeacher = cookie.id_usuario
         storeAssigned.searchAssignedOne(idTeacher, select_planification.value)
@@ -34,9 +32,7 @@ const selectOption = () => {
         })
         .catch(() => {
           console.error('Error al actualizar Assingend');
-        })
-        
-        
+        }) 
     }
 }
 

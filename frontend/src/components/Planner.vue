@@ -1,9 +1,15 @@
 <script setup>
-import { onMounted, onUpdated } from 'vue';
+import { onMounted, onUpdated, defineProps } from 'vue';
 import Modal_Events from '../components/modals/Modal_Events.vue';
 import { useEventsStore } from '@/stores/events';
 import { useActivitiesStore } from '@/stores/activities';
 import {changeMonth, calMonth, weeks, year, month, period, months} from '../common/calendarFunctios'
+
+const props = defineProps({
+    seeActivities: Boolean,
+    seeEvents: Boolean,
+    isEditor: Boolean, 
+})
 
 //Llamar a la store de eventos
 let storeEvents = useEventsStore();
@@ -58,9 +64,9 @@ onUpdated(() => {
                         <Modal_Events 
                             :day="day" 
                             :date="new Date(year, calMonth(day, month, i, weeks), day)"
-                            :seeActivities="true" 
-                            :seeEvents="true" 
-                            :isEditor="false" 
+                            :seeActivities="props.seeActivities" 
+                            :seeEvents="props.seeEvents" 
+                            :isEditor="props.isEditor" 
                             :weekNumber="week.number" 
                         />
                     </td>

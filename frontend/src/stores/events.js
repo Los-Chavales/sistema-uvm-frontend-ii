@@ -124,6 +124,7 @@ export const useEventsStore = defineStore("events", {
         this.options.resultForm.messageForm = response.data
         this.options.resultForm.listDetails = []
         this.searchEventsMonths(year, month) //Volver a mostrar los datos
+        this.searchAllEvents()
       })
       .catch(err => {
         this.options.resultForm.statusErrorForm = true
@@ -150,6 +151,7 @@ export const useEventsStore = defineStore("events", {
         this.options.resultForm.messageForm = response.data
         this.options.resultForm.listDetails = []
         this.searchEventsMonths(year, month) //Volver a mostrar los datos
+        this.searchAllEvents()
       })
       .catch(err => {
         this.options.resultForm.statusErrorForm = true
@@ -166,6 +168,7 @@ export const useEventsStore = defineStore("events", {
         });
         console.log(`exito has eliminado el evento:${id_fecha_especial}`)
         this.searchEventsMonths(year, month) //Volver a mostrar los datos
+        this.searchAllEvents()
       }
       catch (error){
         console.log(error)

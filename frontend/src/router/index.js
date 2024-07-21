@@ -32,6 +32,11 @@ const router = createRouter({
       }
     },
     {
+      path: '/calendario-publico',
+      name: 'CalendarioPublico',
+      component: () => import('../views/EventsViewPublic.vue')
+    },
+    {
       path: '/calendario',
       name: 'Calendario',
       component: () => import('../views/EventsView.vue')

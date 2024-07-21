@@ -11,6 +11,7 @@ export const useAssignedStore = defineStore("assigned", {
       optionList: [],
       subjectName: "",
       sectionName: "",
+      editState: false,
       id_asignado: 0,
       error: {
         statusError: false,
@@ -58,6 +59,7 @@ export const useAssignedStore = defineStore("assigned", {
         this.options.sectionName = data.data[0].nombre_seccion
         this.options.id_asignado = data.data[0].id_asignado
         this.options.error.statusError = false
+        this.options.editState = true
         storeActivities.obtainIdAssigned(this.options.id_asignado)
         //this.searchActivitiesIdAssigned(this.options.yearMoment, this.options.id_asignado)
       }
