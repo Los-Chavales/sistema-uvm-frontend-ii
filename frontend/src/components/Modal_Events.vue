@@ -160,7 +160,22 @@
                   change_date_format(activity.fecha_actividad) }} </span></p>
 
               <div class="box_buttons" v-show="isEditor">
-                <Edit_Button />
+                <Edit_Button
+                  :dateWeek="props.date"
+                  :titleDay="title_modal"
+                  :formDire="false"
+                  :formTeacher="true"
+                  :weekNumber="props.weekNumber"
+                  :activityID="activity.id_actividad"
+                  :dataEdit="{
+                    idSemana: activity.idSemana,
+                    fecha_actividad: activity.fecha_actividad,
+                    nombre_actividad: activity.nombre_actividad,
+                    descripcion: activity.descripcion,
+                    tipo_dia: activity.tipo_dia,
+                  }"
+                  :renderForm="'activity'"
+                />
                 <Delete_Button 
                   :Actividades="activity.id_actividad"
                   :dateWeek="props.date"
@@ -219,6 +234,7 @@
                     descripcion: event.descripcion,
                     tipo_fecha: event.tipo_fecha,
                   }"
+                  :renderForm="'event'"
                 />
 
                 <Delete_Button 

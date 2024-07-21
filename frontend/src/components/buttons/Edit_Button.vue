@@ -11,19 +11,28 @@ const props = defineProps({
     weekNumber: Number,
     formEditEvent: Boolean,
     eventID: Number,
-    dataEdit: Object
+    dataEdit: Object,
+    activityID:Number, //actividades
+    formEditActivity: Boolean,
+    renderForm: String
 })
-
+/* 
 let stateFormEventEdit = ref(false);
 const changeStateModalFormEventEdit = () => ( stateFormEventEdit.value = !stateFormEventEdit.value )
+
+let stateFormActivityEdit = ref(false);
+const changeStateModalFormActivityEdit = () => (stateFormActivityEdit.value = !stateFormActivityEdit.value) */
+
+let stateFormEdit = ref(false);
+const changeStateModalFormEdit = () => ( stateFormEdit.value = !stateFormEdit.value )
 
 </script>
 
 <template>
-  <button @click="changeStateModalFormEventEdit" class="button--edit" style="color:#fff"><Edit /></button>
-  <Modal_Form 
-    @closeModalForm="changeStateModalFormEventEdit"
-    v-show="stateFormEventEdit"
+  <button @click="changeStateModalFormEdit" class="button--edit" style="color:#fff"><Edit /></button> <!--"changeStateModalFormEventEdit" eventos-->
+ <Modal_Form 
+    @closeModalForm="changeStateModalFormEdit"
+    v-if="props.renderForm === 'event' && stateFormEdit"
 
     :dateWeek="props.dateWeek"
     :titleDay= "props.titleDay"
@@ -33,8 +42,24 @@ const changeStateModalFormEventEdit = () => ( stateFormEventEdit.value = !stateF
     :eventID="props.eventID"
     :dataEdit="props.dataEdit"
 
-    :formEditEvent="stateFormEventEdit"
+    :formEditEvent="stateFormEdit"
+    
+  /> 
+
+ <Modal_Form
+  @closeModalForm="changeStateModalFormEdit"
+    v-if="props.renderForm === 'activity' && stateFormEdit"
+    :titleDay= "props.titleDay"
+    :formDire= "props.formDire"
+    :formTeacher="props.formTeacher"
+    :weekNumber="props.weekNumber"
+    :dateWeek="props.dateWeek"
+    :activityID="props.activityID"
+    :dataEdit="props.dataEdit"
+
+    :formEditActivity="stateFormEdit"
   />
+  
 </template>
 
 
