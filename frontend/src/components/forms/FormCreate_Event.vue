@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, ref, computed } from 'vue';
 import { useEventsStore } from '@/stores/events';
-import Modal_Message from '../Modal_Message.vue';
+import Modal_Message from '../modals/Modal_Message.vue';
 import Submit_Button from '../buttons/Submit_Button.vue';
 
 class CreateEvent {
@@ -72,6 +72,7 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
           <option class="formCreateEvent_option" value="Conferencia">Conferencia</option>
           <option class="formCreateEvent_option" value="Feria">Feria</option>
           <option class="formCreateEvent_option" value="corte de notas">Corte de notas</option>
+          <option class="formCreateEvent_option" value="Feriado">Feriado</option>
         </select>
       </div>
       <input class="formCreateEvent_input" placeholder="Nombre corto" type="text"  v-model="nombre_corto">

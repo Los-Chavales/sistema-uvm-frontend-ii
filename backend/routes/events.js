@@ -51,7 +51,6 @@ router.get('/mostrar/fecha/:fecha', function (req, res, next) {
 router.get('/mostrar/mes/:year/:month', function (req, res, next) {
   Events_Controller.search_events_month(req.params) //{year: 2024, month: 5} month desde el 0 al 11
     .then((results) => {
-      console.log(results.message);
       res.status(results.code).send(results.result);
     })
     .catch((error) => {

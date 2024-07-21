@@ -19,4 +19,5 @@ const props = defineProps({
 
 <style style lang="scss" scoped>
 @import "@/assets/scss/variables.scss";
+
 </style>

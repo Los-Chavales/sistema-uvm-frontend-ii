@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, defineModel, ref, computed } from 'vue';
 import { useActivitiesStore } from '@/stores/activities';
-import Modal_Message from '../Modal_Message.vue';
+import Modal_Message from '../modals/Modal_Message.vue';
 import Submit_Button from '../buttons/Submit_Button.vue';
 
 class CreateActivity {

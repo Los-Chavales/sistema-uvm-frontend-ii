@@ -51,7 +51,32 @@ router.get('/mostrar/fecha/:fecha', function(req, res, next) {
 router.get('/mostrar/mes/:year/:month', function (req, res, next) {
   Activities_Controller.search_activities_month(req.params) //{year: 2024, month: 5} month desde el 0 al 11
     .then((results) => {
-      console.log(results.message);
+      res.status(results.code).send(results.result);
+    })
+    .catch((error) => {
+      //console.log(error);
+      if (!error.code || !error.message) return res.status(500).send(error);
+      res.status(error.code).send(error.message);
+    })
+});
+
+/* GET buscar actividades por asignados */
+router.get('/mostrar/mes/:year/:month/:idAssigned', function (req, res, next) {
+  Activities_Controller.search_activities_month_ByAssigned(req.params, req.params.idAssigned) //{year: 2024, month: 5} month desde el 0 al 11
+    .then((results) => {
+      res.status(results.code).send(results.result);
+    })
+    .catch((error) => {
+      //console.log(error);
+      if (!error.code || !error.message) return res.status(500).send(error);
+      res.status(error.code).send(error.message);
+    })
+});
+
+/* GET buscar todas las actividades por asignados */
+router.get('/mostrar/asignados/:idAssigned', function (req, res, next) {
+  Activities_Controller.search_activities_Assigned(req.params.idAssigned) 
+    .then((results) => {
       res.status(results.code).send(results.result);
     })
     .catch((error) => {

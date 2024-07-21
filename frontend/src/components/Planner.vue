@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onUpdated, computed, toRaw } from 'vue';
+import { onMounted, onUpdated } from 'vue';
 import Modal_Events from '../components/modals/Modal_Events.vue';
 import { useEventsStore } from '@/stores/events';
 import { useActivitiesStore } from '@/stores/activities';
@@ -9,17 +9,17 @@ import {changeMonth, calMonth, weeks, year, month, period, months} from '../comm
 let storeEvents = useEventsStore();
 
 //Llamar a la store de actividades
-let storeActivities = useActivitiesStore(); 
+let storeActivities = useActivitiesStore();
 
 //Llamar a las sotres
 
 onMounted(() => {
-    storeActivities.searchActivitiesMonthsIdAssigned(year.value, month.value); 
+    storeActivities.searchActivitiesMonths(year.value, month.value);
     storeEvents.searchEventsMonths(year.value, month.value);
 })
 
 onUpdated(() => {
-    storeActivities.searchActivitiesMonthsIdAssigned(year.value, month.value);
+    storeActivities.searchActivitiesMonths(year.value, month.value);
     storeEvents.searchEventsMonths(year.value, month.value);
 })
 
@@ -51,39 +51,21 @@ onUpdated(() => {
                     <th>S</th>
                 </tr>
             </thead>
-
-            <tbody v-for="(week, i) in weeks" :key="`${month}-${i}`">
-                <tr>
-                    <td class="tdNumber" rowspan="2">{{ week.number }}</td>
-                    <td v-for="(day, ind) in week.days" :key="`${i}-${ind}-acts`" :id="`${i}-${day}-acts`">
+            <tbody>
+                <tr v-for="(week, i) in weeks" :key="`${month}-${i}`">
+                    <td class="tdNumber">{{ week.number }}</td>
+                    <td v-for="(day, ind) in week.days" :key="`${i}-${ind}`" :id="`${i}-${day}`">
                         <Modal_Events 
                             :day="day" 
-                            :description="'Frontend II: 1era Evaluación'"
-                            :date="new Date(year, calMonth(day, month, i, weeks), day)" 
-                            :seeActivities="true"
-                            :seeEvents="false" 
-                            :isEditor="true" 
-                            :isPlannig="true" 
-                            :isEvent="false" 
-                            :weekNumber="week.number" 
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td v-for="(day, ind) in week.days" :key="`${i}-${ind}-events`" :id="`${i}-${day}-events`">
-                        <Modal_Events 
-                            :day="day" 
-                            :description="'Verificación Classroom'"
-                            :date="new Date(year, calMonth(day, month, i, weeks), day)" 
-                            :seeActivities="false"
+                            :date="new Date(year, calMonth(day, month, i, weeks), day)"
+                            :seeActivities="true" 
                             :seeEvents="true" 
-                            :isEditor="true" 
-                            :isPlannig="true" 
-                            :isEvent="true" 
+                            :isEditor="false" 
                             :weekNumber="week.number" 
                         />
                     </td>
                 </tr>
+                <!--seeActivities: muestra el bloque de actividades  isEditor: muestra las opciones de editar-->
             </tbody>
         </table>
     </div>
@@ -140,14 +122,16 @@ td {
 
     th {
         background: $color3;
-        color: $color7;
+        color: white;
+        font-family: Poppins;
         font-weight: bold;
+        /*align-content: center;*/
     }
 
     td {
         background: $color7;
         color: $color5;
-        height: 40px;
+        /*padding-top: 5px;*/
     }
 
     td:hover {
@@ -159,8 +143,9 @@ td {
 
 .tdNumber {
     background: $color1;
-    font-weight: 600;
+    /*align-content: center;*/
     padding-top: 0px;
+    font-weight: 600;
 }
 
 .arrows {

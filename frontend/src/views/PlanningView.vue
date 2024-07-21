@@ -1,28 +1,46 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, onUpdated, computed, ref } from 'vue';
 import Calendar_Weekly from "../components/Calendar_Weekly.vue";
 import Entity_Button from "../components/buttons/Entity_Button.vue";
+import  {downloadPlanification} from '../common/downloadPlanification'
+import { useAssignedStore } from "@/stores/assigned";
+import Select_Subject from '../components/Select_Subject.vue'
 
-/* función para desplegar el modal */
-//let state = ref(false);
-const changeState = () => alert("Holaaa. Aun faltan cosas por hacer")
+const donwload = () => downloadPlanification()
+
+const storeAssigned = useAssignedStore();
+
+const getAssigned = computed(() => {
+  return storeAssigned.getAssigned;
+});
+
+const getAssignedSubjectName = computed(() => {
+  return storeAssigned.getAssignedSubjectName;
+});
+
+const getAssignedSectionName = computed(() => {
+  return storeAssigned.getAssignedSectionName;
+});
+
+
 </script>
 
 <template>
+    <Select_Subject />
     <div class="topDiv">
         <div>
             <h1>Periodo Académico 2024</h1>
-            <p>Sección: VI</p>
+            <p v-if="getAssignedSectionName !== '' ">Sección: {{ getAssignedSectionName }}</p>
         </div>
         <div>
-            <ul>
-                <li><b>Trimestre:</b> VI</li>
-                <li><b>Profesor:</b> Roberto Di Michele</li>
-                <li><b>Materia:</b> Frontend II</li>
+            <ul v-if="getAssigned.length > 0">
+                <li><b>Trimestre:</b>VI</li>
+                <li><b>Profesor:</b>{{ getAssigned[0].nombre }} {{ getAssigned[0].apellido }}</li>
+                <li><b>Materia:</b>{{ getAssignedSubjectName }}</li>
             </ul>
         </div>
         <div class="optionPeriod">
-            <Entity_Button message="Descargar Planificación" :onClick="changeState" />
+            <Entity_Button class="button__download" message="Descargar Planificación"  @click="donwload" />
         </div>
     </div>
     <Calendar_Weekly />
@@ -76,8 +94,15 @@ ul {
 }
 
 .button--white {
-    font-size: 20px;
-    width: 140px;
-    height: 60px;
+/*     font-size: 20px; */
+    width: 191px;
+/*     height: 60px;  */
 }
+
+/* .button__download{
+    font-size: 15px;
+    padding: 0;
+    width: 191px;
+    height: 30px;
+} */
 </style>

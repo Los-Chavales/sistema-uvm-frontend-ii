@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, ref,  onMounted, computed } from 'vue';
 import Edit from '@/assets/icons/Edit.vue';
-import Modal_Form from '../Modal_Form.vue';
+import Modal_Form from '../modals/Modal_Form.vue';
 
 const props = defineProps({
     dateWeek: Date,

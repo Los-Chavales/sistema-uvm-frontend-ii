@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from "vue";
-import Planner from "../common/Planner.vue";
+import Planner from "../components/Planner.vue";
 import Entity_Button from "../components/buttons/Entity_Button.vue";
-import Modal_Period from "@/components/Modal_Period.vue";
+import Modal_Period from "../components/modals/Modal_Period.vue";
 
 /* función para desplegar el modal */
 let state = ref(false);

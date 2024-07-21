@@ -6,6 +6,7 @@ export const useEventsStore = defineStore("events", {
   state: () => ({
     options: {
       events: [],
+      eventsDownload: [],
       event:[],
       error: {
         statusError: false,
@@ -19,8 +20,8 @@ export const useEventsStore = defineStore("events", {
     }
   }),
   getters: {
-    getEvents(state) {
-      return state.options.events
+    getEventsDownload(state) {
+      return state.options.eventsDownload
     },
     getEvent(state) {
       return state.options.event
@@ -36,6 +37,36 @@ export const useEventsStore = defineStore("events", {
     }
   },
   actions: {
+    async searchAllEvents() {
+      try {
+        const data = await axios.get(`${API_URL_BASE}/eventos/mostrar`)
+
+        let header = ["Fecha", "Nombre", "Descripción", "Tipo de Evento"];
+        let eventsList = [header]
+        if(data.data.length > 0) {
+          for (let i = 0; i < data.data.length; i++) {
+            if(data.data[i].tipo_fecha !== "corte de notas" && data.data[i].tipo_fecha !== "Feriado"){
+              let date = new Date(data.data[i].fecha_especial) 
+              date = date.toLocaleDateString('es-ES')
+              eventsList.push([
+                date, 
+                data.data[i].nombre_largo, 
+                data.data[i].descripcion,
+                data.data[i].tipo_fecha 
+              ])
+            }
+          }
+        }
+
+        this.options.eventsDownload = eventsList
+        this.options.error.statusError = false
+      }
+      catch (error) {
+        this.options.error.statusError = true
+        this.options.error.message = error.response.data
+        this.options.eventsDownload = []
+      }
+    },
     async searchEvents(date) {
       try {
         const data = await axios.get(`${API_URL_BASE}/eventos/mostrar/fecha/${date}`)
