@@ -22,7 +22,7 @@
          </div>
          <div v-if="error.length>0">
                   <ul>
-                     <li class="errores" v-for="error in error" >{{ error }}</li>
+                     <li class="errores" v-for="(error, index) in error" :key="index" >{{ error }}</li>
                   </ul>
                </div>
 
@@ -219,10 +219,10 @@ export default {
 
             if(rol === "profesor"){
                console.log("profesor")
-               this.$router.push({ path: '/dashboardProfesor' })
+               this.$router.push({ path: '/admin-dsh' })
             }else if(rol === "director"){
                console.log("director")
-               this.$router.push({ path: '/dashboardDirector' })
+               this.$router.push({ path: '/admin-dsh' })
             } 
 
          }).catch((err) => {

@@ -1,10 +1,17 @@
 <script setup>
   import Edit from '@/assets/icons/Edit.vue';
+  const props = defineProps({
+    change: {
+      type: Function,
+      required: true
+    },
+  })
+  const changeState = props.change
 
 </script>
 
 <template>
-  <button class="button--edit" style="color:#fff"><Edit /></button>
+  <button class="button--edit" @click="changeState('edit')" style="color:#fff"><Edit /></button>
 </template>
 
 

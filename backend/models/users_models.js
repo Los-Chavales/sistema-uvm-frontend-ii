@@ -74,7 +74,7 @@ class Users_Model {
 
   see_teachers_subjects(){
     return new Promise((resolve, reject) => {
-        connection.query('SELECT `nombre`, `apellido` , `nombre_materia` FROM `asignados` JOIN `usuarios` JOIN `materias` WHERE idProfesor = id_usuario && idMateria = id_materia', function (error, results, fields) {
+        connection.query('SELECT `nombre`, `apellido`, `id_usuario` , `nombre_materia`, `descripcion` FROM `asignados` JOIN `usuarios` JOIN `materias` WHERE idProfesor = id_usuario && idMateria = id_materia', function (error, results, fields) {
             if (error) {
                 reject(new Response(500, error, error));
             } else {

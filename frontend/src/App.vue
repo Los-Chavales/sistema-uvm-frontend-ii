@@ -7,29 +7,19 @@ import DashHeader from "./components/Dash-Header.vue";
 import { sbWidth } from "./components/DashSideBar/sidebar-state";
 import { RouterView } from "vue-router";
 
-let rol = 'admin'
 </script>
 
 <template>
-  <div 
-  class="usr-content"
-  v-if="rol=='public'"
-  >
+  <div class="usr-content">
     <Header />
       <div class="content">
-        <RouterView />
 
       </div>
     <Footer/>
   </div>
-  <div v-else  class="admin-content">
-    <DashHeader/>
+  <div  class="admin-content" :style=" { 'margin-left:': sbWidth }">
 
     <Dashboard/>
-    <div class="content" :style=" { 'margin-left:': sbWidth }">
-      <RouterView />
-    </div>
-     <Footer/>
   </div>
   
 </template>

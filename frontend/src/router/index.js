@@ -39,12 +39,22 @@ const router = createRouter({
     {
       path: '/admin-dsh',
       name: 'Admin-Dashboard',
-      component: () => import('../views/Dashboard.vue')
+      component: () => import('../views/Dashboard.vue'),
+      meta: {
+        requireLogin : true,
+        rol_teacher : false,
+        rol_director : true,
+      }
     },
     {
       path: '/admin-dsh/profesores',
       name: 'Admin-Dashboard-profesores',
       component: () => import('../views/DashViews/Hadle_Profesor.vue'),
+      meta: {
+        requireLogin : true,
+        rol_teacher : false,
+        rol_director : true,
+      }
     },
     {
       path: '/admin-dsh/materias',
@@ -59,8 +69,24 @@ const router = createRouter({
     {
       path: '/admin-dsh/secciones',
       name: 'Admin-Dashboard-Secciones',
-      component: () => import('../views/DashViews/Handle_section.vue')
+      component: () => import('../views/DashViews/Handle_section.vue'),
+      meta: {
+        requireLogin : true,
+        rol_teacher : false,
+        rol_director : true,
+      }
     },
+    {
+      path: '/admin-dsh/eventos',
+      name: 'Admin-Dashboard-Eventos',
+      component: () => import('../views/EventsView.vue'),
+      meta: {
+        requireLogin : true,
+        rol_teacher : false,
+        rol_director : true,
+      }
+    },
+    
   ]
 })
 

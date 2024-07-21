@@ -1,8 +1,18 @@
 <script setup>
+import { defineProps, ref,  onMounted, computed } from 'vue';
+
+const props = defineProps({
+    change: {
+      type: Function,
+      required: true
+    },
+  })
+  const changeState = props.change
+
 </script>
 
 <template>
-    <span class="button--delete">
+    <span class="button--delete" @click="changeState('details')">
       <i class="fa-solid fa-eye"></i>
     </span>
 </template>
