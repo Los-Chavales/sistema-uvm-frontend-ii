@@ -26,6 +26,7 @@ const getAssignedSectionName = computed(() => {
 </script>
 
 <template>
+    <Select_Subject />
     <div class="topDiv">
         <div>
             <h1>Periodo Académico 2024</h1>
@@ -38,9 +39,8 @@ const getAssignedSectionName = computed(() => {
                 <li><b>Materia:</b>{{ getAssignedSubjectName }}</li>
             </ul>
         </div>
-        <Select_Subject />
         <div class="optionPeriod">
-            <Entity_Button message="Descargar Planificación"  @click="donwload" />
+            <Entity_Button class="button__download" message="Descargar Planificación"  @click="donwload" />
         </div>
     </div>
     <Calendar_Weekly />
@@ -94,8 +94,15 @@ ul {
 }
 
 .button--white {
-    font-size: 20px;
-    width: 140px;
-    height: 60px;
+/*     font-size: 20px; */
+    width: 191px;
+/*     height: 60px;  */
 }
+
+/* .button__download{
+    font-size: 15px;
+    padding: 0;
+    width: 191px;
+    height: 30px;
+} */
 </style>
