@@ -83,6 +83,7 @@ const selectOption = () => {
     align-items: center;
     justify-content: center;
     border-radius: 5px;
+    cursor: pointer;
   }
 
   .ico__search{

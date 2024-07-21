@@ -3,7 +3,8 @@ const Weeks_Model = require('../models/weeks_models');
 const Response = require('../models/response');
 
 class ActivitiesMonths {
-  constructor(date) {
+  constructor(activitiesQuantity, date) {
+    this.activitiesQuantity = activitiesQuantity
     this.date = date;
     this.activitiesList = [];
   }
@@ -59,14 +60,16 @@ class Activities_Controller {
 
           for (let i = 0; i < datesMonth.length; i++) {
             let listActivities = []
+            let activitiesCounter = 0
             for (let j = 0; j < arrActivities.length; j++) {
               let dateActivityFormat = arrActivities[j].fecha_actividad.toISOString();// Obtener el valor de la propiedad fecha_actividad y convertir en String
               dateActivityFormat = dateActivityFormat.split('T')[0]
               if (datesMonth[i] === dateActivityFormat) {
                 listActivities.push(arrActivities[j])
+                activitiesCounter++
               }
             }
-            let daysMonth = new ActivitiesMonths(datesMonth[i])
+            let daysMonth = new ActivitiesMonths(activitiesCounter,datesMonth[i])
             daysMonth.activitiesList = listActivities
             daysMonthList.push(daysMonth)
           }
@@ -103,14 +106,16 @@ class Activities_Controller {
 
         for (let i = 0; i < datesMonth.length; i++) {
           let listActivities = []
+          let activitiesCounter = 0
           for (let j = 0; j < arrActivities.length; j++) {
             let dateActivityFormat = arrActivities[j].fecha_actividad.toISOString();// Obtener el valor de la propiedad fecha_actividad y convertir en String
             dateActivityFormat = dateActivityFormat.split('T')[0]
             if (datesMonth[i] === dateActivityFormat) {
               listActivities.push(arrActivities[j])
+              activitiesCounter++
             }
           }
-          let daysMonth = new ActivitiesMonths(datesMonth[i])
+          let daysMonth = new ActivitiesMonths(activitiesCounter, datesMonth[i])
           daysMonth.activitiesList = listActivities
           daysMonthList.push(daysMonth)
         }

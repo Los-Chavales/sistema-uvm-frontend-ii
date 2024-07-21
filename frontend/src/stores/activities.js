@@ -109,6 +109,8 @@ export const useActivitiesStore = defineStore("activities", {
     async searchActivitiesMonths(year, month) {
       try {
         const data = await axios.get(`${API_URL_BASE}/actividades/mostrar/mes/${year}/${month}`)
+        console.log("DATA")
+        console.log(data.data)
         this.options.activities = data.data
         this.options.error.statusError = false
       }

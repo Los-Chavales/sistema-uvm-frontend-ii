@@ -40,6 +40,19 @@
     return getActivitiesList;
   });
 
+  const getActivitiesQuantity = computed(() => {
+    let getActivitiesList = storeActivities.getActivitiesDetails;
+    if(getActivitiesList.length !== 0){
+      getActivitiesList = getActivitiesList.find(({ date }) => date ===  searchFormat)
+      if(getActivitiesList !== undefined){
+        getActivitiesList = getActivitiesList
+      }else{
+        getActivitiesList = []
+      }
+    }
+    return getActivitiesList;
+  });
+
 
   /* Store de eventos */
 
@@ -55,6 +68,20 @@
   
     if(getEventsList !== undefined){
       getEventsList = getEventsList.eventsList
+    }else{
+      getEventsList = []
+    }
+  }
+    return getEventsList;
+  });
+
+  const getEventsQuantity = computed(() => {
+    let getEventsList = storeEvents.getEventsDetails
+    if(getEventsList.length !== 0){
+    getEventsList = getEventsList.find(({ date }) => date ===  searchFormat)
+  
+    if(getEventsList !== undefined){
+      getEventsList = getEventsList
     }else{
       getEventsList = []
     }
@@ -111,6 +138,21 @@
 <template>
   <div v-if="!props.isPlannig" @click="changeState" class="cell">
     {{ props.day }}
+    <div class="containet_noti_circle" v-if="getActivitiesQuantity.length !== 0 && getEventsQuantity.length !==0">
+      <span class="noti_circle">
+        {{ getActivitiesQuantity.activitiesQuantity+getEventsQuantity.eventsQuantity }}
+      </span>
+    </div>
+    <div class="containet_noti_circle" v-else-if="getActivitiesQuantity.length === 0 && getEventsQuantity.length !==0">
+      <span class="noti_circle">
+        {{ getEventsQuantity.eventsQuantity }}
+      </span>
+    </div>
+    <div class="containet_noti_circle" v-else-if="getActivitiesQuantity.length !== 0 && getEventsQuantity.length === 0">
+      <span class="noti_circle">
+        {{ getActivitiesQuantity.activitiesQuantity }}
+      </span>
+    </div>
   </div>
   <div v-else @click="changeState" class="cell planning" :class="[props.isEvent ? 'textEvent' : 'textAct']">
     <p v-if="props.isEvent && getEvents.length > 0">
@@ -269,6 +311,24 @@
     height: 100%;
     padding-top: 5px;
     align-content: baseline;
+  }
+
+  .containet_noti_circle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .noti_circle{
+    border-radius: 50px;
+    background: #E88975;
+    width: 20px;
+    padding: 0 10px;
+    margin-top: 5px;
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;    
   }
 
   .planning {
