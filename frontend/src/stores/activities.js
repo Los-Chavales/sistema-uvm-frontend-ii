@@ -138,6 +138,7 @@ export const useActivitiesStore = defineStore("activities", {
         this.options.resultForm.listDetails = []
         //this.searchActivitiesMonths(year, month)
         this.searchActivitiesMonthsIdAssigned(year, month)
+        this.searchAllActivities()
       })
       .catch(err => {
         if(Array.isArray(err.response.data)){
@@ -171,6 +172,7 @@ export const useActivitiesStore = defineStore("activities", {
         this.options.resultForm.listDetails = []
         //this.searchActivitiesMonths(year, month) //Volver a mostrar los datos
         this.searchActivitiesMonthsIdAssigned(year, month)
+        this.searchAllActivities()
         console.log(`se actualizó la actividad:${id_actividad}`)
       })
       .catch(err => {
@@ -191,6 +193,7 @@ export const useActivitiesStore = defineStore("activities", {
         console.log(`eliminaste la actividad:${id_actividad}`)
         //this.searchActivitiesMonths(year, month)
         this.searchActivitiesMonthsIdAssigned(year, month)
+        this.searchAllActivities()
       }
       catch (error){
         console.log(error)
