@@ -2,53 +2,69 @@ const connection = require('../config/conexionMySql');
 const Response = require('./response')
 const { validate_periods } = require('./validations')
 
-class Periods_Model{
-  see_periods(){
+class Periods_Model {
+  see_periods() {
     return new Promise((resolve, reject) => {
       connection.query('SELECT * FROM `periodos`', function (error, results, fields) {
-          if (error) {
-              reject(new Response(500, error, error));
+        if (error) {
+          reject(new Response(500, error, error));
+        } else {
+          if (results.length == 0) {
+            reject(new Response(404, 'No existen periodos registrados', results));
           } else {
-              if (results.length == 0) {
-                  reject(new Response(404, 'No existen periodos registrados', results));
-              } else {
-                  resolve(new Response(200, results, results));
-              }
-          };
+            resolve(new Response(200, results, results));
+          }
+        };
       });
     })
   }
-  search_periods(name){
+  search_periods(name) {
     return new Promise((resolve, reject) => {
       connection.query('SELECT * FROM `periodos` WHERE `nombre_periodo` = ?', name, function (error, results, fields) {
-          if (error) {
-              reject(new Response(500, error, error));
+        if (error) {
+          reject(new Response(500, error, error));
+        } else {
+          if (results.length == 0) {
+            reject(new Response(404, 'No existen periodos con ese nombre registrados', results));
           } else {
-              if (results.length == 0) {
-                  reject(new Response(404, 'No existen periodos con ese nombre registrados', results));
-              } else {
-                  resolve(new Response(200, results, results));
-              }
-          };
+            resolve(new Response(200, results, results));
+          }
+        };
       });
     })
   }
-  register_periods(register){
+  search_periods_by(name, value) {
+    return new Promise((resolve, reject) => {
+      if (!name || !value) return reject(new Response(400, 'La solicitud no fue realizada correctamente', [name, value]))
+      connection.query('SELECT * FROM `periodos` WHERE ?? = ?', [name, value], function (error, results, fields) {
+        if (error) {
+          reject(new Response(500, error, error));
+        } else {
+          if (results.length == 0) {
+            reject(new Response(404, 'No existen periodos con ese nombre registrados', results));
+          } else {
+            resolve(new Response(200, results, results));
+          }
+        };
+      });
+    })
+  }
+  register_periods(register) {
     return new Promise((resolve, reject) => {
       if (validate_periods(register, reject) !== true) return;
       connection.query('INSERT INTO `periodos` SET ?', register, function (error, results, fields) {
-          if (error) {
-              if (error.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
-              reject(new Response(500, error, error));
-          }
-          if (results) {
-              resolve(new Response(200, "Registro exitoso", results));
-          }
+        if (error) {
+          if (error.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
+          reject(new Response(500, error, error));
+        }
+        if (results) {
+          resolve(new Response(200, "Registro exitoso", results));
+        }
       })
     })
   }
-  update_periods(id, update){
-    return new Promise((resolve, reject) => { 
+  update_periods(id, update) {
+    return new Promise((resolve, reject) => {
       if (validate_periods(update, reject) !== true) return;
       connection.query('UPDATE `periodos` SET ? WHERE `id_periodo`= ?', [update, id], function (err, rows, fields) {
         if (err) {
@@ -67,18 +83,18 @@ class Periods_Model{
       })
     })
   }
-  delete_periods(id){
+  delete_periods(id) {
     return new Promise((resolve, reject) => {
       connection.query('DELETE FROM `periodos` WHERE `id_periodo`= ?', id, function (err, rows, fields) {
-          if (err) {
-              reject(new Respuesta(500, err, err))
+        if (err) {
+          reject(new Respuesta(500, err, err))
+        } else {
+          if (rows.affectedRows > 0) {
+            resolve(new Response(200, "Se ha eliminado exitosamente", rows));
           } else {
-              if (rows.affectedRows > 0) {
-                  resolve(new Response(200, "Se ha eliminado exitosamente", rows));
-              } else {
-                  reject(new Response(404, 'No se eliminó el periodo "' + id + '". Es posible de que ya no exista.', rows));
-              }
+            reject(new Response(404, 'No se eliminó el periodo "' + id + '". Es posible de que ya no exista.', rows));
           }
+        }
       })
     })
   }

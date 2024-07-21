@@ -14,6 +14,11 @@ class Periods_Controller{
       Periods_Model.search_periods(name).then((res) => { resolve(res) }).catch((error) => { reject(error); })
     })
   }
+  search_by(name, value) {
+    return new Promise((resolve, reject) => {
+      Periods_Model.search_periods_by(name, value).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
   register_periods(register) {
     return new Promise((resolve, reject) => {
       Periods_Model.register_periods(register).then((res) => { resolve(res) }).catch((error) => { reject(error) })

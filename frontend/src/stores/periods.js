@@ -40,7 +40,7 @@ export const usePeriodsStore = defineStore("periods", {
         console.log(data.data)
         this.options.periods = data.data
         this.options.error.statusError = false
-        //this.searchPeriodsCurrent();
+        this.searchPeriodsCurrent();
       }
       catch (error) {
         console.log(error)
@@ -52,7 +52,10 @@ export const usePeriodsStore = defineStore("periods", {
     },
     async searchPeriodsCurrent() {
       try {
-        const data = await axios.get(`${API_URL_BASE}/periodos/mostrar/actual`);
+        const data = await axios.post(`${API_URL_BASE}/periodos/mostrar/filtrar`, {
+          name: "estado",
+          value: "activo"
+        });
         this.options.currentPeriod = data.data;
         this.options.error.statusError = false;
       }
