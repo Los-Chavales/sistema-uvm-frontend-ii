@@ -3,6 +3,7 @@ import { defineProps, ref, computed } from 'vue';
 import { usePeriodsStore } from '@/stores/periods';
 import Modal_Message from '../modals/Modal_Message.vue';
 import Submit_Button from '../buttons/Submit_Button.vue';
+import { calWeeks } from '@/common/calendarFunctios'
 
 
 
@@ -29,16 +30,14 @@ let nombre_periodo = ref('');
 let fecha_inicio = ref();
 let fecha_cierre = ref();
 let estado = ref('')
-let n_semanas = ref(0);
 
 
 let storePeriods = usePeriodsStore();
 
 const addPeriod = computed(() => {
-  let periodCreate = new CreatePeriod(nombre_periodo.value, fecha_inicio.value, fecha_cierre.value, estado.value)
-  console.log(periodCreate)
-  if (periodCreate.valNull === 'nada') return alert('Debe ingresar datos');
-  let cookie = $cookies.get('auth')
+  console.log(n_semanas.value, isNaN(n_semanas.value), n_semanas.value < 0)
+  if (isNaN(n_semanas.value) || n_semanas.value < 0) return alert('Debe ingresar un rango de fechas válido'); //Cambiar esto a modal
+  let cookie = $cookies.get('auth');
   if (cookie !== null) {
     let token = cookie.token;
     const periodCreate = new CreatePeriod(nombre_periodo.value, fecha_inicio.value, fecha_cierre.value, estado.value)
@@ -51,6 +50,18 @@ const addPeriod = computed(() => {
 //función para desplegar el modal 
 let stateMessageModal = ref(false);
 const changeStateMessageModal = () => (stateMessageModal.value = !stateMessageModal.value)
+
+
+//Para ir calculando las semanas a ingresar
+const n_semanas = computed(() => {
+  let date1 = new Date(fecha_inicio.value);
+  let date2 = new Date(fecha_cierre.value)
+  //console.debug(date1, date2)
+  if (typeof date1 == "object" && typeof date2 == "object" && date2 > date1) {
+    return calWeeks(date1, date2, date2.getDay());
+  }
+})
+
 
 </script>
 

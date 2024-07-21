@@ -149,4 +149,4 @@ function changeMonth(option) {
     }
 }
 
-export {changeMonth, calMonth, weeks, year, month, period, months}
+export {changeMonth, calMonth, weeks, year, month, period, months, calWeeks}

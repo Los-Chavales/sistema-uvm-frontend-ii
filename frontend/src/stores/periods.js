@@ -26,6 +26,9 @@ export const usePeriodsStore = defineStore("periods", {
     getPeriodsDetails(state) {
       return state.options.periods
     },
+    getPeriodCurrent(state) {
+      return state.options.currentPeriod
+    },
     getError(state) {
       return state.options.error
     },
