@@ -1,58 +1,15 @@
 <script setup>
 import { defineProps, ref, computed } from 'vue';
 import { useEventsStore } from '@/stores/events';
-import Modal_Message from '../Modal_Message.vue';
+import Modal_Message from '../modals/Modal_Message.vue';
 import Submit_Button from '../buttons/Submit_Button.vue';
 
- class UpdateEvent {
-  constructor(fecha_especial, nombre_corto, nombre_largo, descripcion, tipo_fecha) {
-      this.fecha_especial = fecha_especial,
-      this.nombre_corto = nombre_corto,
-      this.nombre_largo = nombre_largo,
-      this.descripcion = descripcion,
-      this.tipo_fecha = tipo_fecha
-  }
-}
+
 
 const props = defineProps({
-    dateWeek: Date,
     titleDay: String,
-    formDire: Boolean,
-    formTeacher: Boolean,
-    weekNumber: Number,
-    eventID: Number,
-    dataEdit: Object
 }) 
 
-let prop = props.dateWeek
-let title_from_teacher = prop.toLocaleDateString('es-ES', { weekday: 'long' })
-
-let dateTemp = new Date(props.dataEdit.fecha_especial);
-let date = new Date(dateTemp.getTime() - (dateTemp.getTimezoneOffset() * 60000)).toISOString();
-date = date.split('.000Z');
-date = date[0]; 
-
-
-let idEvent = props.eventID;
-let tipo_fecha = ref(props.dataEdit.tipo_fecha); 
-let nombre_corto = ref(props.dataEdit.nombre_corto); 
-let nombre_largo = ref(props.dataEdit.nombre_largo); 
-let descripcion = ref(props.dataEdit.descripcion);  
-let fecha_especial = ref(date)
-
-
-let storeEvents = useEventsStore();
-
-const putEvent = computed(() => {
-  let cookie = $cookies.get('auth')
-  if(cookie !== null){
-    let token = cookie.token
-    let year = prop.getFullYear();
-    let month = prop.getMonth();
-    const eventUpdate = new UpdateEvent(fecha_especial.value, nombre_corto.value, nombre_largo.value, descripcion.value, tipo_fecha.value)
-    storeEvents.updateEvents(token, eventUpdate, idEvent, year, month)
-  }
-});
 
 //función para desplegar el modal 
 let stateMessageModal = ref(false);
@@ -65,29 +22,28 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
   <form class="formCreateEvent" @submit.prevent="putEvent">
 
     <div class="formCreateEvent_head">
-      <h2 class="formCreateEvent_title">Editar Evento</h2>
-      <h3 class="formCreateEvent_title--h3" v-if="formDire">{{ props.titleDay }}</h3>
-      <h3 class="formCreateEvent_title--h3" v-else-if="formTeacher">Semana {{ props.weekNumber }} {{ title_from_teacher }}</h3>
+      <h2 class="formCreateEvent_title">Crear Periodo</h2>
     </div>
 
     <div class="formCreateEvent_body">
 
       <div class="formCreateEvent_Containerselect">
-        <select class="formCreateEvent_select" v-model="tipo_fecha">
+        <select class="formCreateEvent_select">
           <option value="" disabled selected>Tipo de evento</option>
           <option class="formCreateEvent_option" value="Encuentro">Encuentro</option>
           <option class="formCreateEvent_option" value="Conferencia">Conferencia</option>
           <option class="formCreateEvent_option" value="Feria">Feria</option>
           <option class="formCreateEvent_option" value="corte de notas">Corte de notas</option>
+          <option class="formCreateEvent_option" value="Feriado">Feriado</option>
         </select>
       </div>
 
-      <input class="formCreateEvent_select--datetime" type="datetime-local" v-model="fecha_especial">
+      <input class="formCreateEvent_select--datetime" type="datetime-local">
 
 
-      <input class="formCreateEvent_input" placeholder="Nombre corto" type="text"  v-model="nombre_corto">
-      <input class="formCreateEvent_input" placeholder="Nombre largo" type="text" v-model="nombre_largo">
-      <textarea  class="formCreateEvent_textarea" placeholder="Descripción" v-model="descripcion"></textarea>
+      <input class="formCreateEvent_input" placeholder="Nombre corto" type="text">
+      <input class="formCreateEvent_input" placeholder="Nombre largo" type="text">
+      <textarea  class="formCreateEvent_textarea" placeholder="Descripción"></textarea>
 
       <Submit_Button @click="changeStateMessageModal" :message="'Actualizar'"/>
     </div>

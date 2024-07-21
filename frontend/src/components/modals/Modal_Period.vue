@@ -1,9 +1,9 @@
 <script setup>
 import { defineProps, ref, onMounted, computed } from 'vue';
-import { useActivitiesStore } from '@/stores/activities';
-import { useEventsStore } from '@/stores/events';
 import Edit_Button from '../buttons/Edit_Button.vue';
 import Delete_Button from '../buttons/Delete_Button.vue';
+import Modal_Form from './Modal_Form.vue';
+import FormCreate_Period from '../forms/FormCreate_Period.vue';
 
 const props = defineProps({
   day: String,
@@ -13,59 +13,13 @@ const props = defineProps({
   state: Boolean,
   close: Function,
 })
-/* Store de actividades */
-
-let storeActivities = useActivitiesStore();
-
-const getActivities = computed(() => {
-  return storeActivities.getActivities;
-});
-
-const getErrorActivities = computed(() => {
-  return storeActivities.getError;
-});
-
-onMounted(() => {
-  console.log(props.date)
-  storeActivities.searchActivities('2024-05-27'); //Ejemplo props.date
-});
-
-const deleteActivity = storeActivities.deleteActivies;
 
 
-/* Store de eventos */
-
-let storeEvents = useEventsStore();
-
-const getEvents = computed(() => {
-  return storeEvents.getEvents;
-});
-
-const getErrorEvents = computed(() => {
-  return storeEvents.getError;
-});
-
-onMounted(() => {
-  storeEvents.searchEvents(props.date); //Ejemplo '2024-06-07'
-});
-
-const deleteEvent = storeEvents.deleteEvents;
-
-/* Mostrar solo la hora en los detalles de cada actividad */
-
-function change_date_format(property) {
-  if(property !== undefined){
-    property = property.split("T")
-    /*      console.log(property) */
-    let hour = property[1].split(".000Z")
-    hour = hour[0]
-    /*    console.log(hour) */
-    property = hour
-    return property
-  }
-}
-
-
+ //Hay que hacer una función de abrir y cerrar para cada modal
+  
+ let stateFormActivity = ref(false);
+  const changeStateModalFormActivity = () => ( stateFormActivity.value = !stateFormActivity.value )
+  
 </script>
 
 <template>
@@ -92,51 +46,20 @@ function change_date_format(property) {
               
               <Modal_Form 
                 @closeModalForm="changeStateModalFormActivity" 
-                v-show="stateFormActivity" 
-                :dateWeek="props.date"
+                v-show="stateFormActivity"
                 :titleDay="title_modal"
-                :formDire="false"
-                :formTeacher="true"
-                :weekNumber="props.weekNumber"
-                :formCreateActivity="stateFormActivity"
+                :formCreatePeriod="true"
               />
 
             <!-- En caso de no tener nada -->
 
-            <div class="container_details" v-if="getActivities.length === 0">
+            <div class="container_details">
               <p class="part_p p--activity">No hay nada para hoy</p>
             </div>
 
             <!-- En caso de si tener actividades -->
 
-            <div v-else class="container_details" v-for="(activity) in getActivities" :key="activity.id_actividad">
-              <h4 class="part_titleH4">{{ activity.nombre_actividad }} </h4>
-              <p class="part_p p--activity">{{ activity.descripcion }} <span class="hour">{{
-                  change_date_format(activity.fecha_actividad) }} </span></p>
-
-              <div class="box_buttons" v-show="isEditor">
-                <Edit_Button
-                  :dateWeek="props.date"
-                  :titleDay="title_modal"
-                  :formDire="false"
-                  :formTeacher="true"
-                  :weekNumber="props.weekNumber"
-                  :activityID="activity.id_actividad"
-                  :dataEdit="{
-                    idSemana: activity.idSemana,
-                    fecha_actividad: activity.fecha_actividad,
-                    nombre_actividad: activity.nombre_actividad,
-                    descripcion: activity.descripcion,
-                    tipo_dia: activity.tipo_dia,
-                  }"
-                  :renderForm="'activity'"
-                />
-                <Delete_Button 
-                  :Actividades="activity.id_actividad"
-                  :dateWeek="props.date"
-                 /> <!--:idDelete="activity.id_actividad"-->
-              </div>
-            </div>
+            
 
           </div>
         </div>
@@ -149,55 +72,14 @@ function change_date_format(property) {
             <h3 class="part_title title_events">Eventos</h3>
             
              
-             <Modal_Form 
-               @closeModalForm="changeStateModalFormEvent" 
-               v-show="stateFormEvent" 
-               :dateWeek="props.date"
-               :titleDay="title_modal"
-               :formDire="false"
-               :formTeacher="true"
-               :weekNumber="props.weekNumber"
-               :formCreateEvent="stateFormEvent"
-             />
 
             <!-- En caso de no tener nada -->
 
-            <div class="container_details" v-if="getEvents.length === 0">
+            <div class="container_details">
               <p class="part_p p--activity">No hay nada para hoy</p>
             </div>
 
-            <!-- En caso de si tener eventos -->
-
-            <div v-else class="container_details" v-for="(event) in getEvents" :key="event.id_fecha_especial">
-              <h4 class="part_titleH4">{{ event.nombre_largo }}</h4>
-              <p class="part_p p--event">{{ event.descripcion }} <span class="hour">{{
-                change_date_format(event.fecha_especial) }}</span></p>
-
-              <div class="box_buttons" v-show="isEditor">
-                <Edit_Button  
-                  :dateWeek="props.date"
-                  :titleDay="title_modal"
-                  :formDire="false"
-                  :formTeacher="true"
-                  :weekNumber="props.weekNumber"
-                  :eventID="event.id_fecha_especial"
-                  :dataEdit="{
-                    idSemana: event.idSemana,
-                    fecha_especial: event.fecha_especial,
-                    nombre_corto: event.nombre_corto,
-                    nombre_largo: event.nombre_largo,
-                    descripcion: event.descripcion,
-                    tipo_fecha: event.tipo_fecha,
-                  }"
-                  :renderForm="'event'"
-                />
-
-                <Delete_Button 
-                  :Eventos="event.id_fecha_especial"
-                  :dateWeek="props.date"
-                />
-              </div>
-            </div>
+            
 
           </div>
         </div>
