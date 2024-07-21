@@ -19,7 +19,7 @@ const changeState = () => (state.value = !state.value)
             <Entity_Button message="Periodos" :onClick="changeState" />
         </div>
     </div>
-    <Modal_Period :state="state" :close="changeState" />
+    <Modal_Period :state="state" :close="changeState" :seeActivities="true"/>
     <Planner />
 </template>
 
