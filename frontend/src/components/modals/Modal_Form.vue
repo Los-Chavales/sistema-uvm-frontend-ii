@@ -1,9 +1,9 @@
 <script setup>
 import { defineProps } from 'vue';
-import FormCreate_Activity from './forms/FormCreate_Activity.vue';
-import FormCreate_Event from './forms/FormCreate_Event.vue';
-import FormEdit_Event from './forms/FormEdit_Event.vue';
-import FormEdit_Activity from './forms/FormEdit_Activity.vue';
+import FormCreate_Activity from '../forms/FormCreate_Activity.vue';
+import FormCreate_Event from '../forms/FormCreate_Event.vue';
+import FormEdit_Event from '../forms/FormEdit_Event.vue';
+import FormEdit_Activity from '../forms/FormEdit_Activity.vue';
 
 const props = defineProps({
     dateWeek: Date,

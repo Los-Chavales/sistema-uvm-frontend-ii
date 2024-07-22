@@ -3,7 +3,8 @@ const Weeks_Model = require('../models/weeks_models');
 const Response = require('../models/response');
 
 class EventsMonths {
-  constructor(date) {
+  constructor(eventsQuantity, date) {
+    this.eventsQuantity = eventsQuantity;
     this.date = date;
     this.eventsList = [];
   }
@@ -58,14 +59,16 @@ class Events_Controller {
 
           for (let i = 0; i < datesMonth.length; i++) {
             let listEvents = []
+            let eventsCounter = 0
             for (let j = 0; j < arrEvents.length; j++) {
               let dateEventFormat = arrEvents[j].fecha_especial.toISOString();// Obtener el valor de la propiedad fecha_especial y convertir en String
               dateEventFormat = dateEventFormat.split('T')[0]
               if (datesMonth[i] === dateEventFormat) {
                 listEvents.push(arrEvents[j])
+                eventsCounter++
               }
             }
-            let daysMonth = new EventsMonths(datesMonth[i])
+            let daysMonth = new EventsMonths(eventsCounter, datesMonth[i])
             daysMonth.eventsList = listEvents
             daysMonthList.push(daysMonth)
           }

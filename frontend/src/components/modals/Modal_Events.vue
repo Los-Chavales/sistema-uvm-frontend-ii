@@ -2,14 +2,15 @@
   import { defineProps, ref,  onMounted, computed } from 'vue';
   import { useActivitiesStore } from '@/stores/activities';
   import { useEventsStore } from '@/stores/events';
-  import Edit_Button from './buttons/Edit_Button.vue';
-  import Delete_Button from './buttons/Delete_Button.vue';
+  import Edit_Button from '../buttons/Edit_Button.vue';
+  import Delete_Button from '../buttons/Delete_Button.vue';
   import Modal_Form from './Modal_Form.vue';
 
   const props = defineProps({
     day: Number,
     date: Date,
     seeActivities: Boolean,
+    seeEvents: Boolean,
     isEditor: Boolean,
     description: String,
     isPlannig: Boolean,
@@ -39,6 +40,19 @@
     return getActivitiesList;
   });
 
+  const getActivitiesQuantity = computed(() => {
+    let getActivitiesList = storeActivities.getActivitiesDetails;
+    if(getActivitiesList.length !== 0){
+      getActivitiesList = getActivitiesList.find(({ date }) => date ===  searchFormat)
+      if(getActivitiesList !== undefined){
+        getActivitiesList = getActivitiesList
+      }else{
+        getActivitiesList = []
+      }
+    }
+    return getActivitiesList;
+  });
+
 
   /* Store de eventos */
 
@@ -54,6 +68,20 @@
   
     if(getEventsList !== undefined){
       getEventsList = getEventsList.eventsList
+    }else{
+      getEventsList = []
+    }
+  }
+    return getEventsList;
+  });
+
+  const getEventsQuantity = computed(() => {
+    let getEventsList = storeEvents.getEventsDetails
+    if(getEventsList.length !== 0){
+    getEventsList = getEventsList.find(({ date }) => date ===  searchFormat)
+  
+    if(getEventsList !== undefined){
+      getEventsList = getEventsList
     }else{
       getEventsList = []
     }
@@ -110,9 +138,29 @@
 <template>
   <div v-if="!props.isPlannig" @click="changeState" class="cell">
     {{ props.day }}
+    <div class="containet_noti_circle" v-if="getActivitiesQuantity.length !== 0 && getEventsQuantity.length !==0">
+      <span class="noti_circle">
+        {{ getActivitiesQuantity.activitiesQuantity+getEventsQuantity.eventsQuantity }}
+      </span>
+    </div>
+    <div class="containet_noti_circle" v-else-if="getActivitiesQuantity.length === 0 && getEventsQuantity.length !==0">
+      <span class="noti_circle">
+        {{ getEventsQuantity.eventsQuantity }}
+      </span>
+    </div>
+    <div class="containet_noti_circle" v-else-if="getActivitiesQuantity.length !== 0 && getEventsQuantity.length === 0">
+      <span class="noti_circle">
+        {{ getActivitiesQuantity.activitiesQuantity }}
+      </span>
+    </div>
   </div>
   <div v-else @click="changeState" class="cell planning" :class="[props.isEvent ? 'textEvent' : 'textAct']">
-    {{ props.description }}
+    <p v-if="props.isEvent && getEvents.length > 0">
+      {{ getEvents[0].nombre_corto }}
+    </p>
+    <p v-else-if="!props.isEvent && getActivities.length > 0">
+      {{ getActivities[0].nombre_actividad }}
+    </p>
   </div>
 
   <div class="container_modal" v-show="state">
@@ -189,7 +237,7 @@
 
         <!-- Parte de mostrar eventos -->
 
-        <div class="modal_part">
+        <div class="modal_part" v-show="seeEvents">
           <div class="part_container">
             <h3 class="part_title title_events">Eventos</h3>
             <button class="button_create button--white"  @click="changeStateModalFormEvent"  v-show="isEditor">Crear evento</button>
@@ -265,6 +313,24 @@
     align-content: baseline;
   }
 
+  .containet_noti_circle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .noti_circle{
+    border-radius: 50px;
+    background: #E88975;
+    width: 20px;
+    padding: 0 10px;
+    margin-top: 5px;
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;    
+  }
+
   .planning {
     align-content: center;
     font-size: 11px;
@@ -273,6 +339,7 @@
     font-family: Poppins;
     font-style: normal;
     font-weight: 500;
+    text-overflow: ellipsis;
   }
 
   .textEvent {
