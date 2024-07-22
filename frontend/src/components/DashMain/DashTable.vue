@@ -1,5 +1,5 @@
 <script setup>
-import Delete_Button from '../buttons/Delete_Button.vue';
+import Delete_Button from '../buttons/Delete_ButtonMore.vue';
 import Edit_Button from '../buttons/Edit_Button.vue';
 import Show from '../buttons/Show.vue';
 import { buttonStateStore } from '@/stores/buttonState';
@@ -36,8 +36,8 @@ import { ref, defineEmits } from 'vue';
             required: true
         },
         toChangeState: {
-        type: Function,
-        required: true
+            type: Function,
+            required: true
         },
     })
 
@@ -69,7 +69,7 @@ import { ref, defineEmits } from 'vue';
                     <tr class="tr-body" v-for="( element, index ) in props.forTable" :key="index">
                         
                     <td v-for="( item, index ) in props.forBody" :key="index">{{ element[item] }}</td>
-                    <td v-if=" props.options "><Show @click="takenID( element.nombre)" :change="toChangeState"/><Edit_Button @click="takenID( element.nombre)" :change="toChangeState"/><Delete_Button/></td>
+                    <td v-if=" props.options "><Show @click="takenID( element.nombre)" :change="toChangeState"/><Edit_Button @click="takenID( element.nombre)" :change="toChangeState"/><Delete_Button /></td>
 
                     </tr>
                 </tbody>

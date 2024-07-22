@@ -11,8 +11,7 @@
     const store  = userStore();
     let userID = ref('');
     let detachUser = ref('')
-    let userSubjects = '';
-    
+    let userSubjects = ''
     onMounted(() => {
         store.getProfessors();
         store.getProfessors_Subjects();
@@ -28,12 +27,21 @@
         }
         
     }console.log(userSubjects)
-
+    // const deleteProfessor = () => {
+    //     const token = $cookies.get('auth').token
+    //     console.log(token)
+    //     if (detachUser.value){
+    //         let id_usr = detachUser.value[0].cedula;
+    //     console.log(detachUser.value[0].cedula)
+    //     store.deleteProfessor(id_usr, token)
+    //     store.getProfessors();
+    //     }
+    // }
     
 </script>
 
 <template>
-        <h1 @click=" console.log(userSubjects)">Hola</h1>
+        <h1 >hola</h1>
     <DashTable
     @takenID="idListener"
     :tableHead="['Profesor','Correo','Rol']"
@@ -47,7 +55,7 @@
     />
 
     <CreateProfessor :toChangeState="buttonChange" :state="buttonState.bState"/>
-    <EditProfessor :toChangeState="buttonChange" :state="buttonState.eState" />
+    <EditProfessor v-if="detachUser" :userDetail="detachUser"  :toChangeState="buttonChange" :state="buttonState.eState" />
     <SeeProfessor v-if="detachUser" :userDetail="detachUser" :userSub="userSubjects" :toChangeState="buttonChange" :state="buttonState.dState"/>
 
 

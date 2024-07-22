@@ -1,5 +1,6 @@
 <script setup>
-  import { defineProps, ref,  onMounted, computed } from 'vue';
+import { defineProps, ref,  onMounted, computed } from 'vue';
+import { userStore } from '@/stores/Dash_Stores/users';
   const props = defineProps({
     state: {
       type: Boolean,
@@ -9,9 +10,14 @@
       type: Function,
       required: true
     },
+    userDetail:{
+      type: Object,
+      required: true,
+    }
   })
   const changeState = props.toChangeState
-  let usr_name = ref('')
+const user_store = userStore();
+
   const subjects = [
   {
     id_materia: 1,
@@ -30,6 +36,33 @@
     seccion: 'B1'
   }
 ]
+
+
+
+
+const user = ref({
+  nombre: props.userDetail[0].nombre,
+  apellido: props.userDetail[0].apellido,
+  correo: props.userDetail[0].correo,
+  cedula:props.userDetail[0].cedula
+})
+
+
+
+
+const editProfessor = (dataU) => {
+  if (dataU){
+    const token = $cookies.get('auth').token
+    console.log(`token in professors => ${token}`)
+    user_store.editProfessor(dataU, token)
+    user_store.getProfessors()
+  }
+  user.value.nombre = ''
+  user.value.apellido = ''
+  user.value.correo = ''
+  user.value.id_usuario = ''
+} 
+  
 </script>
 
 <template>
@@ -42,7 +75,6 @@
         <div class="container_button">
           <button @click="changeState('edit')" class="modal_cerrar">cerrar X</button>
         </div>
-        <h2 class="modal_title">{{ title_modal }}</h2>
       </div>
 
       <div class="modal_body">
@@ -51,18 +83,17 @@
 
         <div class="modal_part">
           <div class="part_container">
-            <h3 class="part_title title_activities">Editar Profesor</h3>
+            <h3 class="part_title title_activities" @click="console.log(props.userDetail[0])">Editar Profesor</h3>
 
             <form v-on:submit.prevent="login">
 
-              <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="usr_name" id="nombre" />
-              <input class="form-input text-input" placeholder="Apellido" name="apellido" type="text" v-model="correo" id="apellido" />
-              <input class="form-input text-input" placeholder="Email" name="correo" type="email" v-model="correo" id="correo" />
-              <input class="form-input text-input" placeholder="Cedula" name="cedula" type="text" v-model="cedula" id="cedula" />
-              <input class="form-input text-input" type="select" placeholder="Carrera" name="carrera" v-model="clave" id="carrera">
+              <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="user.nombre" id="nombre" />
+              <input class="form-input text-input" placeholder="Apellido" name="apellido" type="text" v-model="user.apellido" id="apellido" />
+              <input class="form-input text-input" placeholder="Email" name="correo" type="email" v-model="user.correo" id="correo" />
+              <input class="form-input text-input" placeholder="Cedula" name="cedula" type="text" v-model="user.cedula" id="cedula" />
 
 
-              <input class="form-submit" type="submit" value="Ingresar" />
+              <input class="form-submit" type="submit" @click="editProfessor(user)" value="Renovar" />
 
             </form>
           </div>

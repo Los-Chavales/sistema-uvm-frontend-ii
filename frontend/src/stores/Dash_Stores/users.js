@@ -58,6 +58,49 @@ export const userStore = defineStore('userStore', {
                     console.log(response)
                 })
 
+      },
+      async editProfessor(userdata, token){
+        const id = userdata.id_usuario
+        const json = JSON.stringify({
+            id_usuario: Number(userdata.id_usuario),
+            nombre: userdata.nombre,
+            apellido: userdata.apellido,
+            correo: userdata.correo,
+            
+        });
+        console.log(json)
+            console.log('token in users Pinia => ' +token)
+            await axios.put(`${API}/actualizar/profesor/${id}`, json,{
+                headers: { 
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                
+            })
+            .then(function (response) {
+                console.log(response)
+            })
+
+      },
+      async deleteProfessor(idProfessor, token) {
+        console.log(idProfessor)
+        try {
+          await axios.delete(`${API}/eliminar/profesor/${idProfessor}`,
+            {
+                headers: { 
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+            }
+          );
+  
+          console.log(`eliminar profesor:${idProfessor}`)
+        }
+        catch (error) {
+          console.log(error)
+          console.log(error.response.data)
+        }
+  
       }
     }
 })
