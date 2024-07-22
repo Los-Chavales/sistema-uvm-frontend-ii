@@ -3,6 +3,7 @@ import { computed, onMounted, onUpdated } from 'vue';
 import { to_toggle, toggle, sbWidth } from './sidebar-state';
 import { ref } from 'vue';
 import { userStore } from '@/stores/Dash_Stores/users';
+import Logout_Button from '../buttons/Logout_Button.vue';
 import SidebarLink from '@/components/DashSideBar/sidebar-links.vue'
 let usr_name = ref('Admin')
 
@@ -35,6 +36,7 @@ const getUserOnlineRol = computed(() => {
 
         <SidebarLink to="/admin-dsh/secciones" icon="fas fa-chalkboard-user">Secciones</SidebarLink>
 
+        <Logout_Button />
 
         <span class="collapse-icn" :class="{ 'rotate-arrow': to_toggle }" @click="toggle">
             <i class="fa-solid fa-arrow-left"></i>
