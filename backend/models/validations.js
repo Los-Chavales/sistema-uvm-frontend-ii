@@ -12,11 +12,7 @@ function validate_users(user, decline, update) {
   }
   if(user.nombre === "" || user.nombre === undefined){
     errors.push("El nombre del usuario es requerido")
-  }
-  if(user.clave === "" || user.clave === undefined){
-    errors.push("La clave del usuario es requerida")
-  }
- 
+  } 
   if(errors.length !== 0){
     console.log(errors)
     return decline(new Response(415, "Uno o más datos son incorrectos", errors))

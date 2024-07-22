@@ -60,7 +60,7 @@ const editProfessor = (dataU) => {
   user.value.nombre = ''
   user.value.apellido = ''
   user.value.correo = ''
-  user.value.id_usuario = ''
+  user.value.cedula = ''
 } 
   
 </script>
@@ -83,7 +83,7 @@ const editProfessor = (dataU) => {
 
         <div class="modal_part">
           <div class="part_container">
-            <h3 class="part_title title_activities" @click="console.log(props.userDetail[0])">Editar Profesor</h3>
+            <h3 class="part_title title_activities" @click="console.log(props.userDetail[0].cedula)">Editar Profesor</h3>
 
             <form v-on:submit.prevent="login">
 

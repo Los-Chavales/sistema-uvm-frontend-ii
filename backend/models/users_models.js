@@ -206,8 +206,6 @@ class Users_Model {
 
   update_user_teacher(id, update) { // actualizar solo un profesor
     return new Promise((resolve, reject) => {
-        if (validate_users(update, reject, true) !== true) return;
-        update.clave = bcrypt.hashSync(update.clave, saltRounds);
         if (update.idRol) {  
             reject(new Response(400, 'No puedes cambiarte de rol a ti mismo'))
         } else {
