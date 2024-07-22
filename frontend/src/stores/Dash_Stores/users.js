@@ -17,8 +17,6 @@ export const userStore = defineStore('userStore', {
         },
         /* Usuario en linea */
         getUserOnlineRol(state){
-            console.log("EN GET USER")
-            console.log(state.userOnline.rol_usuario)
             return state.userOnline.rol_usuario
         }
     },

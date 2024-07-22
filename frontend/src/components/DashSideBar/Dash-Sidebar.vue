@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted, onUpdated } from 'vue';
 import { to_toggle, toggle, sbWidth } from './sidebar-state';
 import { ref } from 'vue';
 import { userStore } from '@/stores/Dash_Stores/users';
