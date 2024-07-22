@@ -35,7 +35,7 @@ let estado = ref('')
 let storePeriods = usePeriodsStore();
 
 const addPeriod = computed(() => {
-  console.log(n_semanas.value, isNaN(n_semanas.value), n_semanas.value < 0)
+  //console.debug(n_semanas.value, isNaN(n_semanas.value), n_semanas.value < 0)
   if (isNaN(n_semanas.value) || n_semanas.value < 0) return alert('Debe ingresar un rango de fechas válido'); //Cambiar esto a modal
   let cookie = $cookies.get('auth');
   if (cookie !== null) {

@@ -8,6 +8,7 @@ export const usePeriodsStore = defineStore("periods", {
       periods: [],
       currentPeriod: [],
       period: [],
+      periodWeeks: {},
       error: {
         statusError: false,
         message: ''
@@ -29,6 +30,9 @@ export const usePeriodsStore = defineStore("periods", {
     getPeriodCurrent(state) {
       return state.options.currentPeriod
     },
+    getPeriodWeeks(state) {
+      return state.options.periodWeeks
+    },
     getError(state) {
       return state.options.error
     },
@@ -46,8 +50,8 @@ export const usePeriodsStore = defineStore("periods", {
         this.searchPeriodsCurrent();
       }
       catch (error) {
-        console.log(error)
-        console.log(error.response.data)
+        console.error(error)
+        console.info(error.response.data)
         this.options.error.statusError = true
         this.options.error.message = error.response.data
         this.options.periods = []
@@ -63,8 +67,19 @@ export const usePeriodsStore = defineStore("periods", {
         this.options.error.statusError = false;
       }
       catch (error) {
-        console.log(error)
+        console.error(error)
         this.options.currentPeriod = [];
+      }
+    },
+    async weeksPeriods() {
+      try {
+        const data = await axios.get(`${API_URL_BASE}/periodos/consultar/semanas`);
+        this.options.periodWeeks = data.data;
+        this.options.error.statusError = false;
+      }
+      catch (error) {
+        console.error(error)
+        this.options.periodWeeks = [];
       }
     },
     async searchPeriodsName(name) {
@@ -74,7 +89,7 @@ export const usePeriodsStore = defineStore("periods", {
         this.options.error.statusError = false
       }
       catch (error) {
-        console.log(error)
+        console.error(error)
         this.options.period = []
       }
     },

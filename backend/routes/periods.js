@@ -26,15 +26,29 @@ router.get('/mostrar/:nombre', function (req, res, next) {
     })
 });
 
-/* GET buscar periodos activos */
+/* GET buscar periodos por parámetros */
 router.post('/mostrar/filtrar', function (req, res, next) {
-  console.log(req.body)
   Periods_Controller.search_by(req.body.name, req.body.value)
     .then((results) => {
       res.send(results.result);
     })
     .catch((error) => {
       console.log(error)
+      if (error.code && error.message) { res.status(error.code).send(error.message) }
+      else { res.status(500).send(error) }
+      //res.status(error.code).send(error.message);
+    })
+});
+
+/* GET obtener número de semana en periodos activos */
+router.get('/consultar/semanas', function (req, res, next) {
+  Periods_Controller.see_weeks()
+    .then((results) => {
+      //console.log('results r',results);
+      res.send(results.result);
+    })
+    .catch((error) => {
+      //console.log('error r',error);
       if (error.code && error.message) { res.status(error.code).send(error.message) }
       else { res.status(500).send(error) }
       //res.status(error.code).send(error.message);
