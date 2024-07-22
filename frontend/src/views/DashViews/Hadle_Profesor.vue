@@ -41,7 +41,6 @@
 </script>
 
 <template>
-        <h1 >hola</h1>
     <DashTable
     @takenID="idListener"
     :tableHead="['Profesor','Correo','Rol']"
