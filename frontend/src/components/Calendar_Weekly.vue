@@ -3,6 +3,7 @@ import { onMounted, onUpdated, computed, toRaw } from 'vue';
 import Modal_Events from '../components/modals/Modal_Events.vue';
 import { useEventsStore } from '@/stores/events';
 import { useActivitiesStore } from '@/stores/activities';
+import { useAssignedStore } from '@/stores/assigned';
 import {changeMonth, calMonth, weeks, year, month, period, months} from '../common/calendarFunctios'
 
 //Llamar a la store de eventos
@@ -10,6 +11,12 @@ let storeEvents = useEventsStore();
 
 //Llamar a la store de actividades
 let storeActivities = useActivitiesStore(); 
+
+let storeAssigned = useAssignedStore();
+
+const getIdAssigned = computed(() => {
+  return storeAssigned.getIdAssigned;
+});
 
 //Llamar a las sotres
 
@@ -62,7 +69,7 @@ onUpdated(() => {
                             :date="new Date(year, calMonth(day, month, i, weeks), day)" 
                             :seeActivities="true"
                             :seeEvents="false" 
-                            :isEditor="true" 
+                            :isEditor="getIdAssigned" 
                             :isPlannig="true" 
                             :isEvent="false" 
                             :weekNumber="week.number" 

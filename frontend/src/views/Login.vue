@@ -183,6 +183,8 @@ margin-left: 1px;
 
 <script>
 import axios from 'axios';
+import { userStore } from '@/stores/Dash_Stores/users';
+const storeUser = userStore();
 const API_URL_BASE = import.meta.env.VITE_API_BASE
 
 export default {
@@ -213,16 +215,17 @@ export default {
             console.log(data.data) */
             let rol = data.data.rol_usuario
             this.$cookies.set('auth', data.data)
+            storeUser.userOnlineData($cookies.get('auth'))
         /*     console.log("Cookie:")
             let cookie = this.$cookies.get('auth')
             console.log(cookie) */
 
             if(rol === "profesor"){
                console.log("profesor")
-               this.$router.push({ path: '/dashboardProfesor' })
+               this.$router.push({ path: '/planificaciones' })
             }else if(rol === "director"){
                console.log("director")
-               this.$router.push({ path: '/dashboardDirector' })
+               this.$router.push({ path: '/calendario' })
             } 
 
          }).catch((err) => {

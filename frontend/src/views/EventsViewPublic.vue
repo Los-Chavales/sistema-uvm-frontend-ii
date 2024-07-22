@@ -1,12 +1,11 @@
 <script setup>
 import { ref } from "vue";
 import Planner from "../components/Planner.vue";
-import Entity_Button from "../components/buttons/Entity_Button.vue";
 import Modal_Period from "../components/modals/Modal_Period.vue";
 
-let seeActivities = false;
+let seeActivities = true;
 let seeEvents = true;
-let isEditor = true;
+let isEditor = false;
 
 /* función para desplegar el modal */
 let state = ref(false);
@@ -19,15 +18,12 @@ const changeState = () => (state.value = !state.value)
             <h1>Gestión de Eventos</h1>
             <p>Aquí puedes crear y visualisar los eventos</p>
         </div>
-        <div class="optionPeriod">
-            <Entity_Button message="Periodos" :onClick="changeState" />
-        </div>
     </div>
-    <Modal_Period :state="state" :close="changeState" :seeActivities="true" :isEditor="true"/>
+    <Modal_Period :state="state" :close="changeState" />
     <Planner 
-        :seeActivities="seeActivities"
-        :seeEvents="seeEvents"
-        :isEditor= "isEditor"
+      :seeActivities="seeActivities"
+      :seeEvents="seeEvents"
+      :isEditor= "isEditor"
     />
 </template>
 
