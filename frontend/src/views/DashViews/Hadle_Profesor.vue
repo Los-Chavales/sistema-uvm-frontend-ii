@@ -11,7 +11,8 @@
     const store  = userStore();
     let userID = ref('');
     let detachUser = ref('')
-    let userSubjects = ''
+    let userSubjects = '';
+    
     onMounted(() => {
         store.getProfessors();
         store.getProfessors_Subjects();

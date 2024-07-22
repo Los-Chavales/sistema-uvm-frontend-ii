@@ -1,5 +1,23 @@
 <script setup>
   import { defineProps, ref,  onMounted, computed } from 'vue';
+  import { subjectStore } from '@/stores/Dash_Stores/subject';
+  import { sectionStore } from '@/stores/Dash_Stores/sections'
+
+
+  onMounted(() => {
+      sectionStoreU.getSections()
+  })
+
+  const sectionStoreU  = sectionStore();
+    const getSection = computed(() => {
+        return sectionStoreU.sections;
+        
+    })
+
+    
+    const section = computed(() => {
+        return sectionStoreU.sections
+    })
   const props = defineProps({
     state: {
       type: Boolean,
@@ -11,25 +29,30 @@
     },
   })
   const changeState = props.toChangeState
-  let usr_name = ref('')
-  const subjects = [
-  {
-    id_materia: 1,
-    nombre_materia: "Frontend II",
-    trimestre: "VI",
-    descripcion: "Diseño de interfaces priorizando técnicas UX UI",
-    carrera: "Ingeniería de computación",
-    seccion: 'VI1'
-  },
-  {
-    id_materia: 2,
-    nombre_materia: "Bases de datos",
-    trimestre: "III",
-    descripcion: "Manejo de almacenamiento de datos de manera permanente y no volátil",
-    carrera: "Ingeniería de computación",
-    seccion: 'B1'
-  }
-]
+  
+  const data = ref({
+    subName : '',
+    subDescription : '',
+    trimestre: '',
+    carrera:'',
+  })
+  
+const store = subjectStore();
+
+const sendSub = (dataS) => {
+  console.log(data.value.trimestre)
+  console.log(data.value.carrera)
+  const token = $cookies.get('auth').token
+  console.log(`token in professors => ${token}`)
+  store.sendSubject(dataS, token)
+  data.value.subName = '';
+  data.value.subDescription= '';
+  store.getSubject();
+
+
+} 
+
+
 </script>
 
 <template>
@@ -42,7 +65,6 @@
         <div class="container_button">
           <button @click="changeState('create')" class="modal_cerrar">cerrar X</button>
         </div>
-        <h2 class="modal_title">{{ title_modal }}</h2>
       </div>
 
       <div class="modal_body">
@@ -51,15 +73,34 @@
 
         <div class="modal_part">
           <div class="part_container">
-            <h3 class="part_title title_activities">Añadir Materia</h3>
+            <h3 class="part_title title_activities" >Añadir Materia</h3>
 
             <form v-on:submit.prevent="login">
-              <select name="" id="" class="select"></select>
-              <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="usr_name" id="nombre" />
-              <input class="form-input description" placeholder="Apellido" name="apellido" type="text" v-model="correo" id="apellido" />
+              <select name="" id="" class="select" v-model="data.trimestre">
+                <!--<option  v-for="(element, index) in section" :value="element.nombre_seccion" :key="index" >{{element.nombre_seccion}}</option>-->
+                <option value="I" >I (1)</option>
+                <option value="II" >II (2)</option>
+                <option value="III" >III (3)</option>
+                <option value="IV" >IV (4)</option>
+                <option value="V" >V (5)</option>
+                <option value="VI" >VI (6)</option>
+                <option value="VII" >VII (7)</option>
+                <option value="VIII" >VIII (8)</option>
+                <option value="IX" >IX (9)</option>
+
+              </select>
+              <select name="" id="" class="select" v-model="data.carrera">
+                <!--<option  v-for="(element, index) in section" :value="element.nombre_seccion" :key="index" >{{element.nombre_seccion}}</option>-->
+                <option value="Ingenieria de Computacion" >Ingenieria de Computacion</option>
+                <option value="Ingenieria Industrial" >Ingenieria Industrial</option>
+
+
+              </select>
+              <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="data.subName" id="nombre" />
+              <input class="form-input description" placeholder="Descripcion" name="apellido" type="text" v-model="data.subDescription" id="apellido" />
               
 
-              <input class="form-submit" type="submit" value="Ingresar" />
+              <input class="form-submit" type="submit" value="Ingresar" @click="sendSub(data)" />
 
             </form>
           </div>
@@ -219,9 +260,9 @@
   .select{
   display: flex;
   width: 300px;
-  padding: 13px;
+  padding: 5px;
   color: #000;
-  font-size: 24px;
+  font-size: 15px;
   line-height: normal;
   margin-bottom: 18px;
   outline: solid 1px #000;

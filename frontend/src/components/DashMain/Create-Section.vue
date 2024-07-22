@@ -1,5 +1,6 @@
 <script setup>
   import { defineProps, ref,  onMounted, computed } from 'vue';
+  import { sectionStore } from '@/stores/Dash_Stores/sections';
   const props = defineProps({
     state: {
       type: Boolean,
@@ -11,6 +12,7 @@
     },
   })
   const changeState = props.toChangeState
+  const store = sectionStore();
 
   const subjects = [
   {
@@ -30,6 +32,26 @@
     seccion: 'B1'
   }
 ]
+
+const data = ref({
+  nombre_seccion:'',
+  modalidad:'',
+})
+
+
+const sendSub = (dataS) => {
+  console.log(data.value.nombre_seccion)
+  console.log(data.value.modalidad)
+  const token = $cookies.get('auth').token
+  console.log(`token in professors => ${token}`)
+  store.sendSection(dataS, token)
+  data.value.nombre_seccion = '';
+  data.value.modalidad= '';
+  store.getSections();
+
+
+} 
+
 </script>
 
 <template>
@@ -56,11 +78,16 @@
             <form v-on:submit.prevent="login">
 
 
-              <select name="Trimestre"  id="" class="select"></select>
-              <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="usr_name" id="nombre" />
+              <select name="Trimestre" v-model="data.modalidad" id="" class="select">
+
+                <option value="semi-presencial">Semi-presencial</option>
+                <option value="virtual">Virtual</option>
+
+              </select>
+              <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="data.nombre_seccion" id="nombre" />
 
 
-              <input class="form-submit" type="submit" value="Actualizar" />
+              <input class="form-submit" type="submit" @click="sendSub(data)" value="Añadir" />
 
             </form>
           </div>

@@ -21,6 +21,22 @@ export const sectionStore = defineStore('sectionStore', {
         }catch(error){
             console.log(error)
         }
-      } 
+      },
+      async sendSection(dataU, token){
+        const json = JSON.stringify({
+            nombre_seccion : dataU.nombre_seccion,
+            modalidad: dataU.modalidad,
+        })
+        console.log(json)
+            await axios.post(`${API}registrar`,json, {
+                headers: { 
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then( (response) => {
+                console.log(response)
+            })
+      }
     }
 })

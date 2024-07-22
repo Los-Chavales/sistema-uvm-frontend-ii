@@ -22,6 +22,24 @@ export const subjectStore = defineStore('subjectStore', {
         }catch(error){
             console.log(error)
         }
-      } 
+      },
+      async sendSubject(dataU, token){
+        const json = JSON.stringify({
+            nombre_materia : dataU.subName,
+            descripcion : dataU.subDescription,
+            trimestre: dataU.trimestre,
+            carrera:dataU.carrera
+        })
+        console.log(json)
+            await axios.post(`${API}registrar`,json, {
+                headers: { 
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then( (response) => {
+                console.log(response)
+            })
+      }
     }
 })

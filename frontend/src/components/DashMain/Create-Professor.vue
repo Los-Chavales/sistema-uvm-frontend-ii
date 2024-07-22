@@ -39,10 +39,32 @@ let data = ref(
   apellido: '',
   correo: '',
   id_usuario: '',
+  clave: '123456789',
+  foto_perfil:'',
   materias : []
 
 }
 )
+
+const sendData = ( ) => {
+
+}
+
+const user_store = userStore();
+
+const addProfessor = (dataU) => {
+  if (dataU){
+    const token = $cookies.get('auth').token
+    console.log(`token in professors => ${token}`)
+    user_store.addNewProfessor(dataU, token)
+    user_store.getProfessors()
+  }
+  data.value.nombre = ''
+  data.value.apellido = ''
+  data.value.correo = ''
+  data.value.id_usuario = ''
+} 
+  
 
 let dataMateria = ref(
   {}
@@ -53,7 +75,8 @@ const sendSubject = ( nombre, seccion) => {
   let dataMateria = {}
   dataMateria.nombre_materia = nombre;
   dataMateria.seccion= seccion;
-  console.log(dataMateria)
+  data.value.materias.push(dataMateria);
+  console.log(data.value)
 }
 </script>
 
@@ -67,7 +90,6 @@ const sendSubject = ( nombre, seccion) => {
         <div class="container_button">
           <button @click="changeState('create')" class="modal_cerrar">cerrar X</button>
         </div>
-        <h2 class="modal_title">{{ title_modal }}</h2>
       </div>
 
       <div class="modal_body">
@@ -83,10 +105,10 @@ const sendSubject = ( nombre, seccion) => {
               <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="data.nombre" id="nombre" />
               <input class="form-input text-input" placeholder="Apellido" name="apellido" type="text" v-model="data.apellido" id="apellido" />
               <input class="form-input text-input" placeholder="Email" name="correo" type="email" v-model="data.correo" id="correo" />
-              <input class="form-input text-input" placeholder="Cedula" name="cedula" type="text" v-model="data.cedula" id="cedula" />
+              <input class="form-input text-input" placeholder="Cedula" name="cedula" type="text" v-model="data.id_usuario" id="cedula" />
 
 
-              <input class="form-submit" type="submit" value="Ingresar" />
+              <input class="form-submit" type="submit" @click="addProfessor(data)" value="Ingresar" />
 
             </form>
           </div>
@@ -98,7 +120,7 @@ const sendSubject = ( nombre, seccion) => {
         <div class="modal_part">
           <div class="part_container">
             <div class="searcher">
-              <input class="searcher_input" placeholder="Buscar..." name="buscador" type="buscador" v-model="buscador" id="buscador" />
+              <input class="searcher_input" placeholder="Buscar..." name="buscador" type="buscador" id="buscador" />
               <span class="searcher_icon">
                 <i class="fa-solid fa-magnifying-glass "></i>
               </span>
@@ -120,7 +142,6 @@ const sendSubject = ( nombre, seccion) => {
               </div>
                 <span v-for="subject in subjects" :key="subject.id_materia" class="subject_check"><input type='checkbox' @click="sendSubject(subject.nombre_materia, subject.seccion)">{{ subject.nombre_materia }} ({{ subject.seccion }})</span>
             </div>
-            <h1>{{ data }}</h1>
           </div>
         </div>
 
