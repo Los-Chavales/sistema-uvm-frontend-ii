@@ -4,6 +4,7 @@ import FormCreate_Activity from '../forms/FormCreate_Activity.vue';
 import FormCreate_Event from '../forms/FormCreate_Event.vue';
 import FormEdit_Event from '../forms/FormEdit_Event.vue';
 import FormEdit_Activity from '../forms/FormEdit_Activity.vue';
+import FormCreate_Period from '../forms/FormCreate_Period.vue';
 
 const props = defineProps({
     dateWeek: Date,
@@ -13,6 +14,7 @@ const props = defineProps({
     weekNumber: Number,
     formCreateActivity: Boolean,
     formCreateEvent: Boolean,
+    formCreatePeriod: Boolean,
     formEditEvent: Boolean,
     formEditActivity: Boolean,
     eventID: Number,
@@ -54,6 +56,10 @@ const props = defineProps({
             :formTeacher="props.formTeacher"
             :weekNumber="props.weekNumber"
          />  
+
+         <FormCreate_Period v-else-if="formCreatePeriod"
+          :titleDay= "props.titleDay"
+        />
 
          <!-- Editar -->
 
