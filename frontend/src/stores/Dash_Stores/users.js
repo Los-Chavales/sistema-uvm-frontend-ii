@@ -38,6 +38,8 @@ export const userStore = defineStore('userStore', {
        userOnlineData(cookieData){
         if(cookieData !== null){
             this.userOnline.rol_usuario = cookieData.rol_usuario
+        }else{
+            this.userOnline.rol_usuario = ""
         }
       },
       async getProfessors_Subjects(){

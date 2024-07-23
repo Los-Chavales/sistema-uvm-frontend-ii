@@ -13,17 +13,6 @@ const router = createRouter({
       }
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
-      meta: {
-        requireLogin : false,
-      }
-    },
-    {
       path: '/login',
       name: 'login',
       component: ()=> import('../views/Login.vue'),
@@ -32,12 +21,12 @@ const router = createRouter({
       }
     },
     {
-      path: '/calendario-publico',
+      path: '/calendario',
       name: 'CalendarioPublico',
       component: () => import('../views/EventsViewPublic.vue')
     },
     {
-      path: '/calendario',
+      path: '/admin-dsh/calendario',
       name: 'Calendario',
       component: () => import('../views/EventsView.vue'),
       meta: {
@@ -47,7 +36,7 @@ const router = createRouter({
       }
     },
     {
-      path: '/planificaciones',
+      path: '/admin-dsh/planificaciones',
       name: 'Planificaciones',
       component: () => import('../views/PlanningView.vue'),
       meta: {
@@ -95,18 +84,7 @@ const router = createRouter({
         rol_teacher : false,
         rol_director : true,
       }
-    },
-    {
-      path: '/admin-dsh/eventos',
-      name: 'Admin-Dashboard-Eventos',
-      component: () => import('../views/EventsView.vue'),
-      meta: {
-        requireLogin : true,
-        rol_teacher : false,
-        rol_director : true,
-      }
-    },
-    
+    },    
   ]
 })
 
@@ -134,20 +112,20 @@ router.beforeEach((to, from, next) => {
   console.log(auth)
   
   if(needAuth && !auth.login){
-    next('login')
+    next('/login')
   } else if(needTeacher){
     if(auth.rol === "profesor"){
       console.log("profesor")
       next()
     }else{
-      next('login')
+      next('/login')
     }
   }else if(needDirector){
     if(auth.rol === "director"){
       console.log("director")
       next()
     }else{
-      next('login')
+      next('/login')
     }
   } else {
     next()
