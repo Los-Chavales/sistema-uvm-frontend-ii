@@ -3,6 +3,13 @@ import { defineProps, ref,  onMounted, computed } from 'vue';
 import Edit from '@/assets/icons/Edit.vue';
 import Modal_Form from '../modals/Modal_Form.vue';
 
+ /* const props = defineProps({
+    change: {
+      type: Function,
+      required: true
+    },
+  })*/
+
 const props = defineProps({
     dateWeek: Date,
     titleDay: String,
@@ -14,14 +21,16 @@ const props = defineProps({
     dataEdit: Object,
     activityID:Number, //actividades
     formEditActivity: Boolean,
-    renderForm: String
-})
-/* 
-let stateFormEventEdit = ref(false);
-const changeStateModalFormEventEdit = () => ( stateFormEventEdit.value = !stateFormEventEdit.value )
+    renderForm: String,
 
-let stateFormActivityEdit = ref(false);
-const changeStateModalFormActivityEdit = () => (stateFormActivityEdit.value = !stateFormActivityEdit.value) */
+  //Del admin
+    change: {
+      type: Function,
+      required: true
+    },
+})
+
+const changeState = props.change
 
 let stateFormEdit = ref(false);
 const changeStateModalFormEdit = () => ( stateFormEdit.value = !stateFormEdit.value )
@@ -29,8 +38,12 @@ const changeStateModalFormEdit = () => ( stateFormEdit.value = !stateFormEdit.va
 </script>
 
 <template>
-  <button @click="changeStateModalFormEdit" class="button--edit" style="color:#fff"><Edit /></button> <!--"changeStateModalFormEventEdit" eventos-->
- <Modal_Form 
+<!-- DEl admin -->
+<!--   <button class="button--edit" @click="changeState('edit')" style="color:#fff"><Edit /></button>  -->
+  <button class="button--edit" @click="changeStateModalFormEdit" style="color:#fff"><Edit /></button> 
+ 
+ 
+  <Modal_Form 
     @closeModalForm="changeStateModalFormEdit"
     v-if="props.renderForm === 'event' && stateFormEdit"
 

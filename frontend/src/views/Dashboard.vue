@@ -5,7 +5,9 @@
 </script>
 
 <template>
+    <DashHeader/>
     <DashSidebar/>
+    <Footer/>
 </template>
 
 <style lang="scss">

@@ -1,7 +1,12 @@
 <script setup>
-import Delete_Button from '../buttons/Delete_Button.vue';
+import Delete_Button from '../buttons/Delete_ButtonMore.vue';
 import Edit_Button from '../buttons/Edit_Button.vue';
 import Show from '../buttons/Show.vue';
+import { buttonStateStore } from '@/stores/buttonState';
+import { ref, defineEmits } from 'vue';
+    const mainButtonFuction = buttonStateStore()
+    const buttonState = mainButtonFuction.changeState;
+
     const props = defineProps({
         tableHead:{
             type: Array,
@@ -30,8 +35,17 @@ import Show from '../buttons/Show.vue';
             type: String,
             required: true
         },
+        toChangeState: {
+            type: Function,
+            required: true
+        },
     })
 
+    const emit = defineEmits(['takenID'])
+
+    const takenID = ( usr_ID ) =>{
+        emit('takenID', usr_ID )
+    }
 
 </script>
 
@@ -39,10 +53,10 @@ import Show from '../buttons/Show.vue';
   <div class="gestorContainer">
         <span class="gestorContainer-text">
             <div class="gestorContainer__h">
-                <h1>{{ props.h1Title }}</h1>
+                <h1 >{{ props.h1Title }}</h1>
                 <h3>{{ props.h3Title }}</h3>  
             </div>
-        <button class="button--white button">{{props.mainButton}}</button>
+        <button class="button--white button" @click="buttonState('create')">{{props.mainButton}}</button>
 
         </span>
         <div class="gestorContainer__handleTable">
@@ -55,7 +69,7 @@ import Show from '../buttons/Show.vue';
                     <tr class="tr-body" v-for="( element, index ) in props.forTable" :key="index">
                         
                     <td v-for="( item, index ) in props.forBody" :key="index">{{ element[item] }}</td>
-                    <td v-if=" props.options "><Show /><Edit_Button/><Delete_Button/></td>
+                    <td v-if=" props.options "><Show @click="takenID( element.nombre)" :change="toChangeState"/><Edit_Button @click="takenID( element.nombre)" :change="toChangeState"/><Delete_Button /></td>
 
                     </tr>
                 </tbody>
