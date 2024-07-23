@@ -52,6 +52,7 @@ const putEvent = computed(() => {
     const eventUpdate = new UpdateEvent(fecha_especial.value, nombre_corto.value, nombre_largo.value, descripcion.value, tipo_fecha.value)
     storeEvents.updateEvents(token, eventUpdate, idEvent, year, month)
   }
+  changeStateMessageModal()
 });
 
 //función para desplegar el modal 
@@ -73,7 +74,7 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
     <div class="formCreateEvent_body">
 
       <div class="formCreateEvent_Containerselect">
-        <select class="formCreateEvent_select" v-model="tipo_fecha">
+        <select class="formCreateEvent_select" v-model="tipo_fecha" required>
           <option value="" disabled selected>Tipo de evento</option>
           <option class="formCreateEvent_option" value="Encuentro">Encuentro</option>
           <option class="formCreateEvent_option" value="Conferencia">Conferencia</option>
@@ -83,14 +84,14 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
         </select>
       </div>
 
-      <input class="formCreateEvent_select--datetime" type="datetime-local" v-model="fecha_especial">
+      <input class="formCreateEvent_select--datetime" type="datetime-local" v-model="fecha_especial" required>
 
 
-      <input class="formCreateEvent_input" placeholder="Nombre corto" type="text"  v-model="nombre_corto">
-      <input class="formCreateEvent_input" placeholder="Nombre largo" type="text" v-model="nombre_largo">
-      <textarea  class="formCreateEvent_textarea" placeholder="Descripción" v-model="descripcion"></textarea>
+      <input class="formCreateEvent_input" placeholder="Nombre corto" type="text"  v-model="nombre_corto" required>
+      <input class="formCreateEvent_input" placeholder="Nombre largo" type="text" v-model="nombre_largo" required>
+      <textarea  class="formCreateEvent_textarea" placeholder="Descripción" v-model="descripcion" required></textarea>
 
-      <Submit_Button @click="changeStateMessageModal" :message="'Actualizar'"/>
+      <Submit_Button :message="'Actualizar'"/>
     </div>
 
   </form>

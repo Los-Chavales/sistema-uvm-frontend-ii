@@ -1,5 +1,5 @@
 const Events_Model = require('../models/events_models');
-const Weeks_Model = require('../models/weeks_models');
+const Periods_Model = require('../models/periods_models')
 const Response = require('../models/response');
 
 class EventsMonths {
@@ -99,14 +99,11 @@ class Events_Controller {
 
   register_events(register) {
     return new Promise((resolve, reject) => {
-      let weekNumber = register.idSemana
       let weekDay = register.fecha_especial
       weekDay = new Date(weekDay)
       weekDay = weekDay.toLocaleDateString('en-CA', { year: 'numeric', month: 'numeric', day: 'numeric' })
 
-      Weeks_Model.search_weeks(weekNumber, weekDay).then((res) => {
-
-        register.idSemana = res.result[0].id_semana
+      Periods_Model.search_periods_range(weekDay).then((res) => {
 
         Events_Model.register_events(register).then((res) => {
           resolve(res)
@@ -123,9 +120,7 @@ class Events_Controller {
       weekDay = new Date(weekDay)
       weekDay = weekDay.toLocaleDateString('en-CA', { year: 'numeric', month: 'numeric', day: 'numeric' })
 
-      Weeks_Model.search_weeksByDate(weekDay).then((res) => {
-
-        update.idSemana = res.result[0].id_semana
+      Periods_Model.search_periods_range(weekDay).then((res) => {
 
         Events_Model.update_events(id, update).then((res) => { 
           resolve(res) 

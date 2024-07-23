@@ -5,8 +5,7 @@ import Modal_Message from '../modals/Modal_Message.vue';
 import Submit_Button from '../buttons/Submit_Button.vue';
 
 class CreateEvent {
-  constructor(idSemana, fecha_especial, nombre_corto, nombre_largo, descripcion, tipo_fecha) {
-      this.idSemana = idSemana, 
+  constructor(fecha_especial, nombre_corto, nombre_largo, descripcion, tipo_fecha) {
       this.fecha_especial = fecha_especial,
       this.nombre_corto = nombre_corto,
       this.nombre_largo = nombre_largo,
@@ -43,9 +42,10 @@ const postEvent = computed(() => {
     let month = prop.getMonth();
     let fecha_especial = props.dateWeek.toLocaleDateString('en-CA', {  year: 'numeric', month: 'numeric', day: 'numeric'})
     fecha_especial= `${fecha_especial} ${hora_evento.value}:00`
-    const eventCreate = new CreateEvent(props.weekNumber, fecha_especial, nombre_corto.value, nombre_largo.value, descripcion.value, tipo_fecha.value)
+    const eventCreate = new CreateEvent(fecha_especial, nombre_corto.value, nombre_largo.value, descripcion.value, tipo_fecha.value)
     storeEvents.postEvents(token, eventCreate, year, month)
   }
+  changeStateMessageModal()
 });
 
 
@@ -66,7 +66,7 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
    
     <div class="formCreateEvent_body">
       <div class="formCreateEvent_Containerselect">
-        <select class="formCreateEvent_select" v-model="tipo_fecha">
+        <select class="formCreateEvent_select" v-model="tipo_fecha" required>
           <option value="" disabled selected>Tipo de evento</option>
           <option class="formCreateEvent_option" value="Encuentro">Encuentro</option>
           <option class="formCreateEvent_option" value="Conferencia">Conferencia</option>
@@ -75,16 +75,16 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
           <option class="formCreateEvent_option" value="Feriado">Feriado</option>
         </select>
       </div>
-      <input class="formCreateEvent_input" placeholder="Nombre corto" type="text"  v-model="nombre_corto">
-      <input class="formCreateEvent_input" placeholder="Nombre largo" type="text" v-model="nombre_largo">
-      <textarea  class="formCreateEvent_textarea" placeholder="Descripción" v-model="descripcion"></textarea>
+      <input class="formCreateEvent_input" placeholder="Nombre corto" type="text"  v-model="nombre_corto" required>
+      <input class="formCreateEvent_input" placeholder="Nombre largo" type="text" v-model="nombre_largo" required>
+      <textarea  class="formCreateEvent_textarea" placeholder="Descripción" v-model="descripcion" required></textarea>
       <div class="formCreateActivity_containerLabel">
         <label class="formCreateActivity_label" for="timeActivity">
           Hora de la actividad:
           <input type="time" id="timeActivity" v-model="hora_evento">
         </label>
       </div>
-      <Submit_Button @click="changeStateMessageModal" :message="'Añadir'"/>
+      <Submit_Button :message="'Añadir'"/>
     </div>
 
   </form>

@@ -45,9 +45,8 @@ const putActivity = computed(() => {
     let token = cookie.token
     const activityUpdate = new UpdateActivity( fecha_actividad.value, nombre_actividad.value, descripcion.value)
     storeActivities.updateActivity(token, activityUpdate, idActivity, year, month)
-  } else {
-    console.log("no hay cookies")
   }
+  changeStateMessageModal()
 });
 
 //función para desplegar el modal 
@@ -66,13 +65,13 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
        
         <div class="formCreateActivity_body">
 
-          <input class="formCreateEvent_select--datetime" type="datetime-local" v-model="fecha_actividad">
+          <input class="formCreateEvent_select--datetime" type="datetime-local" v-model="fecha_actividad" required>
 
-          <input class="formCreateActivity_input" placeholder="Nombre Corto" type="text"  v-model="nombre_actividad">
+          <input class="formCreateActivity_input" placeholder="Nombre Corto" type="text"  v-model="nombre_actividad" required>
 
-          <textarea  class="formCreateActivity_textarea" placeholder="Descripción"  v-model="descripcion"></textarea>
+          <textarea  class="formCreateActivity_textarea" placeholder="Descripción"  v-model="descripcion" required></textarea>
           
-          <Submit_Button @click="changeStateMessageModal" :message="'Actualizar'"/>
+          <Submit_Button :message="'Actualizar'"/>
         </div>
     
       </form>
