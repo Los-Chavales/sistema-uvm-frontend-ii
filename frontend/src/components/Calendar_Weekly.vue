@@ -144,6 +144,7 @@ td {
     font-family: Poppins;
     height: 62px;
     align-content: center;
+    overflow: hidden;
 
     th {
         background: $color3;

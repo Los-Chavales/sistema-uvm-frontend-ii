@@ -38,6 +38,8 @@ let storeEvents = useEventsStore();
 
 const storePeriods = usePeriodsStore();
 
+storePeriods.searchPeriodsCurrent();
+
 const postEvent = computed(() => {
   let cookie = $cookies.get('auth')
   if(cookie !== null){
