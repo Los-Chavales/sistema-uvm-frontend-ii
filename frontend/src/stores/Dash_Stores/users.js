@@ -1,11 +1,13 @@
 import { defineStore } from "pinia";
 import axios, { Axios } from "axios";
 
+const API_URL_BASE = import.meta.env.VITE_API_BASE
 const API = 'http://localhost:4000/usuarios'
 
 export const userStore = defineStore('userStore', {
     state: ()=> ({
         users:[],
+        usersProfessors:[],
         userSubjects:[],
         /* Usuario en linea */
         userOnline: {
@@ -15,6 +17,9 @@ export const userStore = defineStore('userStore', {
     getters: { 
         getUser(state){
             return state.users
+        },
+        getUserProfessors(state){
+            return state.usersProfessors
         },
         getUserSubjects(state){
             return state.userSubjects
@@ -32,6 +37,16 @@ export const userStore = defineStore('userStore', {
             this.users = Rdata.data
         }catch(error){
             console.log(error)
+        }
+      },
+      async getOnlyProfessors(){
+        try{
+            const Rdata = await axios.get(`${API_URL_BASE}/usuarios/mostrar/profesores`)
+            console.log(Rdata.data)
+            this.usersProfessors = Rdata.data
+        }catch(error){
+            console.log(error)
+            this.usersProfessors = []
         }
       },
       /* Usuario en linea */

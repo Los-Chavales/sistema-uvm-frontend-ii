@@ -6,6 +6,8 @@ import { buttonStateStore } from '@/stores/buttonState';
 import { ref, defineEmits } from 'vue';
     const mainButtonFuction = buttonStateStore()
     const buttonState = mainButtonFuction.changeState;
+    const buttonStateAssigned = buttonStateStore()
+    const buttonChangeAssigned  = buttonStateAssigned.changeState
 
     const props = defineProps({
         tableHead:{
@@ -57,6 +59,7 @@ import { ref, defineEmits } from 'vue';
                 <h3>{{ props.h3Title }}</h3>  
             </div>
         <button class="button--white button" @click="buttonState('create')">{{props.mainButton}}</button>
+        <button class="button--white button" @click="buttonChangeAssigned('manage')">Asignar</button>
 
         </span>
         <div class="gestorContainer__handleTable">
@@ -156,5 +159,6 @@ import { ref, defineEmits } from 'vue';
 
     .button{
         margin-top:35px;
+        margin-left:15px;
     }
 </style>

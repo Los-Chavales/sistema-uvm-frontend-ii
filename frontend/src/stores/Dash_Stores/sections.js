@@ -1,7 +1,9 @@
 import { defineStore } from "pinia";
 import axios, { Axios } from "axios";
 
+const API_URL_BASE = import.meta.env.VITE_API_BASE
 const API = 'http://localhost:4000/secciones/'
+const APISections = '/secciones/'
 
 export const sectionStore = defineStore('sectionStore', {
     state: ()=> ({
@@ -16,10 +18,11 @@ export const sectionStore = defineStore('sectionStore', {
     actions:{
       async getSections(){
         try{
-            const Rdata = await axios.get(`${API}mostrar`)
+            const Rdata = await axios.get(`${API_URL_BASE}${APISections}mostrar`)
             this.sections = Rdata.data
         }catch(error){
             console.log(error)
+            this.sections = []
         }
       },
       async sendSection(dataU, token){

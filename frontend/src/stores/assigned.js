@@ -17,6 +17,11 @@ export const useAssignedStore = defineStore("assigned", {
         statusError: false,
         message: ''
       },
+      resultForm: {
+        statusErrorForm: false,
+        messageForm: '',
+        listDetails: []
+      }
     }
   }),
   getters: {
@@ -34,6 +39,9 @@ export const useAssignedStore = defineStore("assigned", {
     },
     getIdAssigned(state) {
       return state.options.id_asignado
+    },
+    getFormResult(state) {
+      return state.options.resultForm
     },
   },
   actions: {
@@ -68,6 +76,32 @@ export const useAssignedStore = defineStore("assigned", {
         this.options.error.message = error.response.data
         this.options.assigned = []
       } 
+    },
+    async postAssigned(token, register){
+      console.log("En LA STORE")
+      await axios.post(`${API_URL_BASE}/asignados/registrar`, register, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }).then(response => {
+        console.log("RESPUESTA en la store se Asignados")
+        console.log(response.data)
+        if(response.data === "Hay repetidos"){
+          this.options.resultForm.statusErrorForm = false
+          this.options.resultForm.messageForm = "Puede que ya haya alguna asignación similar"
+        }else{
+          this.options.resultForm.statusErrorForm = false
+          this.options.resultForm.messageForm = "Asignación exitosa"
+        }
+      })
+      .catch(err => {
+        console.log("ERROR")
+        console.log(err)
+        this.options.resultForm.statusErrorForm = true
+        this.options.resultForm.messageForm = "Error al enviar"
+      }); 
+      
     },
   },
 })

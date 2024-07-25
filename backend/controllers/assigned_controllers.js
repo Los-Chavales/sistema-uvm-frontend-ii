@@ -29,6 +29,22 @@ class Assigned_Controller {
       Assigned_Model.see_specific_assigned(idTeacher, idAssigned).then((res) => { resolve(res) }).catch((error) => { reject(error); })
     })
   }
+  register_assigned(register) {
+    return new Promise((resolve, reject) => {
+     for (let i = 0; i < register.idMaterias.length; i++) {
+      Assigned_Model.search_for_repeats(register.idProfesor, register.idMaterias[i], register.idSeccion)
+      .then((res) => { 
+
+        Assigned_Model.register_assigned({idProfesor: register.idProfesor, idMateria: register.idMaterias[i], idSeccion: register.idSeccion})
+        .then((res) => 
+          { resolve(res) }
+        )
+        .catch((error) => { reject(error); })
+
+      }).catch((error) => { reject(error); })
+     }
+    })
+  }
 }
 
 module.exports = new Assigned_Controller();
