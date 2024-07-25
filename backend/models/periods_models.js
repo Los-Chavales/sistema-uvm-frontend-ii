@@ -51,7 +51,7 @@ class Periods_Model {
   search_periods_by(name, value) {
     return new Promise((resolve, reject) => {
       if (!name || !value) return reject(new Response(400, 'La solicitud no fue realizada correctamente', [name, value]))
-      connection.query('SELECT * FROM `periodos` WHERE ? = ?', [name, value], function (error, results, fields) {
+      connection.query(`SELECT * FROM periodos WHERE ${name} = '${value}'`, function (error, results, fields) {
         if (error) {
           reject(new Response(500, error, error));
         } else {

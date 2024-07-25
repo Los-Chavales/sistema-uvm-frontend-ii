@@ -111,7 +111,8 @@ export const useEventsStore = defineStore("events", {
         nombre_corto: event.nombre_corto,
         nombre_largo: event.nombre_largo,
         descripcion: event.descripcion,
-        tipo_fecha: event.tipo_fecha
+        tipo_fecha: event.tipo_fecha,
+        idPeriodo: event.idPeriodo
       });
       const data = await axios.post(`${API_URL_BASE}/eventos/registrar`, json, {
         headers: {

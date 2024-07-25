@@ -1,16 +1,18 @@
 <script setup>
 import { defineProps, ref, computed } from 'vue';
 import { useEventsStore } from '@/stores/events';
+import { usePeriodsStore } from '@/stores/periods';
 import Modal_Message from '../modals/Modal_Message.vue';
 import Submit_Button from '../buttons/Submit_Button.vue';
 
 class CreateEvent {
-  constructor(fecha_especial, nombre_corto, nombre_largo, descripcion, tipo_fecha) {
+  constructor(fecha_especial, nombre_corto, nombre_largo, descripcion, tipo_fecha, idPeriodo) {
       this.fecha_especial = fecha_especial,
       this.nombre_corto = nombre_corto,
       this.nombre_largo = nombre_largo,
       this.descripcion = descripcion,
-      this.tipo_fecha = tipo_fecha
+      this.tipo_fecha = tipo_fecha,
+      this.idPeriodo = idPeriodo
   }
 }
 
@@ -34,6 +36,8 @@ let hora_evento = ref('00:00');
 
 let storeEvents = useEventsStore();
 
+const storePeriods = usePeriodsStore();
+
 const postEvent = computed(() => {
   let cookie = $cookies.get('auth')
   if(cookie !== null){
@@ -42,7 +46,8 @@ const postEvent = computed(() => {
     let month = prop.getMonth();
     let fecha_especial = props.dateWeek.toLocaleDateString('en-CA', {  year: 'numeric', month: 'numeric', day: 'numeric'})
     fecha_especial= `${fecha_especial} ${hora_evento.value}:00`
-    const eventCreate = new CreateEvent(fecha_especial, nombre_corto.value, nombre_largo.value, descripcion.value, tipo_fecha.value)
+    let periodMomentID = storePeriods.getPeriodCurrent
+    const eventCreate = new CreateEvent(fecha_especial, nombre_corto.value, nombre_largo.value, descripcion.value, tipo_fecha.value, periodMomentID[0].id_periodo)
     storeEvents.postEvents(token, eventCreate, year, month)
   }
   changeStateMessageModal()
