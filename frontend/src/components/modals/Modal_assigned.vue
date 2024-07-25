@@ -81,7 +81,6 @@ const createAssigned = computed(() => {
 let stateMessageModal = ref(false);
 const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageModal.value)
 
-
 </script>
 
 <template>
@@ -354,38 +353,34 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
 }
 
 @media (max-width: 1000px) {
-/*    *{
-    background-color: aqua;
-   } */
-    
-  /*.container_buttons{
+  .container_buttons{
+    height: 500px;
+    width: 350px;
+    flex-direction: column;
+    background: rgba(158, 158, 158, 0.40);
+    overflow: auto;
+  }
+
+  .materiasContainer{
+    width: 100%;
+    margin: 0;
     padding: 0;
-  }
-   
-  .materiasContainer label{
+    height: auto;
     display: block;
-    padding: 20px;
-    font-size: 20px;
-
-    cursor: pointer;
-    margin-bottom: 2px;
-    transition: all 300ms ease;
+    overflow: visible;
   }
 
-  .dropdown .subject_check{
+  //Lo que lo hace desplegable
+  .materiasContainer .subject_check{
     padding: 0px;
-    margin: 0px 20px;
     max-height: 0px;
     overflow: hidden;
     transition: all 300ms ease;
   }
-
   .btn-dropdown:checked ~ .subject_check{
-    max-height: 600px;
-    padding: 15px 0px;
-    background-color: aqua;
-  }*/
-
+      max-height: 600px;
+      padding: 15px 0px;
+  }
 }
 
 </style>

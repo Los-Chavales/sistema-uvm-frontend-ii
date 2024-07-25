@@ -117,20 +117,20 @@ const sendSubject = ( nombre, seccion) => {
 
         <!-- Parte de mostrar eventos -->
 
-        <div class="modal_part">
+   <!--      <div class="modal_part">
           <div class="part_container">
             <div class="searcher">
               <input class="searcher_input" placeholder="Buscar..." name="buscador" type="buscador" id="buscador" />
               <span class="searcher_icon">
                 <i class="fa-solid fa-magnifying-glass "></i>
               </span>
-            </div>
+            </div> -->
             <!-- En caso de no tener nada -->
 <!-- 
             <div class="container_details" v-if="getEvents.length === 0">
               <p class="part_p p--activity">No hay nada para hoy</p>
             </div> -->
-
+<!-- 
             <div class="materiasContainer">
               <div class="title">
                 <div class="title_container">
@@ -143,7 +143,7 @@ const sendSubject = ( nombre, seccion) => {
                 <span v-for="subject in subjects" :key="subject.id_materia" class="subject_check"><input type='checkbox' @click="sendSubject(subject.nombre_materia, subject.seccion)">{{ subject.nombre_materia }} ({{ subject.seccion }})</span>
             </div>
           </div>
-        </div>
+        </div> -->
 
       </div>
 
@@ -184,7 +184,8 @@ const sendSubject = ( nombre, seccion) => {
     align-items: center;
     flex-direction: column;
     background-color: $color4;
-    width: 790px;
+    //width: 790px;
+    width: auto;
     height: 579px; 
     padding: 15px 30px 30px 30px;
     border-radius: 15px;
@@ -245,6 +246,10 @@ const sendSubject = ( nombre, seccion) => {
     margin: 10px;
     height: 100%;
     overflow: auto;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
 
