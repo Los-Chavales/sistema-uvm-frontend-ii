@@ -55,7 +55,7 @@ import { ref, defineEmits } from 'vue';
   <div class="gestorContainer">
         <span class="gestorContainer-text">
             <div class="gestorContainer__h">
-                <h1 >{{ props.h1Title }}</h1>
+                <h1>{{ props.h1Title }}</h1>
                 <h3>{{ props.h3Title }}</h3>  
             </div>
         <button class="button--white button" @click="buttonState('create')">{{props.mainButton}}</button>
@@ -72,7 +72,7 @@ import { ref, defineEmits } from 'vue';
                     <tr class="tr-body" v-for="( element, index ) in props.forTable" :key="index">
                         
                     <td v-for="( item, index ) in props.forBody" :key="index">{{ element[item] }}</td>
-                    <td v-if=" props.options "><Show @click="takenID( element.nombre)" :change="toChangeState"/><Edit_Button @click="takenID( element.nombre)" :change="toChangeState"/><Delete_Button /></td>
+                    <td v-if=" props.options "><Show @click="takenID( element.nombre)" :change="toChangeState"/><Edit_Button @click="takenID( element.nombre)" :change="buttonState"/><Delete_Button /></td>
 
                     </tr>
                 </tbody>

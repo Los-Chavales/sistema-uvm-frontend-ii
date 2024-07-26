@@ -63,7 +63,7 @@
         <div class="modal_part">
           <div class="part_container">
 
-            <div class="materiasContainer">
+            <div class="materiasContainer" v-if="userSub[0]">
               <div class="title">
                 <div class="title_container">
                   <span class="icon_container">  
@@ -72,12 +72,23 @@
                 </span>
                 </div>
               </div>
-                <span v-for="(subject, index) in userSub[0].materias"  class="subject_check" :key="index" ><span @click="toggle" :class=" toggleV ? 'toggle' : 'noToggle' "><i  class="fa-solid fa-v" ></i></span>
+                <span   v-for="(subject, index) in userSub[0].materias"  class="subject_check" :key="index" ><span @click="toggle" :class=" toggleV ? 'toggle' : 'noToggle' "><i  class="fa-solid fa-v" ></i></span>
                 <p class="subTitle">{{ subject.nombre_materia }} ({{ subject.seccion }})</p>
                 <div class="description" v-show="toggleV">
                   <p class="desctiptionP">{{ subject.descripcion }}</p>
                 </div>
                 </span>
+            </div>
+            <div class="materiasContainer" v-else>
+              <div class="title">
+                <div class="title_container">
+                  <span class="icon_container">  
+                  <i class="fa-solid fa-calendar"></i>
+                    <h3 class="part_title subject_title">Materias</h3>
+                </span>
+                </div>
+              </div>
+              <h2 style="text-align: left; font-family: Ubuntu; padding: 10px;">No tiene materias asignadas por ahora</h2>
             </div>
 
           </div>
