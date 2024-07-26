@@ -11,7 +11,8 @@ const storeUser = userStore();
 let rol_online = storeUser.getUserOnlineRol;
 
 class CreateEvent {
-  constructor(fecha_especial, nombre_corto, nombre_largo, descripcion, tipo_fecha, idPeriodo) {
+  constructor(idSemana, fecha_especial, nombre_corto, nombre_largo, descripcion, tipo_fecha, idPeriodo) {
+      this.idSemana = idSemana,
       this.fecha_especial = fecha_especial,
       this.nombre_corto = nombre_corto,
       this.nombre_largo = nombre_largo,
@@ -31,7 +32,6 @@ const props = defineProps({
 
 let prop = props.dateWeek
 let title_from_teacher = prop.toLocaleDateString('es-ES', { weekday: 'long' })
-
 
 let tipo_fecha = ref('');
 let nombre_corto = ref('');
@@ -54,8 +54,8 @@ const postEvent = computed(() => {
     let fecha_especial = props.dateWeek.toLocaleDateString('en-CA', {  year: 'numeric', month: 'numeric', day: 'numeric'})
     fecha_especial= `${fecha_especial} ${hora_evento.value}:00`
     let periodMomentID = storePeriods.getPeriodCurrent
-    const eventCreate = new CreateEvent(fecha_especial, nombre_corto.value, nombre_largo.value, descripcion.value, tipo_fecha.value, periodMomentID[0].id_periodo)
-    storeEvents.postEvents(token, eventCreate, year, month)
+    const eventCreate = new CreateEvent(props.weekNumber, fecha_especial, nombre_corto.value, nombre_largo.value, descripcion.value, tipo_fecha.value, periodMomentID[0].id_periodo)
+    storeEvents.postEvents(token, eventCreate, year, month, rol_online)
   }
   changeStateMessageModal()
 });

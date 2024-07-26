@@ -110,27 +110,6 @@ function validate_activities(activity, decline) {
   }
 }
 
-function validate_weeks(week, decline) {
-  const errors = [];
-  if(week.fecha_inicio === "" || week.fecha_inicio === undefined || isNaN(Date.parse(week.fecha_inicio))){
-    errors.push("La fecha del inicio de semana es requerida")
-  }
-  if(week.fecha_cierre === "" || week.fecha_cierre === undefined || isNaN(Date.parse(week.fecha_cierre))){
-    errors.push("La fecha del cierre de semana es requerida")
-  }
-  if(week.numero_semana === "" || week.numero_semana === undefined || isNaN(week.numero_semana)){
-    errors.push("El número de la semana es requerido")
-  }
-
-  if(errors.length !== 0){
-    console.log(errors)
-    return decline(new Response(415, "Uno o más datos son incorrectos", errors))
-  }else{
-    return true
-  }
-}
-
-
 function validate_time(hours) {
   let verify = hours.split(":")
   let verify_numbers = 0
@@ -200,4 +179,4 @@ function validate_periods(period, decline, seeErrors) {
   }
 }
 
-module.exports = { validate_users, validate_sections, validate_subjects, validate_events, validate_activities, validate_weeks, validate_schedules, validate_periods };
+module.exports = { validate_users, validate_sections, validate_subjects, validate_events, validate_activities, validate_schedules, validate_periods };

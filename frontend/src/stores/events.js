@@ -8,6 +8,11 @@ export const useEventsStore = defineStore("events", {
       events: [],
       eventsDownload: [],
       event:[],
+      id_asignado: 0,
+      dateMoment: {
+        yearMoment: "",
+        monthMoment: "",
+      },
       error: {
         statusError: false,
         message: ''
@@ -34,12 +39,33 @@ export const useEventsStore = defineStore("events", {
     },
     getFormResult(state) {
       return state.options.resultForm
+    },
+    getDateMoment(state) {
+      return state.options.dateMoment
     }
   },
   actions: {
+    async obtainIdAssigned(idAssigned) {
+      this.options.id_asignado = idAssigned
+    },
+    async searchEventsMonthsIdAssigned(year, month) {
+      this.options.dateMoment.yearMoment = year
+      this.options.dateMoment.monthMoment = month
+      let idAssignedMoment = this.options.id_asignado
+      try {
+        const data = await axios.get(`${API_URL_BASE}/eventos/mostrar/mes/${year}/${month}/${idAssignedMoment}`)
+        this.options.events = data.data
+        this.options.error.statusError = false
+      }
+      catch (error) {
+        console.log(error)
+        this.options.events = []
+      }
+    }, 
     async searchAllEvents() {
       try {
-        const data = await axios.get(`${API_URL_BASE}/eventos/mostrar`)
+        //const data = await axios.get(`${API_URL_BASE}/eventos/mostrar`)
+        const data = await axios.get(`${API_URL_BASE}/eventos/mostrar/asignados/${this.options.id_asignado}`)
 
         let header = ["Fecha", "Nombre", "Descripción", "Tipo de Evento"];
         let eventsList = [header]
@@ -104,16 +130,30 @@ export const useEventsStore = defineStore("events", {
         this.options.event = []
       } 
     },
-    async postEvents(token, event, year, month){
-      const json = JSON.stringify({ 
-        idSemana: event.idSemana, 
-        fecha_especial: event.fecha_especial,
-        nombre_corto: event.nombre_corto,
-        nombre_largo: event.nombre_largo,
-        descripcion: event.descripcion,
-        tipo_fecha: event.tipo_fecha,
-        idPeriodo: event.idPeriodo
-      });
+    async postEvents(token, event, year, month, rolUser){
+      let json;
+      if(rolUser === "director"){
+        json = JSON.stringify({ 
+          idSemana: event.idSemana, 
+          fecha_especial: event.fecha_especial,
+          nombre_corto: event.nombre_corto,
+          nombre_largo: event.nombre_largo,
+          descripcion: event.descripcion,
+          tipo_fecha: event.tipo_fecha,
+          idPeriodo: event.idPeriodo
+        });
+      }else if(rolUser === "profesor"){
+        json = JSON.stringify({ 
+          idSemana: event.idSemana, 
+          fecha_especial: event.fecha_especial,
+          nombre_corto: event.nombre_corto,
+          nombre_largo: event.nombre_largo,
+          descripcion: event.descripcion,
+          tipo_fecha: event.tipo_fecha,
+          idPeriodo: event.idPeriodo,
+          idAsignados: this.options.id_asignado,
+        });
+      }
       const data = await axios.post(`${API_URL_BASE}/eventos/registrar`, json, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -124,7 +164,8 @@ export const useEventsStore = defineStore("events", {
         this.options.resultForm.statusErrorForm = false
         this.options.resultForm.messageForm = response.data
         this.options.resultForm.listDetails = []
-        this.searchEventsMonths(year, month) //Volver a mostrar los datos
+        this.searchEventsMonthsIdAssigned(year, month)
+        this.searchEventsMonths(year, month)  //Volver a mostrar los datos
         this.searchAllEvents()
       })
       .catch(err => {
@@ -151,7 +192,8 @@ export const useEventsStore = defineStore("events", {
         this.options.resultForm.statusErrorForm = false
         this.options.resultForm.messageForm = response.data
         this.options.resultForm.listDetails = []
-        this.searchEventsMonths(year, month) //Volver a mostrar los datos
+        this.searchEventsMonthsIdAssigned(year, month) //Volver a mostrar los datos
+        this.searchEventsMonths(year, month) 
         this.searchAllEvents()
       })
       .catch(err => {
@@ -168,7 +210,8 @@ export const useEventsStore = defineStore("events", {
           }
         });
         console.log(`exito has eliminado el evento:${id_fecha_especial}`)
-        this.searchEventsMonths(year, month) //Volver a mostrar los datos
+        this.searchEventsMonthsIdAssigned(year, month) //Volver a mostrar los datos
+        this.searchEventsMonths(year, month) 
         this.searchAllEvents()
       }
       catch (error){

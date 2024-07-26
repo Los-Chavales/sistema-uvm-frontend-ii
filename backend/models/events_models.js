@@ -83,6 +83,39 @@ class Events_Model {
     })
   }
 
+  search_events_month_ByAssigned(dateStart, dateFinish, idAssigned) {
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM `fechas_especiales` WHERE (`fecha_especial` < ? AND `fecha_especial` >= ?) && (`idAsignados` IS null || `idAsignados` = ?)', [dateFinish, dateStart, idAssigned], function (error, results, fields) {
+        if (error) {
+          reject(new Response(500, error, error));
+        } else {
+          if (results.length == 0) {
+            reject(new Response(404, 'No existen eventos para la materia', results));
+          } else {
+            resolve(new Response(200, results, results));
+          }
+        };
+      });
+    })
+  }
+
+  
+  search_events_Assigned(idAssigned) {
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM `fechas_especiales` WHERE `idAsignados` = ? ORDER BY `fechas_especiales`.`fecha_especial` ASC', idAssigned, function (error, results, fields) {
+        if (error) {
+          reject(new Response(500, error, error));
+        } else {
+          if (results.length == 0) {
+            reject(new Response(404, 'No existen eventos para la materia', results));
+          } else {
+            resolve(new Response(200, results, results));
+          }
+        };
+      });
+    })
+  }
+
   see_events_planning() {
     return new Promise((resolve, reject) => {
       connection.query('SELECT `nombre_corto`, `nombre_largo`, `numero_semana`, `fecha_especial` FROM `fechas_especiales` JOIN `semanas` WHERE idSemana = id_semana', function (error, results, fields) {
