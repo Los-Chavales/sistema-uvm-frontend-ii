@@ -1,8 +1,6 @@
 import { defineStore } from 'pinia'
 import { useActivitiesStore } from './activities'
-import { useEventsStore } from './events';
 let storeActivities = useActivitiesStore();
-let storeEvents = useEventsStore();
 import axios from "axios"
 const API_URL_BASE = import.meta.env.VITE_API_BASE
 
@@ -42,14 +40,8 @@ export const useAssignedStore = defineStore("assigned", {
     getIdAssigned(state) {
       return state.options.id_asignado
     },
-    getIdAssigned(state) {
-      return state.options.id_asignado
-    },
     getFormResult(state) {
       return state.options.resultForm
-    },
-    getEditState(state) {
-      return state.options.editState
     },
   },
   actions: {
@@ -77,11 +69,9 @@ export const useAssignedStore = defineStore("assigned", {
         this.options.error.statusError = false
         this.options.editState = true
         storeActivities.obtainIdAssigned(this.options.id_asignado)
-        storeEvents.obtainIdAssigned(this.options.id_asignado)
         //this.searchActivitiesIdAssigned(this.options.yearMoment, this.options.id_asignado)
       }
       catch (error) {
-        this.options.editState = false
         this.options.error.statusError = true
         this.options.error.message = error.response.data
         this.options.assigned = []

@@ -14,23 +14,20 @@ let storeActivities = useActivitiesStore();
 
 let storeAssigned = useAssignedStore();
 
-const getEditState = computed(() => {
-  return storeAssigned.getEditState;
+const getIdAssigned = computed(() => {
+  return storeAssigned.getIdAssigned;
 });
-
 
 //Llamar a las sotres
 
 onMounted(() => {
-    storeActivities.searchActivitiesMonthsIdAssigned(year.value, month.value);
-    storeEvents.searchEventsMonthsIdAssigned(year.value, month.value);
-    //storeEvents.searchEventsMonths(year.value, month.value);
+    storeActivities.searchActivitiesMonthsIdAssigned(year.value, month.value); 
+    storeEvents.searchEventsMonths(year.value, month.value);
 })
 
 onUpdated(() => {
     storeActivities.searchActivitiesMonthsIdAssigned(year.value, month.value);
-    storeEvents.searchEventsMonthsIdAssigned(year.value, month.value);
-    //storeEvents.searchEventsMonths(year.value, month.value);
+    storeEvents.searchEventsMonths(year.value, month.value);
 })
 
 </script>
@@ -72,7 +69,7 @@ onUpdated(() => {
                             :date="new Date(year, calMonth(day, month, i, weeks), day)" 
                             :seeActivities="true"
                             :seeEvents="false" 
-                            :isEditor="getEditState" 
+                            :isEditor="getIdAssigned" 
                             :isPlannig="true" 
                             :isEvent="false" 
                             :weekNumber="week.number" 
@@ -87,7 +84,7 @@ onUpdated(() => {
                             :date="new Date(year, calMonth(day, month, i, weeks), day)" 
                             :seeActivities="false"
                             :seeEvents="true" 
-                            :isEditor="getEditState" 
+                            :isEditor="true" 
                             :isPlannig="true" 
                             :isEvent="true" 
                             :weekNumber="week.number" 
