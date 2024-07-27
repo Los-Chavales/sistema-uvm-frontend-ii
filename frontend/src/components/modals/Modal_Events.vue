@@ -6,6 +6,11 @@
   import Delete_Button from '../buttons/Delete_Button.vue';
   import Modal_Form from './Modal_Form.vue';
 
+  const storeUser = userStore();
+
+  let rol_online = storeUser.getUserOnlineRol;
+
+
   const props = defineProps({
     day: Number,
     date: Date,

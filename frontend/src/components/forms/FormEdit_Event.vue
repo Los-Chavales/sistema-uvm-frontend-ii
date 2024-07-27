@@ -78,9 +78,11 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
           <option value="" disabled selected>Tipo de evento</option>
           <option class="formCreateEvent_option" value="Encuentro">Encuentro</option>
           <option class="formCreateEvent_option" value="Conferencia">Conferencia</option>
-          <option class="formCreateEvent_option" value="Feria">Feria</option>
-          <option class="formCreateEvent_option" value="corte de notas">Corte de notas</option>
-          <option class="formCreateEvent_option" value="Feriado">Feriado</option>
+          <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="Feria">Feria</option>
+          <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="corte de notas">Corte de notas</option>
+          <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="Feriado">Feriado</option>
+          <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="Entregables">Entregables</option>
+          <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="Otros">Otros</option>
         </select>
       </div>
 
