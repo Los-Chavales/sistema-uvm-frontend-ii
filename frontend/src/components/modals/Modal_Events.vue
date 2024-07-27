@@ -10,8 +10,6 @@
   const storeUser = userStore();
 
   let rol_online = storeUser.getUserOnlineRol;
-  console.log("ROL EN EVENTOS")
-  console.log(rol_online)
 
 
   const props = defineProps({
