@@ -36,6 +36,16 @@ const router = createRouter({
       }
     },
     {
+      path: '/admin-dsh/cortes',
+      name: 'Cortes',
+      component: () => import('../views/DashViews/CutOffWindow.vue'),
+      meta: {
+        requireLogin : true,
+        rol_teacher : false,
+        rol_director : true,
+      }
+    },
+    {
       path: '/admin-dsh/planificaciones',
       name: 'Planificaciones',
       component: () => import('../views/PlanningView.vue'),
