@@ -123,9 +123,9 @@ class Events_Controller {
     })
   }
 
-  search_events_Assigned(idAssigned) {
+  search_events_Assigned(idAssigned, idPeriod) {
     return new Promise((resolve, reject) => {
-      Events_Model.search_events_Assigned(idAssigned).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+      Events_Model.search_events_Assigned(idAssigned, idPeriod).then((res) => { resolve(res) }).catch((error) => { reject(error); })
     })
   }
   

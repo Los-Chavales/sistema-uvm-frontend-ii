@@ -10,7 +10,8 @@ const storeActivities = useActivitiesStore();
 storeEvents.searchAllEvents();
 
 function downloadPlanification(){ 
-  let dataEvents = toRaw(storeEvents.getEventsDownload)
+  console.log("algo")
+/*   let dataEvents = toRaw(storeEvents.getEventsDownload)
   let dataActivities = toRaw(storeActivities.getActivitiesDownload)
   
   const workbook = XLSX.utils.book_new(); //Iniciar un nuevo archivo
@@ -23,7 +24,7 @@ function downloadPlanification(){
   }
 
 
-  XLSX.writeFile(workbook, "planificacion.xlsx"); 
+  XLSX.writeFile(workbook, "planificacion.xlsx");  */
 } 
  
 export {downloadPlanification}

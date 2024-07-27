@@ -73,18 +73,6 @@ router.get('/mostrar/mes/:year/:month/:idAssigned', function (req, res, next) {
     })
 });
 
-/* GET buscar todos los eventos por asignados */
-router.get('/mostrar/asignados/:idAssigned', function (req, res, next) {
-  Events_Controller.search_events_Assigned(req.params.idAssigned) 
-    .then((results) => {
-      res.status(results.code).send(results.result);
-    })
-    .catch((error) => {
-      //console.log(error);
-      if (!error.code || !error.message) return res.status(500).send(error);
-      res.status(error.code).send(error.message);
-    })
-});
 
 /* GET mostrar eventos para la planificación */
 router.get('/mostrar_planificacion', function (req, res, next) {

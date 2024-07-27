@@ -100,14 +100,14 @@ class Events_Model {
   }
 
   
-  search_events_Assigned(idAssigned) {
+  search_events_Assigned(idAssigned, idPeriod) {
     return new Promise((resolve, reject) => {
-      connection.query('SELECT * FROM `fechas_especiales` WHERE `idAsignados` = ? ORDER BY `fechas_especiales`.`fecha_especial` ASC', idAssigned, function (error, results, fields) {
+      connection.query("SELECT `fecha_especial` AS Fecha, `nombre_largo` AS Nombre, `descripcion` AS Descripcion, `tipo_fecha` AS 'Tipo_de_Evento' FROM `fechas_especiales` WHERE `idAsignados` = ? && `idPeriodo` = ? ORDER BY `fechas_especiales`.`fecha_especial` ASC", [idAssigned,idPeriod], function (error, results, fields) {
         if (error) {
           reject(new Response(500, error, error));
         } else {
           if (results.length == 0) {
-            reject(new Response(404, 'No existen eventos para la materia', results));
+            resolve(new Response(404, [], results));
           } else {
             resolve(new Response(200, results, results));
           }

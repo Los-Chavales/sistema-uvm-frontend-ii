@@ -73,18 +73,6 @@ router.get('/mostrar/mes/:year/:month/:idAssigned', function (req, res, next) {
     })
 });
 
-/* GET buscar todas las actividades por asignados */
-router.get('/mostrar/asignados/:idAssigned', function (req, res, next) {
-  Activities_Controller.search_activities_Assigned(req.params.idAssigned) 
-    .then((results) => {
-      res.status(results.code).send(results.result);
-    })
-    .catch((error) => {
-      //console.log(error);
-      if (!error.code || !error.message) return res.status(500).send(error);
-      res.status(error.code).send(error.message);
-    })
-});
 
 /* GET mostrar actividades para la planificación */
 router.get('/mostrar_planificacion/:index_subject/:index_section', function(req, res, next) {

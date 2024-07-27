@@ -126,9 +126,9 @@ class Activities_Controller {
     })
   }
 
-  search_activities_Assigned(idAssigned) {
+  search_activities_Assigned(idAssigned, idPeriod) {
     return new Promise((resolve, reject) => {
-      Activities_Model.search_activities_Assigned(idAssigned).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+      Activities_Model.search_activities_Assigned(idAssigned, idPeriod).then((res) => { resolve(res) }).catch((error) => { reject(error); })
     })
   }
 

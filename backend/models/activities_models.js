@@ -100,14 +100,14 @@ class Activities_Model{
     })
   }
 
-  search_activities_Assigned(idAssigned) {
+  search_activities_Assigned(idAssigned, idPeriod) {
     return new Promise((resolve, reject) => {
-      connection.query('SELECT * FROM `actividades` WHERE `idAsignados` = ? ORDER BY `actividades`.`fecha_actividad` ASC', idAssigned, function (error, results, fields) {
+      connection.query('SELECT `fecha_actividad` AS Fecha, `nombre_actividad` AS Nombre, `descripcion` AS Descripcion FROM `actividades` WHERE `idAsignados` = ? && `idPeriodo` = ? ORDER BY `actividades`.`fecha_actividad` ASC', [idAssigned,idPeriod], function (error, results, fields) {
         if (error) {
           reject(new Response(500, error, error));
         } else {
           if (results.length == 0) {
-            reject(new Response(404, 'No existen actividades para la materia', results));
+            resolve(new Response(404, [], results));
           } else {
             resolve(new Response(200, results, results));
           }
