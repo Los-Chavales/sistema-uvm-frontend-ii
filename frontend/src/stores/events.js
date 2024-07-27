@@ -62,7 +62,7 @@ export const useEventsStore = defineStore("events", {
         this.options.events = []
       }
     }, 
-    async searchAllEvents() {
+ /*    async searchAllEvents() {
       try {
         //const data = await axios.get(`${API_URL_BASE}/eventos/mostrar`)
         const data = await axios.get(`${API_URL_BASE}/eventos/mostrar/asignados/${this.options.id_asignado}`)
@@ -92,7 +92,7 @@ export const useEventsStore = defineStore("events", {
         this.options.error.message = error.response.data
         this.options.eventsDownload = []
       }
-    },
+    }, */
     async searchEvents(date) {
       try {
         const data = await axios.get(`${API_URL_BASE}/eventos/mostrar/fecha/${date}`)
@@ -166,7 +166,7 @@ export const useEventsStore = defineStore("events", {
         this.options.resultForm.listDetails = []
         this.searchEventsMonthsIdAssigned(year, month)
         this.searchEventsMonths(year, month)  //Volver a mostrar los datos
-        this.searchAllEvents()
+        //this.searchAllEvents()
       })
       .catch(err => {
         this.options.resultForm.statusErrorForm = true
@@ -194,7 +194,7 @@ export const useEventsStore = defineStore("events", {
         this.options.resultForm.listDetails = []
         this.searchEventsMonthsIdAssigned(year, month) //Volver a mostrar los datos
         this.searchEventsMonths(year, month) 
-        this.searchAllEvents()
+       // this.searchAllEvents()
       })
       .catch(err => {
         this.options.resultForm.statusErrorForm = true
@@ -212,7 +212,7 @@ export const useEventsStore = defineStore("events", {
         console.log(`exito has eliminado el evento:${id_fecha_especial}`)
         this.searchEventsMonthsIdAssigned(year, month) //Volver a mostrar los datos
         this.searchEventsMonths(year, month) 
-        this.searchAllEvents()
+       // this.searchAllEvents()
       }
       catch (error){
         console.log(error)

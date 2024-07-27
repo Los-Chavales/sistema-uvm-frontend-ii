@@ -40,7 +40,7 @@ const getAssignedSectionName = computed(() => {
             </ul>
         </div>
         <div class="optionPeriod">
-            <Entity_Button class="button__download" message="Descargar Planificación"  @click="donwload" />
+            <Entity_Button class="button__download" message="Descargar Planificación"  @onClick="donwload" />
         </div>
     </div>
     <Calendar_Weekly />

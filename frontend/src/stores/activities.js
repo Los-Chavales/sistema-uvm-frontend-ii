@@ -61,7 +61,7 @@ export const useActivitiesStore = defineStore("activities", {
         this.options.activities = []
       }
     }, 
-    async searchAllActivities() {
+/*     async searchAllActivities() {
       try {
         //const data = await axios.get(`${API_URL_BASE}/actividades/mostrar`)
         const data = await axios.get(`${API_URL_BASE}/actividades/mostrar/asignados/${this.options.id_asignado}`)
@@ -89,7 +89,7 @@ export const useActivitiesStore = defineStore("activities", {
         this.options.error.message = error.response.data
         this.options.activitiesDownload = []
       }
-    },
+    }, */
     async searchActivities(date) {
       try {
         const data = await axios.get(`${API_URL_BASE}/actividades/mostrar/fecha/${date}`)
@@ -136,7 +136,7 @@ export const useActivitiesStore = defineStore("activities", {
         this.options.resultForm.listDetails = []
         //this.searchActivitiesMonths(year, month)
         this.searchActivitiesMonthsIdAssigned(year, month)
-        this.searchAllActivities()
+        //this.searchAllActivities()
       })
       .catch(err => {
         if(Array.isArray(err.response.data)){
@@ -170,7 +170,7 @@ export const useActivitiesStore = defineStore("activities", {
         this.options.resultForm.listDetails = []
         //this.searchActivitiesMonths(year, month) //Volver a mostrar los datos
         this.searchActivitiesMonthsIdAssigned(year, month)
-        this.searchAllActivities()
+        //this.searchAllActivities()
         console.log(`se actualizó la actividad:${id_actividad}`)
       })
       .catch(err => {
@@ -191,7 +191,7 @@ export const useActivitiesStore = defineStore("activities", {
         console.log(`eliminaste la actividad:${id_actividad}`)
         //this.searchActivitiesMonths(year, month)
         this.searchActivitiesMonthsIdAssigned(year, month)
-        this.searchAllActivities()
+        //this.searchAllActivities()
       }
       catch (error){
         console.log(error)

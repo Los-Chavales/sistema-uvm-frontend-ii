@@ -54,11 +54,20 @@ router.get("/:idAssigned/:idPeriod", function (req, res, next) {
           
             workbook.sheet("Sheet1").cell("A1").value(eventsList);
     
-            res.send("Descarga exitosa")
-            return workbook.toFileAsync("../planificacion.xlsx");
-        }).catch(() => {
-          res.send("Descarga fallida")
-      });  
+           /*  res.send("Descarga exitosa")
+            return workbook.toFileAsync("../planificacion.xlsx"); */
+            return workbook.outputAsync();
+        })
+        .then(data => {
+          // Set the output file name.
+          res.attachment("planificacion.xlsx");
+
+          // Send the workbook.
+          res.send(data);
+        })
+        .catch(() => {
+            res.send("Descarga fallida")
+        });  
 
       })
 

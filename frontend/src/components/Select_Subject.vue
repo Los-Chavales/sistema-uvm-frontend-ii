@@ -32,8 +32,8 @@ const selectOption = () => {
         .then(() => {
           storeActivities.searchActivitiesMonthsIdAssigned(dateMoment.yearMoment, dateMoment.monthMoment);
           storeEvents.searchEventsMonthsIdAssigned(dateMomentEvent.yearMoment, dateMomentEvent.monthMoment);
-          storeActivities.searchAllActivities()
-          storeEvents.searchAllEvents()
+  /*         storeActivities.searchAllActivities()
+          storeEvents.searchAllEvents() */
         })
         .catch(() => {
           console.error('Error al actualizar Assingend');
