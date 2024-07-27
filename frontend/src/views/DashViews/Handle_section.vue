@@ -33,7 +33,7 @@
     h1Title="Gestión de secciones"
     h3Title="Aquí puedes crear y gestionar secciones"
     :toChangeState="buttonChange"
-
+    :lessOptions="true"
     >
     </DashTable>
     <CreateSection :toChangeState="buttonChange" :state="buttonState.bState" />
