@@ -41,6 +41,10 @@ import { ref, defineEmits } from 'vue';
             type: Function,
             required: true
         },
+        lessOptions: {
+            type: Boolean,
+            required: false
+        }
     })
 
     const emit = defineEmits(['takenID'])
@@ -72,7 +76,7 @@ import { ref, defineEmits } from 'vue';
                     <tr class="tr-body" v-for="( element, index ) in props.forTable" :key="index">
                         
                     <td v-for="( item, index ) in props.forBody" :key="index">{{ element[item] }}</td>
-                    <td v-if=" props.options "><Show @click="takenID( element.nombre)" :change="toChangeState"/><Edit_Button @click="takenID( element.nombre)" :change="buttonState"/><Delete_Button /></td>
+                    <td v-if=" props.options "><Show v-if="!lessOptions" @click="takenID( element.nombre)" :change="toChangeState"/><Edit_Button @click="takenID( element.nombre)" :change="buttonState"/><Delete_Button /></td>
 
                     </tr>
                 </tbody>

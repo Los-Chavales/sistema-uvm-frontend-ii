@@ -33,7 +33,7 @@
     h1Title="Gestión de materias"
     h3Title="Aquí puedes crear y gestionar materias"
     :toChangeState="buttonChange"
-
+    :lessOptions="true"
     >
     </DashTable>
 
