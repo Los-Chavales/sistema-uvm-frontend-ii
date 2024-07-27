@@ -86,6 +86,8 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
           <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="Feria">Feria</option>
           <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="corte de notas">Corte de notas</option>
           <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="Feriado">Feriado</option>
+          <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="Entregables">Entregables</option>
+          <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="Otros">Otros</option>
         </select>
       </div>
 
