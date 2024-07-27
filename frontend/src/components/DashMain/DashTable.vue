@@ -86,7 +86,7 @@ import { ref, defineEmits } from 'vue';
 
     .gestorContainer{
         margin: 0 auto;
-        width: 1000px;
+        width: 1000px;  
     }
     .gestorContainer-text{
         display: flex;
@@ -114,6 +114,7 @@ import { ref, defineEmits } from 'vue';
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    padding-top: 43px;
     
 }
 
@@ -125,6 +126,7 @@ import { ref, defineEmits } from 'vue';
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    padding-top:5px;
 
 }
 
@@ -132,7 +134,8 @@ import { ref, defineEmits } from 'vue';
         color: #fff;
         font-size: 12px;
         text-align: left;
-        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        /*font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;*/
+        font-family:Inter;
         background-color: $color4;
         outline: 1px solid black;
         border-radius: 7px;
@@ -144,6 +147,8 @@ import { ref, defineEmits } from 'vue';
         padding: 10px;
         width: 290px;
         height: 36px;
+        font-weight: 600;
+
     }
 
     td{
@@ -151,14 +156,15 @@ import { ref, defineEmits } from 'vue';
         color:$color5;
         background-color: #fff;
         border-left: 1px solid $color5;
-
+        font-weight: 400;
     }
     .options{
         width: 120px;
     }
 
     .button{
-        margin-top:35px;
-        margin-left:15px;
+        margin-top:81px;
+        margin-left:160px;
+        font-weight: 600;
     }
 </style>
