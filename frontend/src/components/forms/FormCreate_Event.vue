@@ -33,6 +33,7 @@ const props = defineProps({
 let prop = props.dateWeek
 let title_from_teacher = prop.toLocaleDateString('es-ES', { weekday: 'long' })
 
+
 let tipo_fecha = ref('');
 let nombre_corto = ref('');
 let nombre_largo = ref('');

@@ -99,7 +99,6 @@ class Events_Model {
     })
   }
 
-  
   search_events_Assigned(idAssigned) {
     return new Promise((resolve, reject) => {
       connection.query('SELECT * FROM `fechas_especiales` WHERE `idAsignados` = ? ORDER BY `fechas_especiales`.`fecha_especial` ASC', idAssigned, function (error, results, fields) {

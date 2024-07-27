@@ -52,6 +52,7 @@
     h1Title="Gestión de Profesores"
     h3Title="Aquí puedes crear y gestionar profesores"
     :toChangeState="buttonChange"
+    :lessOptions="false"
     />
 
     <CreateProfessor :toChangeState="buttonChange" :state="buttonState.bState"/>

@@ -39,7 +39,7 @@ const changeStateModalFormEdit = () => ( stateFormEdit.value = !stateFormEdit.va
 
 <template>
 <!-- DEl admin -->
-<!--   <button class="button--edit" @click="changeState('edit')" style="color:#fff"><Edit /></button>  -->
+  <!-- <button class="button--edit" @click="changeState('edit')" style="color:#fff"><Edit /></button>  -->
   <button class="button--edit" @click="changeStateModalFormEdit" style="color:#fff"><Edit /></button> 
  
  
@@ -72,7 +72,7 @@ const changeStateModalFormEdit = () => ( stateFormEdit.value = !stateFormEdit.va
 
     :formEditActivity="stateFormEdit"
   />
-  
+
 </template>
 
 

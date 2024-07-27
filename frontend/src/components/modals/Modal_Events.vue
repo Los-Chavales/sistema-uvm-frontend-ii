@@ -23,7 +23,7 @@
     isEvent: Boolean,
     weekNumber: Number,
   })
-
+  
   let prop = props.date
   let title_modal = prop.toLocaleDateString('es-ES', {  year: 'numeric', month: 'long', day: 'numeric'})
   let searchFormat =  prop.toLocaleDateString('en-CA', {  year: 'numeric', month: 'numeric', day: 'numeric'})
@@ -271,7 +271,7 @@
               <p class="part_p p--event">{{ event.descripcion }} <span class="hour">{{
                 change_date_format(event.fecha_especial) }}</span></p>
 
-              <div class="box_buttons"  v-if="isEditor && rol_online === 'profesor' && event.tipo_fecha !== 'corte de notas' && event.tipo_fecha !== 'Feria' && event.tipo_fecha !== 'Feriado' && event.idAsignados !== null">
+              <div class="box_buttons" v-if="isEditor && rol_online === 'profesor' && event.tipo_fecha !== 'corte de notas' && event.tipo_fecha !== 'Feria' && event.tipo_fecha !== 'Feriado' && event.idAsignados !== null">
                 <Edit_Button  
                   :dateWeek="props.date"
                   :titleDay="title_modal"
@@ -295,6 +295,7 @@
                   :dateWeek="props.date"
                 />
               </div>
+
               <div class="box_buttons" v-else-if="isEditor && rol_online === 'director' && (event.tipo_fecha === 'corte de notas' || event.tipo_fecha === 'Feria' || event.tipo_fecha === 'Feriado' || event.idAsignados === null)">
                 <Edit_Button  
                   :dateWeek="props.date"
@@ -313,12 +314,12 @@
                   }"
                   :renderForm="'event'"
                 />
-
                 <Delete_Button 
                   :Eventos="event.id_fecha_especial"
                   :dateWeek="props.date"
                 />
               </div>
+              
             </div>
 
           </div>

@@ -128,7 +128,7 @@ class Events_Controller {
       Events_Model.search_events_Assigned(idAssigned).then((res) => { resolve(res) }).catch((error) => { reject(error); })
     })
   }
-  
+
   see_events_planning() {
     return new Promise((resolve, reject) => {
       Events_Model.see_events_planning().then((res) => { resolve(res) }).catch((error) => { reject(error); })
