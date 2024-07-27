@@ -9,6 +9,7 @@ export const useEventsStore = defineStore("events", {
       eventsDownload: [],
       event:[],
       id_asignado: 0,
+      rol_online: "",
       dateMoment: {
         yearMoment: "",
         monthMoment: "",
@@ -48,7 +49,8 @@ export const useEventsStore = defineStore("events", {
     async obtainIdAssigned(idAssigned) {
       this.options.id_asignado = idAssigned
     },
-    async searchEventsMonthsIdAssigned(year, month) {
+    async searchEventsMonthsIdAssigned(year, month, rolUser) {
+      this.options.rol_online = rolUser
       this.options.dateMoment.yearMoment = year
       this.options.dateMoment.monthMoment = month
       let idAssignedMoment = this.options.id_asignado
@@ -109,6 +111,7 @@ export const useEventsStore = defineStore("events", {
       }
     },
     async searchEventsMonths(year, month) {
+      this.options.rol_online = ""
       try {
        const data = await axios.get(`${API_URL_BASE}/eventos/mostrar/mes/${year}/${month}`)
        this.options.events = data.data
@@ -164,8 +167,11 @@ export const useEventsStore = defineStore("events", {
         this.options.resultForm.statusErrorForm = false
         this.options.resultForm.messageForm = response.data
         this.options.resultForm.listDetails = []
-        this.searchEventsMonthsIdAssigned(year, month)
-        this.searchEventsMonths(year, month)  //Volver a mostrar los datos
+        if(this.options.rol_online === "profesor"){ 
+          this.searchEventsMonthsIdAssigned(year, month, this.options.rol_online) 
+        } else { 
+           this.searchEventsMonths(year, month)  //Volver a mostrar los datos 
+        }
         this.searchAllEvents()
       })
       .catch(err => {
@@ -192,8 +198,11 @@ export const useEventsStore = defineStore("events", {
         this.options.resultForm.statusErrorForm = false
         this.options.resultForm.messageForm = response.data
         this.options.resultForm.listDetails = []
-        this.searchEventsMonthsIdAssigned(year, month) //Volver a mostrar los datos
-        this.searchEventsMonths(year, month) 
+        if(this.options.rol_online === "profesor"){ 
+          this.searchEventsMonthsIdAssigned(year, month, this.options.rol_online) 
+        } else { 
+           this.searchEventsMonths(year, month)  //Volver a mostrar los datos 
+        }
         this.searchAllEvents()
       })
       .catch(err => {
@@ -210,8 +219,11 @@ export const useEventsStore = defineStore("events", {
           }
         });
         console.log(`exito has eliminado el evento:${id_fecha_especial}`)
-        this.searchEventsMonthsIdAssigned(year, month) //Volver a mostrar los datos
-        this.searchEventsMonths(year, month) 
+        if(this.options.rol_online === "profesor"){ 
+          this.searchEventsMonthsIdAssigned(year, month, this.options.rol_online) 
+        } else { 
+           this.searchEventsMonths(year, month)  //Volver a mostrar los datos 
+        }
         this.searchAllEvents()
       }
       catch (error){

@@ -4,6 +4,7 @@ import Modal_Events from '../components/modals/Modal_Events.vue';
 import { useEventsStore } from '@/stores/events';
 import { useActivitiesStore } from '@/stores/activities';
 import { useAssignedStore } from '@/stores/assigned';
+import { userStore } from '@/stores/Dash_Stores/users';
 import {changeMonth, calMonth, weeks, year, month, period, months} from '../common/calendarFunctios'
 
 //Llamar a la store de eventos
@@ -18,18 +19,22 @@ const getEditState = computed(() => {
   return storeAssigned.getEditState;
 });
 
+const storeUser = userStore();
+
+let rol_online = storeUser.getUserOnlineRol;
+
 
 //Llamar a las sotres
 
 onMounted(() => {
     storeActivities.searchActivitiesMonthsIdAssigned(year.value, month.value);
-    storeEvents.searchEventsMonthsIdAssigned(year.value, month.value);
+    storeEvents.searchEventsMonthsIdAssigned(year.value, month.value, rol_online);
     //storeEvents.searchEventsMonths(year.value, month.value);
 })
 
 onUpdated(() => {
     storeActivities.searchActivitiesMonthsIdAssigned(year.value, month.value);
-    storeEvents.searchEventsMonthsIdAssigned(year.value, month.value);
+    storeEvents.searchEventsMonthsIdAssigned(year.value, month.value, rol_online);
     //storeEvents.searchEventsMonths(year.value, month.value);
 })
 

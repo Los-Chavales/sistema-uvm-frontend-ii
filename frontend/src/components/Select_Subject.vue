@@ -3,6 +3,7 @@ import { onMounted, onUpdated, computed, ref } from 'vue';
 import { useAssignedStore } from "@/stores/assigned";
 import { useEventsStore } from '@/stores/events';
 import { useActivitiesStore } from '@/stores/activities';
+import { userStore } from '@/stores/Dash_Stores/users';
 
 const storeAssigned = useAssignedStore();
 const storeActivities = useActivitiesStore(); 
@@ -22,6 +23,10 @@ const getAssignedList = computed(() => {
   return storeAssigned.getAssignedList;
 });
 
+const storeUser = userStore();
+
+let rol_online = storeUser.getUserOnlineRol;
+
 
 const selectOption = () => {
     if(cookie !== null && select_planification.value !== 0){
@@ -31,7 +36,7 @@ const selectOption = () => {
         storeAssigned.searchAssignedOne(idTeacher, select_planification.value)
         .then(() => {
           storeActivities.searchActivitiesMonthsIdAssigned(dateMoment.yearMoment, dateMoment.monthMoment);
-          storeEvents.searchEventsMonthsIdAssigned(dateMomentEvent.yearMoment, dateMomentEvent.monthMoment);
+          storeEvents.searchEventsMonthsIdAssigned(dateMomentEvent.yearMoment, dateMomentEvent.monthMoment, rol_online);
           storeActivities.searchAllActivities()
           storeEvents.searchAllEvents()
         })
