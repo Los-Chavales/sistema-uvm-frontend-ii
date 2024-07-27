@@ -1,10 +1,12 @@
 <script setup>
 import { onMounted, onUpdated, computed, ref } from 'vue';
 import { useAssignedStore } from "@/stores/assigned";
+import { useEventsStore } from '@/stores/events';
 import { useActivitiesStore } from '@/stores/activities';
 
 const storeAssigned = useAssignedStore();
 const storeActivities = useActivitiesStore(); 
+const storeEvents = useEventsStore();
 
 let select_planification = ref(0);
 
@@ -24,11 +26,14 @@ const getAssignedList = computed(() => {
 const selectOption = () => {
     if(cookie !== null && select_planification.value !== 0){
         let dateMoment = storeActivities.getDateMoment
+        let dateMomentEvent = storeEvents.getDateMoment
         let idTeacher = cookie.id_usuario
         storeAssigned.searchAssignedOne(idTeacher, select_planification.value)
         .then(() => {
           storeActivities.searchActivitiesMonthsIdAssigned(dateMoment.yearMoment, dateMoment.monthMoment);
+          storeEvents.searchEventsMonthsIdAssigned(dateMomentEvent.yearMoment, dateMomentEvent.monthMoment);
           storeActivities.searchAllActivities()
+          storeEvents.searchAllEvents()
         })
         .catch(() => {
           console.error('Error al actualizar Assingend');
