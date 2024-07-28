@@ -122,7 +122,8 @@ export const useActivitiesStore = defineStore("activities", {
         nombre_actividad: activity.nombre_actividad,
         descripcion: activity.descripcion,
         fecha_actividad: activity.fecha_actividad,
-        idAsignados: this.options.id_asignado
+        idAsignados: this.options.id_asignado,
+        idPeriodo: activity.idPeriodo
       });
       const data = await axios.post(`${API_URL_BASE}/actividades/registrar`, json, {
         headers: {

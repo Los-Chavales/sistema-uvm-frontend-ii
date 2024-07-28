@@ -33,10 +33,25 @@ class Periods_Model {
       });
     })
   }
+  search_periods_range(date) {
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM `periodos` WHERE ? BETWEEN `fecha_inicio` AND `fecha_cierre` && `estado` = "activo"', date, function (error, results, fields) {
+        if (error) {
+          reject(new Response(500, error, error));
+        } else {
+          if (results.length == 0) {
+            reject(new Response(404, 'Esta fecha no forma parte del periodo académico', results));
+          } else {
+            resolve(new Response(200, results, results));
+          }
+        };
+      });
+    })
+  }
   search_periods_by(name, value) {
     return new Promise((resolve, reject) => {
       if (!name || !value) return reject(new Response(400, 'La solicitud no fue realizada correctamente', [name, value]))
-      connection.query('SELECT * FROM `periodos` WHERE ?? = ?', [name, value], function (error, results, fields) {
+      connection.query(`SELECT * FROM periodos WHERE ${name} = '${value}'`, function (error, results, fields) {
         if (error) {
           reject(new Response(500, error, error));
         } else {

@@ -1,15 +1,17 @@
 <script setup>
 import { defineProps, defineModel, ref, computed } from 'vue';
 import { useActivitiesStore } from '@/stores/activities';
+import { usePeriodsStore } from '@/stores/periods';
 import Modal_Message from '../modals/Modal_Message.vue';
 import Submit_Button from '../buttons/Submit_Button.vue';
 
 class CreateActivity {
-  constructor(idNumeroSemana, nombre_actividad, descripcion, fecha_actividad) {
-      this.idNumeroSemana = idNumeroSemana;
-      this.nombre_actividad = nombre_actividad;
-      this.descripcion = descripcion;
-      this.fecha_actividad = fecha_actividad;
+  constructor(nombre_actividad, descripcion, fecha_actividad, idPeriodo) {
+/*       this.idNumeroSemana = idNumeroSemana; */
+      this.nombre_actividad = nombre_actividad,
+      this.descripcion = descripcion,
+      this.fecha_actividad = fecha_actividad,
+      this.idPeriodo = idPeriodo
   }
 }
 
@@ -32,6 +34,10 @@ let hora_actividad = ref('00:00');
 
 let storeActivities = useActivitiesStore();
 
+const storePeriods = usePeriodsStore();
+
+storePeriods.searchPeriodsCurrent();
+
 const postActivity = computed(() => {
   let cookie = $cookies.get('auth')
   if(cookie !== null){
@@ -40,9 +46,11 @@ const postActivity = computed(() => {
     let month = prop.getMonth();
     let fecha_actividad = props.dateWeek.toLocaleDateString('en-CA', {  year: 'numeric', month: 'numeric', day: 'numeric'})
     fecha_actividad = `${fecha_actividad} ${hora_actividad.value}:00`
-    const activityCreate = new CreateActivity(props.weekNumber, nombre.value, descripcion.value, fecha_actividad)
+    let periodMomentID = storePeriods.getPeriodCurrent
+    const activityCreate = new CreateActivity(nombre.value, descripcion.value, fecha_actividad, periodMomentID[0].id_periodo)
     storeActivities.postActivities(token, activityCreate, year, month)
   }
+  changeStateMessageModal()
 });
 
 
@@ -61,13 +69,13 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
     </div>
    
     <div class="formCreateActivity_body">
-      <input class="formCreateActivity_input" placeholder="Nombre" type="text"  v-model="nombre">
-      <textarea  class="formCreateActivity_textarea" placeholder="Descripción"  v-model="descripcion"></textarea>
+      <input class="formCreateActivity_input" placeholder="Nombre" type="text"  v-model="nombre" required>
+      <textarea  class="formCreateActivity_textarea" placeholder="Descripción"  v-model="descripcion" required></textarea>
       <div class="formCreateActivity_containerLabel">
         <label class="formCreateActivity_label" for="timeActivity">Hora de la actividad:</label>
         <input type="time" id="timeActivity" v-model="hora_actividad">
       </div>
-      <Submit_Button @click="changeStateMessageModal" :message="'Añadir'"/>
+      <Submit_Button :message="'Añadir'"/>
     </div>
 
   </form>

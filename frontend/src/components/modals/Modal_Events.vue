@@ -110,7 +110,6 @@
   let stateFormEvent = ref(false);
   const changeStateModalFormEvent = () => ( stateFormEvent.value = !stateFormEvent.value )
 
-
   /* Verificar si mostrar ciertas cosas o no 
     
     Calendario normal 
@@ -138,17 +137,17 @@
 <template>
   <div v-if="!props.isPlannig" @click="changeState" class="cell">
     {{ props.day }}
-    <div class="containet_noti_circle" v-if="getActivitiesQuantity.length !== 0 && getEventsQuantity.length !==0">
+    <div class="containet_noti_circle" v-if="getActivitiesQuantity.length !== 0 && getEventsQuantity.length !==0 && seeEvents && seeActivities">
       <span class="noti_circle">
         {{ getActivitiesQuantity.activitiesQuantity+getEventsQuantity.eventsQuantity }}
       </span>
     </div>
-    <div class="containet_noti_circle" v-else-if="getActivitiesQuantity.length === 0 && getEventsQuantity.length !==0">
+    <div class="containet_noti_circle" v-else-if="getEventsQuantity.length !==0 && seeEvents">
       <span class="noti_circle">
         {{ getEventsQuantity.eventsQuantity }}
       </span>
     </div>
-    <div class="containet_noti_circle" v-else-if="getActivitiesQuantity.length !== 0 && getEventsQuantity.length === 0">
+    <div class="containet_noti_circle" v-else-if="getActivitiesQuantity.length !== 0 && seeActivities">
       <span class="noti_circle">
         {{ getActivitiesQuantity.activitiesQuantity }}
       </span>

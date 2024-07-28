@@ -52,7 +52,8 @@ router.get('/mostrar/profesor/:nombre', function(req, res, next) {
 router.get('/profesor_materias', function(req, res, next) {
   Users_Controller.see_teachers_subjects()
   .then((results) => {
-      res.send(results.result);
+    console.log(results)
+      res.send(results);
   })
   .catch((error) => {
       res.status(error.code).send(error.message);
