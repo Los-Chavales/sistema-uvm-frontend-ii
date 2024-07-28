@@ -78,7 +78,7 @@ display: flex;
 width: 331px;
 padding: 13px;
 color: #FFF;
-font-size: 24px;
+font-size: 18px;
 line-height: normal;
 border-radius: 10px;
 background: rgba(50, 157, 156, 0.30);
@@ -95,6 +95,7 @@ text-align: center;
 justify-content: center;
 align-items: center;
 font-style: normal;
+font-size: 24px;
 font-weight: 300;
 }
 
