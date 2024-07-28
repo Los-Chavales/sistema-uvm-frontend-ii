@@ -24,16 +24,19 @@ class Events_Controller {
     })
   }
 
-  search_events_academic(types) {
+  async search_events_academic(types) {
     let periodActive = 0
-    search_active()
-    .then((res) => { periodActive = res.result.id_periodo })
-    .catch((err) => { return reject(err) })
-
-    console.log(periodActive)
+    try {
+      periodActive = await search_active()
+      periodActive = periodActive.result.id_periodo
+    } catch (error) {
+      //console.log('hola', error)
+      return reject(error)
+    }
+    //console.log(periodActive)
     return new Promise((resolve, reject) => {
       if (!Array.isArray(types)) return reject(new Response(400, 'Error: no es array', types))
-      Events_Model.search_events_academics(types, 1).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+      Events_Model.search_events_academics(types, periodActive).then((res) => { resolve(res) }).catch((error) => { reject(error); })
     })
   }
 
