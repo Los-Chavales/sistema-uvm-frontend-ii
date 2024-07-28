@@ -5,8 +5,9 @@
   import Edit_Button from '../buttons/Edit_Button.vue';
   import Delete_Button from '../buttons/Delete_Button.vue';
   import Modal_Form from './Modal_Form.vue';
+  import { userStore } from '@/stores/Dash_Stores/users';
 
-  const storeUser = userStore();
+  const storeUser = userStore;
 
   let rol_online = storeUser.getUserOnlineRol;
 

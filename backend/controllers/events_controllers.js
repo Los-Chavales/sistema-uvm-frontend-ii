@@ -1,6 +1,7 @@
 const Events_Model = require('../models/events_models');
 const Periods_Model = require('../models/periods_models')
 const Response = require('../models/response');
+const { search_active } = require('./periods_controllers');
 
 class EventsMonths {
   constructor(eventsQuantity, date) {
@@ -20,6 +21,19 @@ class Events_Controller {
   search_events_id(id) {
     return new Promise((resolve, reject) => {
       Events_Model.search_events_id(id).then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
+
+  search_events_academic(types) {
+    let periodActive = 0
+    search_active()
+    .then((res) => { periodActive = res.result.id_periodo })
+    .catch((err) => { return reject(err) })
+
+    console.log(periodActive)
+    return new Promise((resolve, reject) => {
+      if (!Array.isArray(types)) return reject(new Response(400, 'Error: no es array', types))
+      Events_Model.search_events_academics(types, 1).then((res) => { resolve(res) }).catch((error) => { reject(error); })
     })
   }
 
@@ -122,8 +136,8 @@ class Events_Controller {
 
       Periods_Model.search_periods_range(weekDay).then((res) => {
 
-        Events_Model.update_events(id, update).then((res) => { 
-          resolve(res) 
+        Events_Model.update_events(id, update).then((res) => {
+          resolve(res)
         }).catch((error) => { reject(error) })
 
 
