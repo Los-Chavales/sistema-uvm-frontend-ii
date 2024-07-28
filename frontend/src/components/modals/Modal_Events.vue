@@ -3,7 +3,7 @@
   import { useActivitiesStore } from '@/stores/activities';
   import { useEventsStore } from '@/stores/events';
   import { userStore } from '@/stores/Dash_Stores/users';
-  import Edit_Button from '../buttons/Edit_Button.vue';
+  import Edit_Button from '../buttons/Edit_ButtonCalendar.vue';
   import Delete_Button from '../buttons/Delete_Button.vue';
   import Modal_Form from './Modal_Form.vue';
 
