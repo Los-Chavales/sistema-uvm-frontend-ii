@@ -237,9 +237,9 @@ const sendSub = (dataS) => {
 
   .part_title{
     font-family: Poppins;
-    font-size: 30px;
+    font-size: 35px;
     font-style: normal;
-    font-weight: 500;
+    font-weight: 600;
     line-height: normal;
     text-align: center;
     margin-bottom: 20px;
@@ -301,8 +301,10 @@ background-color: var(--Color4, #329D9C);;
   font-size: 24px;
   line-height: normal;
   margin-bottom: 18px;
-  outline: solid 1px #000;
+  /*outline: solid 1px #000;*/
   height: 40px;
+  border: 1px solid $color5;
+  outline: none;
   }
 
   .description{

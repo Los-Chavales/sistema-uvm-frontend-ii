@@ -32,6 +32,7 @@ onUpdated(() => {
 </script>
 
 <template>
+    <div class="calendarConteiner">
     <div id="monthly" class="calendar">
         <div class="month">
             <h2>{{ months[month] + ' ' + year }}</h2>
@@ -75,6 +76,7 @@ onUpdated(() => {
             </tbody>
         </table>
     </div>
+</div>
 </template>
 
 <style lang="scss" scoped>
@@ -92,6 +94,10 @@ onUpdated(() => {
     /*color: black;*/
     margin: 2% 5%;
     user-select: none;
+}
+
+.calendarConteiner{
+    min-height: 100vh;
 }
 
 .month {

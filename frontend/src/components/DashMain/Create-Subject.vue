@@ -97,7 +97,7 @@ const sendSub = (dataS) => {
 
               </select>
               <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="data.subName" id="nombre" />
-              <input class="form-input description" placeholder="Descripcion" name="apellido" type="text" v-model="data.subDescription" id="apellido" />
+              <input class="form-input description" placeholder="Descripción" name="apellido" type="text" v-model="data.subDescription" id="apellido" />
               
 
               <input class="form-submit" type="submit" value="Ingresar" @click="sendSub(data)" />
@@ -147,9 +147,12 @@ const sendSub = (dataS) => {
     flex-direction: column;
     background-color: $color4;
     width: auto;
-    height: 579px; 
-    padding: 15px 30px 30px 30px;
+    /*height: 579px;*/
+    /*padding: 15px 30px 30px 30px;*/
+    height:600px;
+    padding: 15px 15px 25px 15px;
     border-radius: 15px;
+    
   }
 
   .container_button{
@@ -158,7 +161,7 @@ const sendSub = (dataS) => {
   }
 
   .modal_cerrar{
-    background: none;
+    /*background: none;
     border: none;
     color: #FFF;
     text-align: center;
@@ -167,7 +170,19 @@ const sendSub = (dataS) => {
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    text-decoration-line: underline;*/
+    background: none;
+    border: none;
+    color: #FFF;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
     text-decoration-line: underline;
+    line-height: 20px;
+   /*  margin-right: -12px; */
+    margin: -5px -5px 1px 1px;
   }
   .modal_cerrar:hover{
     cursor: pointer;
@@ -197,6 +212,8 @@ const sendSub = (dataS) => {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    margin-top: 14px;
+    
   }
 
    /* Contenedor de las secciones blancas modal */
@@ -207,21 +224,30 @@ const sendSub = (dataS) => {
     margin: 10px;
     height: 100%;
     overflow: auto;
+    overflow-y: hidden;//agregado
+    padding-top: 2px;
+    padding: 12px;
+    
+    
   }
 
 
   .part_container{
-    padding: 14px 18px;
+    padding: 20px 26px;
     width: auto;
+    
   }
 
   /* información del contenido, titulos, parrafos... */
 
   .part_title{
     font-family: Poppins;
-    font-size: 30px;
+    /*font-size: 30px;
     font-style: normal;
-    font-weight: 500;
+    font-weight: 500;*/
+    font-size: 35px;
+    font-style: normal;
+    font-weight: 600;
     line-height: normal;
     text-align: center;
     margin-bottom: 20px;
@@ -237,10 +263,10 @@ const sendSub = (dataS) => {
 
   .form-input{
   display: flex;
-  width: 300px;
+  width: 300px;//
   padding: 13px;
   color: #000;
-  font-size: 24px;
+  font-size: 24px;//
   line-height: normal;
   border-radius: 10px;
   background: rgba( 158, 158, 158, 0.30);
@@ -248,18 +274,24 @@ const sendSub = (dataS) => {
   border:0;
   border-top: 3px solid var(--Color4, #329D9C);
   outline: none;
-
+  width: 100%;
+  height: 50px;
+  padding: 10px;
+  font-size: 23px;
+    
   }
   
   .description{
     height: 150px;
     text-align: justify;
+    /*width: 100%;*/
+    
   }
 
 
   .select{
   display: flex;
-  width: 300px;
+  /*width: 300px;*/
   padding: 5px;
   color: #000;
   font-size: 15px;
@@ -267,6 +299,10 @@ const sendSub = (dataS) => {
   margin-bottom: 18px;
   outline: solid 1px #000;
   height: 40px;
+  margin-left: 6px;//agregado
+  width: 95%;
+  border: 1px solid $color5;
+  outline: none;
   }
 
 .form-input::placeholder{
@@ -280,22 +316,28 @@ font-weight: 400;
 }
 
 .form-submit{
-width: 300px;
+/*width: 300px;*/
+width: 100%;
 height: 60px;
 flex-shrink: 0;
 border:0;
 border-radius: 10px;
 color: #fff;
 font-family:"poppins";
-font-size: 24px;
+/*font-size: 24px;
+font-weight: 600;*/
+font-size: 32px;
 font-weight: 600;
 background-color: var(--Color4, #329D9C);;
-
+text-align: center;
 }
 
 
 .text-input{
   height:48px;
+  text-align: center;
+ /* width: 100%;*/
+
 }
 
 .form-submit:hover{
