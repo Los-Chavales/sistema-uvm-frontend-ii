@@ -86,7 +86,8 @@ import { ref, defineEmits } from 'vue';
 
     .gestorContainer{
         margin: 0 auto;
-        width: 1000px;  
+        width: 1000px;
+        min-height: 100vh;  
     }
     .gestorContainer-text{
         display: flex;
