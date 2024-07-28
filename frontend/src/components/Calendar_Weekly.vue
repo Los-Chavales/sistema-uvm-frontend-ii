@@ -15,8 +15,8 @@ let storeActivities = useActivitiesStore();
 
 let storeAssigned = useAssignedStore();
 
-const getIdAssigned = computed(() => {
-  return storeAssigned.getIdAssigned;
+const getEditState = computed(() => {
+  return storeAssigned.getEditState;
 });
 
 const storeUser = userStore();
@@ -77,7 +77,7 @@ onUpdated(() => {
                             :date="new Date(year, calMonth(day, month, i, weeks), day)" 
                             :seeActivities="true"
                             :seeEvents="false" 
-                            :isEditor="getIdAssigned" 
+                            :isEditor="getEditState"  
                             :isPlannig="true" 
                             :isEvent="false" 
                             :weekNumber="week.number" 
@@ -92,7 +92,7 @@ onUpdated(() => {
                             :date="new Date(year, calMonth(day, month, i, weeks), day)" 
                             :seeActivities="false"
                             :seeEvents="true" 
-                            :isEditor="true" 
+                            :isEditor="getEditState" 
                             :isPlannig="true" 
                             :isEvent="true" 
                             :weekNumber="week.number" 

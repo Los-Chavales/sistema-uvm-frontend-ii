@@ -1,8 +1,13 @@
 <script setup>
 import { defineProps, ref, computed } from 'vue';
 import { useEventsStore } from '@/stores/events';
+import { userStore } from '@/stores/Dash_Stores/users';
 import Modal_Message from '../modals/Modal_Message.vue';
 import Submit_Button from '../buttons/Submit_Button.vue';
+
+const storeUser = userStore();
+
+let rol_online = storeUser.getUserOnlineRol;
 
  class UpdateEvent {
   constructor(fecha_especial, nombre_corto, nombre_largo, descripcion, tipo_fecha) {
