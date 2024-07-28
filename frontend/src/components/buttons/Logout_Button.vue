@@ -18,7 +18,7 @@ const logout = () => {
   <span v-if="to_toggle">
     <slot />
   </span>
-  <button v-else class="logout_button" @click="logout">CERRAR SESIÓN</button>
+  <button v-else class="logout_button" @click="logout"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar Sesión</button>
 </template>
 
 <style lang="scss" scoped>
@@ -47,5 +47,11 @@ const logout = () => {
   color: #fff;
 }
 
+.fa-arrow-right-from-bracket{
+  font-size: 25px;
+  flex-shrink: 0;
+  width: 25px;
+  margin-right: 10px;
+}
 
 </style>
