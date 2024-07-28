@@ -27,14 +27,14 @@ const getUserOnlineRol = computed(() => {
         </span>
         <div class="sidebar-user-img"></div>
         <SidebarLink to="/" icon="fas fa-gauge">General</SidebarLink>
-        <SidebarLink to="/admin-dsh/profesores" icon="fas fa-user-tie">Profesores</SidebarLink>
-        <SidebarLink to="/admin-dsh/materias" icon="fas fa-book">Materias</SidebarLink>
+        <SidebarLink v-if="getUserOnlineRol === 'director'" to="/admin-dsh/profesores" icon="fas fa-user-tie">Profesores</SidebarLink>
+        <SidebarLink v-if="getUserOnlineRol === 'director'" to="/admin-dsh/materias" icon="fas fa-book">Materias</SidebarLink>
 
         <SidebarLink v-if="getUserOnlineRol === 'director'" to="/admin-dsh/calendario" icon="fa-solid fa-calendar">Eventos</SidebarLink>
         <SidebarLink v-else-if="getUserOnlineRol === 'profesor'" to="/admin-dsh/planificaciones" icon="fa-solid fa-calendar">Eventos</SidebarLink>
         <SidebarLink  to="/calendario" icon="fa-solid fa-calendar">Calendario</SidebarLink>
 
-        <SidebarLink to="/admin-dsh/secciones" icon="fas fa-chalkboard-user">Secciones</SidebarLink>
+        <SidebarLink v-if="getUserOnlineRol === 'director'" to="/admin-dsh/secciones" icon="fas fa-chalkboard-user">Secciones</SidebarLink>
         <SidebarLink to="/login" icon="fa-solid fa-user">Cambiar Cuenta</SidebarLink>
 
         <Logout_Button />

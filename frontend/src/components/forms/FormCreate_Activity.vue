@@ -6,8 +6,8 @@ import Modal_Message from '../modals/Modal_Message.vue';
 import Submit_Button from '../buttons/Submit_Button.vue';
 
 class CreateActivity {
-  constructor(nombre_actividad, descripcion, fecha_actividad, idPeriodo) {
-/*       this.idNumeroSemana = idNumeroSemana; */
+  constructor(idNumeroSemana, nombre_actividad, descripcion, fecha_actividad, idPeriodo) {
+      this.idNumeroSemana = idNumeroSemana,
       this.nombre_actividad = nombre_actividad,
       this.descripcion = descripcion,
       this.fecha_actividad = fecha_actividad,
@@ -47,7 +47,7 @@ const postActivity = computed(() => {
     let fecha_actividad = props.dateWeek.toLocaleDateString('en-CA', {  year: 'numeric', month: 'numeric', day: 'numeric'})
     fecha_actividad = `${fecha_actividad} ${hora_actividad.value}:00`
     let periodMomentID = storePeriods.getPeriodCurrent
-    const activityCreate = new CreateActivity(nombre.value, descripcion.value, fecha_actividad, periodMomentID[0].id_periodo)
+    const activityCreate = new CreateActivity(props.weekNumber, nombre.value, descripcion.value, fecha_actividad, periodMomentID[0].id_periodo)
     storeActivities.postActivities(token, activityCreate, year, month)
   }
   changeStateMessageModal()

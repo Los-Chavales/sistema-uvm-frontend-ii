@@ -11,7 +11,8 @@ const storeUser = userStore();
 let rol_online = storeUser.getUserOnlineRol;
 
 class CreateEvent {
-  constructor(fecha_especial, nombre_corto, nombre_largo, descripcion, tipo_fecha, idPeriodo) {
+  constructor(idSemana, fecha_especial, nombre_corto, nombre_largo, descripcion, tipo_fecha, idPeriodo) {
+      this.idSemana = idSemana,
       this.fecha_especial = fecha_especial,
       this.nombre_corto = nombre_corto,
       this.nombre_largo = nombre_largo,
@@ -54,8 +55,8 @@ const postEvent = computed(() => {
     let fecha_especial = props.dateWeek.toLocaleDateString('en-CA', {  year: 'numeric', month: 'numeric', day: 'numeric'})
     fecha_especial= `${fecha_especial} ${hora_evento.value}:00`
     let periodMomentID = storePeriods.getPeriodCurrent
-    const eventCreate = new CreateEvent(fecha_especial, nombre_corto.value, nombre_largo.value, descripcion.value, tipo_fecha.value, periodMomentID[0].id_periodo)
-    storeEvents.postEvents(token, eventCreate, year, month)
+    const eventCreate = new CreateEvent(props.weekNumber, fecha_especial, nombre_corto.value, nombre_largo.value, descripcion.value, tipo_fecha.value, periodMomentID[0].id_periodo)
+    storeEvents.postEvents(token, eventCreate, year, month, rol_online)
   }
   changeStateMessageModal()
 });
@@ -85,6 +86,8 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
           <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="Feria">Feria</option>
           <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="corte de notas">Corte de notas</option>
           <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="Feriado">Feriado</option>
+          <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="Entregables">Entregables</option>
+          <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="Otros">Otros</option>
         </select>
       </div>
       <input class="formCreateEvent_input" placeholder="Nombre corto" type="text"  v-model="nombre_corto" required>
