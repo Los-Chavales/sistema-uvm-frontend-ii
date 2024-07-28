@@ -36,6 +36,21 @@ router.get('/mostrar/nombre/:nombre', function (req, res, next) {
     })
 });
 
+/* GET buscar eventos por tipo de fecha */
+router.get('/mostrar/tipo/', function (req, res, next) {
+  let reqArray = req.query.types.split(",");
+  console.log(reqArray, typeof reqArray)
+  Events_Controller.search_events_academic(reqArray)
+    .then((results) => {
+      res.status(results.code).send(results.result);
+    })
+    .catch((error) => {
+      //console.log(error)
+      if (!error.code || !error.message) return res.status(500).send(error);
+      res.status(error.code).send(error.message);
+    })
+});
+
 /* GET buscar eventos por fecha */
 router.get('/mostrar/fecha/:fecha', function (req, res, next) {
   Events_Controller.search_events_date(req.params.fecha)
