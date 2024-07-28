@@ -15,7 +15,6 @@ import { RouterLink, RouterView } from 'vue-router'
       <p class="containerp__p">Manténgase informado sobre la planificación del periodo académico. <RouterLink class="containerp__a" to="/calendario">Comienza ya</RouterLink></p>
     </div>
   </main>
-  <RouterView />
 </template>
 
 <style lang="scss" scoped>

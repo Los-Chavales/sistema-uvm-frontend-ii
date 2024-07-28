@@ -30,7 +30,6 @@ const changeState = () => ( state.value = !state.value )
           <ul class="ul__links--responsive"> 
             <li class="ul__links__li--responsive"><House /><RouterLink to="/">Inicio</RouterLink></li>
             <li class="ul__links__li--responsive"><Calendar /><RouterLink to="/calendario">Calendario</RouterLink></li>
-            <li class="ul__links__li--responsive"><Folder /><a href="#">Planificaciones</a></li>
             <li class="ul__links__li--responsive"><User /><RouterLink to="/login">Login</RouterLink></li>
           </ul>
         </nav>
@@ -43,7 +42,6 @@ const changeState = () => ( state.value = !state.value )
         <ul class="ul__links">
           <li class="ul__links__li"><RouterLink class="a__color5" to="/">Inicio</RouterLink></li>
           <li class="ul__links__li"><RouterLink class="a__color5" to="/calendario">Calendario</RouterLink></li>
-          <li class="ul__links__li"><a class="a__color5" href="#">Planificaciones</a></li>
           <li class="ul__links__li"><RouterLink class="a__color5" to="/login">Login</RouterLink></li>
         </ul>
       </nav>
@@ -51,7 +49,7 @@ const changeState = () => ( state.value = !state.value )
 
   </header>
 
-  <RouterView />
+  <!-- <RouterView /> -->
 </template>
 
 <style lang="scss" scoped>

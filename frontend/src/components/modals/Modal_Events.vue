@@ -2,9 +2,15 @@
   import { defineProps, ref,  onMounted, computed } from 'vue';
   import { useActivitiesStore } from '@/stores/activities';
   import { useEventsStore } from '@/stores/events';
-  import Edit_Button from '../buttons/Edit_Button.vue';
+  import { userStore } from '@/stores/Dash_Stores/users';
+  import Edit_Button from '../buttons/Edit_ButtonCalendar.vue';
   import Delete_Button from '../buttons/Delete_Button.vue';
   import Modal_Form from './Modal_Form.vue';
+
+  const storeUser = userStore();
+
+  let rol_online = storeUser.getUserOnlineRol;
+
 
   const props = defineProps({
     day: Number,
@@ -110,7 +116,6 @@
   let stateFormEvent = ref(false);
   const changeStateModalFormEvent = () => ( stateFormEvent.value = !stateFormEvent.value )
 
-
   /* Verificar si mostrar ciertas cosas o no 
     
     Calendario normal 
@@ -138,17 +143,17 @@
 <template>
   <div v-if="!props.isPlannig" @click="changeState" class="cell">
     {{ props.day }}
-    <div class="containet_noti_circle" v-if="getActivitiesQuantity.length !== 0 && getEventsQuantity.length !==0">
+    <div class="containet_noti_circle" v-if="getActivitiesQuantity.length !== 0 && getEventsQuantity.length !==0 && seeEvents && seeActivities">
       <span class="noti_circle">
         {{ getActivitiesQuantity.activitiesQuantity+getEventsQuantity.eventsQuantity }}
       </span>
     </div>
-    <div class="containet_noti_circle" v-else-if="getActivitiesQuantity.length === 0 && getEventsQuantity.length !==0">
+    <div class="containet_noti_circle" v-else-if="getEventsQuantity.length !==0 && seeEvents">
       <span class="noti_circle">
         {{ getEventsQuantity.eventsQuantity }}
       </span>
     </div>
-    <div class="containet_noti_circle" v-else-if="getActivitiesQuantity.length !== 0 && getEventsQuantity.length === 0">
+    <div class="containet_noti_circle" v-else-if="getActivitiesQuantity.length !== 0 && seeActivities">
       <span class="noti_circle">
         {{ getActivitiesQuantity.activitiesQuantity }}
       </span>
@@ -207,7 +212,7 @@
               <p class="part_p p--activity">{{ activity.descripcion }} <span class="hour">{{
                   change_date_format(activity.fecha_actividad) }} </span></p>
 
-              <div class="box_buttons" v-show="isEditor">
+              <div class="box_buttons" v-if="isEditor && rol_online === 'profesor'">
                 <Edit_Button
                   :dateWeek="props.date"
                   :titleDay="title_modal"
@@ -266,7 +271,7 @@
               <p class="part_p p--event">{{ event.descripcion }} <span class="hour">{{
                 change_date_format(event.fecha_especial) }}</span></p>
 
-              <div class="box_buttons" v-show="isEditor">
+              <div class="box_buttons" v-if="isEditor && rol_online === 'profesor' && event.tipo_fecha !== 'corte de notas' && event.tipo_fecha !== 'Feria' && event.tipo_fecha !== 'Feriado' && event.idAsignados !== null">
                 <Edit_Button  
                   :dateWeek="props.date"
                   :titleDay="title_modal"
@@ -290,6 +295,31 @@
                   :dateWeek="props.date"
                 />
               </div>
+
+              <div class="box_buttons" v-else-if="isEditor && rol_online === 'director' && (event.tipo_fecha === 'corte de notas' || event.tipo_fecha === 'Feria' || event.tipo_fecha === 'Feriado' || event.idAsignados === null)">
+                <Edit_Button  
+                  :dateWeek="props.date"
+                  :titleDay="title_modal"
+                  :formDire="false"
+                  :formTeacher="true"
+                  :weekNumber="props.weekNumber"
+                  :eventID="event.id_fecha_especial"
+                  :dataEdit="{
+                    idSemana: event.idSemana,
+                    fecha_especial: event.fecha_especial,
+                    nombre_corto: event.nombre_corto,
+                    nombre_largo: event.nombre_largo,
+                    descripcion: event.descripcion,
+                    tipo_fecha: event.tipo_fecha,
+                  }"
+                  :renderForm="'event'"
+                />
+                <Delete_Button 
+                  :Eventos="event.id_fecha_especial"
+                  :dateWeek="props.date"
+                />
+              </div>
+              
             </div>
 
           </div>

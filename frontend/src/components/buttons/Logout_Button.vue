@@ -1,11 +1,15 @@
 <script setup>
 import { useRouter } from 'vue-router';
+import { userStore } from '@/stores/Dash_Stores/users';
 import { to_toggle } from '../DashSideBar/sidebar-state';
 const router = useRouter();
 
+const storeUser = userStore();
+
 const logout = () => {
   $cookies.remove("auth")
-  router.push({ path: '/' })
+  storeUser.userOnlineData($cookies.get('auth'))
+  router.replace({ path: '/' })
 } 
 
 </script>

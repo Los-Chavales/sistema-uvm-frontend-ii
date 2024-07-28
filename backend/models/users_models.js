@@ -74,7 +74,7 @@ class Users_Model {
 
   see_teachers_subjects(){
     return new Promise((resolve, reject) => {
-        connection.query('SELECT `nombre`, `apellido` , `nombre_materia` FROM `asignados` JOIN `usuarios` JOIN `materias` WHERE idProfesor = id_usuario && idMateria = id_materia', function (error, results, fields) {
+        connection.query('SELECT `nombre`, `apellido`, `id_usuario` , `nombre_materia`, `descripcion` FROM `asignados` JOIN `usuarios` JOIN `materias` WHERE idProfesor = id_usuario && idMateria = id_materia', function (error, results, fields) {
             if (error) {
                 reject(new Response(500, error, error));
             } else {
@@ -185,7 +185,7 @@ class Users_Model {
                 if (err) {
                     if (err.errno == 1062) reject(new Response(400, "El correo '" + update.correo + "' ya existen"));
                     if (err.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', '')));
-                    reject(err);
+                    reject(new Response(500, err.sqlMessage, err));
                     console.error("Error SQL: ", err.sqlMessage);
                 } else {
                     if (rows.affectedRows < 1) {
@@ -204,8 +204,6 @@ class Users_Model {
 
   update_user_teacher(id, update) { // actualizar solo un profesor
     return new Promise((resolve, reject) => {
-        if (validate_users(update, reject, true) !== true) return;
-        update.clave = bcrypt.hashSync(update.clave, saltRounds);
         if (update.idRol) {  
             reject(new Response(400, 'No puedes cambiarte de rol a ti mismo'))
         } else {
@@ -213,7 +211,7 @@ class Users_Model {
                 if (err) {
                     if (err.errno == 1062) reject(new Response(400, "El correo '" + update.correo + "' ya existen"));
                     if (err.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', '')));
-                    reject(err);
+                    reject(new Response(500, err.sqlMessage, err));
                     console.error("Error SQL: ", err.sqlMessage);
                 } else {
                     if (rows.affectedRows < 1) {

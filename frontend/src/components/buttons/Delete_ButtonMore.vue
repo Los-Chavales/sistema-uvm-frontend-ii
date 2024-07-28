@@ -1,20 +1,25 @@
 <script setup>
-import { defineProps, ref,  onMounted, computed } from 'vue';
+  import {  defineProps, ref } from 'vue';
+  import Delete from '@/assets/icons/Delete.vue';
+  import Modal_Confirm from '../Modal_ConfirmMore.vue';
 
-const props = defineProps({
-    change: {
-      type: Function,
+  const props = defineProps({
+    idDelete: String,
+    deleteProfe: {
+      type :Function,
       required: true
-    },
+    }
   })
-  const changeState = props.change
 
+
+  let state = ref(false);
+  const changeState = () => ( state.value = !state.value )
 </script>
 
 <template>
-    <span class="button--delete" @click="changeState('details')">
-      <i class="fa-solid fa-eye"></i>
-    </span>
+    <button @click="changeState" class="button--delete"><Delete /></button>
+    <Modal_Confirm v-show="state" @close="changeState" :idD="idDelete"/>
+
 </template>
 
 
@@ -37,7 +42,7 @@ const props = defineProps({
     font-weight: 900;
     line-height: normal;
     margin: 2px;
-    float:left;
+    float: right;
   }
 
   .button--delete:hover{

@@ -4,6 +4,7 @@ import Modal_Events from '../components/modals/Modal_Events.vue';
 import { useEventsStore } from '@/stores/events';
 import { useActivitiesStore } from '@/stores/activities';
 import { useAssignedStore } from '@/stores/assigned';
+import { userStore } from '@/stores/Dash_Stores/users';
 import {changeMonth, calMonth, weeks, year, month, period, months} from '../common/calendarFunctios'
 
 //Llamar a la store de eventos
@@ -14,20 +15,27 @@ let storeActivities = useActivitiesStore();
 
 let storeAssigned = useAssignedStore();
 
-const getIdAssigned = computed(() => {
-  return storeAssigned.getIdAssigned;
+const getEditState = computed(() => {
+  return storeAssigned.getEditState;
 });
+
+const storeUser = userStore();
+
+let rol_online = storeUser.getUserOnlineRol;
+
 
 //Llamar a las sotres
 
 onMounted(() => {
-    storeActivities.searchActivitiesMonthsIdAssigned(year.value, month.value); 
-    storeEvents.searchEventsMonths(year.value, month.value);
+    storeActivities.searchActivitiesMonthsIdAssigned(year.value, month.value);
+    storeEvents.searchEventsMonthsIdAssigned(year.value, month.value, rol_online);
+    //storeEvents.searchEventsMonths(year.value, month.value);
 })
 
 onUpdated(() => {
     storeActivities.searchActivitiesMonthsIdAssigned(year.value, month.value);
-    storeEvents.searchEventsMonths(year.value, month.value);
+    storeEvents.searchEventsMonthsIdAssigned(year.value, month.value, rol_online);
+    //storeEvents.searchEventsMonths(year.value, month.value);
 })
 
 </script>
@@ -69,7 +77,7 @@ onUpdated(() => {
                             :date="new Date(year, calMonth(day, month, i, weeks), day)" 
                             :seeActivities="true"
                             :seeEvents="false" 
-                            :isEditor="getIdAssigned" 
+                            :isEditor="getEditState"  
                             :isPlannig="true" 
                             :isEvent="false" 
                             :weekNumber="week.number" 
@@ -84,7 +92,7 @@ onUpdated(() => {
                             :date="new Date(year, calMonth(day, month, i, weeks), day)" 
                             :seeActivities="false"
                             :seeEvents="true" 
-                            :isEditor="true" 
+                            :isEditor="getEditState" 
                             :isPlannig="true" 
                             :isEvent="true" 
                             :weekNumber="week.number" 
@@ -144,6 +152,7 @@ td {
     font-family: Poppins;
     height: 62px;
     align-content: center;
+    overflow: hidden;
 
     th {
         background: $color3;

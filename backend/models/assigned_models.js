@@ -32,6 +32,34 @@ class Assigned_Model{
       });
     })
   }
+  search_for_repeats(idTeacher, idSubject, idSection){
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM `asignados` WHERE `idProfesor` = ? && `idMateria` = ? && `idSeccion` = ?', [idTeacher, idSubject, idSection], function (error, results, fields) {
+          if (error) {
+              reject(new Response(500, error, error));
+          } else {
+              if (results.length == 0) {
+                resolve(new Response(404, 'No hay repetidos', results));
+              } else {
+                reject(new Response(200, 'Hay repetidos', results));
+              }
+          };
+      });
+    })
+  }
+  register_assigned(register){
+    return new Promise((resolve, reject) => {
+      connection.query('INSERT INTO `asignados` SET ?', register, function (error, results, fields) {
+          if (error) {
+              if (error.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
+              reject(new Response(500, err, err));
+          }
+          if (results) {
+              resolve(new Response(200, "Registro exitoso", results));
+          }
+      })
+    })
+  }
 }
 
 module.exports = new Assigned_Model();

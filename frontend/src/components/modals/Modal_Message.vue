@@ -3,6 +3,7 @@ import { defineProps, ref, computed } from 'vue';
 import { useEventsStore } from '@/stores/events';
 import { useActivitiesStore } from '@/stores/activities';
 import { usePeriodsStore } from '@/stores/periods';
+import { useAssignedStore } from '@/stores/assigned';
 
 const props = defineProps({
   typeMessage: String,
@@ -27,6 +28,8 @@ if (props.typeMessage === "event") {
   useStore = useActivitiesStore();
 } else if (props.typeMessage === "period") {
   useStore = usePeriodsStore();
+} else if (props.typeMessage === "assigned"){
+  useStore = useAssignedStore();
 }
 
 const getFormResult = computed(() => {

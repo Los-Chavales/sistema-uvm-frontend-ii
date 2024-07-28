@@ -1,65 +1,22 @@
 <script setup>
 import { defineProps, ref,  onMounted, computed } from 'vue';
 import Edit from '@/assets/icons/Edit.vue';
-import Modal_Form from '../modals/Modal_Form.vue';
 
 const props = defineProps({
-    dateWeek: Date,
-    titleDay: String,
-    formDire: Boolean,
-    formTeacher: Boolean,
-    weekNumber: Number,
-    formEditEvent: Boolean,
-    eventID: Number,
-    dataEdit: Object,
-    activityID:Number, //actividades
-    formEditActivity: Boolean,
-    renderForm: String
+    change: {
+      type: Function,
+      required: true
+    },
 })
-/* 
-let stateFormEventEdit = ref(false);
-const changeStateModalFormEventEdit = () => ( stateFormEventEdit.value = !stateFormEventEdit.value )
 
-let stateFormActivityEdit = ref(false);
-const changeStateModalFormActivityEdit = () => (stateFormActivityEdit.value = !stateFormActivityEdit.value) */
-
-let stateFormEdit = ref(false);
-const changeStateModalFormEdit = () => ( stateFormEdit.value = !stateFormEdit.value )
+const changeState = props.change
 
 </script>
 
 <template>
-  <button @click="changeStateModalFormEdit" class="button--edit" style="color:#fff"><Edit /></button> <!--"changeStateModalFormEventEdit" eventos-->
- <Modal_Form 
-    @closeModalForm="changeStateModalFormEdit"
-    v-if="props.renderForm === 'event' && stateFormEdit"
 
-    :dateWeek="props.dateWeek"
-    :titleDay= "props.titleDay"
-    :formDire= "props.formDire"
-    :formTeacher="props.formTeacher"
-    :weekNumber="props.weekNumber"
-    :eventID="props.eventID"
-    :dataEdit="props.dataEdit"
+  <button class="button--edit" @click="changeState('edit')" style="color:#fff"><Edit /></button>
 
-    :formEditEvent="stateFormEdit"
-    
-  /> 
-
- <Modal_Form
-  @closeModalForm="changeStateModalFormEdit"
-    v-if="props.renderForm === 'activity' && stateFormEdit"
-    :titleDay= "props.titleDay"
-    :formDire= "props.formDire"
-    :formTeacher="props.formTeacher"
-    :weekNumber="props.weekNumber"
-    :dateWeek="props.dateWeek"
-    :activityID="props.activityID"
-    :dataEdit="props.dataEdit"
-
-    :formEditActivity="stateFormEdit"
-  />
-  
 </template>
 
 

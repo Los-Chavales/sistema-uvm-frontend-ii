@@ -1,8 +1,13 @@
 <script setup>
 import { defineProps, ref, computed } from 'vue';
 import { useEventsStore } from '@/stores/events';
+import { userStore } from '@/stores/Dash_Stores/users';
 import Modal_Message from '../modals/Modal_Message.vue';
 import Submit_Button from '../buttons/Submit_Button.vue';
+
+const storeUser = userStore();
+
+let rol_online = storeUser.getUserOnlineRol;
 
  class UpdateEvent {
   constructor(fecha_especial, nombre_corto, nombre_largo, descripcion, tipo_fecha) {
@@ -52,6 +57,7 @@ const putEvent = computed(() => {
     const eventUpdate = new UpdateEvent(fecha_especial.value, nombre_corto.value, nombre_largo.value, descripcion.value, tipo_fecha.value)
     storeEvents.updateEvents(token, eventUpdate, idEvent, year, month)
   }
+  changeStateMessageModal()
 });
 
 //función para desplegar el modal 
@@ -73,24 +79,26 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
     <div class="formCreateEvent_body">
 
       <div class="formCreateEvent_Containerselect">
-        <select class="formCreateEvent_select" v-model="tipo_fecha">
+        <select class="formCreateEvent_select" v-model="tipo_fecha" required>
           <option value="" disabled selected>Tipo de evento</option>
           <option class="formCreateEvent_option" value="Encuentro">Encuentro</option>
           <option class="formCreateEvent_option" value="Conferencia">Conferencia</option>
-          <option class="formCreateEvent_option" value="Feria">Feria</option>
-          <option class="formCreateEvent_option" value="corte de notas">Corte de notas</option>
-          <option class="formCreateEvent_option" value="Feriado">Feriado</option>
+          <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="Feria">Feria</option>
+          <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="corte de notas">Corte de notas</option>
+          <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="Feriado">Feriado</option>
+          <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="Entregables">Entregables</option>
+          <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="Otros">Otros</option>
         </select>
       </div>
 
-      <input class="formCreateEvent_select--datetime" type="datetime-local" v-model="fecha_especial">
+      <input class="formCreateEvent_select--datetime" type="datetime-local" v-model="fecha_especial" required>
 
 
-      <input class="formCreateEvent_input" placeholder="Nombre corto" type="text"  v-model="nombre_corto">
-      <input class="formCreateEvent_input" placeholder="Nombre largo" type="text" v-model="nombre_largo">
-      <textarea  class="formCreateEvent_textarea" placeholder="Descripción" v-model="descripcion"></textarea>
+      <input class="formCreateEvent_input" placeholder="Nombre corto" type="text"  v-model="nombre_corto" required>
+      <input class="formCreateEvent_input" placeholder="Nombre largo" type="text" v-model="nombre_largo" required>
+      <textarea  class="formCreateEvent_textarea" placeholder="Descripción" v-model="descripcion" required></textarea>
 
-      <Submit_Button @click="changeStateMessageModal" :message="'Actualizar'"/>
+      <Submit_Button :message="'Actualizar'"/>
     </div>
 
   </form>
