@@ -34,8 +34,6 @@
 </script>
 
 <template>
-    
-    <h1 @click="console.log(detachSection)">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h1>
     <DashTable
     @takenID="idListener"
     :tableHead="['Nombre','Modalidad','Materias']"

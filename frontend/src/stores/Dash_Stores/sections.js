@@ -40,6 +40,21 @@ export const sectionStore = defineStore('sectionStore', {
             .then( (response) => {
                 console.log(response)
             })
-      }
+      },
+      async deleteSection(id_section, token){
+        try{
+          await axios.delete(`${API_URL_BASE}/secciones/eliminar/${id_section}`,{
+            headers:{
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          console.log(`eliminaste la seccion:${id_section}`)
+          this.getSections()
+        }
+        catch (error){
+          console.log(error)
+          console.log(error.response.data)
+        }
+      },
     }
 })
