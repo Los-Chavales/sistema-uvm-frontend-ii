@@ -86,6 +86,7 @@ export const userStore = defineStore('userStore', {
                 })
                 .then(function (response) {
                     console.log(response)
+                    this.getProfessors();
                 })
 
       },
@@ -110,6 +111,7 @@ export const userStore = defineStore('userStore', {
             })
             .then(function (response) {
                 console.log(response)
+                this.getProfessors();
             })
 
       },
