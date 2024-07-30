@@ -90,6 +90,7 @@ export const userStore = defineStore('userStore', {
 
       },
       async editProfessor(userdata, token){
+        console.log(userdata)
         const id = userdata.cedula
         const json = JSON.stringify({
             id_usuario: Number(userdata.cedula),
