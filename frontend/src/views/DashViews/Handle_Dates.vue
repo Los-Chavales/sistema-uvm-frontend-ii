@@ -1,28 +1,31 @@
 <script setup>
 import DashTable from '@/components/DashMain/DashTable.vue';
 import { computed, onMounted, ref, watch } from 'vue';
+
 import { useSchedulesStore } from '@/stores/Dash_Stores/schedules';
-import { buttonStateStore } from '@/stores/buttonState';
+import { usePeriodsStore } from '@/stores/periods';
 import { useEventsStore } from '@/stores/events';
+
+import { buttonStateStore } from '@/stores/buttonState';
+
 import Modal_assigned_schedules from '@/components/modals/Modal_assigned_schedules.vue';
 import CreateSchedule from '@/components/DashMain/Create-Schedule.vue';
+import Modal_Period from '@/components/modals/Modal_Period.vue';
 import EditSchedule from '@/components/DashMain/Edit-Schedule.vue';
+
 import Entity_Button from '@/components/buttons/Entity_Button.vue';
-import { usePeriodsStore } from '@/stores/periods';
+
+
 
 const buttonState = buttonStateStore()
 const buttonChange = buttonState.changeState
 
 let schedulesStore = useSchedulesStore();
-const dateStore = useEventsStore();
+const eventsStore = useEventsStore();
 const periodStore = usePeriodsStore()
 
-const getSchedules = computed(() => {
-    return schedulesStore.getSchedules;
-})
-
 const getDate = computed(() => {
-    return dateStore.getEventsTable;
+    return eventsStore.getEventsTable;
 })
 
 const getPeriod = computed(() => {
@@ -31,25 +34,21 @@ const getPeriod = computed(() => {
 
 onMounted(() => {
     schedulesStore.searchSchedules();
-    dateStore.searchEventsTable(['Entregables', 'fecha de corte']);
+    eventsStore.searchEventsTable();
     periodStore.searchPeriodsCurrent();
-    setTimeout(() => {
-        console.log(getPeriod.value[0]['nombre_periodo'])
-    }, 3000);
 })
 
-let scheduleID = ref('');
-let detachSchedule = ref('')
+let eventID = ref('');
+let detachEvent = ref('')
 
 function idListener(dato) {
     if (dato) {
-        console.log(dato)
-        scheduleID.value = dato
-        let temp = schedulesStore.options.schedules.filter((schedule) => scheduleID.value == schedule.id_horario);
-        detachSchedule.value = temp[0]
-        //console.log(detachSchedule.value)
+        console.log('busca',dato)
+        eventID.value = dato
+        let temp = eventsStore.options.eventsTable.filter((event) => eventID.value == event.id_fecha_especial)
+        detachEvent.value = temp[0];
+        console.log('encuentra',detachEvent.value);
     }
-
 }
 
 
@@ -61,6 +60,10 @@ watch(periodStore.$state, (newState) => {
         periodNow.value = getPeriod.value[0]['nombre_periodo'];
     }
 });
+
+const modalP = () => {
+    buttonChange('periodTable')
+}
 </script>
 
 <template>
@@ -90,12 +93,16 @@ watch(periodStore.$state, (newState) => {
         :toChangeState="buttonChange" 
         :lessOptions="true" 
         :assignedOptionsSchedules="true" 
-        :typeGestion="'schedule'">
+        :typeGestion="'academic'">
     </DashTable>
+
+    <Entity_Button message="Periodos" :onClick="modalP" />
+
+    <!--<Modal_Period :state="buttonState.periodTable" :close="buttonChange" :seeActivities="true" :isEditor="true" :is-table="true"/>-->
 
     <CreateSchedule :toChangeState="buttonChange" :state="buttonState.bState" />
     <Modal_assigned_schedules :toChangeState="buttonChange" :state="buttonState.M2State" />
-    <EditSchedule v-if="detachSchedule" :scheduleDetail="detachSchedule" :toChangeState="buttonChange"
+    <EditSchedule v-if="detachEvent" :scheduleDetail="detachEvent" :toChangeState="buttonChange"
         :state="buttonState.eState" />
     <!--   <EditSchedule :toChangeState="buttonChange" :state="buttonState.eState" /> -->
 
