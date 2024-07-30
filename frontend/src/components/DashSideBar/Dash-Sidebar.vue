@@ -36,8 +36,7 @@ const getUserOnlineRol = computed(() => {
 
         <SidebarLink to="/admin-dsh/secciones" icon="fas fa-chalkboard-user">Secciones</SidebarLink>
         <SidebarLink to="/login" icon="fa-solid fa-user">Cambiar Cuenta</SidebarLink>
-        <SidebarLink to="/" icon="fa-solid fa-arrow-right-from-bracket" @click="logout"></SidebarLink>
-        
+        <!--<SidebarLink to="/" icon="fa-solid fa-arrow-right-from-bracket" @click="logout"></SidebarLink>-->
 
         <Logout_Button />
 
