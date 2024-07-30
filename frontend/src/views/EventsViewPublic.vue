@@ -14,9 +14,9 @@ const changeState = () => (state.value = !state.value)
 
 <template>
     <div class="topDiv">
-        <div>
+        <div class="titulos">
             <h1>Gestión de Eventos</h1>
-            <p>Aquí puedes crear y visualisar los eventos</p>
+            <p>Aquí puedes crear y visualizar los eventos</p>
         </div>
     </div>
     <Modal_Period :state="state" :close="changeState" />
@@ -63,5 +63,9 @@ p {
     padding: 2px;
     background-color: $color1;
     border-radius: 10px;
+}
+
+.titulos{
+    margin-left: 100px;
 }
 </style>

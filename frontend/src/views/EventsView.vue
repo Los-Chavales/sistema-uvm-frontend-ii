@@ -15,9 +15,9 @@ const changeState = () => (state.value = !state.value)
 
 <template>
     <div class="topDiv">
-        <div>
+        <div class="titulos">
             <h1>Gestión de Eventos</h1>
-            <p>Aquí puedes crear y visualisar los eventos</p>
+            <p>Aquí puedes crear y visualizar los eventos</p>
         </div>
         <div class="optionPeriod">
             <Entity_Button message="Periodos" :onClick="changeState" />
@@ -67,5 +67,10 @@ p {
     padding: 2px;
     background-color: $color1;
     border-radius: 10px;
+    margin-right: 5%;
+}
+
+.titulos{
+    margin-left: 100px;
 }
 </style>
