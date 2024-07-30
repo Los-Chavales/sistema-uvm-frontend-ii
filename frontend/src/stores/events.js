@@ -9,6 +9,7 @@ export const useEventsStore = defineStore("events", {
       eventsDownload: [],
       event: [],
       eventsTable: [],
+      typesEventsT: ['Entregables', 'corte de notas'],
       id_asignado: 0,
       rol_online: "",
       dateMoment: {
@@ -126,9 +127,9 @@ export const useEventsStore = defineStore("events", {
         this.options.events = []
       }
     },
-    async searchEventsTable(typesSearch) {
+    async searchEventsTable() {
       //let typesSearch = ['Entregables', 'fecha de corte'];
-      let typesDate = typesSearch.toString();
+      let typesDate = this.options.typesEventsT.toString();
       try {
         const data = await axios.get(`${API_URL_BASE}/eventos/mostrar/tipo`, {
           params: {
@@ -247,6 +248,21 @@ export const useEventsStore = defineStore("events", {
           this.searchEventsMonths(year, month)  //Volver a mostrar los datos 
         }
         this.searchAllEvents()
+      }
+      catch (error) {
+        console.log(error)
+        console.log(error.response.data)
+      }
+    },
+    async deleteEventsOnly(id_fecha_especial, token) {//Eliminar evento para la tabla
+      try {
+        await axios.delete(`${API_URL_BASE}/eventos/eliminar/${id_fecha_especial}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log(`exito has eliminado el evento:${id_fecha_especial}`)
+        this.searchEventsTable()
       }
       catch (error) {
         console.log(error)
