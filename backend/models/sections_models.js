@@ -69,7 +69,7 @@ class Sections_Model{
 
   see_sections_subjects(){ //Horarios
     return new Promise((resolve, reject) => {
-      connection.query('SELECT `id_seccion`, `modalidad`, `nombre_materia` FROM `asignados` JOIN `secciones` JOIN `materias` WHERE `idSeccion` = `id_seccion` && `idMateria` = `id_materia`', function (error, results, fields) {
+      connection.query('SELECT `id_seccion`, `nombre_seccion`, `modalidad`, `nombre_materia` FROM `asignados` JOIN `secciones` JOIN `materias` WHERE `idSeccion` = `id_seccion` && `idMateria` = `id_materia`', function (error, results, fields) {
           if (error) {
               reject(new Response(500, error, error));
           } else {
