@@ -4,6 +4,7 @@ import { useEventsStore } from '@/stores/events';
 import { useActivitiesStore } from '@/stores/activities';
 import { usePeriodsStore } from '@/stores/periods';
 import { useAssignedStore } from '@/stores/assigned';
+import { useSchedulesStore } from '@/stores/Dash_Stores/schedules';
 
 const props = defineProps({
   typeMessage: String,
@@ -30,6 +31,8 @@ if (props.typeMessage === "event") {
   useStore = usePeriodsStore();
 } else if (props.typeMessage === "assigned"){
   useStore = useAssignedStore();
+} else if (props.typeMessage === "schedule"){
+  useStore = useSchedulesStore();
 }
 
 const getFormResult = computed(() => {

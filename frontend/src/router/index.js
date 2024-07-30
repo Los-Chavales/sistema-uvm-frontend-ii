@@ -36,6 +36,16 @@ const router = createRouter({
       }
     },
     {
+      path: '/admin-dsh/fechas',
+      name: 'Fechas',
+      component: () => import('../views/DashViews/Handle_Dates.vue'),
+      meta: {
+        requireLogin : true,
+        rol_teacher : false,
+        rol_director : true,
+      }
+    },
+    {
       path: '/admin-dsh/planificaciones',
       name: 'Planificaciones',
       component: () => import('../views/PlanningView.vue'),
@@ -79,6 +89,16 @@ const router = createRouter({
       path: '/admin-dsh/secciones',
       name: 'Admin-Dashboard-Secciones',
       component: () => import('../views/DashViews/Handle_section.vue'),
+      meta: {
+        requireLogin : true,
+        rol_teacher : false,
+        rol_director : true,
+      }
+    },    
+    {
+      path: '/admin-dsh/horarios',
+      name: 'Admin-Dashboard-Horarios',
+      component: () => import('../views/DashViews/Handle_Horario.vue'),
       meta: {
         requireLogin : true,
         rol_teacher : false,

@@ -13,6 +13,7 @@ const props = defineProps({
   isEditor: Boolean,
   state: Boolean,
   close: Function,
+  isTable: Boolean,
 })
 
 
@@ -48,7 +49,8 @@ const getPeriodsNow = computed(() => {
 
       <div class="modal_head">
         <div class="container_button">
-          <button @click="close" class="modal_cerrar">cerrar X</button>
+          <button v-if="!isTable" @click="close" class="modal_cerrar">cerrar X</button>
+          <button v-else @click="close('periodTable')" class="modal_cerrar">cerrar X</button>
         </div>
         <h2 class="modal_title">Periodos</h2>
       </div>

@@ -2,36 +2,54 @@
     import {  defineProps, ref } from 'vue';
     import { useActivitiesStore } from '@/stores/activities';
     import { useEventsStore } from '@/stores/events';
+    import { useSchedulesStore } from '@/stores/Dash_Stores/schedules';
+    import { useAssignedStore } from '@/stores/assigned';
 
     let storeActivities = useActivitiesStore();
     let storeEvents = useEventsStore();
+    let storeSchedules = useSchedulesStore();
+    let storeAssigned = useAssignedStore();
 
     const props = defineProps({
       /*idD: String,*/
       actD: Number,
       evnD: Number,
-      dateWeek: Date
+      dateWeek: Date,
+      idData:Number,
+      typeDelete:String
     })
 
     let prop = props.dateWeek
     const deleteActivity = storeActivities.deleteActivities;
     const deleteEvent = storeEvents.deleteEvents;
+    const deleteEventsOnly = storeEvents.deleteEventsOnly;
+    const deleteSchedule = storeSchedules.deleteSchedules;
+    const deleteAssigned = storeAssigned.deleteAssigned;
 
     const deleteSubmit=()=>{
       let cookie= $cookies.get('auth')
       let token
-      let year = prop.getFullYear();
-      let month = prop.getMonth();
       if (props.actD && cookie !==null){
         token= cookie.token
-        console.log(cookie.token)
+        let year = prop.getFullYear();
+        let month = prop.getMonth();
         deleteActivity(props.actD, token, year, month)
         
       }else if(props.evnD && cookie !==null){
         token= cookie.token
-        console.log(cookie.token)
+        let year = prop.getFullYear();
+        let month = prop.getMonth();
         deleteEvent(props.evnD, token, year, month)
         
+      }else if(props.idData && cookie !==null && props.typeDelete === "eventTable"){
+        token= cookie.token
+        deleteEventsOnly(props.idData, token)
+      }else if(props.idData && cookie !==null && props.typeDelete === "schedule"){
+        token= cookie.token
+        deleteSchedule(props.idData, token)
+      }else if(props.idData && cookie !==null && props.typeDelete === "assigned"){
+        token= cookie.token
+        deleteAssigned(props.idData, token)
       }
     }
 

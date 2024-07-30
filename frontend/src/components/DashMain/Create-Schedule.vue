@@ -1,6 +1,11 @@
 <script setup>
   import { defineProps, ref,  onMounted, computed } from 'vue';
-  import { sectionStore } from '@/stores/Dash_Stores/sections';
+  import Submit_Button from '../buttons/Submit_Button.vue';
+  import { useSchedulesStore } from '@/stores/Dash_Stores/schedules';
+  import Modal_Message from '../modals/Modal_Message.vue';
+
+  let schedulesStore = useSchedulesStore();
+
   const props = defineProps({
     state: {
       type: Boolean,
@@ -12,45 +17,34 @@
     },
   })
   const changeState = props.toChangeState
-  const store = sectionStore();
 
-  const subjects = [
-  {
-    id_materia: 1,
-    nombre_materia: "Frontend II",
-    trimestre: "VI",
-    descripcion: "Diseño de interfaces priorizando técnicas UX UI",
-    carrera: "Ingeniería de computación",
-    seccion: 'VI1'
-  },
-  {
-    id_materia: 2,
-    nombre_materia: "Bases de datos",
-    trimestre: "III",
-    descripcion: "Manejo de almacenamiento de datos de manera permanente y no volátil",
-    carrera: "Ingeniería de computación",
-    seccion: 'B1'
-  }
-]
+  let dia_semana = ref(''); 
+  let hora_inicio = ref('00:00');
+  let hora_final = ref('00:00');
 
-const data = ref({
-  nombre_seccion:'',
-  modalidad:'',
-})
+  const postSchedule = computed(() => {
+    let cookie = $cookies.get('auth')
+    if(cookie !== null){
+      let token = cookie.token;
+      schedulesStore.postSchedules(
+        token,
+        {
+          dia_semana: dia_semana.value,
+          hora_inicio: hora_inicio.value,
+          hora_final: hora_final.value
+        }
+      )
+    } 
 
+    dia_semana.value = ''; 
+    hora_inicio.value = '00:00';
+    hora_final.value = '00:00';
+    changeStateMessageModal()
+  });
 
-const sendSub = (dataS) => {
-  console.log(data.value.nombre_seccion)
-  console.log(data.value.modalidad)
-  const token = $cookies.get('auth').token
-  console.log(`token in professors => ${token}`)
-  store.sendSection(dataS, token)
-  data.value.nombre_seccion = '';
-  data.value.modalidad= '';
-  store.getSections();
-
-
-} 
+  //función para desplegar el modal 
+  let stateMessageModal = ref(false);
+  const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageModal.value)
 
 </script>
 
@@ -64,63 +58,42 @@ const sendSub = (dataS) => {
         <div class="container_button">
           <button @click="changeState('create')" class="modal_cerrar">cerrar X</button>
         </div>
-        <h2 class="modal_title">{{ title_modal }}</h2>
       </div>
 
       <div class="modal_body">
 
-        <!-- Parte de mostrar actividades -->
-
         <div class="modal_part">
           <div class="part_container">
-            <h3 class="part_title title_activities">Añadir Sección</h3>
+            <h3 class="part_title title_activities">Añadir Horario</h3>
 
-            <form v-on:submit.prevent="login">
+            <form class="formCreate" @submit.prevent="postSchedule">
 
+              <div class="formCreateEvent_Containerselect">
+                <select class="formCreateEvent_select" v-model="dia_semana" required>
+                  <option value="" disabled selected>Dia de la semana</option>
+                  <option class="formCreateEvent_option" value="lunes">Lunes</option>
+                  <option class="formCreateEvent_option" value="martes">Martes</option>
+                  <option class="formCreateEvent_option" value="miércoles">Miércoles</option>
+                  <option class="formCreateEvent_option" value="jueves">Jueves</option>
+                  <option class="formCreateEvent_option" value="viernes">Viernes</option>
+                  <option class="formCreateEvent_option" value="sábado">Sábado</option>
+                  <option class="formCreateEvent_option" value="domingo">Domingo</option>
+                </select>
+              </div>
 
-              <select name="Trimestre" v-model="data.modalidad" id="" class="select">
+              <div class="formCreateActivity_containerLabel">
+                <label class="formCreateActivity_label" for="timeStart">Hora de entrada:</label>
+                <input type="time" id="timeStart" v-model="hora_inicio">
+              </div>
 
-                <option value="semi-presencial">Semi-presencial</option>
-                <option value="virtual">Virtual</option>
+              <div class="formCreateActivity_containerLabel">
+                <label class="formCreateActivity_label" for="timeEnd">Hora de salida:</label>
+                <input type="time" id="timeEnd" v-model="hora_final">
+              </div>
 
-              </select>
-              <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="data.nombre_seccion" id="nombre" />
-
-
-              <input class="form-submit" type="submit" @click="sendSub(data)" value="Añadir" />
+              <Submit_Button :message="'Añadir'"/>
 
             </form>
-          </div>
-        </div>
-
-
-        <!-- Parte de mostrar eventos -->
-
-        <div class="modal_part">
-          <div class="part_container">
-            <div class="searcher">
-              <input class="searcher_input" placeholder="Buscar..." name="buscador" type="buscador" v-model="buscador" id="buscador" />
-              <span class="searcher_icon">
-                <i class="fa-solid fa-magnifying-glass "></i>
-              </span>
-            </div>
-            <!-- En caso de no tener nada -->
-<!-- 
-            <div class="container_details" v-if="getEvents.length === 0">
-              <p class="part_p p--activity">No hay nada para hoy</p>
-            </div> -->
-
-            <div class="materiasContainer">
-              <div class="title">
-                <div class="title_container">
-                  <span class="icon_container">  
-                  <i class="fa-solid fa-calendar"></i>
-                    <h3 class="part_title subject_title">Asignar materias</h3>
-                </span>
-                </div>
-              </div>
-                <span v-for="subject in subjects" :key="subject.id_materia" class="subject_check"><input type='checkbox'>{{ subject.nombre_materia }} ({{ subject.seccion }})</span>
-            </div>
 
           </div>
         </div>
@@ -130,6 +103,13 @@ const sendSub = (dataS) => {
     </div>
 
   </div>
+
+  
+  <Modal_Message 
+    v-show="stateMessageModal" 
+    @closeModalMessage="changeStateMessageModal"
+    :typeMessage="'schedule'" 
+  />
 
 </template>
 
@@ -164,8 +144,8 @@ const sendSub = (dataS) => {
     align-items: center;
     flex-direction: column;
     background-color: $color4;
-    width: 790px;
-    height: 579px; 
+    //width: 790px;
+    width: auto;
     padding: 15px 30px 30px 30px;
     border-radius: 15px;
   }
@@ -213,7 +193,6 @@ const sendSub = (dataS) => {
     justify-content: center;
     flex-direction: column;
     width: 100%;
-    height: 100%;
     overflow: hidden;
   }
 
@@ -223,8 +202,11 @@ const sendSub = (dataS) => {
     background-color: #FFF;
     border-radius: 7px;
     margin: 10px;
-    height: 100%;
     overflow: auto;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
 
@@ -233,13 +215,19 @@ const sendSub = (dataS) => {
     width: auto;
   }
 
+  .formCreate{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   /* información del contenido, titulos, parrafos... */
 
   .part_title{
     font-family: Poppins;
-    font-size: 35px;
+    font-size: 30px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 500;
     line-height: normal;
     text-align: center;
     margin-bottom: 20px;
@@ -293,25 +281,19 @@ background-color: var(--Color4, #329D9C);;
 
 }
 
-.select{
-  display: flex;
-  width: 300px;
-  padding: 13px;
-  color: #000;
-  font-size: 24px;
-  line-height: normal;
-  margin-bottom: 18px;
-  /*outline: solid 1px #000;*/
-  height: 40px;
-  border: 1px solid $color5;
-  outline: none;
-  }
+  .formCreateEvent_select{
+    width: 100%;
+    margin: 0 0 25px 0;
+    border: 1px solid $color5;
+    background: #FFF;
 
-  .description{
-    height: 150px;
-    text-align: justify;
-  }
+    color: #000;
+    font-family: Poppins;
+    font-size: 20px;
+    outline: none;
 
+    cursor: pointer;
+  }
 
 
 .text-input{
@@ -347,6 +329,17 @@ background-color: var(--Color4, #329D9C);;
   font-size: 30px;
   margin-top:5px;
 }
+
+.formCreateActivity_label{
+    color: #000;
+    font-family: "Inria Sans";
+    font-size: 24px;
+    font-weight: 400;
+  }
+
+  .formCreateActivity_containerLabel{
+    margin-bottom: 25px;
+  }
 
 
 .materiasContainer{

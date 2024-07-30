@@ -19,6 +19,45 @@ class Events_Model {
     })
   }
 
+  search_events_by(column, value) {
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM `fechas_especiales` WHERE ?? = ?', [column, value], function (error, results, fields) {
+        if (error) {
+          reject(new Response(500, error, error));
+        } else {
+          if (results.length == 0) {
+            reject(new Response(404, 'No existen eventos con el parámetro especificado', results));
+          } else {
+            resolve(new Response(200, results, results));
+          }
+        };
+      });
+    })
+  }
+
+  search_events_academics(types, period) {
+    return new Promise((resolve, reject) => {
+      const placeholders = types.map(() => '?').join(', ');
+      const query = `
+        SELECT * FROM fechas_especiales
+        WHERE tipo_fecha IN (${placeholders})
+        AND idPeriodo = ?
+      `;
+      let consulta = connection.query(query, [...types, period], function (error, results, fields) {
+        if (error) {
+          reject(new Response(500, error, error));
+        } else {
+          if (results.length == 0) {
+            reject(new Response(404, 'No existen eventos con el parámetro especificado', results));
+          } else {
+            resolve(new Response(200, results, results));
+          }
+        };
+      });
+      //console.log(consulta.sql);
+    })
+  }
+
   search_events_id(id) {
     return new Promise((resolve, reject) => {
       connection.query('SELECT * FROM `fechas_especiales` WHERE `id_fecha_especial` = ?', id, function (error, results, fields) {
@@ -75,6 +114,38 @@ class Events_Model {
         } else {
           if (results.length == 0) {
             reject(new Response(404, 'No existen eventos para el mes seleccionado', results));
+          } else {
+            resolve(new Response(200, results, results));
+          }
+        };
+      });
+    })
+  }
+
+  search_events_month_ByAssigned(dateStart, dateFinish, idAssigned) {
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM `fechas_especiales` WHERE (`fecha_especial` < ? AND `fecha_especial` >= ?) && (`idAsignados` IS null || `idAsignados` = ?)', [dateFinish, dateStart, idAssigned], function (error, results, fields) {
+        if (error) {
+          reject(new Response(500, error, error));
+        } else {
+          if (results.length == 0) {
+            reject(new Response(404, 'No existen eventos para la materia', results));
+          } else {
+            resolve(new Response(200, results, results));
+          }
+        };
+      });
+    })
+  }
+
+  search_events_Assigned(idAssigned) {
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM `fechas_especiales` WHERE `idAsignados` = ? ORDER BY `fechas_especiales`.`fecha_especial` ASC', idAssigned, function (error, results, fields) {
+        if (error) {
+          reject(new Response(500, error, error));
+        } else {
+          if (results.length == 0) {
+            reject(new Response(404, 'No existen eventos para la materia', results));
           } else {
             resolve(new Response(200, results, results));
           }

@@ -36,6 +36,21 @@ router.get('/mostrar/nombre/:nombre', function (req, res, next) {
     })
 });
 
+/* GET buscar eventos por tipo de fecha */
+router.get('/mostrar/tipo', function (req, res, next) {
+  let reqArray = req.query.types.split(",");
+  console.log(reqArray, typeof reqArray)
+  Events_Controller.search_events_academic(reqArray)
+    .then((results) => {
+      res.status(results.code).send(results.result);
+    })
+    .catch((error) => {
+      //console.log(error)
+      if (!error.code || !error.message) return res.status(500).send(error);
+      res.status(error.code).send(error.message);
+    })
+});
+
 /* GET buscar eventos por fecha */
 router.get('/mostrar/fecha/:fecha', function (req, res, next) {
   Events_Controller.search_events_date(req.params.fecha)
@@ -55,6 +70,32 @@ router.get('/mostrar/mes/:year/:month', function (req, res, next) {
     })
     .catch((error) => {
       //console.log(error)
+      if (!error.code || !error.message) return res.status(500).send(error);
+      res.status(error.code).send(error.message);
+    })
+});
+
+/* GET buscar eventos por asignados */
+router.get('/mostrar/mes/:year/:month/:idAssigned', function (req, res, next) {
+  Events_Controller.search_events_month_ByAssigned(req.params, req.params.idAssigned) //{year: 2024, month: 5} month desde el 0 al 11
+    .then((results) => {
+      res.status(results.code).send(results.result);
+    })
+    .catch((error) => {
+      //console.log(error);
+      if (!error.code || !error.message) return res.status(500).send(error);
+      res.status(error.code).send(error.message);
+    })
+});
+
+/* GET buscar todos los eventos por asignados */
+router.get('/mostrar/asignados/:idAssigned', function (req, res, next) {
+  Events_Controller.search_events_Assigned(req.params.idAssigned) 
+    .then((results) => {
+      res.status(results.code).send(results.result);
+    })
+    .catch((error) => {
+      //console.log(error);
       if (!error.code || !error.message) return res.status(500).send(error);
       res.status(error.code).send(error.message);
     })

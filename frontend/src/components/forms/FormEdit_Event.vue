@@ -1,8 +1,13 @@
 <script setup>
 import { defineProps, ref, computed } from 'vue';
 import { useEventsStore } from '@/stores/events';
+import { userStore } from '@/stores/Dash_Stores/users';
 import Modal_Message from '../modals/Modal_Message.vue';
 import Submit_Button from '../buttons/Submit_Button.vue';
+
+const storeUser = userStore();
+
+let rol_online = storeUser.getUserOnlineRol;
 
  class UpdateEvent {
   constructor(fecha_especial, nombre_corto, nombre_largo, descripcion, tipo_fecha) {
@@ -78,9 +83,11 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
           <option value="" disabled selected>Tipo de evento</option>
           <option class="formCreateEvent_option" value="Encuentro">Encuentro</option>
           <option class="formCreateEvent_option" value="Conferencia">Conferencia</option>
-          <option class="formCreateEvent_option" value="Feria">Feria</option>
-          <option class="formCreateEvent_option" value="corte de notas">Corte de notas</option>
-          <option class="formCreateEvent_option" value="Feriado">Feriado</option>
+          <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="Feria">Feria</option>
+          <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="corte de notas">Corte de notas</option>
+          <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="Feriado">Feriado</option>
+          <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="Entregables">Entregables</option>
+          <option v-if="rol_online === 'director'" class="formCreateEvent_option" value="Otros">Otros</option>
         </select>
       </div>
 

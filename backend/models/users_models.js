@@ -185,7 +185,7 @@ class Users_Model {
                 if (err) {
                     if (err.errno == 1062) reject(new Response(400, "El correo '" + update.correo + "' ya existen"));
                     if (err.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', '')));
-                    reject(err);
+                    reject(new Response(500, err.sqlMessage, err));
                     console.error("Error SQL: ", err.sqlMessage);
                 } else {
                     if (rows.affectedRows < 1) {
@@ -211,7 +211,7 @@ class Users_Model {
                 if (err) {
                     if (err.errno == 1062) reject(new Response(400, "El correo '" + update.correo + "' ya existen"));
                     if (err.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', '')));
-                    reject(err);
+                    reject(new Response(500, err.sqlMessage, err));
                     console.error("Error SQL: ", err.sqlMessage);
                 } else {
                     if (rows.affectedRows < 1) {

@@ -30,10 +30,11 @@
     :options="true"
     :forTable="subject"
     mainButton="Añadir materia"
-    h1Title="Gestión de materias"
+    h1Title="Gestión de Materias"
     h3Title="Aquí puedes crear y gestionar materias"
     :toChangeState="buttonChange"
     :lessOptions="true"
+    :typeGestion="''"
     >
     </DashTable>
 
