@@ -94,7 +94,7 @@ import { ref, defineEmits } from 'vue';
                     <tr class="tr-body" v-for="( element, index ) in props.forTable" :key="index">
                         
                     <td v-for="( item, index ) in props.forBody" :key="index">{{ element[item] }}</td>
-                    <td v-if=" props.options ">
+                    <td v-if=" props.options && props.typeGestion === '' ">
                         <Show v-if="!lessOptions" @click="takenID( element.nombre)" :change="toChangeState"/>
                         <Edit_Button v-if="h1Title == 'Gestión de Profesores'" @click="takenID( element.nombre)" :change="buttonState"/>
                         <Edit_Button v-if="h1Title == 'Gestión de secciones'" @click="takenID( element.nombre_seccion)" :change="buttonState"/>
