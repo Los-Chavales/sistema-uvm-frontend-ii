@@ -1,5 +1,10 @@
 <script setup>
-  import { defineProps, ref,  onMounted, computed } from 'vue';
+  import { defineProps, ref,  onMounted, computed, watch} from 'vue';
+  import { subjectStore } from '@/stores/Dash_Stores/subject';
+  import Modal_Message from '../modals/Modal_Message.vue';
+
+  const storeSubject  = subjectStore();
+
   const props = defineProps({
     state: {
       type: Boolean,
@@ -9,10 +14,57 @@
       type: Function,
       required: true
     },
+    scheduleDetail: {
+      type: Object,
+      required: true,
+    }
   })
   const changeState = props.toChangeState
+ 
+  const data = ref({ ...props.scheduleDetail })
 
-  const subjects = [
+  const id_materia = ref(props.scheduleDetail.id_materia)
+  const nombre_materia = ref(props.scheduleDetail.nombre_materia);
+  const trimestre = ref(props.scheduleDetail.trimestre);
+  const descripcion = ref(props.scheduleDetail.descripcion);
+  const carrera = ref(props.scheduleDetail.carrera);
+
+  watch(
+    () => props.scheduleDetail,
+    (newVal) => {
+      data.value = { ...newVal };
+      id_materia.value = data.value.id_materia;
+      nombre_materia.value = data.value.nombre_materia;
+      trimestre.value = data.value.trimestre;
+      descripcion.value = data.value.descripcion;
+      carrera.value = data.value.carrera;
+    },
+    { immediate: true }
+  ); 
+
+  const putSubject = computed(() => {
+    let cookie = $cookies.get('auth')
+    if (cookie !== null) {
+      let token = cookie.token;
+      storeSubject.updateSubject(
+        token, 
+        {
+          nombre_materia: nombre_materia.value,
+          trimestre: trimestre.value,
+          descripcion: descripcion.value,
+          carrera: carrera.value
+        }, 
+        id_materia.value
+      )
+    }
+    changeStateMessageModal()
+  });
+
+//función para desplegar el modal 
+let stateMessageModal = ref(false);
+const changeStateMessageModal = () => (stateMessageModal.value = !stateMessageModal.value)
+
+/*   const subjects = [
   {
     id_materia: 1,
     nombre_materia: "Frontend II",
@@ -29,7 +81,7 @@
     carrera: "Ingeniería de computación",
     seccion: 'B1'
   }
-]
+] */
 </script>
 
 <template>
@@ -53,11 +105,27 @@
           <div class="part_container">
             <h3 class="part_title title_activities">Editar Materia</h3>
 
-            <form v-on:submit.prevent="login">
+            <form v-on:submit.prevent="putSubject">
 
-              <select name="Trimestre"  id="" class="select"></select>
-              <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="usr_name" id="nombre" />
-              <input class="form-input description" placeholder="Descripción" name="apellido" type="text" v-model="correo" id="apellido" />
+              <select name="Trimestre"  id="" class="select" v-model="trimestre" required>
+                <option value="I" >I (1)</option>
+                <option value="II" >II (2)</option>
+                <option value="III" >III (3)</option>
+                <option value="IV" >IV (4)</option>
+                <option value="V" >V (5)</option>
+                <option value="VI" >VI (6)</option>
+                <option value="VII" >VII (7)</option>
+                <option value="VIII" >VIII (8)</option>
+                <option value="IX" >IX (9)</option>
+              </select>
+
+              <select name="" id="" class="select" v-model="carrera" required>
+                <option value="Ingenieria de Computacion" >Ingenieria de Computacion</option>
+                <option value="Ingenieria Industrial" >Ingenieria Industrial</option>
+              </select>
+
+              <input class="form-input text-input"  v-model="nombre_materia" placeholder="Nombre" name="nombre" type="text" id="nombre" required/>
+              <input class="form-input description" v-model="descripcion" placeholder="Descripción" name="apellido" type="text" id="apellido" required/>
 
 
               <input class="form-submit" type="submit" value="Actualizar" />
@@ -69,20 +137,20 @@
 
         <!-- Parte de mostrar eventos -->
 
-        <div class="modal_part">
+        <!-- <div class="modal_part">
           <div class="part_container">
             <div class="searcher">
               <input class="searcher_input" placeholder="Buscar..." name="buscador" type="buscador" v-model="buscador" id="buscador" />
               <span class="searcher_icon">
                 <i class="fa-solid fa-magnifying-glass "></i>
               </span>
-            </div>
+            </div> -->
             <!-- En caso de no tener nada -->
 <!-- 
             <div class="container_details" v-if="getEvents.length === 0">
               <p class="part_p p--activity">No hay nada para hoy</p>
             </div> -->
-
+<!-- 
             <div class="materiasContainer">
               <div class="title">
                 <div class="title_container">
@@ -96,13 +164,15 @@
             </div>
 
           </div>
-        </div>
+        </div> -->
 
       </div>
 
     </div>
 
   </div>
+
+  <Modal_Message v-show="stateMessageModal" @closeModalMessage="changeStateMessageModal" :typeMessage="'subject'" />
 
 </template>
 
@@ -137,7 +207,7 @@
     align-items: center;
     flex-direction: column;
     background-color: $color4;
-    width: 790px;
+   //width: 790px;
     height: 579px; 
     padding: 15px 30px 30px 30px;
     border-radius: 15px;

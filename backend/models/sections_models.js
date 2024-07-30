@@ -67,6 +67,22 @@ class Sections_Model{
     })
   }
 
+  see_sections_subjects(){ //Horarios
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT `id_seccion`, `nombre_seccion`, `modalidad`, `nombre_materia` FROM `asignados` JOIN `secciones` JOIN `materias` WHERE `idSeccion` = `id_seccion` && `idMateria` = `id_materia`', function (error, results, fields) {
+          if (error) {
+              reject(new Response(500, error, error));
+          } else {
+              if (results.length == 0) {
+                  reject(new Response(404, 'No existen secciones registradas', results));
+              } else {
+                  resolve(new Response(200, results, results));
+              }
+          };
+      });
+    })
+  }
+
   register_section(register){
     return new Promise((resolve, reject) => {
       if (validate_sections(register, reject) !== true) return;
