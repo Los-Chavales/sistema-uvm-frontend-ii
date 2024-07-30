@@ -223,10 +223,10 @@ export default {
 
             if(rol === "profesor"){
                console.log("profesor")
-               this.$router.push({ path: '/admin-dsh' })
+               this.$router.push({ path: '/' })
             }else if(rol === "director"){
                console.log("director")
-               this.$router.push({ path: '/admin-dsh' })
+               this.$router.push({ path: '/' })
             } 
 
          }).catch((err) => {
