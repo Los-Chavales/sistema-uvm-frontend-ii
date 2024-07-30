@@ -1,6 +1,6 @@
 <script setup>
     import { subjectStore } from '@/stores/Dash_Stores/subject'
-    import { computed, onMounted } from 'vue';
+    import { computed, onMounted, ref } from 'vue';
     import DashTable from '@/components/DashMain/DashTable.vue';
     import { buttonStateStore } from '@/stores/buttonState';
     import CreateSubject from '@/components/DashMain/Create-Subject.vue';
@@ -21,16 +21,15 @@
         store.getSubject();
     })
 
-    let scheduleID = ref('');
-    let detachSchedule = ref('')
+    let subjectID = ref('');
+    let detachSubject = ref('')
 
     function idListener(dato) {
         if (dato) {
             console.log(dato)
-            scheduleID.value = dato
-            let temp = store.options.schedules.filter((schedule) => scheduleID.value == schedule.id_horario);
-            detachSchedule.value = temp[0]
-            //console.log(detachSchedule.value)
+            subjectID.value = dato
+            let temp = store.subject.filter((subject) => subjectID.value == subject.id_materia);
+            detachSubject.value = temp[0]
         }
     }
 
@@ -38,6 +37,7 @@
 
 <template>
     <DashTable
+    @takenID="idListener"
     :tableHead="['Nombre materia','Descripción']"
     :forBody="['nombre_materia','descripcion']"
     :options="true"
@@ -52,7 +52,7 @@
     </DashTable>
 
     <CreateSubject :toChangeState="buttonChange" :state="buttonState.bState" />
-    <EditSubject :toChangeState="buttonChange" :state="buttonState.eState" /> 
+    <EditSubject v-if="detachSubject" :scheduleDetail="detachSubject" :toChangeState="buttonChange" :state="buttonState.eState" /> 
 
 </template>
 

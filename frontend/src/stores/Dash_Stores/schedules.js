@@ -59,8 +59,6 @@ export const useSchedulesStore = defineStore('schedules', {
         
       },
       async updateSchedules(token, schedulesUpdate, id) {
-        console.log("---------------------DATOS En la STORE------------------")
-        console.log(schedulesUpdate)
         const data = await axios.put(`${API_URL_BASE}/horarios/actualizar/${id}`, schedulesUpdate, {
           headers: {
             'Authorization': `Bearer ${token}`,

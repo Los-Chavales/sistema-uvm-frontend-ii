@@ -4,11 +4,13 @@
     import { useEventsStore } from '@/stores/events';
     import { useSchedulesStore } from '@/stores/Dash_Stores/schedules';
     import { useAssignedStore } from '@/stores/assigned';
+    import { subjectStore } from '@/stores/Dash_Stores/subject';
 
     let storeActivities = useActivitiesStore();
     let storeEvents = useEventsStore();
     let storeSchedules = useSchedulesStore();
     let storeAssigned = useAssignedStore();
+    let storeSubject  = subjectStore();
 
     const props = defineProps({
       /*idD: String,*/
@@ -24,6 +26,7 @@
     const deleteEvent = storeEvents.deleteEvents;
     const deleteSchedule = storeSchedules.deleteSchedules;
     const deleteAssigned = storeAssigned.deleteAssigned;
+    const deleteSubject = storeSubject.deleteSubject;
 
     const deleteSubmit=()=>{
       let cookie= $cookies.get('auth')
@@ -46,6 +49,9 @@
       }else if(props.idData && cookie !==null && props.typeDelete === "assigned"){
         token= cookie.token
         deleteAssigned(props.idData, token)
+      }else if(props.idData && cookie !==null && props.typeDelete === "subject"){
+        token= cookie.token
+        deleteSubject(props.idData, token)
       }
     }
 

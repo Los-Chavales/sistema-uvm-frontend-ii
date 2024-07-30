@@ -7,13 +7,25 @@ const APISubjects = '/materias/'
 
 export const subjectStore = defineStore('subjectStore', {
     state: ()=> ({
-        subject:[]
+        subject:[],
+        error: {
+            statusError: false,
+            message: ''
+        },
+        resultForm: {
+            statusErrorForm: false,
+            messageForm: '',
+            listDetails: []
+        }        
         
     }),
     getters: { 
         readSubject(state){
             return state.subject
-        }
+        },
+        getFormResult(state) {
+            return state.resultForm
+        },
     },
     actions:{
       async getSubject(){
@@ -43,6 +55,40 @@ export const subjectStore = defineStore('subjectStore', {
             .then( (response) => {
                 console.log(response)
             })
-      }
+      },
+      async updateSubject(token, subjectUpdate, id) {
+        const data = await axios.put(`${API_URL_BASE}/materias/actualizar/${id}`, subjectUpdate, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }).then(response => {
+            console.log("éxito")
+          this.resultForm.statusErrorForm = false
+          this.resultForm.messageForm = response.data
+          this.getSubject();
+        })
+        .catch(err => {
+            console.log("derrota")
+          console.log(err)
+          this.resultForm.statusErrorForm = true
+          this.resultForm.messageForm = "Error al actualizar" 
+        });
+      },
+      async deleteSubject(id_subject, token){
+        try{
+          await axios.delete(`${API_URL_BASE}/materias/eliminar/${id_subject}`,{
+            headers:{
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          console.log(`eliminaste la materia: ${id_subject}`)
+          this.getSubject();
+        }
+        catch (error){
+          console.log(error)
+          console.log(error.response.data)
+        }
+      },
     }
 })
