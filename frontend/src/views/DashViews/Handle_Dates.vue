@@ -61,23 +61,12 @@ watch(periodStore.$state, (newState) => {
     }
 });
 
-const modalP = () => {
+/*const modalP = () => {
     buttonChange('periodTable')
-}
+}*/
 </script>
 
 <template>
-    <!--
-    <div class="topDiv">
-        <div>
-            <h1>Fechas Académicas</h1>
-            <p>Periodo actual: 2024B</p>
-        </div>
-        <div class="optionPeriod">
-            <Entity_Button message="Periodos" :onClick="changeState" />
-        </div>
-    </div>
-    -->
     
 
     <DashTable 
@@ -92,19 +81,16 @@ const modalP = () => {
 
         :toChangeState="buttonChange" 
         :lessOptions="true" 
-        :assignedOptionsSchedules="true" 
+        :assignedOptionsSchedules="false" 
         :typeGestion="'academic'">
     </DashTable>
 
-    <Entity_Button message="Periodos" :onClick="modalP" />
+    <Modal_Period :state="buttonState.periodTable" :close="buttonChange" :seeActivities="true" :isEditor="true" :is-table="true"/>
 
-    <!--<Modal_Period :state="buttonState.periodTable" :close="buttonChange" :seeActivities="true" :isEditor="true" :is-table="true"/>-->
-
-    <CreateSchedule :toChangeState="buttonChange" :state="buttonState.bState" />
+    
     <Modal_assigned_schedules :toChangeState="buttonChange" :state="buttonState.M2State" />
     <EditSchedule v-if="detachEvent" :scheduleDetail="detachEvent" :toChangeState="buttonChange"
         :state="buttonState.eState" />
-    <!--   <EditSchedule :toChangeState="buttonChange" :state="buttonState.eState" /> -->
 
 </template>
 
