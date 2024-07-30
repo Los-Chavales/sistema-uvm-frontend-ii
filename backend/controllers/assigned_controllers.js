@@ -1,6 +1,11 @@
 const Assigned_Model = require('../models/assigned_models');
 
 class Assigned_Controller {
+  see_assigned() {
+    return new Promise((resolve, reject) => {
+      Assigned_Model.see_assigned().then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
   see_options_assigned(id) {
     return new Promise((resolve, reject) => {
       Assigned_Model.see_options_assigned(id).then((res) => {
@@ -29,6 +34,11 @@ class Assigned_Controller {
       Assigned_Model.see_specific_assigned(idTeacher, idAssigned).then((res) => { resolve(res) }).catch((error) => { reject(error); })
     })
   }
+  search_no_schedules() {
+    return new Promise((resolve, reject) => {
+      Assigned_Model.search_no_schedules().then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
   register_assigned(register) {
     return new Promise((resolve, reject) => {
      for (let i = 0; i < register.idMaterias.length; i++) {
@@ -43,6 +53,17 @@ class Assigned_Controller {
 
       }).catch((error) => { reject(error); })
      }
+    })
+  }
+  update_assigned_schedules(idAssigned, idSchedule) {
+    return new Promise((resolve, reject) => {
+      Assigned_Model.update_assigned_schedules(idAssigned, idSchedule).then((res) => { resolve(res) }).catch((error) => { reject(error) })
+    })
+  } 
+  
+  delete_schedules(id) {
+    return new Promise((resolve, reject) => {
+      Assigned_Model.delete_schedules(id).then((res) => { resolve(res) }).catch((error) => { reject(error) })
     })
   }
 }

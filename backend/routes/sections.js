@@ -55,6 +55,16 @@ router.get('/mostrar_horarios/:index_s/:index_m', function(req, res, next) {
   }) 
 });
 
+/* GET mostrar por horarios */
+router.get('/mostrar_materias', function(req, res, next) {
+  Sections_Controller.see_sections_subjects()
+  .then((results) => {
+      res.send(results.result);
+  })
+  .catch((error) => {
+      res.status(error.code).send(error.message);
+  }) 
+});
 
 
 /* POST registrar sección */

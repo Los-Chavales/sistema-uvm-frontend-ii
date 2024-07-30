@@ -7,8 +7,11 @@
     import SeeProfessor from '@/components/DashMain/See-Professor.vue';
     import EditProfessor from '@/components/DashMain/Edit-Professor.vue';
     import Modal_assigned from '@/components/modals/Modal_assigned.vue';
+    import Modal_delete_assigned from '@/components/modals/Modal_delete_assigned.vue';
+
     const buttonState = buttonStateStore()
     const buttonChange  = buttonState.changeState
+
     const store  = userStore();
     let userID = ref('');
     let detachUser = ref('')
@@ -53,10 +56,13 @@
     h3Title="Aquí puedes crear y gestionar profesores"
     :toChangeState="buttonChange"
     :lessOptions="false"
+    :assignedOptions="true"
+    :typeGestion="''"
     />
 
     <CreateProfessor :toChangeState="buttonChange" :state="buttonState.bState"/>
     <Modal_assigned :toChangeState="buttonChange" :state="buttonState.MState" />
+    <Modal_delete_assigned :toChangeState="buttonChange" :state="buttonState.M2State" />
     <EditProfessor v-if="detachUser" :userDetail="detachUser"  :toChangeState="buttonChange" :state="buttonState.eState" />
     <SeeProfessor v-if="detachUser" :userDetail="detachUser" :userSub="userSubjects" :toChangeState="buttonChange" :state="buttonState.dState"/>
 

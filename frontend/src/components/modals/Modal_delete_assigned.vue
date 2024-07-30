@@ -1,38 +1,15 @@
 <script setup>
-import { subjectStore } from '@/stores/Dash_Stores/subject';
-import { sectionStore } from '@/stores/Dash_Stores/sections';
-import { userStore } from '@/stores/Dash_Stores/users';
-import { useAssignedStore } from '@/stores/assigned';
 import { defineProps, computed, ref } from 'vue';
-import Submit_Button from '../buttons/Submit_Button.vue';
+import { useAssignedStore } from '@/stores/assigned';
+import Delete_Button from '../buttons/Delete_Button.vue';
 import Modal_Message from './Modal_Message.vue';
 
-/* Llamar a las stores */
-//Materias
-const storeSubject = subjectStore();
+let storeAssigned = useAssignedStore();
 
-storeSubject.getSubject();
+storeAssigned.searchAssigned();
 
-const getSubjects = computed(() => {
-  return storeSubject.readSubject
-})
-
-//Secciones
-const storeSection = sectionStore();
-
-storeSection.getSections();
-
-const getSections = computed(() => {
-  return storeSection.readSections
-})
-
-//Profesores
-const storeUser = userStore();
-
-storeUser.getOnlyProfessors();
-
-const getProfessors = computed(() => {
-  return storeUser.getUserProfessors
+const getAssigned = computed(() => {
+  return storeAssigned.getAssignedAll
 })
 
 const props = defineProps({
@@ -44,34 +21,9 @@ const props = defineProps({
       type: Function,
       required: true
     },
-  })
-  const changeState = props.toChangeState
-
-
-let checkValue = ref([])
-let radioSectionValue = ref("")
-let radioProfessorValue = ref("")
-
-let storeAssigned = useAssignedStore();
-
-const createAssigned = computed(() => {
-  let cookie = $cookies.get('auth')
-  if(cookie !== null && checkValue.value.length > 0 && radioProfessorValue.value !== "" && radioSectionValue.value !== ""){
-    let token = cookie.token;
-    storeAssigned.postAssigned(
-      token,
-      {
-      idProfesor:radioProfessorValue.value,
-      idSeccion:radioSectionValue.value,
-      idMaterias:checkValue.value
-     }
-    )
-  }else{
-    storeAssigned.options.resultForm.messageForm = "Faltan datos por asignar"
-  }
-  changeStateMessageModal()
 })
 
+const changeState = props.toChangeState
 
 //función para desplegar el modal 
 let stateMessageModal = ref(false);
@@ -85,79 +37,42 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
 
     <div class="modalForm_head">
       <div class="container_button">
-        <button @click="changeState('manage')" class="modalForm_cerrar">cerrar X</button>
+        <button @click="changeState('manage2')" class="modalForm_cerrar">cerrar X</button>
       </div>
     </div>
 
     <div class="modalForm_body">
 
-      <form class="modalForm_part" @submit.prevent="createAssigned">
+      <form class="modalForm_part" @submit.prevent>
 
         <div class="container_buttons">
 
           <div class="materiasContainer">
-            <input type="radio" name="dropdown" id="btn-dropdown1" class="btn-dropdown">
-                <label for="btn-dropdown1" class="title">
+                <div class="title">
                   <div class="title_container">
                     <span class="icon_container">  
                     <i class="fa-solid fa-calendar"></i>
-                      <h3 class="part_title subject_title">Asignar Profesor</h3>
+                      <h3 class="part_title subject_title">Quitar Asignado</h3>
                   </span>
                   </div>
-                </label>
-
-                <span v-if="getProfessors.length > 0" v-for="professor in getProfessors" :key="professor.cedula" class="subject_check">
-                  <div>
-                    <input type='radio' v-model="radioProfessorValue" name="radioProfessor" :value=professor.cedula>
-                  </div>
-                  {{ professor.nombre }}
-                  {{ professor.apellido }}
-                </span>
-          </div>
-
-          <div class="materiasContainer">
-            <input type="radio" name="dropdown" id="btn-dropdown2" class="btn-dropdown">
-                <label for="btn-dropdown2" class="title">
-                  <div class="title_container">
-                    <span class="icon_container">  
-                    <i class="fa-solid fa-calendar"></i>
-                      <h3 class="part_title subject_title">Asignar Sección</h3>
-                  </span>
-                  </div>
-                </label>
-
-                <span v-if="getSections.length > 0" v-for="section in getSections" :key="section.id_seccion" class="subject_check">
-                  <div>
-                    <input type='radio' v-model="radioSectionValue" name="radioSection" :value=section.id_seccion>
-                  </div>
-                  {{ section.nombre_seccion }}
-                  ({{ section.modalidad }})
-                </span>
-          </div>
-
-
-          <div class="materiasContainer">
-            <input type="radio" name="dropdown" id="btn-dropdown3" class="btn-dropdown">
-                <label for="btn-dropdown3" class="title">
-                  <div class="title_container">
-                    <span class="icon_container">  
-                    <i class="fa-solid fa-calendar"></i>
-                      <h3 class="part_title subject_title">Asignar materias</h3>
-                  </span>
-                  </div>
-                </label>
-
-              <span v-if="getSubjects.length > 0" v-for="subject in getSubjects" :key="subject.id_materia" class="subject_check">
-                <div>
-                  <input type='checkbox' v-model="checkValue" :value=subject.id_materia>
                 </div>
-                {{ subject.nombre_materia }}
-                ({{ subject.trimestre }})
-              </span> 
+
+                <span v-if="getAssigned.length > 0" v-for="assigned in getAssigned" :key="assigned.id_asignado" class="subject_check">
+                  <div>
+                    <Delete_Button 
+                      :idData="assigned.id_asignado",
+                      :typeDelete="'assigned'"
+                    />
+                  </div>
+                  {{ assigned.nombre }} 
+                  {{ assigned.apellido }}
+                  {{ assigned.nombre_materia }}
+                  ({{ assigned.nombre_seccion }})
+                </span>
+      
           </div>
 
         </div>
-        <Submit_Button :message="'Asignar'"/>
       </form>
     </div>
 
@@ -272,11 +187,10 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
     display: flex;
 /*     min-height: 400px; */
     height: 400px;
-    width: 280px;
+    width: 290px;
     padding-bottom: 30px;
     flex-direction: column;
     align-items: flex-start; 
-    gap: 30px;
     align-self: stretch;
     background: rgba(158, 158, 158, 0.40);
     margin: 0 5px 0;
@@ -350,9 +264,6 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
 
 }
 
-.btn-dropdown{
-    display: none;
-}
 
 @media (max-width: 1000px) {
   .container_buttons{
@@ -370,18 +281,6 @@ const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageM
     height: auto;
     display: block;
     overflow: visible;
-  }
-
-  //Lo que lo hace desplegable
-  .materiasContainer .subject_check{
-    padding: 0px;
-    max-height: 0px;
-    overflow: hidden;
-    transition: all 300ms ease;
-  }
-  .btn-dropdown:checked ~ .subject_check{
-      max-height: 600px;
-      padding: 15px 0px;
   }
 }
 

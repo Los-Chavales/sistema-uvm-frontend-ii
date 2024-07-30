@@ -53,7 +53,7 @@ import { useRoute } from 'vue-router';
         color: #000;
         text-decoration: none;
         background-color: $color6;
-        height: 55px;
+        height: 50px;
         font-family: "Poppins", sans-serif;
         font-weight: 100;
         font-style: normal;

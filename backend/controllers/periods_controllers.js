@@ -73,6 +73,15 @@ class Periods_Controller {
       Periods_Model.search_periods_by(name, value).then((res) => { resolve(res) }).catch((error) => { reject(error); })
     })
   }
+  search_active() {
+    return new Promise((resolve, reject) => {
+      Periods_Model.search_periods_by('estado', 'activo').then((res) => { 
+        //console.log(res.result[0])
+        res.result = res.result[0];
+        resolve(res); 
+      }).catch((error) => { reject(error); })
+    })
+  }
   see_weeks() {
     return new Promise((resolve, reject) => {
       Periods_Model.search_periods_by('estado', 'activo')

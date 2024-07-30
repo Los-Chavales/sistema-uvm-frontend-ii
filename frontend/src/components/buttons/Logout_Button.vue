@@ -35,7 +35,7 @@ const logout = () => {
   padding: 10px;
   color: #000;
   background-color: $color6;
-  height: 55px;
+  height: 50px;
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-style: normal;
