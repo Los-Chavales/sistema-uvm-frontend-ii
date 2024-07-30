@@ -1,70 +1,70 @@
 <script setup>
-  import { defineProps, ref,  onMounted, computed, watch } from 'vue';
-  import Submit_Button from '../buttons/Submit_Button.vue';
-  import { useSchedulesStore } from '@/stores/Dash_Stores/schedules';
-  import Modal_Message from '../modals/Modal_Message.vue';
+import { defineProps, ref, onMounted, computed, watch } from 'vue';
+import Submit_Button from '../buttons/Submit_Button.vue';
+import { useSchedulesStore } from '@/stores/Dash_Stores/schedules';
+import Modal_Message from '../modals/Modal_Message.vue';
 
-  let schedulesStore = useSchedulesStore();
+let schedulesStore = useSchedulesStore();
 
-  const props = defineProps({
-    state: {
-      type: Boolean,
-      required: true
-    },
-    toChangeState: {
-      type: Function,
-      required: true
-    },
-    scheduleDetail:{
-      type: Object,
-      required: true,
-    }
-  })
-  const changeState = props.toChangeState
+const props = defineProps({
+  state: {
+    type: Boolean,
+    required: true
+  },
+  toChangeState: {
+    type: Function,
+    required: true
+  },
+  scheduleDetail: {
+    type: Object,
+    required: true,
+  }
+})
+const changeState = props.toChangeState
 
-  const data = ref({ ...props.scheduleDetail })
+const data = ref({ ...props.scheduleDetail })
 
-  const idSchedule = ref(props.scheduleDetail.id_horario)
-  const dia_semana = ref(props.scheduleDetail.dia_semana); 
-  const hora_inicio = ref(props.scheduleDetail.hora_inicio);
-  const hora_final = ref(props.scheduleDetail.hora_final);
+const idSchedule = ref(props.scheduleDetail.id_horario)
+const dia_semana = ref(props.scheduleDetail.dia_semana);
+const hora_inicio = ref(props.scheduleDetail.hora_inicio);
+const hora_final = ref(props.scheduleDetail.hora_final);
 
-  watch(
-      () => props.scheduleDetail,
-      (newVal) => {
-        data.value = { ...newVal };
-        idSchedule.value = data.value.id_horario;
-        dia_semana.value = data.value.dia_semana;
-        hora_inicio.value = data.value.hora_inicio;
-        hora_final.value = data.value.hora_final;
-      },
-      { immediate: true }
-    );
+watch(
+  () => props.scheduleDetail,
+  (newVal) => {
+    data.value = { ...newVal };
+    idSchedule.value = data.value.id_horario;
+    dia_semana.value = data.value.dia_semana;
+    hora_inicio.value = data.value.hora_inicio;
+    hora_final.value = data.value.hora_final;
+  },
+  { immediate: true }
+);
 
- //console.log("DATOSSSSSS en editar")
+//console.log("DATOSSSSSS en editar")
 //console.log(props.scheduleDetail)
 
- 
-  const putSchedule = computed(() => {
-   let cookie = $cookies.get('auth')
-    if(cookie !== null){
-      let token = cookie.token;
-      console.log("ANDAMOS EN EDITAAAAAAAAAAAAAAAAAAR :D")
-     console.log(idSchedule)
-      console.log(dia_semana.value)
-      console.log(hora_inicio.value)
-      console.log(hora_final.value) 
-    } 
 
-    dia_semana.value = ''; 
-    hora_inicio.value = '00:00';
-    hora_final.value = '00:00';
-    changeStateMessageModal() 
-  });
+const putSchedule = computed(() => {
+  let cookie = $cookies.get('auth')
+  if (cookie !== null) {
+    let token = cookie.token;
+    console.log("ANDAMOS EN EDITAAAAAAAAAAAAAAAAAAR :D")
+    console.log(idSchedule)
+    console.log(dia_semana.value)
+    console.log(hora_inicio.value)
+    console.log(hora_final.value)
+  }
 
-  //función para desplegar el modal 
-  let stateMessageModal = ref(false);
-  const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageModal.value)
+  dia_semana.value = '';
+  hora_inicio.value = '00:00';
+  hora_final.value = '00:00';
+  changeStateMessageModal()
+});
+
+//función para desplegar el modal 
+let stateMessageModal = ref(false);
+const changeStateMessageModal = () => (stateMessageModal.value = !stateMessageModal.value)
 
 </script>
 
@@ -89,8 +89,8 @@
             <form class="formCreate" @submit.prevent="putSchedule">
 
               <div class="formCreateEvent_Containerselect">
-        <!--         <select class="formCreateEvent_select" v-model="dia_semana" :value=data.dia_semana required> -->
-              <select class="formCreateEvent_select" :value=dia_semana required> 
+                <!--         <select class="formCreateEvent_select" v-model="dia_semana" :value=data.dia_semana required> -->
+                <select class="formCreateEvent_select" :value=dia_semana required>
                   <option value="" disabled selected>Dia de la semana</option>
                   <option class="formCreateEvent_option" value="lunes">Lunes</option>
                   <option class="formCreateEvent_option" value="martes">Martes</option>
@@ -105,16 +105,16 @@
               <div class="formCreateActivity_containerLabel">
                 <label class="formCreateActivity_label" for="timeStart">Hora de entrada:</label>
                 <input type="time" id="timeStart" v-model="hora_inicio">
-               <!--  <input type="time" id="timeStart" v-model="hora_inicio" :value=data.hora_inicio> -->
+                <!--  <input type="time" id="timeStart" v-model="hora_inicio" :value=data.hora_inicio> -->
               </div>
 
               <div class="formCreateActivity_containerLabel">
                 <label class="formCreateActivity_label" for="timeEnd">Hora de salida:</label>
                 <input type="time" id="timeEnd" v-model=hora_final>
-              <!--   <input type="time" id="timeEnd" v-model="hora_final" :value=data.hora_final> -->
+                <!--   <input type="time" id="timeEnd" v-model="hora_final" :value=data.hora_final> -->
               </div>
 
-              <Submit_Button :message="'Actualizar'"/>
+              <Submit_Button :message="'Actualizar'" />
 
             </form>
 
@@ -127,144 +127,141 @@
 
   </div>
 
-  
-  <Modal_Message 
-    v-show="stateMessageModal" 
-    @closeModalMessage="changeStateMessageModal"
-    :typeMessage="'schedule'" 
-  />
+
+  <Modal_Message v-show="stateMessageModal" @closeModalMessage="changeStateMessageModal" :typeMessage="'schedule'" />
 
 </template>
 
 <style lang="scss" scoped>
-  @import "@/assets/scss/variables.scss";
+@import "@/assets/scss/variables.scss";
 
 
-  /* Estructura del modal */
+/* Estructura del modal */
 
-  .container_modal{
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    background: rgba(0, 0, 0, 0.51);
+.container_modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.51);
 
-    display: flex;
-    justify-content: center;
-    align-items: center; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    padding: 0 2%;
-  }
+  padding: 0 2%;
+}
 
-  .modal_head{
-    width: -webkit-fill-available;
-  }
+.modal_head {
+  width: -webkit-fill-available;
+}
 
-  .modal{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    background-color: $color4;
-    //width: 790px;
-    width: auto;
-    padding: 15px 30px 30px 30px;
-    border-radius: 15px;
-  }
+.modal {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: $color4;
+  //width: 790px;
+  width: auto;
+  padding: 15px 30px 30px 30px;
+  border-radius: 15px;
+}
 
-  .container_button{
-    display: flex;
-    flex-direction: row-reverse;
-  }
+.container_button {
+  display: flex;
+  flex-direction: row-reverse;
+}
 
-  .modal_cerrar{
-    background: none;
-    border: none;
-    color: #FFF;
-    text-align: center;
-    font-family: Poppins;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    text-decoration-line: underline;
-  }
-  .modal_cerrar:hover{
-    cursor: pointer;
-    background-color: $secondary_color;
-    border-radius: 5px;
-  }
+.modal_cerrar {
+  background: none;
+  border: none;
+  color: #FFF;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-decoration-line: underline;
+}
 
-  .modal_title{
-    color: #FFF;
-    font-family: 'Poppins';
-    font-size: 35px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    text-align: center;
-  }
+.modal_cerrar:hover {
+  cursor: pointer;
+  background-color: $secondary_color;
+  border-radius: 5px;
+}
 
-  
-
-  /* Contenedor del titulo del modal */
-
-  .modal_body{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    width: 100%;
-    overflow: hidden;
-  }
-
-   /* Contenedor de las secciones blancas modal */
-
-  .modal_part{
-    background-color: #FFF;
-    border-radius: 7px;
-    margin: 10px;
-    overflow: auto;
-    
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.modal_title {
+  color: #FFF;
+  font-family: 'Poppins';
+  font-size: 35px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: center;
+}
 
 
-  .part_container{
-    padding: 14px 18px;
-    width: auto;
-  }
 
-  .formCreate{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+/* Contenedor del titulo del modal */
 
-  /* información del contenido, titulos, parrafos... */
+.modal_body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+}
 
-  .part_title{
-    font-family: Poppins;
-    font-size: 30px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    text-align: center;
-    margin-bottom: 20px;
-  }
+/* Contenedor de las secciones blancas modal */
 
-  .title_activities{
-    color: #000
-  }
+.modal_part {
+  background-color: #FFF;
+  border-radius: 7px;
+  margin: 10px;
+  overflow: auto;
 
-  .title_events{
-    color: $secondary_color;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .form-input{
+
+.part_container {
+  padding: 14px 18px;
+  width: auto;
+}
+
+.formCreate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* información del contenido, titulos, parrafos... */
+
+.part_title {
+  font-family: Poppins;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.title_activities {
+  color: #000
+}
+
+.title_events {
+  color: $secondary_color;
+}
+
+.form-input {
   display: flex;
   width: 300px;
   padding: 13px;
@@ -272,72 +269,73 @@
   font-size: 24px;
   line-height: normal;
   border-radius: 10px;
-  background: rgba( 158, 158, 158, 0.30);
+  background: rgba(158, 158, 158, 0.30);
   margin-bottom: 18px;
-  border:0;
+  border: 0;
   border-top: 3px solid var(--Color4, #329D9C);
   outline: none;
 
-  }
-
-.form-input::placeholder{
-color:#000000;
-font-family: "Ubuntu"; 
-text-align: center;
-justify-content: center;
-align-items: center;
-font-style: normal;
-font-weight: 400;
 }
 
-.form-submit{
-width: 300px;
-height: 60px;
-flex-shrink: 0;
-border:0;
-border-radius: 10px;
-color: #fff;
-font-family:"poppins";
-font-size: 24px;
-font-weight: 600;
-background-color: var(--Color4, #329D9C);;
+.form-input::placeholder {
+  color: #000000;
+  font-family: "Ubuntu";
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.form-submit {
+  width: 300px;
+  height: 60px;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 10px;
+  color: #fff;
+  font-family: "poppins";
+  font-size: 24px;
+  font-weight: 600;
+  background-color: var(--Color4, #329D9C);
+  ;
 
 }
 
-  .formCreateEvent_select{
-    width: 100%;
-    margin: 0 0 25px 0;
-    border: 1px solid $color5;
-    background: #FFF;
+.formCreateEvent_select {
+  width: 100%;
+  margin: 0 0 25px 0;
+  border: 1px solid $color5;
+  background: #FFF;
 
-    color: #000;
-    font-family: Poppins;
-    font-size: 20px;
-    outline: none;
+  color: #000;
+  font-family: Poppins;
+  font-size: 20px;
+  outline: none;
 
-    cursor: pointer;
-  }
-
-
-.text-input{
-  height:48px;
+  cursor: pointer;
 }
 
-.form-submit:hover{
-   cursor: pointer;
+
+.text-input {
+  height: 48px;
 }
 
-.searcher{
+.form-submit:hover {
+  cursor: pointer;
+}
+
+.searcher {
   display: flex;
   height: 45px;
   outline: 3px solid $color5;
-  border-radius:10px;
+  border-radius: 10px;
   min-width: 320px;
   margin: 10px 0;
-  
+
 }
 
-.searcher_input{
+.searcher_input {
   height: 45px;
   border: none;
   border-radius: 10px;
@@ -347,25 +345,26 @@ background-color: var(--Color4, #329D9C);;
   font-size: 13px;
   font-family: 'Ubuntu';
 }
-.searcher_icon{
+
+.searcher_icon {
   float: right;
   font-size: 30px;
-  margin-top:5px;
+  margin-top: 5px;
 }
 
-.formCreateActivity_label{
-    color: #000;
-    font-family: "Inria Sans";
-    font-size: 24px;
-    font-weight: 400;
-  }
+.formCreateActivity_label {
+  color: #000;
+  font-family: "Inria Sans";
+  font-size: 24px;
+  font-weight: 400;
+}
 
-  .formCreateActivity_containerLabel{
-    margin-bottom: 25px;
-  }
+.formCreateActivity_containerLabel {
+  margin-bottom: 25px;
+}
 
 
-.materiasContainer{
+.materiasContainer {
   display: flex;
   min-height: 390px;
   padding-bottom: 30px;
@@ -377,14 +376,15 @@ background-color: var(--Color4, #329D9C);;
   overflow-x: auto;
 }
 
-.title{
+.title {
   display: flex;
   align-items: center;
   gap: 15px;
   align-self: stretch;
   background-color: $color4;
-  height:49px;
-    .subject_title{
+  height: 49px;
+
+  .subject_title {
     color: #FFF;
     font-family: Poppins;
     font-size: 23px;
@@ -392,69 +392,68 @@ background-color: var(--Color4, #329D9C);;
     font-weight: 300;
     float: right;
     margin-left: 15px;
-    
-    }
 
-    .title_container{
-      margin-top:15px ;
-      margin-left:10px;
-    }
-    span{
-      height: auto;
-      font-size: 33px;
-      color: #fff;
-    }
+  }
+
+  .title_container {
+    margin-top: 15px;
+    margin-left: 10px;
+  }
+
+  span {
+    height: auto;
+    font-size: 33px;
+    color: #fff;
+  }
 }
 
-.subject_check{
+.subject_check {
   background-color: #fff;
   display: flex;
   align-items: center;
   gap: 15px;
   align-self: stretch;
-  height:49px;
+  height: 49px;
 
   color: #000;
   font-family: Poppins;
   font-size: 23px;
   font-style: normal;
   font-weight: 300;
-  
 
-  input{
+
+  input {
     width: 30px;
     height: 30px;
     margin-left: 10px;
-    accent-color:#329D9C;
+    accent-color: #329D9C;
   }
 
 }
 
-  @media (min-width: 768px) and (max-width: 991px) {
-    .containerFrontPage {
-      height: 620px;
-    }
+@media (min-width: 768px) and (max-width: 991px) {
+  .containerFrontPage {
+    height: 620px;
   }
+}
 
-  @media (min-width: 780px) {
-    /*.part_container {
+@media (min-width: 780px) {
+  /*.part_container {
       /*width: auto;*/
-      /*height: 60%;*/
-    /*}*/
+  /*height: 60%;*/
+  /*}*/
 
-    .modal_body {
-      flex-direction: row;
-    }
+  .modal_body {
+    flex-direction: row;
   }
+}
 
 
-  @media (min-width: 1024px) {
-    /*.part_container {
+@media (min-width: 1024px) {
+  /*.part_container {
       /*width: 85%;
       /*width: auto;
       height: 41vw;
     }*/
-  }
-
-
+}
 </style>
