@@ -63,6 +63,7 @@ import { ref, defineEmits } from 'vue';
     const emit = defineEmits(['takenID'])
 
     const takenID = ( usr_ID ) =>{
+        console.log('emit',usr_ID);
         emit('takenID', usr_ID )
     }
 
@@ -93,12 +94,24 @@ import { ref, defineEmits } from 'vue';
                     <tr class="tr-body" v-for="( element, index ) in props.forTable" :key="index">
                         
                     <td v-for="( item, index ) in props.forBody" :key="index">{{ element[item] }}</td>
-                    <td v-if=" props.options && props.typeGestion === ''"><Show v-if="!lessOptions" @click="takenID( element.nombre)" :change="toChangeState"/><Edit_Button @click="takenID(element.nombre)" :change="buttonState"/><Delete_Button /></td>
+                    <td v-if=" props.options && props.typeGestion === ''">
+                        <Show v-if="!lessOptions" @click="takenID( element.nombre)" :change="toChangeState"/>
+                        <Edit_Button @click="takenID(element.nombre)" :change="buttonState"/>
+                        <Delete_Button />
+                    </td>
                     <td v-else-if=" props.options && props.typeGestion === 'schedule' ">
                         <Edit_Button @click="takenID(element.id_horario)" :change="buttonState"/>
                         <Delete_ButtonClassic 
-                            :idData="element.id_horario",
+                            :idData="element.id_horario"
                             :typeDelete="'schedule'"
+                        />
+                    </td>
+                    <td v-else-if=" props.options && props.typeGestion === 'academic' ">
+                        <Show v-if="!lessOptions" @click="takenID( element.nombre_largo)" :change="toChangeState"/>
+                        <Edit_Button @click="takenID(element.id_fecha_especial)" :change="buttonState"/>
+                        <Delete_ButtonClassic 
+                            :idData="element.id_fecha_especial"
+                            :typeDelete="'eventTable'"
                         />
                     </td>
                     <td v-else-if=" props.options && props.typeGestion === 'subject' ">
