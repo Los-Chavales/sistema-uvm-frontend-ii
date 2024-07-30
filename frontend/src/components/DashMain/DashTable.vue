@@ -101,6 +101,12 @@ import { ref, defineEmits } from 'vue';
                             :typeDelete="'schedule'"
                         />
                     </td>
+                    <td v-else-if=" props.options && props.typeGestion === 'subject' ">
+                        <Edit_Button @click="takenID(element.id_materia)" :change="buttonState"/>
+                        <Delete_ButtonClassic 
+        
+                        />
+                    </td>
 
                     </tr>
                 </tbody>

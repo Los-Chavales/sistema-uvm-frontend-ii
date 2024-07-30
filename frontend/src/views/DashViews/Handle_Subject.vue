@@ -21,6 +21,19 @@
         store.getSubject();
     })
 
+    let scheduleID = ref('');
+    let detachSchedule = ref('')
+
+    function idListener(dato) {
+        if (dato) {
+            console.log(dato)
+            scheduleID.value = dato
+            let temp = store.options.schedules.filter((schedule) => scheduleID.value == schedule.id_horario);
+            detachSchedule.value = temp[0]
+            //console.log(detachSchedule.value)
+        }
+    }
+
 </script>
 
 <template>
@@ -34,7 +47,7 @@
     h3Title="Aquí puedes crear y gestionar materias"
     :toChangeState="buttonChange"
     :lessOptions="true"
-    :typeGestion="''"
+    :typeGestion="'subject'"
     >
     </DashTable>
 

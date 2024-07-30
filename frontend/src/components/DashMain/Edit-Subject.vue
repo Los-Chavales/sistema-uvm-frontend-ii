@@ -12,7 +12,7 @@
   })
   const changeState = props.toChangeState
 
-  const subjects = [
+/*   const subjects = [
   {
     id_materia: 1,
     nombre_materia: "Frontend II",
@@ -29,7 +29,7 @@
     carrera: "Ingeniería de computación",
     seccion: 'B1'
   }
-]
+] */
 </script>
 
 <template>
@@ -69,20 +69,20 @@
 
         <!-- Parte de mostrar eventos -->
 
-        <div class="modal_part">
+        <!-- <div class="modal_part">
           <div class="part_container">
             <div class="searcher">
               <input class="searcher_input" placeholder="Buscar..." name="buscador" type="buscador" v-model="buscador" id="buscador" />
               <span class="searcher_icon">
                 <i class="fa-solid fa-magnifying-glass "></i>
               </span>
-            </div>
+            </div> -->
             <!-- En caso de no tener nada -->
 <!-- 
             <div class="container_details" v-if="getEvents.length === 0">
               <p class="part_p p--activity">No hay nada para hoy</p>
             </div> -->
-
+<!-- 
             <div class="materiasContainer">
               <div class="title">
                 <div class="title_container">
@@ -96,7 +96,7 @@
             </div>
 
           </div>
-        </div>
+        </div> -->
 
       </div>
 
@@ -137,7 +137,7 @@
     align-items: center;
     flex-direction: column;
     background-color: $color4;
-    width: 790px;
+   //width: 790px;
     height: 579px; 
     padding: 15px 30px 30px 30px;
     border-radius: 15px;
