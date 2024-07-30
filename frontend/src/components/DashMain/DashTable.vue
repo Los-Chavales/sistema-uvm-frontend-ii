@@ -97,7 +97,7 @@ import { ref, defineEmits } from 'vue';
                     <td v-if=" props.options && props.typeGestion === '' ">
                         <Show v-if="!lessOptions" @click="takenID( element.nombre)" :change="toChangeState"/>
                         <Edit_Button v-if="h1Title == 'Gestión de Profesores'" @click="takenID( element.nombre)" :change="buttonState"/>
-                        <Edit_Button v-if="h1Title == 'Gestión de Secciones'" @click="takenID( element.nombre_seccion)" :change="buttonState"/>
+                        <Edit_Button v-else-if="h1Title == 'Gestión de Secciones'" @click="takenID( element.nombre_seccion)" :change="buttonState"/>
                         <Delete_ButtonClassic 
                          v-if="h1Title == 'Gestión de Secciones'"
                             :idData="element.id_seccion"

@@ -1,6 +1,9 @@
 <script setup>
   import { defineProps, ref,  onMounted, computed, watch } from 'vue';
-  import { sectionStoreMain } from '@/stores/Dash_Stores/sections';
+  import { sectionStore } from '@/stores/Dash_Stores/sections';
+
+  const useSectionStore = sectionStore();
+
   const props = defineProps({
     state: {
       type: Boolean,
@@ -54,16 +57,16 @@ watch(
   { immediate: true }
 );
 
-// const editSection = (dataU) => {
-//   if (dataU){
-//     const token = $cookies.get('auth').token
-//     console.log(`token in professors => ${token}`)
-//     sectionStore.editSectionStore(dataU, token)
-//     sectionStore.getSections()
-//   }
-//   user.value.nombre_seccion = ''
-//   user.value.modalidad = ''
-// } 
+const editSection = (dataU) => {
+  if (dataU){
+    const token = $cookies.get('auth').token
+    console.log(`token in professors => ${token}`)
+    useSectionStore.editSectionStore(dataU, token)
+    useSectionStore.getSections()
+  }
+  user.value.nombre_seccion = ''
+  user.value.modalidad = ''
+} 
 
 
 
