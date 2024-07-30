@@ -58,14 +58,14 @@ export const sectionStore = defineStore('sectionStore', {
       },
       async editSectionStore(userdata, token){
         console.log(userdata)
-        const id = userdata.id_section
+        const id = Number(userdata.id_seccion)
         const json = JSON.stringify({
-            nombre: userdata.nombre_seccion,
-            modalidad: userdata.modalidad,            
+          nombre_seccion: userdata.nombre_seccion,
+            modalidad: userdata.modalidad,
         });
         console.log(json)
             console.log('token in users Pinia => ' +token)
-            await axios.put(`${API}/actualizar/${id}`, json,{
+            await axios.put(`${API}actualizar/${id}`, json,{
                 headers: { 
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
