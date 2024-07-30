@@ -113,7 +113,6 @@ export const userStore = defineStore('userStore', {
 
       },
       async deleteProfessor(idProfessor, token) {
-        console.log(idProfessor)
         try {
           await axios.delete(`${API}/eliminar/profesor/${idProfessor}`,
             {
@@ -123,7 +122,7 @@ export const userStore = defineStore('userStore', {
                 },
             }
           );
-  
+          this.getProfessors();
           console.log(`eliminar profesor:${idProfessor}`)
         }
         catch (error) {

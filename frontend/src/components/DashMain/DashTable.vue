@@ -97,16 +97,17 @@ import { ref, defineEmits } from 'vue';
                     <td v-if=" props.options && props.typeGestion === '' ">
                         <Show v-if="!lessOptions" @click="takenID( element.nombre)" :change="toChangeState"/>
                         <Edit_Button v-if="h1Title == 'Gestión de Profesores'" @click="takenID( element.nombre)" :change="buttonState"/>
-                        <!-- <Edit_Button v-if="h1Title == 'Gestión de secciones'" @click="takenID( element.nombre_seccion)" :change="buttonState"/> -->
                         <Edit_Button v-if="h1Title == 'Gestión de Secciones'" @click="takenID( element.nombre_seccion)" :change="buttonState"/>
                         <Delete_ButtonClassic 
                          v-if="h1Title == 'Gestión de Secciones'"
                             :idData="element.id_seccion"
                             :typeDelete="'section'"
-                        />
-                        <Delete_Button 
-                            v-else-if="h1Title == 'Gestión de Profesores'" 
                         /> 
+                        <Delete_ButtonClassic 
+                         v-else-if="h1Title == 'Gestión de Profesores'"
+                            :idData="element.cedula"
+                            :typeDelete="'professor'"
+                        />
                     </td>
                     <td v-else-if=" props.options && props.typeGestion === 'schedule' ">
                         <Edit_Button @click="takenID(element.id_horario)" :change="buttonState"/>
