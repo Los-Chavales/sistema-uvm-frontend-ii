@@ -37,7 +37,7 @@ router.get('/mostrar/nombre/:nombre', function (req, res, next) {
 });
 
 /* GET buscar eventos por tipo de fecha */
-router.get('/mostrar/tipo/', function (req, res, next) {
+router.get('/mostrar/tipo', function (req, res, next) {
   let reqArray = req.query.types.split(",");
   console.log(reqArray, typeof reqArray)
   Events_Controller.search_events_academic(reqArray)

@@ -54,7 +54,7 @@ class Events_Model {
           }
         };
       });
-      console.log(consulta.sql);
+      //console.log(consulta.sql);
     })
   }
 
