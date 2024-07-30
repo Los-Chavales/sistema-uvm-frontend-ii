@@ -1,6 +1,5 @@
 const connection = require('../config/conexionMySql');
 const Response = require('./response')
-const { validate_schedules } = require('./validations')
 
 class Schedules_Model{
   see_schedules(){
@@ -35,7 +34,6 @@ class Schedules_Model{
   }
   register_schedules(register){
     return new Promise((resolve, reject) => {
-      if (validate_schedules(register, reject) !== true) return;
       connection.query('INSERT INTO `horarios` SET ?', register, function (error, results, fields) {
           if (error) {
               if (error.errno == 1048) reject(new Response(400, "No ingresó ningún dato en: " + error.sqlMessage.substring(7).replace(' cannot be null', '')));
@@ -49,7 +47,6 @@ class Schedules_Model{
   }
   update_schedules(id, update){
     return new Promise((resolve, reject) => { 
-      if (validate_schedules(update, reject) !== true) return;
       connection.query('UPDATE `horarios` SET ? WHERE `id_horario`= ?', [update, id], function (err, rows, fields) {
         if (err) {
           if (err.errno == 1048) reject("No ingresó ningún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', ''));

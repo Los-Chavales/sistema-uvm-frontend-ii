@@ -25,14 +25,36 @@ router.get('/mostrar/:idTeacher/:idAssigned', function(req, res, next) {
   }) 
 });
 
+/* GET buscar todos los asignados sin horario */
+router.get('/sinHorarios', function(req, res, next) {
+  Assigned_Controller.search_no_schedules()
+  .then((results) => {
+      res.send(results.result);
+  })
+  .catch((error) => {
+      res.status(error.code).send(error.message);
+  }) 
+});
+
 /* POST asignar */
-router.post('/registrar',/*  checkLoginDirector, */ function(req, res, next) {
+router.post('/registrar', checkLoginDirector, function(req, res, next) {
   Assigned_Controller.register_assigned(req.body)
   .then((results) => {
       res.send(results.result);
   })
   .catch((error) => {
       res.status(error.code).send(error.message);
+  }) 
+});
+
+/* PATCH para solo asignar un horario */
+router.patch('/asignarHorario', checkLoginDirector, function(req, res, next) {
+  Assigned_Controller.update_assigned_schedules(req.body.idAssigned, req.body.idSchedule)
+  .then((results) => {
+      res.send(results.message);
+  })
+  .catch((error) => {
+    res.status(error.code).send(error)
   }) 
 });
 

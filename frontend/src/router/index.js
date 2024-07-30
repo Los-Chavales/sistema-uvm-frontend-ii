@@ -95,6 +95,16 @@ const router = createRouter({
         rol_director : true,
       }
     },    
+    {
+      path: '/admin-dsh/horarios',
+      name: 'Admin-Dashboard-Horarios',
+      component: () => import('../views/DashViews/Handle_Horario.vue'),
+      meta: {
+        requireLogin : true,
+        rol_teacher : false,
+        rol_director : true,
+      }
+    },    
   ]
 })
 

@@ -87,6 +87,20 @@ export const useAssignedStore = defineStore("assigned", {
         this.options.assigned = []
       } 
     },
+    async searchNoSchedules() {
+      try {
+        const data = await axios.get(`${API_URL_BASE}/asignados/sinHorarios`)
+        this.options.assigned = data.data
+        this.options.error.statusError = false
+        this.options.editState = true
+      }
+      catch (error) {
+        this.options.editState = false
+        this.options.error.statusError = true
+        this.options.error.message = error.response.data
+        this.options.assigned = []
+      } 
+    },
     async postAssigned(token, register){
       console.log("En LA STORE")
       await axios.post(`${API_URL_BASE}/asignados/registrar`, register, {
@@ -95,8 +109,6 @@ export const useAssignedStore = defineStore("assigned", {
           'Content-Type': 'application/json'
         }
       }).then(response => {
-        console.log("RESPUESTA en la store se Asignados")
-        console.log(response.data)
         if(response.data === "Hay repetidos"){
           this.options.resultForm.statusErrorForm = false
           this.options.resultForm.messageForm = "Puede que ya haya alguna asignación similar"
@@ -104,6 +116,7 @@ export const useAssignedStore = defineStore("assigned", {
           this.options.resultForm.statusErrorForm = false
           this.options.resultForm.messageForm = "Asignación exitosa"
         }
+        this.searchNoSchedules();
       })
       .catch(err => {
         console.log("ERROR")
@@ -111,7 +124,26 @@ export const useAssignedStore = defineStore("assigned", {
         this.options.resultForm.statusErrorForm = true
         this.options.resultForm.messageForm = "Error al enviar"
       }); 
-      
+    },
+    async assignedSchedule(token, assigned) {
+      const data = await axios.patch(`${API_URL_BASE}/asignados/asignarHorario`, assigned, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }).then(response => {
+        console.log("Se logró? (ando en asignar)")
+        console.log(response)
+        this.options.resultForm.messageForm = response.data
+        this.options.resultForm.statusErrorForm = false
+        this.searchNoSchedules();
+      })
+      .catch(err => {
+        console.log("ERROR")
+        console.log(err)
+        this.options.resultForm.statusErrorForm = true
+        this.options.resultForm.messageForm = "Error al asignar"
+      });
     },
   },
 })

@@ -29,6 +29,11 @@ class Assigned_Controller {
       Assigned_Model.see_specific_assigned(idTeacher, idAssigned).then((res) => { resolve(res) }).catch((error) => { reject(error); })
     })
   }
+  search_no_schedules() {
+    return new Promise((resolve, reject) => {
+      Assigned_Model.search_no_schedules().then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
   register_assigned(register) {
     return new Promise((resolve, reject) => {
      for (let i = 0; i < register.idMaterias.length; i++) {
@@ -45,6 +50,11 @@ class Assigned_Controller {
      }
     })
   }
+  update_assigned_schedules(idAssigned, idSchedule) {
+    return new Promise((resolve, reject) => {
+      Assigned_Model.update_assigned_schedules(idAssigned, idSchedule).then((res) => { resolve(res) }).catch((error) => { reject(error) })
+    })
+  } 
 }
 
 module.exports = new Assigned_Controller();

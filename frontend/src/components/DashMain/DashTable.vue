@@ -44,6 +44,18 @@ import { ref, defineEmits } from 'vue';
         lessOptions: {
             type: Boolean,
             required: false
+        },
+        assignedOptions: {
+            type: Boolean,
+            required: false
+        },
+        assignedOptionsSchedules: {
+            type: Boolean,
+            required: false
+        },
+        typeGestion: {
+            type: String,
+            required: false
         }
     })
 
@@ -63,7 +75,8 @@ import { ref, defineEmits } from 'vue';
                 <h3>{{ props.h3Title }}</h3>  
             </div>
         <button class="button--white button" @click="buttonState('create')">{{props.mainButton}}</button>
-        <button class="button--white button" @click="buttonChangeAssigned('manage')">Asignar</button>
+        <button v-if="assignedOptions" class="button--white button" @click="buttonChangeAssigned('manage')">Asignar</button>
+        <button v-if="assignedOptionsSchedules" class="button--white button" @click="buttonChangeAssigned('manage2')">Asignar Horario</button>
 
         </span>
         <div class="gestorContainer__handleTable">
@@ -76,7 +89,8 @@ import { ref, defineEmits } from 'vue';
                     <tr class="tr-body" v-for="( element, index ) in props.forTable" :key="index">
                         
                     <td v-for="( item, index ) in props.forBody" :key="index">{{ element[item] }}</td>
-                    <td v-if=" props.options "><Show v-if="!lessOptions" @click="takenID( element.nombre)" :change="toChangeState"/><Edit_Button @click="takenID( element.nombre)" :change="buttonState"/><Delete_Button /></td>
+                    <td v-if=" props.options && props.typeGestion === 'professor'"><Show v-if="!lessOptions" @click="takenID( element.nombre)" :change="toChangeState"/><Edit_Button @click="takenID(element.nombre)" :change="buttonState"/><Delete_Button /></td>
+                    <td v-else-if=" props.options && props.typeGestion === 'schedule' "><Edit_Button @click="takenID(element.id_horario)" :change="buttonState"/><Delete_Button /></td>
 
                     </tr>
                 </tbody>

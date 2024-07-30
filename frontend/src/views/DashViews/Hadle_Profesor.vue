@@ -7,8 +7,10 @@
     import SeeProfessor from '@/components/DashMain/See-Professor.vue';
     import EditProfessor from '@/components/DashMain/Edit-Professor.vue';
     import Modal_assigned from '@/components/modals/Modal_assigned.vue';
+
     const buttonState = buttonStateStore()
     const buttonChange  = buttonState.changeState
+
     const store  = userStore();
     let userID = ref('');
     let detachUser = ref('')
@@ -53,6 +55,8 @@
     h3Title="Aquí puedes crear y gestionar profesores"
     :toChangeState="buttonChange"
     :lessOptions="false"
+    :assignedOptions="true"
+    :typeGestion="'professor'"
     />
 
     <CreateProfessor :toChangeState="buttonChange" :state="buttonState.bState"/>
