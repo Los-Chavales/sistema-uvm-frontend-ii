@@ -1,5 +1,5 @@
 <script setup>
-  import { defineProps, ref,  onMounted, computed } from 'vue';
+  import { defineProps, ref,  onMounted, computed, watch } from 'vue';
   const props = defineProps({
     state: {
       type: Boolean,
@@ -9,6 +9,10 @@
       type: Function,
       required: true
     },
+    forEdit: {
+      type: Object,
+      required: true
+    }
   })
   const changeState = props.toChangeState
 
@@ -30,6 +34,25 @@
     seccion: 'B1'
   }
 ]
+
+const auxDetail = ref({ ...props.forEdit[0] })
+const user = ref({
+  nombre_seccion: auxDetail.value.nombre,
+  modalidad: auxDetail.value.apellido,
+
+})
+
+watch(
+  () => props.forEdit[0],
+  (newVal) => {
+    auxDetail.value = { ...newVal };
+    user.value.nombre_seccion = auxDetail.value.nombre_seccion;
+    user.value.modalidad = auxDetail.value.apellido;
+  },
+  { immediate: true }
+);
+
+
 </script>
 
 <template>
@@ -56,8 +79,12 @@
             <form v-on:submit.prevent="login">
 
 
-              <select name="Trimestre"  id="" class="select"></select>
-              <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="usr_name" id="nombre" />
+              <select name="Modalidad" v-model="user.modalidad" id="" class="select">
+                <option value="semi-presencial">Semi-presencial</option>
+                <option value="virtual">Virtual</option>
+
+              </select>
+              <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="user.nombre_seccion" id="nombre" />
 
 
               <input class="form-submit" type="submit" value="Actualizar" />

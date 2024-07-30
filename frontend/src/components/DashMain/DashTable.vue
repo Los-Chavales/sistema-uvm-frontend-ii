@@ -94,10 +94,19 @@ import { ref, defineEmits } from 'vue';
                     <tr class="tr-body" v-for="( element, index ) in props.forTable" :key="index">
                         
                     <td v-for="( item, index ) in props.forBody" :key="index">{{ element[item] }}</td>
-                    <td v-if=" props.options && props.typeGestion === ''">
+                    <td v-if=" props.options && props.typeGestion === '' ">
                         <Show v-if="!lessOptions" @click="takenID( element.nombre)" :change="toChangeState"/>
-                        <Edit_Button @click="takenID(element.nombre)" :change="buttonState"/>
-                        <Delete_Button />
+                        <Edit_Button v-if="h1Title == 'Gestión de Profesores'" @click="takenID( element.nombre)" :change="buttonState"/>
+                        <!-- <Edit_Button v-if="h1Title == 'Gestión de secciones'" @click="takenID( element.nombre_seccion)" :change="buttonState"/> -->
+                        <Edit_Button v-if="h1Title == 'Gestión de Secciones'" @click="takenID( element.nombre_seccion)" :change="buttonState"/>
+                        <Delete_ButtonClassic 
+                         v-if="h1Title == 'Gestión de Secciones'"
+                            :idData="element.id_seccion"
+                            :typeDelete="'section'"
+                        />
+                        <Delete_Button 
+                            v-else-if="h1Title == 'Gestión de Profesores'" 
+                        /> 
                     </td>
                     <td v-else-if=" props.options && props.typeGestion === 'schedule' ">
                         <Edit_Button @click="takenID(element.id_horario)" :change="buttonState"/>
@@ -117,7 +126,7 @@ import { ref, defineEmits } from 'vue';
                     <td v-else-if=" props.options && props.typeGestion === 'subject' ">
                         <Edit_Button @click="takenID(element.id_materia)" :change="buttonState"/>
                         <Delete_ButtonClassic 
-                            :idData="element.id_materia",
+                            :idData="element.id_materia"
                             :typeDelete="'subject'"
                         />
                     </td>
