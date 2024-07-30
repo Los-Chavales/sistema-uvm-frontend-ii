@@ -61,9 +61,9 @@ watch(periodStore.$state, (newState) => {
     }
 });
 
-const modalP = () => {
+/*const modalP = () => {
     buttonChange('periodTable')
-}
+}*/
 </script>
 
 <template>
@@ -81,11 +81,9 @@ const modalP = () => {
 
         :toChangeState="buttonChange" 
         :lessOptions="true" 
-        :assignedOptionsSchedules="true" 
+        :assignedOptionsSchedules="false" 
         :typeGestion="'academic'">
     </DashTable>
-
-    <Entity_Button message="Periodos" :onClick="modalP" />
 
     <Modal_Period :state="buttonState.periodTable" :close="buttonChange" :seeActivities="true" :isEditor="true" :is-table="true"/>
 

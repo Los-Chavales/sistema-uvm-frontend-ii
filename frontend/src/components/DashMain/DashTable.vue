@@ -82,7 +82,7 @@ import { ref, defineEmits } from 'vue';
             <button class="button--white button" @click="buttonChangeAssigned('manage2')">Desasignar</button>
         </div>
         <button v-if="assignedOptionsSchedules" class="button--white button" @click="buttonChangeAssigned('manage2')">Asignar Horario</button>
-        <button v-if="typeGestion == 'academic'" class="button--white button" @click="buttonChangeAssigned('periodTable')">Asi</button>
+        <button v-if="typeGestion == 'academic'" class="button--white button" @click="buttonChangeAssigned('periodTable')">Periodos</button>
 
         </span>
         <div class="gestorContainer__handleTable">
