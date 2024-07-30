@@ -30,7 +30,7 @@
     :options="true"
     :forTable="section"
     mainButton="Añadir seccion"
-    h1Title="Gestión de secciones"
+    h1Title="Gestión de Secciones"
     h3Title="Aquí puedes crear y gestionar secciones"
     :toChangeState="buttonChange"
     :lessOptions="true"

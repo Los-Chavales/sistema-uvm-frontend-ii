@@ -98,6 +98,7 @@ onUpdated(() => {
 
 .calendarConteiner{
     min-height: 100vh;
+    margin-left: 40px;
 }
 
 .month {

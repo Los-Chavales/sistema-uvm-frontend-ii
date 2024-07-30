@@ -36,7 +36,7 @@ const changeState = props.change
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 2px;
+    margin-left: 5px;
     float: left;
   }
 

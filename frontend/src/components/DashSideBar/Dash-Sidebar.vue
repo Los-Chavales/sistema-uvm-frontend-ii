@@ -37,6 +37,7 @@ const getUserOnlineRol = computed(() => {
         <SidebarLink v-if="getUserOnlineRol === 'director'" to="/admin-dsh/secciones" icon="fas fa-chalkboard-user">Secciones</SidebarLink>
         <SidebarLink v-if="getUserOnlineRol === 'director'" to="/admin-dsh/horarios" icon="fa-solid fa-calendar">Horarios</SidebarLink>
         <SidebarLink to="/login" icon="fa-solid fa-user">Cambiar Cuenta</SidebarLink>
+        <!--<SidebarLink to="/" icon="fa-solid fa-arrow-right-from-bracket" @click="logout"></SidebarLink>-->
 
         <Logout_Button />
 
