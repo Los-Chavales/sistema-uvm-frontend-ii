@@ -125,21 +125,20 @@ export const useAssignedStore = defineStore("assigned", {
           'Content-Type': 'application/json'
         }
       }).then(response => {
-        if(response.data === "Hay repetidos"){
-          this.options.resultForm.statusErrorForm = false
-          this.options.resultForm.messageForm = "Puede que ya haya alguna asignación similar"
-        }else{
-          this.options.resultForm.statusErrorForm = false
-          this.options.resultForm.messageForm = "Asignación exitosa"
-        }
+        this.options.resultForm.statusErrorForm = false
+        this.options.resultForm.messageForm = "Asignación exitosa"
         this.searchNoSchedules();
         this.searchAssigned();
       })
       .catch(err => {
         console.log("ERROR")
-        console.log(err)
+        console.log(err.response.data)
         this.options.resultForm.statusErrorForm = true
-        this.options.resultForm.messageForm = "Error al enviar"
+        if(err.response.data === "Hay repetidos"){ 
+          this.options.resultForm.messageForm = "Puede que ya haya alguna asignación similar"
+        }else{
+          this.options.resultForm.messageForm = "Error al enviar"
+        } 
       }); 
     },
     async assignedSchedule(token, assigned) {
@@ -149,16 +148,12 @@ export const useAssignedStore = defineStore("assigned", {
           'Content-Type': 'application/json'
         }
       }).then(response => {
-        console.log("Se logró? (ando en asignar)")
-        console.log(response)
         this.options.resultForm.messageForm = response.data
         this.options.resultForm.statusErrorForm = false
         this.searchNoSchedules();
         this.searchAssigned();
       })
       .catch(err => {
-        console.log("ERROR")
-        console.log(err)
         this.options.resultForm.statusErrorForm = true
         this.options.resultForm.messageForm = "Error al asignar"
       });

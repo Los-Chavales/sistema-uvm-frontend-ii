@@ -43,8 +43,6 @@ export const useSchedulesStore = defineStore('schedules', {
             'Content-Type': 'application/json'
           }
         }).then(response => {
-          console.log("¿Lo logramos?")
-          console.log(response)
           this.options.resultForm.statusErrorForm = false
           this.options.resultForm.messageForm = response.data
           this.searchSchedules();
