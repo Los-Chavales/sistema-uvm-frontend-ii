@@ -79,7 +79,11 @@ watch(
             <form v-on:submit.prevent="login">
 
 
-              <select name="Modalidad" v-model="user.modalidad"  id="" class="select"></select>
+              <select name="Modalidad" v-model="user.modalidad" id="" class="select">
+                <option value="semi-presencial">Semi-presencial</option>
+                <option value="virtual">Virtual</option>
+
+              </select>
               <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="user.nombre_seccion" id="nombre" />
 
 
