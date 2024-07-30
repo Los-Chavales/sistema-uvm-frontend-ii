@@ -139,10 +139,18 @@ export const useEventsStore = defineStore("events", {
         //console.log(data.data);
         this.options.eventsTable = data.data
         this.options.error.statusError = false
+        this.formatDate()
       }
       catch (error) {
         console.log(error)
         this.options.eventsTable = []
+      }
+    },
+    formatDate () {
+      let datos = this.options.eventsTable
+      for (const evento of datos) {
+        let temp = new Date(evento.fecha_especial)
+        evento.fecha_especial = temp.toLocaleString()
       }
     },
     async searchEventsID(id) {
