@@ -26,17 +26,20 @@ const getUserOnlineRol = computed(() => {
             </div>
         </span>
         <div class="sidebar-user-img"></div>
-        <SidebarLink to="/" icon="fas fa-gauge">General</SidebarLink>
+        <!--  <SidebarLink to="/" icon="fas fa-gauge">General</SidebarLink> -->
+       
         <SidebarLink v-if="getUserOnlineRol === 'director'" to="/admin-dsh/profesores" icon="fas fa-user-tie">Profesores</SidebarLink>
         <SidebarLink v-if="getUserOnlineRol === 'director'" to="/admin-dsh/materias" icon="fas fa-book">Materias</SidebarLink>
 
         <SidebarLink v-if="getUserOnlineRol === 'director'" to="/admin-dsh/calendario" icon="fa-solid fa-calendar">Eventos</SidebarLink>
-        <SidebarLink v-else-if="getUserOnlineRol === 'profesor'" to="/admin-dsh/planificaciones" icon="fa-solid fa-calendar">Eventos</SidebarLink>
+        <SidebarLink v-else-if="getUserOnlineRol === 'profesor'" to="/admin-dsh/planificaciones" icon="fa-solid fa-calendar">Planificaciones</SidebarLink>
+        <SidebarLink v-if="getUserOnlineRol === 'director'" to="/admin-dsh/fechas" icon="fa-solid fa-calendar">Fechas</SidebarLink>
         <SidebarLink  to="/calendario" icon="fa-solid fa-calendar">Calendario</SidebarLink>
 
         <SidebarLink v-if="getUserOnlineRol === 'director'" to="/admin-dsh/secciones" icon="fas fa-chalkboard-user">Secciones</SidebarLink>
         <SidebarLink v-if="getUserOnlineRol === 'director'" to="/admin-dsh/horarios" icon="fa-solid fa-calendar">Horarios</SidebarLink>
-        <SidebarLink to="/login" icon="fa-solid fa-user">Cambiar Cuenta</SidebarLink>
+        <!-- <SidebarLink to="/login" icon="fa-solid fa-user">Cambiar Cuenta</SidebarLink> -->
+        
         <!--<SidebarLink to="/" icon="fa-solid fa-arrow-right-from-bracket" @click="logout"></SidebarLink>-->
 
         <Logout_Button />
@@ -72,7 +75,7 @@ const getUserOnlineRol = computed(() => {
     -moz-box-shadow: 3px 0px 20px -4px rgba(0, 0, 0, 0.52);
     box-shadow: 3px 0px 20px -4px rgba(0, 0, 0, 0.52);
 
-    .sidebar-user-img {}
+    
 
     .collapse-icn {
         position: absolute;
