@@ -25,6 +25,12 @@ class Sections_Controller{
     })
   }
   
+  see_sections_subjects() { //Materias
+    return new Promise((resolve, reject) => {
+      Sections_Model.see_sections_subjects().then((res) => { resolve(res) }).catch((error) => { reject(error); })
+    })
+  }
+
   register_section(register) {
     return new Promise((resolve, reject) => {
       Sections_Model.register_section(register).then((res) => { resolve(res) }).catch((error) => { reject(error) })
