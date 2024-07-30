@@ -22,6 +22,7 @@
     let prop = props.dateWeek
     const deleteActivity = storeActivities.deleteActivities;
     const deleteEvent = storeEvents.deleteEvents;
+    const deleteEventsOnly = storeEvents.deleteEventsOnly;
     const deleteSchedule = storeSchedules.deleteSchedules;
     const deleteAssigned = storeAssigned.deleteAssigned;
 
@@ -40,6 +41,9 @@
         let month = prop.getMonth();
         deleteEvent(props.evnD, token, year, month)
         
+      }else if(props.idData && cookie !==null && props.typeDelete === "eventTable"){
+        token= cookie.token
+        deleteEventsOnly(props.idData, token)
       }else if(props.idData && cookie !==null && props.typeDelete === "schedule"){
         token= cookie.token
         deleteSchedule(props.idData, token)
