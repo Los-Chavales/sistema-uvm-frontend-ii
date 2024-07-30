@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref,  onMounted, computed } from 'vue';
+import { defineProps, ref,  onMounted, computed, watch} from 'vue';
 import { userStore } from '@/stores/Dash_Stores/users';
   const props = defineProps({
     state: {
@@ -40,28 +40,26 @@ const user_store = userStore();
 
 
 
+const auxDetail = ref({ ...props.userDetail[0] })
 const user = ref({
-  nombre: props.userDetail[0].nombre,
-  apellido: props.userDetail[0].apellido,
-  correo: props.userDetail[0].correo,
-  cedula:props.userDetail[0].cedula
+  nombre: auxDetail.value.nombre,
+  apellido: auxDetail.value.apellido,
+  correo: auxDetail.value.correo,
+  cedula: auxDetail.value.cedula
 })
 
+watch(
+  () => props.userDetail[0],
+  (newVal) => {
+    auxDetail.value = { ...newVal };
+    user.value.nombre = auxDetail.value.nombre;
+    user.value.apellido = auxDetail.value.apellido;
+    user.value.correo = auxDetail.value.correo;
+    user.value.cedula = auxDetail.value.cedula;
+  },
+  { immediate: true }
+);
 
-
-
-const editProfessor = (dataU) => {
-  if (dataU){
-    const token = $cookies.get('auth').token
-    console.log(`token in professors => ${token}`)
-    user_store.editProfessor(dataU, token)
-    user_store.getProfessors()
-  }
-  user.value.nombre = ''
-  user.value.apellido = ''
-  user.value.correo = ''
-  user.value.cedula = ''
-} 
   
 </script>
 
