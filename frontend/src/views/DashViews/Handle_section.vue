@@ -34,6 +34,8 @@
 </script>
 
 <template>
+    
+    <h1 @click="console.log(detachSection)">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h1>
     <DashTable
     @takenID="idListener"
     :tableHead="['Nombre','Modalidad','Materias']"
@@ -41,11 +43,10 @@
     :options="true"
     :forTable="section"
     mainButton="Añadir seccion"
-    h1Title="Gestión de Secciones"
+    h1Title="Gestión de secciones"
     h3Title="Aquí puedes crear y gestionar secciones"
     :toChangeState="buttonChange"
     :lessOptions="true"
-     :typeGestion="''"
     >
     </DashTable>
     <CreateSection  :toChangeState="buttonChange" :state="buttonState.bState" />
