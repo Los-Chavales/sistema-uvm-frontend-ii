@@ -1,5 +1,5 @@
 <script setup>
-  import { defineProps, ref,  onMounted, computed } from 'vue';
+  import { defineProps, ref,  onMounted, computed, watch } from 'vue';
   import Submit_Button from '../buttons/Submit_Button.vue';
   import { useSchedulesStore } from '@/stores/Dash_Stores/schedules';
   import Modal_Message from '../modals/Modal_Message.vue';
@@ -22,19 +22,27 @@
   })
   const changeState = props.toChangeState
 
-  let data = props.scheduleDetail[0]
+  const data = ref({ ...props.scheduleDetail })
 
- console.log("DATOSSSSSS en editar")
-  console.log(props.scheduleDetail)
+  const idSchedule = ref(props.scheduleDetail.id_horario)
+  const dia_semana = ref(props.scheduleDetail.dia_semana); 
+  const hora_inicio = ref(props.scheduleDetail.hora_inicio);
+  const hora_final = ref(props.scheduleDetail.hora_final);
 
-  let idSchedule = props.scheduleDetail[0].id_horario
-  /* let dia_semana = ref(props.scheduleDetail[0].dia_semana); 
-  let hora_inicio = ref(props.scheduleDetail[0].hora_inicio);
-  let hora_final = ref(props.scheduleDetail[0].hora_final); */
+  watch(
+      () => props.scheduleDetail,
+      (newVal) => {
+        data.value = { ...newVal };
+        idSchedule.value = data.value.id_horario;
+        dia_semana.value = data.value.dia_semana;
+        hora_inicio.value = data.value.hora_inicio;
+        hora_final.value = data.value.hora_final;
+      },
+      { immediate: true }
+    );
 
-  let dia_semana = ref(''); 
-  let hora_inicio = ref('');
-  let hora_final = ref('');
+ //console.log("DATOSSSSSS en editar")
+//console.log(props.scheduleDetail)
 
  
   const putSchedule = computed(() => {
@@ -76,13 +84,13 @@
 
         <div class="modal_part">
           <div class="part_container">
-            <h3 class="part_title title_activities">Editar Horario {{ props.scheduleDetail[0].dia_semana }}</h3>
+            <h3 class="part_title title_activities">Editar Horario {{ dia_semana }}</h3>
 
             <form class="formCreate" @submit.prevent="putSchedule">
 
               <div class="formCreateEvent_Containerselect">
         <!--         <select class="formCreateEvent_select" v-model="dia_semana" :value=data.dia_semana required> -->
-              <select class="formCreateEvent_select" :value=data.dia_semana required> 
+              <select class="formCreateEvent_select" :value=dia_semana required> 
                   <option value="" disabled selected>Dia de la semana</option>
                   <option class="formCreateEvent_option" value="lunes">Lunes</option>
                   <option class="formCreateEvent_option" value="martes">Martes</option>
@@ -96,13 +104,13 @@
 
               <div class="formCreateActivity_containerLabel">
                 <label class="formCreateActivity_label" for="timeStart">Hora de entrada:</label>
-                <input type="time" id="timeStart" :value=data.hora_inicio>
+                <input type="time" id="timeStart" v-model="hora_inicio">
                <!--  <input type="time" id="timeStart" v-model="hora_inicio" :value=data.hora_inicio> -->
               </div>
 
               <div class="formCreateActivity_containerLabel">
                 <label class="formCreateActivity_label" for="timeEnd">Hora de salida:</label>
-                <input type="time" id="timeEnd" :value=data.hora_final>
+                <input type="time" id="timeEnd" v-model=hora_final>
               <!--   <input type="time" id="timeEnd" v-model="hora_final" :value=data.hora_final> -->
               </div>
 
@@ -429,10 +437,10 @@ background-color: var(--Color4, #329D9C);;
   }
 
   @media (min-width: 780px) {
-    .part_container {
+    /*.part_container {
       /*width: auto;*/
       /*height: 60%;*/
-    }
+    /*}*/
 
     .modal_body {
       flex-direction: row;
