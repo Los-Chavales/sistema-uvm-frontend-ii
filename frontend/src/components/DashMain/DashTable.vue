@@ -1,5 +1,6 @@
 <script setup>
 import Delete_Button from '../buttons/Delete_ButtonMore.vue';
+import Delete_ButtonClassic from '../buttons/Delete_Button.vue';
 import Edit_Button from '../buttons/Edit_Button.vue';
 import Show from '../buttons/Show.vue';
 import { buttonStateStore } from '@/stores/buttonState';
@@ -75,7 +76,10 @@ import { ref, defineEmits } from 'vue';
                 <h3>{{ props.h3Title }}</h3>  
             </div>
         <button class="button--white button" @click="buttonState('create')">{{props.mainButton}}</button>
-        <button v-if="assignedOptions" class="button--white button" @click="buttonChangeAssigned('manage')">Asignar</button>
+        <div v-if="assignedOptions" class="butonsAssignedContainer">
+            <button class="button--white button" @click="buttonChangeAssigned('manage')">Asignar</button>
+            <button class="button--white button" @click="buttonChangeAssigned('manage2')">Desasignar</button>
+        </div>
         <button v-if="assignedOptionsSchedules" class="button--white button" @click="buttonChangeAssigned('manage2')">Asignar Horario</button>
 
         </span>
@@ -89,8 +93,14 @@ import { ref, defineEmits } from 'vue';
                     <tr class="tr-body" v-for="( element, index ) in props.forTable" :key="index">
                         
                     <td v-for="( item, index ) in props.forBody" :key="index">{{ element[item] }}</td>
-                    <td v-if=" props.options && props.typeGestion === 'professor'"><Show v-if="!lessOptions" @click="takenID( element.nombre)" :change="toChangeState"/><Edit_Button @click="takenID(element.nombre)" :change="buttonState"/><Delete_Button /></td>
-                    <td v-else-if=" props.options && props.typeGestion === 'schedule' "><Edit_Button @click="takenID(element.id_horario)" :change="buttonState"/><Delete_Button /></td>
+                    <td v-if=" props.options && props.typeGestion === ''"><Show v-if="!lessOptions" @click="takenID( element.nombre)" :change="toChangeState"/><Edit_Button @click="takenID(element.nombre)" :change="buttonState"/><Delete_Button /></td>
+                    <td v-else-if=" props.options && props.typeGestion === 'schedule' ">
+                        <Edit_Button @click="takenID(element.id_horario)" :change="buttonState"/>
+                        <Delete_ButtonClassic 
+                            :idData="element.id_horario",
+                            :typeDelete="'schedule'"
+                        />
+                    </td>
 
                     </tr>
                 </tbody>
@@ -185,5 +195,14 @@ import { ref, defineEmits } from 'vue';
         margin-top:81px;
         margin-left:160px;
         font-weight: 600;
+    }
+
+    /* Del botón de asignados */
+    .butonsAssignedContainer{
+        display: flex;
+        flex-direction: row;
+    }
+    .butonsAssignedContainer button{
+        margin-left: 15px;
     }
 </style>

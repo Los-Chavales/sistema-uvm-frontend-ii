@@ -32,6 +32,21 @@ class Schedules_Model{
       });
     })
   }
+  search_for_repeats(dayWeek, startTime, endTime){
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM `horarios` WHERE `dia_semana` = ? && `hora_inicio` = ? && `hora_final` = ?', [dayWeek, startTime, endTime], function (error, results, fields) {
+          if (error) {
+              reject(new Response(500, error, error));
+          } else {
+              if (results.length == 0) {
+                resolve(new Response(200, 'No hay repetidos', results));
+              } else {
+                reject(new Response(500, 'Hay repetidos', results));
+              }
+          };
+      });
+    })
+  }
   register_schedules(register){
     return new Promise((resolve, reject) => {
       connection.query('INSERT INTO `horarios` SET ?', register, function (error, results, fields) {

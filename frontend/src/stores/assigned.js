@@ -10,6 +10,7 @@ export const useAssignedStore = defineStore("assigned", {
   state: () => ({
     options: {
       assigned: [],
+      assignedAll: [],
       optionList: [],
       subjectName: "",
       sectionName: "",
@@ -27,6 +28,9 @@ export const useAssignedStore = defineStore("assigned", {
     }
   }),
   getters: {
+    getAssignedAll(state) {
+      return state.options.assignedAll
+    },
     getAssigned(state) {
       return state.options.assigned
     },
@@ -53,6 +57,18 @@ export const useAssignedStore = defineStore("assigned", {
     },
   },
   actions: {
+    async searchAssigned() {
+      try {
+        const data = await axios.get(`${API_URL_BASE}/asignados/mostrar/`)
+        this.options.assignedAll = data.data
+        this.options.error.statusError = false
+      }
+      catch (error) {
+        this.options.error.statusError = true
+        this.options.error.message = error.response.data
+        this.options.assignedAll = []
+      }
+    },
     async searchAssignedOptions(idTeacher) {
       try {
         const data = await axios.get(`${API_URL_BASE}/asignados/mostrar/${idTeacher}`)
@@ -117,6 +133,7 @@ export const useAssignedStore = defineStore("assigned", {
           this.options.resultForm.messageForm = "Asignación exitosa"
         }
         this.searchNoSchedules();
+        this.searchAssigned();
       })
       .catch(err => {
         console.log("ERROR")
@@ -137,6 +154,7 @@ export const useAssignedStore = defineStore("assigned", {
         this.options.resultForm.messageForm = response.data
         this.options.resultForm.statusErrorForm = false
         this.searchNoSchedules();
+        this.searchAssigned();
       })
       .catch(err => {
         console.log("ERROR")
@@ -144,6 +162,22 @@ export const useAssignedStore = defineStore("assigned", {
         this.options.resultForm.statusErrorForm = true
         this.options.resultForm.messageForm = "Error al asignar"
       });
+    },
+    async deleteAssigned(id_assigned, token){
+      try{
+        await axios.delete(`${API_URL_BASE}/asignados/eliminar/${id_assigned}`,{
+          headers:{
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log(`eliminaste el asignado:${id_assigned}`)
+        this.searchNoSchedules();
+        this.searchAssigned();
+      }
+      catch (error){
+        console.log(error)
+        console.log(error.response.data)
+      } 
     },
   },
 })

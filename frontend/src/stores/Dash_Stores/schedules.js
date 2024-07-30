@@ -50,10 +50,53 @@ export const useSchedulesStore = defineStore('schedules', {
           this.searchSchedules();
         })
         .catch(err => {
-          console.log("NO?")
           console.log(err)
+          this.options.resultForm.statusErrorForm = true
+          if(err.response.data.message === "Hay repetidos"){ 
+            this.options.resultForm.messageForm = "Puede que exista un horario similar"
+          }else{
+            this.options.resultForm.messageForm = "Error al enviar"
+          }        
         }); 
         
+      },
+      async updateSchedules(token, schedulesUpdate, id) {
+        console.log("---------------------DATOS En la STORE------------------")
+        console.log(schedulesUpdate)
+        const data = await axios.put(`${API_URL_BASE}/horarios/actualizar/${id}`, schedulesUpdate, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }).then(response => {
+          this.options.resultForm.statusErrorForm = false
+          this.options.resultForm.messageForm = response.data
+          this.searchSchedules();
+        })
+        .catch(err => {
+          console.log(err)
+          this.options.resultForm.statusErrorForm = true
+          if(err.response.data.message === "Hay repetidos"){ 
+            this.options.resultForm.messageForm = "Puede que exista un horario similar"
+          }else{
+            this.options.resultForm.messageForm = "Error al actualizar"
+          }  
+        });
+      },
+      async deleteSchedules(id_schedule, token){
+        try{
+          await axios.delete(`${API_URL_BASE}/horarios/eliminar/${id_schedule}`,{
+            headers:{
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          console.log(`eliminaste el horario:${id_schedule}`)
+          this.searchSchedules();
+        }
+        catch (error){
+          console.log(error)
+          console.log(error.response.data)
+        }
       },
     }
 })

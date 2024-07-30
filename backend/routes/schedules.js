@@ -32,8 +32,6 @@ router.post('/registrar', checkLoginDirector, function (req, res, next) {
     res.send(result.message)
   }).catch((error) => {
     res.status(error.code).send(error)
-  /*   if (error.code && error.message) { res.status(error.code).send(error.message) }
-    else { res.status(500).send(error) } */
   })
 });
 
@@ -43,8 +41,6 @@ router.put('/actualizar/:index', checkLoginDirector, function (req, res, next) {
     if (results.message) { res.send(results.message) } else { res.send(results) }
   }).catch((error) => {
     res.status(error.code).send(error)
-/*     if (error.code && error.message) { res.status(error.code).send(error.message) }
-    else { res.status(500).send(error) } */
   })
 });
 

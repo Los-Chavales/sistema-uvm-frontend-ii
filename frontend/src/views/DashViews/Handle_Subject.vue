@@ -34,6 +34,7 @@
     h3Title="Aquí puedes crear y gestionar materias"
     :toChangeState="buttonChange"
     :lessOptions="true"
+    :typeGestion="''"
     >
     </DashTable>
 

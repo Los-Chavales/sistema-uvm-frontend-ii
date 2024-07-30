@@ -89,7 +89,9 @@ const props = defineProps({
                 </label>
 
                 <span v-if="getAssigned.length > 0" v-for="assigned in getAssigned" :key="assigned.id_asignado" class="subject_check">
-                  <input type='radio' v-model="radioProfessorValue" name="radioProfessor" :value=assigned.id_asignado>
+                  <div>
+                    <input type='radio' v-model="radioProfessorValue" name="radioProfessor" :value=assigned.id_asignado>
+                  </div>
                   {{ assigned.nombre }} 
                   {{ assigned.apellido }}
                   {{ assigned.nombre_materia }}

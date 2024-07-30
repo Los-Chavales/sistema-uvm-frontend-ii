@@ -2,6 +2,21 @@ const connection = require('../config/conexionMySql');
 const Response = require('./response')
 
 class Assigned_Model{
+  see_assigned(){
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT `id_asignado`, `nombre`, `apellido` , `nombre_materia`, `nombre_seccion` FROM `asignados` JOIN `usuarios` JOIN `materias` JOIN `secciones` WHERE idProfesor = id_usuario && idMateria = id_materia && idSeccion = id_seccion', function (error, results, fields) {
+          if (error) {
+              reject(new Response(500, error, error));
+          } else {
+            if (results.length == 0) {
+              reject(new Response(404, 'No existen asignados registrados', results));
+            } else {
+                resolve(new Response(200, results, results));
+            }   
+          };
+      });
+    })
+  }
   see_options_assigned(id){
     return new Promise((resolve, reject) => {
       connection.query('SELECT `id_asignado`, `nombre`, `apellido` , `nombre_materia`, `nombre_seccion` FROM `asignados` JOIN `usuarios` JOIN `materias` JOIN `secciones` WHERE idProfesor = id_usuario && idMateria = id_materia && idSeccion = id_seccion && `idProfesor` = ?', id, function (error, results, fields) {
@@ -39,9 +54,9 @@ class Assigned_Model{
               reject(new Response(500, error, error));
           } else {
               if (results.length == 0) {
-                resolve(new Response(404, 'No hay repetidos', results));
+                resolve(new Response(200, 'No hay repetidos', results));
               } else {
-                reject(new Response(200, 'Hay repetidos', results));
+                reject(new Response(500, 'Hay repetidos', results));
               }
           };
       });
@@ -54,9 +69,9 @@ class Assigned_Model{
               reject(new Response(500, error, error));
           } else {
               if (results.length == 0) {
-                  reject(new Response(404, 'Todos tienen horario', results));
+                reject(new Response(404, 'Todos tienen horario', results));
               } else {
-                  resolve(new Response(200, results, results));
+                resolve(new Response(200, results, results));
               }
           };
       });
@@ -89,6 +104,22 @@ class Assigned_Model{
             resolve(new Response(200, "Se ha asignado exitosamente", rows));
           }
         }
+      })
+    })
+  }
+
+  delete_schedules(id){
+    return new Promise((resolve, reject) => {
+      connection.query('DELETE FROM `asignados` WHERE `id_asignado` = ?', id, function (err, rows, fields) {
+          if (err) {
+              reject(new Respuesta(500, err, err))
+          } else {
+              if (rows.affectedRows > 0) {
+                  resolve(new Response(200, "Se ha eliminado exitosamente", rows));
+              } else {
+                  reject(new Response(404, 'No se eliminó "' + id + '". Es posible de que ya no exista.', rows));
+              }
+          }
       })
     })
   }

@@ -49,16 +49,16 @@ const putSchedule = computed(() => {
   let cookie = $cookies.get('auth')
   if (cookie !== null) {
     let token = cookie.token;
-    console.log("ANDAMOS EN EDITAAAAAAAAAAAAAAAAAAR :D")
-    console.log(idSchedule)
-    console.log(dia_semana.value)
-    console.log(hora_inicio.value)
-    console.log(hora_final.value)
+    schedulesStore.updateSchedules(   
+      token, 
+      {
+        dia_semana: dia_semana.value,
+        hora_inicio: hora_inicio.value,
+        hora_final: hora_final.value
+      }, 
+      idSchedule.value
+    )
   }
-
-  dia_semana.value = '';
-  hora_inicio.value = '00:00';
-  hora_final.value = '00:00';
   changeStateMessageModal()
 });
 
@@ -89,8 +89,7 @@ const changeStateMessageModal = () => (stateMessageModal.value = !stateMessageMo
             <form class="formCreate" @submit.prevent="putSchedule">
 
               <div class="formCreateEvent_Containerselect">
-                <!--         <select class="formCreateEvent_select" v-model="dia_semana" :value=data.dia_semana required> -->
-                <select class="formCreateEvent_select" :value=dia_semana required>
+                <select class="formCreateEvent_select" v-model="dia_semana" required>
                   <option value="" disabled selected>Dia de la semana</option>
                   <option class="formCreateEvent_option" value="lunes">Lunes</option>
                   <option class="formCreateEvent_option" value="martes">Martes</option>
@@ -105,13 +104,11 @@ const changeStateMessageModal = () => (stateMessageModal.value = !stateMessageMo
               <div class="formCreateActivity_containerLabel">
                 <label class="formCreateActivity_label" for="timeStart">Hora de entrada:</label>
                 <input type="time" id="timeStart" v-model="hora_inicio">
-                <!--  <input type="time" id="timeStart" v-model="hora_inicio" :value=data.hora_inicio> -->
               </div>
 
               <div class="formCreateActivity_containerLabel">
                 <label class="formCreateActivity_label" for="timeEnd">Hora de salida:</label>
                 <input type="time" id="timeEnd" v-model=hora_final>
-                <!--   <input type="time" id="timeEnd" v-model="hora_final" :value=data.hora_final> -->
               </div>
 
               <Submit_Button :message="'Actualizar'" />
