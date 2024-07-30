@@ -36,9 +36,9 @@ const router = createRouter({
       }
     },
     {
-      path: '/admin-dsh/cortes',
-      name: 'Cortes',
-      component: () => import('../views/DashViews/CutOffWindow.vue'),
+      path: '/admin-dsh/fechas',
+      name: 'Fechas',
+      component: () => import('../views/DashViews/Handle_Dates.vue'),
       meta: {
         requireLogin : true,
         rol_teacher : false,
