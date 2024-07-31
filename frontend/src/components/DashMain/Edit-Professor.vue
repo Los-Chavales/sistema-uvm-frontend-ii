@@ -112,21 +112,21 @@ const editProfessor = (dataU) => {
 
         <!-- Parte de mostrar eventos -->
 
-        <div class="modal_part">
+   <!--      <div class="modal_part">
           <div class="part_container">
             <div class="searcher">
               <input class="searcher_input" placeholder="Buscar..." name="buscador" type="buscador" v-model="buscador" id="buscador" />
               <span class="searcher_icon">
                 <i class="fa-solid fa-magnifying-glass "></i>
               </span>
-            </div>
+            </div> -->
             <!-- En caso de no tener nada -->
 <!-- 
             <div class="container_details" v-if="getEvents.length === 0">
               <p class="part_p p--activity">No hay nada para hoy</p>
             </div> -->
 
-            <div class="materiasContainer">
+      <!--       <div class="materiasContainer">
               <div class="title">
                 <div class="title_container">
                   <span class="icon_container">  
@@ -139,9 +139,9 @@ const editProfessor = (dataU) => {
             </div>
 
           </div>
-        </div>
+        </div>-->
 
-      </div>
+      </div> 
 
     </div>
 
@@ -151,7 +151,6 @@ const editProfessor = (dataU) => {
 
 <style lang="scss" scoped>
   @import "@/assets/scss/variables.scss";
-
 
   /* Estructura del modal */
 
@@ -180,7 +179,7 @@ const editProfessor = (dataU) => {
     align-items: center;
     flex-direction: column;
     background-color: $color4;
-    width: 790px;
+    //width: 790px;
     height: 579px; 
     padding: 15px 30px 30px 30px;
     border-radius: 15px;
