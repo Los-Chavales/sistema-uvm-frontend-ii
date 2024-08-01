@@ -34,6 +34,7 @@
 </script>
 
 <template>
+    
     <DashTable
     @takenID="idListener"
     :tableHead="['Nombre','Modalidad','Materias']"
@@ -45,7 +46,7 @@
     h3Title="Aquí puedes crear y gestionar secciones"
     :toChangeState="buttonChange"
     :lessOptions="true"
-     :typeGestion="''"
+    :typeGestion="''"
     >
     </DashTable>
     <CreateSection  :toChangeState="buttonChange" :state="buttonState.bState" />

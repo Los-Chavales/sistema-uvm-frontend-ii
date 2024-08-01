@@ -1,5 +1,9 @@
 <script setup>
   import { defineProps, ref,  onMounted, computed, watch } from 'vue';
+  import { sectionStore } from '@/stores/Dash_Stores/sections';
+
+  const useSectionStore = sectionStore();
+
   const props = defineProps({
     state: {
       type: Boolean,
@@ -15,7 +19,6 @@
     }
   })
   const changeState = props.toChangeState
-
   const subjects = [
   {
     id_materia: 1,
@@ -37,8 +40,9 @@
 
 const auxDetail = ref({ ...props.forEdit[0] })
 const user = ref({
-  nombre_seccion: auxDetail.value.nombre,
-  modalidad: auxDetail.value.apellido,
+  nombre_seccion: auxDetail.value.nombre_seccion,
+  modalidad: auxDetail.value.modalidad,
+  id_seccion: auxDetail.value.id_seccion,
 
 })
 
@@ -47,10 +51,23 @@ watch(
   (newVal) => {
     auxDetail.value = { ...newVal };
     user.value.nombre_seccion = auxDetail.value.nombre_seccion;
-    user.value.modalidad = auxDetail.value.apellido;
+    user.value.modalidad = auxDetail.value.modalidad;
+    user.value.id_seccion = auxDetail.value.id_seccion;
   },
   { immediate: true }
 );
+
+const editSection = (dataU) => {
+  if (dataU){
+    const token = $cookies.get('auth').token
+    console.log(`token in professors => ${token}`)
+    useSectionStore.editSectionStore(dataU, token)
+    useSectionStore.getSections()
+  }
+  user.value.nombre_seccion = ''
+  user.value.modalidad = ''
+} 
+
 
 
 </script>
@@ -87,7 +104,7 @@ watch(
               <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="user.nombre_seccion" id="nombre" />
 
 
-              <input class="form-submit" type="submit" value="Actualizar" />
+              <input class="form-submit" type="submit" value="Actualizar" @click="editSection(user)" />
 
             </form>
           </div>
