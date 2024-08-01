@@ -61,12 +61,13 @@ watch(
 );
 
 const editProfessor = (dataU) => {
-  if (dataU){
+  if (dataU && $cookies.get('auth').token !== null){
     const token = $cookies.get('auth').token
+    let cedula_original = auxDetail.value.cedula
     console.log(`token in professors => ${token}`)
-    user_store.editProfessor(dataU, token)
+    user_store.editProfessor(dataU, token, cedula_original)
     user_store.getProfessors()
-  }
+  } 
   user.value.nombre = ''
   user.value.apellido = ''
   user.value.correo = ''
