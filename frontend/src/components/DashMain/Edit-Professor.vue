@@ -235,12 +235,16 @@ const editProfessor = (dataU) => {
 
    /* Contenedor de las secciones blancas modal */
 
-  .modal_part{
+   .modal_part{
     background-color: #FFF;
     border-radius: 7px;
     margin: 10px;
     height: 100%;
     overflow: auto;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
 

@@ -78,7 +78,7 @@ const sendSub = (dataS) => {
             <form v-on:submit.prevent="login">
 
 
-              <select name="Trimestre" v-model="data.modalidad" id="" class="select">
+              <select name="Modalidad" v-model="data.modalidad" id="" class="select">
 
                 <option value="semi-presencial">Semi-presencial</option>
                 <option value="virtual">Virtual</option>
@@ -295,18 +295,23 @@ background-color: var(--Color4, #329D9C);;
 
 .select{
   display: flex;
-  width: 300px;
-  padding: 13px;
+  //width: 300px;
+  padding: 5px;
   color: #000;
-  font-size: 24px;
+  //font-size: 15px;
   line-height: normal;
   margin-bottom: 18px;
-  /*outline: solid 1px #000;*/
+  outline: solid 1px #000;
   height: 40px;
+  margin-left: 6px;//agregado
+  width: 95%;
   border: 1px solid $color5;
   outline: none;
+  font-size: 18px;
+  font-weight: 300;
+  font-family: Poppins;
   }
-
+  
   .description{
     height: 150px;
     text-align: justify;

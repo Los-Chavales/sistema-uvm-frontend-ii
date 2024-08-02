@@ -119,8 +119,8 @@ const changeStateMessageModal = () => (stateMessageModal.value = !stateMessageMo
                 <option value="IX" >IX (9)</option>
               </select>
 
-              <select name="" id="" class="select" v-model="carrera" required>
-                <option value="Ingenieria de Computacion" >Ingenieria de Computacion</option>
+              <select name="Carrera" id="" class="select" v-model="carrera" required>
+                <option value="Ingenieria de Computación" >Ingenieria de Computación</option>
                 <option value="Ingenieria Industrial" >Ingenieria Industrial</option>
               </select>
 
@@ -311,17 +311,24 @@ const changeStateMessageModal = () => (stateMessageModal.value = !stateMessageMo
   outline: none;
 
   }
-
+  
   .select{
   display: flex;
-  width: 300px;
-  padding: 13px;
+  //width: 300px;
+  padding: 5px;
   color: #000;
-  font-size: 24px;
+  //font-size: 15px;
   line-height: normal;
   margin-bottom: 18px;
   outline: solid 1px #000;
   height: 40px;
+  margin-left: 6px;//agregado
+  width: 95%;
+  border: 1px solid $color5;
+  outline: none;
+  font-size: 18px;
+  font-weight: 300;
+  font-family: Poppins;
   }
 
   .description{

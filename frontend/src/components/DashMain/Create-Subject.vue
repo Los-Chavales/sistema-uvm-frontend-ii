@@ -77,6 +77,7 @@ const sendSub = (dataS) => {
 
             <form v-on:submit.prevent="login">
               <select name="" id="" class="select" v-model="data.trimestre">
+                <option value="" disabled selected>Escoger Trimestre</option>
                 <!--<option  v-for="(element, index) in section" :value="element.nombre_seccion" :key="index" >{{element.nombre_seccion}}</option>-->
                 <option value="I" >I (1)</option>
                 <option value="II" >II (2)</option>
@@ -90,6 +91,7 @@ const sendSub = (dataS) => {
 
               </select>
               <select name="" id="" class="select" v-model="data.carrera">
+                <option value="" disabled selected>Escoger Carrera</option>
                 <!--<option  v-for="(element, index) in section" :value="element.nombre_seccion" :key="index" >{{element.nombre_seccion}}</option>-->
                 <option value="Ingenieria de Computacion" >Ingenieria de Computacion</option>
                 <option value="Ingenieria Industrial" >Ingenieria Industrial</option>
@@ -291,10 +293,10 @@ const sendSub = (dataS) => {
 
   .select{
   display: flex;
-  /*width: 300px;*/
+  //width: 300px;
   padding: 5px;
   color: #000;
-  font-size: 15px;
+  //font-size: 15px;
   line-height: normal;
   margin-bottom: 18px;
   outline: solid 1px #000;
@@ -303,6 +305,9 @@ const sendSub = (dataS) => {
   width: 95%;
   border: 1px solid $color5;
   outline: none;
+  font-size: 18px;
+  font-weight: 300;
+  font-family: Poppins;
   }
 
 .form-input::placeholder{
