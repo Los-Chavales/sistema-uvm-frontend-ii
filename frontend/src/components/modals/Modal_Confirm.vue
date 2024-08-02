@@ -7,6 +7,7 @@
     import { subjectStore } from '@/stores/Dash_Stores/subject';
     import { sectionStore } from '@/stores/Dash_Stores/sections';
     import { userStore } from '@/stores/Dash_Stores/users';
+    import { usePeriodsStore } from '@/stores/periods';
 
     let storeActivities = useActivitiesStore();
     let storeEvents = useEventsStore();
@@ -15,6 +16,7 @@
     let storeSubject  = subjectStore();
     let storeSection = sectionStore();
     let storeUser = userStore();
+    let storePeriod = usePeriodsStore();
 
     const props = defineProps({
       /*idD: String,*/
@@ -68,6 +70,9 @@
       }else if(props.idData && cookie !==null && props.typeDelete === "professor"){
         token= cookie.token
         deleteUser(props.idData, token)
+      }else if(props.idData && cookie !==null && props.typeDelete === "periods"){
+        token= cookie.token
+        storePeriod.deletePeriods(props.idData, token)
       }
     }
 

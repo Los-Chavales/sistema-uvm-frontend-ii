@@ -113,7 +113,10 @@ const getPeriodsNow = computed(() => {
                     tipo_fecha: period.tipo_fecha,
                   }" :renderForm="'event'" />
 
-                <Delete_Button :Eventos="period.id_fecha_especial" :dateWeek="props.date" />
+                <Delete_Button 
+                  :idData="period.id_periodo"
+                  :typeDelete="'periods'"
+                 />
               </div>
             </div>
 
@@ -176,7 +179,11 @@ const getPeriodsNow = computed(() => {
                     tipo_fecha: period.tipo_fecha,
                   }" :renderForm="'event'" />
 
-                <Delete_Button :Eventos="period.id_fecha_especial" :dateWeek="props.date" />
+                  
+                <Delete_Button 
+                  :idData="period.id_periodo"
+                  :typeDelete="'periods'"
+                 />
               </div>
             </div>
 
