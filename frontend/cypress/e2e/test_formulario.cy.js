@@ -39,7 +39,7 @@ describe('test formulario', ()=> {
         cy.get('#correo').type("germanh@gmail.com")
         cy.get('#cedula').type("30954258")
         cy.get('.form-submit').click() //Enviar
-
+        cy.contains('button', 'cerrar X').click()
     })
    
 
