@@ -62,7 +62,7 @@ describe('test planificacion', () => {
 
   })
 
-/*   it('el usuario ingresado no es el correcto', () => {
+  it('el usuario ingresado no es el correcto', () => {
     cy.visit('/login') //ir a login
     //Rellenar con datos no registrados
     cy.get('#correo').type("paula@gmail.com") //Hacer una petición post con esos datos
@@ -73,5 +73,5 @@ describe('test planificacion', () => {
     
     cy.contains('li', '*No existe ningún usuario con el correo indicado: paula@gmail.com*') //comprobando que la página tenga esto
     cy.url().should('eq', 'http://localhost:3000/login') //Si no existe el usuario la ruta actual debe ser equivalente a la de login
-  })  */
+  }) 
 }) 
