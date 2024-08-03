@@ -59,6 +59,7 @@ describe('test formulario', () => {
     cy.get('#timeActivity').type("03:00").should('have.attr', 'type', 'time');
     cy.get('.submitB').click() 
     cy.contains('h4', 'Registro exitoso') //comprobando que la página tenga esto
+    cy.get('.modalMessage').contains('button', 'cerrar X').click()
   })
   it('Validacion del formulario con un dato incorrecto', () => {
     //Escoger y llenar formulario
