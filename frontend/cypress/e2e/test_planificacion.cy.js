@@ -45,7 +45,7 @@ describe('test planificacion', () => {
     cy.get('.search__button').click() 
     cy.get('.fa-circle-chevron-left').click() 
     
-    cy.visit('/admin-dsh/planificaciones')
+    //cy.visit('/admin-dsh/planificaciones')
 
     // Esperar a que los datos se almacenen en la store
     cy.wait(2000); // Ajusta el tiempo según sea necesario para que los datos se carguen
@@ -57,7 +57,7 @@ describe('test planificacion', () => {
       console.log('Datos en la store:', eventsState.events);
       // Puedes agregar una afirmación simple para verificar que los datos existen
 
-      //expect(eventsState.events).to.exist
+      expect(eventsState.events).to.exist
     });
 
   })

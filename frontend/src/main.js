@@ -26,6 +26,6 @@ if (window.Cypress) {
   // Exponer la store de Pinia
   window.getStoreState = () => {
     const eventsStore = useEventsStore();
-    return eventsStore.$state;
+    return eventsStore.$state.options;
   };
 }
