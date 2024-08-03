@@ -78,7 +78,7 @@ const sendSub = (dataS) => {
             <form v-on:submit.prevent="login">
 
 
-              <select name="Trimestre" v-model="data.modalidad" id="" class="select">
+              <select name="Modalidad" v-model="data.modalidad" id="" class="select">
 
                 <option value="semi-presencial">Semi-presencial</option>
                 <option value="virtual">Virtual</option>
@@ -96,21 +96,21 @@ const sendSub = (dataS) => {
 
         <!-- Parte de mostrar eventos -->
 
-        <div class="modal_part">
+     <!--    <div class="modal_part">
           <div class="part_container">
             <div class="searcher">
               <input class="searcher_input" placeholder="Buscar..." name="buscador" type="buscador" v-model="buscador" id="buscador" />
               <span class="searcher_icon">
                 <i class="fa-solid fa-magnifying-glass "></i>
               </span>
-            </div>
+            </div> -->
             <!-- En caso de no tener nada -->
 <!-- 
             <div class="container_details" v-if="getEvents.length === 0">
               <p class="part_p p--activity">No hay nada para hoy</p>
             </div> -->
 
-            <div class="materiasContainer">
+     <!--        <div class="materiasContainer">
               <div class="title">
                 <div class="title_container">
                   <span class="icon_container">  
@@ -123,7 +123,7 @@ const sendSub = (dataS) => {
             </div>
 
           </div>
-        </div>
+        </div> -->
 
       </div>
 
@@ -164,8 +164,8 @@ const sendSub = (dataS) => {
     align-items: center;
     flex-direction: column;
     background-color: $color4;
-    width: 790px;
-    height: 579px; 
+    //width: 790px;
+    //height: 579px; 
     padding: 15px 30px 30px 30px;
     border-radius: 15px;
   }
@@ -295,18 +295,23 @@ background-color: var(--Color4, #329D9C);;
 
 .select{
   display: flex;
-  width: 300px;
-  padding: 13px;
+  //width: 300px;
+  padding: 5px;
   color: #000;
-  font-size: 24px;
+  //font-size: 15px;
   line-height: normal;
   margin-bottom: 18px;
-  /*outline: solid 1px #000;*/
+  outline: solid 1px #000;
   height: 40px;
+  margin-left: 6px;//agregado
+  width: 95%;
   border: 1px solid $color5;
   outline: none;
+  font-size: 18px;
+  font-weight: 300;
+  font-family: Poppins;
   }
-
+  
   .description{
     height: 150px;
     text-align: justify;

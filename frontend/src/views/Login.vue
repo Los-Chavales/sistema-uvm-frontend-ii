@@ -223,10 +223,10 @@ export default {
 
             if(rol === "profesor"){
                console.log("profesor")
-               this.$router.push({ path: '/' })
+               this.$router.push({ path: '/calendario' })
             }else if(rol === "director"){
                console.log("director")
-               this.$router.push({ path: '/' })
+               this.$router.push({ path: '/calendario' })
             } 
 
          }).catch((err) => {

@@ -1,5 +1,9 @@
 <script setup>
   import { defineProps, ref,  onMounted, computed, watch } from 'vue';
+  import { sectionStore } from '@/stores/Dash_Stores/sections';
+
+  const useSectionStore = sectionStore();
+
   const props = defineProps({
     state: {
       type: Boolean,
@@ -15,7 +19,6 @@
     }
   })
   const changeState = props.toChangeState
-
   const subjects = [
   {
     id_materia: 1,
@@ -37,8 +40,9 @@
 
 const auxDetail = ref({ ...props.forEdit[0] })
 const user = ref({
-  nombre_seccion: auxDetail.value.nombre,
-  modalidad: auxDetail.value.apellido,
+  nombre_seccion: auxDetail.value.nombre_seccion,
+  modalidad: auxDetail.value.modalidad,
+  id_seccion: auxDetail.value.id_seccion,
 
 })
 
@@ -47,10 +51,23 @@ watch(
   (newVal) => {
     auxDetail.value = { ...newVal };
     user.value.nombre_seccion = auxDetail.value.nombre_seccion;
-    user.value.modalidad = auxDetail.value.apellido;
+    user.value.modalidad = auxDetail.value.modalidad;
+    user.value.id_seccion = auxDetail.value.id_seccion;
   },
   { immediate: true }
 );
+
+const editSection = (dataU) => {
+  if (dataU){
+    const token = $cookies.get('auth').token
+    console.log(`token in professors => ${token}`)
+    useSectionStore.editSectionStore(dataU, token)
+    useSectionStore.getSections()
+  }
+  user.value.nombre_seccion = ''
+  user.value.modalidad = ''
+} 
+
 
 
 </script>
@@ -87,7 +104,7 @@ watch(
               <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="user.nombre_seccion" id="nombre" />
 
 
-              <input class="form-submit" type="submit" value="Actualizar" />
+              <input class="form-submit" type="submit" value="Actualizar" @click="editSection(user)" />
 
             </form>
           </div>
@@ -96,21 +113,21 @@ watch(
 
         <!-- Parte de mostrar eventos -->
 
-        <div class="modal_part">
+    <!--     <div class="modal_part">
           <div class="part_container">
             <div class="searcher">
               <input class="searcher_input" placeholder="Buscar..." name="buscador" type="buscador" v-model="buscador" id="buscador" />
               <span class="searcher_icon">
                 <i class="fa-solid fa-magnifying-glass "></i>
               </span>
-            </div>
+            </div> -->
             <!-- En caso de no tener nada -->
 <!-- 
             <div class="container_details" v-if="getEvents.length === 0">
               <p class="part_p p--activity">No hay nada para hoy</p>
             </div> -->
 
-            <div class="materiasContainer">
+       <!--      <div class="materiasContainer">
               <div class="title">
                 <div class="title_container">
                   <span class="icon_container">  
@@ -123,7 +140,7 @@ watch(
             </div>
 
           </div>
-        </div>
+        </div> -->
 
       </div>
 
@@ -164,8 +181,8 @@ watch(
     align-items: center;
     flex-direction: column;
     background-color: $color4;
-    width: 790px;
-    height: 579px; 
+    //width: 790px;
+    //height: 579px; 
     padding: 15px 30px 30px 30px;
     border-radius: 15px;
   }
@@ -295,14 +312,21 @@ background-color: var(--Color4, #329D9C);;
 
 .select{
   display: flex;
-  width: 300px;
-  padding: 13px;
+  //width: 300px;
+  padding: 5px;
   color: #000;
-  font-size: 24px;
+  //font-size: 15px;
   line-height: normal;
   margin-bottom: 18px;
   outline: solid 1px #000;
   height: 40px;
+  margin-left: 6px;//agregado
+  width: 95%;
+  border: 1px solid $color5;
+  outline: none;
+  font-size: 18px;
+  font-weight: 300;
+  font-family: Poppins;
   }
 
   .description{

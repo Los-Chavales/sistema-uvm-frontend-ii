@@ -84,7 +84,7 @@ const changeStateMessageModal = () => (stateMessageModal.value = !stateMessageMo
 
         <div class="modal_part">
           <div class="part_container">
-            <h3 class="part_title title_activities">Editar Horario {{ dia_semana }}</h3>
+            <h3 class="part_title title_activities">Editar Fecha {{ dia_semana }}</h3>
 
             <form class="formCreate" @submit.prevent="putSchedule">
 

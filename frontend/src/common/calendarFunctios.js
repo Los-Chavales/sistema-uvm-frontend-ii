@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { usePeriodsStore } from '@/stores/periods';
 
 //Para generar los días del mes, agrupados en semanas
@@ -125,12 +125,23 @@ const month = ref(0);
 const period = ref([0, undefined]);
 const update = computed(() => {
     let weekCalendar = genDaysWeek(year.value, month.value, period.value[0], period.value[1]);
-    console.info(year.value, month.value, period.value, weekCalendar);
+    console.info('ACTUALIZANDO',year.value, month.value, period.value, weekCalendar);
     return weekCalendar
 })
 
 
 const weeks = update;
+
+watch(weeks, (newState) => {
+    console.log('observando', newState, newState.length > 0)
+    if (newState && newState.length > 0) {
+        console.log('entro')
+        
+        setTimeout(() => {
+            period.value[0] = getPeriod(year.value, month.value + 1);
+        }, 40);
+    }
+});
 
 
 //Para cambiar entre meses
