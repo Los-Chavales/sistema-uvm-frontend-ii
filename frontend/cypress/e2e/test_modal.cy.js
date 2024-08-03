@@ -1,3 +1,18 @@
+function realizarLogin(correo, clave) {
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:4000/usuarios/login',
+    body: {
+      correo,
+      clave
+    }
+  })
+    .then((response) => {
+      cy.log(response)
+      expect(response.status).to.eq(200);
+    });
+}
+
 describe('test modal', () => {
   it('abrir un modal', () => {
     cy.visit('/admin-dsh/planificaciones')
@@ -5,6 +20,8 @@ describe('test modal', () => {
     cy.get('#correo').type("roberto@gmail.com")
     cy.get('#clave').type("profe12345")
     cy.get('.form-submit').click() //Enviar
+
+    realizarLogin("roberto@gmail.com", "profe12345") //Hacer una petición post con esos datos
 
     cy.url().should('eq', 'http://localhost:3000/calendario') //si tiene éxito llega al calendario
 
