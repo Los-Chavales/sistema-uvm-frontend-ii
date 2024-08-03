@@ -11,6 +11,13 @@ const changeNav = (action = '') => {
   cy.get('span.' + action).click();
 }
 
+const changePage = (url = '') => {
+  cy.get(`a[href*="/admin-dsh/${url}"]`).click() //Hacer click en nav
+    cy.url().should('eq', `http://localhost:3000/admin-dsh/${url}`) //si tiene éxito llega a la página
+    changeNav('collapse-icn'); //Cerrar nav
+  cy.wait(1000)
+}
+
 describe('test calendario', () => {
   before(() => {
     // Realiza el login una vez antes de todas las pruebas
@@ -54,14 +61,46 @@ describe('test calendario', () => {
     cy.wait(1500);
   })
 
+  it('Comprobar que el nav redirige a Eventos', () => {
+    //Revisar si está abierto
+    valNav('exist');
 
+    changePage('calendario');
+  })
+  
   it('Comprobar que el nav redirige a Secciones', () => {
     //Revisar si está abierto
     valNav('exist');
 
-    cy.get('a[href*="/admin-dsh/secciones"]').click() //Hacer click en nav
-    cy.url().should('eq', 'http://localhost:3000/admin-dsh/secciones') //si tiene éxito llega a la página
-    changeNav('collapse-icn'); //Cerrar nav
+    changePage('secciones');
   })
 
+  it('Comprobar que el nav redirige a Fechas', () => {
+    //Revisar si está abierto
+    valNav('exist');
+
+    changePage('fechas');
+  })
+
+  it('Comprobar que el nav redirige a Horarios', () => {
+    //Revisar si está abierto
+    valNav('exist');
+
+    changePage('horarios');
+  })
+
+  it('Comprobar que el nav no se redirige a ninguna página', () => {
+    //Revisar si está abierto
+    valNav('exist');
+
+    changePage('x');
+  })
+
+  it('Comprobar que el nav cierra sesión', () => {
+    //Revisar si está abierto
+    valNav('exist');
+
+    cy.get('.logout_button').click() //Hacer click en Cerrar Sesión
+    cy.url().should('eq', 'http://localhost:3000/') //si tiene éxito sale a la página principal
+  })
 }) 
