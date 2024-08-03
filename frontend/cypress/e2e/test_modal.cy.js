@@ -19,6 +19,15 @@ describe('test modal', () => {
     cy.contains('b', 'Profesor:') //comprobando que la página tenga esto
     cy.contains('b', 'Materia:') //comprobando que la página tenga esto
 
-    //Falta activar el modal
+    cy.get('.select__planification').select('Frontend II VI') 
+    cy.get('.search__button').click() 
+    cy.get('.fa-circle-chevron-left').click() 
+
+    cy.get('#0-6-acts').click()
+
+    cy.wait(2000);
+
+    cy.get('#0-6-acts').contains('button', 'cerrar X').click()
+
   })
 })

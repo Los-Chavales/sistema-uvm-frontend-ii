@@ -15,7 +15,6 @@ function realizarLogin(correo, clave) {
 
 
 describe('test planificacion', () => {
-
   it('verificar que sea un profesor el que esta ingresando y permitirle entrar', () => {
     cy.visit('/admin-dsh/planificaciones')
     //Rellenar con datos registrados
@@ -50,6 +49,7 @@ describe('test planificacion', () => {
     // Esperar a que los datos se almacenen en la store
     cy.wait(2500); // Ajusta el tiempo según sea necesario para que los datos se carguen
 
+    // Acceder a la store de Pinia y comprobar los datos
     cy.window().its('$store.events').then(eventsState => {
       let events = eventsState.options.events;
       // Registrar los datos en la consola
@@ -62,28 +62,18 @@ describe('test planificacion', () => {
       expect(events).to.have.length.greaterThan(0);
     });
 
-    // Acceder a la store de Pinia y comprobar los datos
-    /*cy.window().then((win) => {
-      const eventsState = win.getStoreState(); // Llama a la función para obtener el estado
-      // Registrar los datos en la consola
-      console.log('Datos en la store:', eventsState.events);
-      // Puedes agregar una afirmación simple para verificar que los datos existen
-
-      expect(eventsState.events).to.exist
-    });*/
 
   })
+  it('el usuario ingresado no es el correcto', () => {
+    cy.visit('/login') //ir a login
+    //Rellenar con datos no registrados
+    cy.get('#correo').type("paula@gmail.com") //Hacer una petición post con esos datos
+    cy.get('#clave').type("54321")
+    cy.get('.form-submit').click() //Enviar
 
-  /*   it('el usuario ingresado no es el correcto', () => {
-      cy.visit('/login') //ir a login
-      //Rellenar con datos no registrados
-      cy.get('#correo').type("paula@gmail.com") //Hacer una petición post con esos datos
-      cy.get('#clave').type("54321")
-      cy.get('.form-submit').click() //Enviar
-  
-      realizarLogin("paula@gmail.com", "54321")
-      
-      cy.contains('li', '*No existe ningún usuario con el correo indicado: paula@gmail.com*') //comprobando que la página tenga esto
-      cy.url().should('eq', 'http://localhost:3000/login') //Si no existe el usuario la ruta actual debe ser equivalente a la de login
-    })  */
+    realizarLogin("paula@gmail.com", "54321")
+    
+    cy.contains('li', '*No existe ningún usuario con el correo indicado: paula@gmail.com*') //comprobando que la página tenga esto
+    cy.url().should('eq', 'http://localhost:3000/login') //Si no existe el usuario la ruta actual debe ser equivalente a la de login
+  }) 
 }) 

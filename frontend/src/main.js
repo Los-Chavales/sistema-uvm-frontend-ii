@@ -2,7 +2,6 @@ import './assets/styles/base.css'
 import '@fortawesome/fontawesome-free/js/all'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import { useEventsStore } from './stores/events';
 
 import App from './App.vue'
 import router from './router'
@@ -25,18 +24,7 @@ app.$pinia = pinia
 
 app.mount('#app')
 
-//console.log('HOLAAA', app.config.globalProperties.$pinia.state._value);
-/*setTimeout(() => {
-  console.log('HOLAAA', app.$pinia.state._value.events.options.events);
-  console.log('ADIOS', app.$pinia.state.events, app.$pinia.state);
-}, 5000);*/
-
 if (window.Cypress) {
   window.app = app;
   window.$store =  app.$pinia.state._value;
-  // Exponer la store de Pinia
- /* window.getStoreState = () => {
-    const eventsStore = useEventsStore();
-    return eventsStore.$state.options;
-  };*/
 }
