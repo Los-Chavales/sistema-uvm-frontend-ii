@@ -7,14 +7,14 @@ function realizarLogin(correo, clave) {
       clave
     }
   })
-  .then((response) => {
-    cy.log(response)
-    expect(response.status).to.eq(200);
-  });
+    .then((response) => {
+      cy.log(response)
+      expect(response.status).to.eq(200);
+    });
 }
 
 
-describe('test planificacion', () => { 
+describe('test planificacion', () => {
 
   it('verificar que sea un profesor el que esta ingresando y permitirle entrar', () => {
     cy.visit('/admin-dsh/planificaciones')
@@ -31,8 +31,8 @@ describe('test planificacion', () => {
 
     cy.visit('/calendario')
     cy.contains('a', 'Planificaciones').click()
-    
-    
+
+
     cy.url().should('eq', 'http://localhost:3000/admin-dsh/planificaciones')
     cy.contains('h1', 'Periodo Académico 2024') //comprobando que la página tenga esto
     cy.contains('b', 'Trimestre:') //comprobando que la página tenga esto
@@ -41,37 +41,49 @@ describe('test planificacion', () => {
 
 
     //cy.contains('option', 'Frontend II VI').click()
-    cy.get('.select__planification').select('Frontend II VI') 
-    cy.get('.search__button').click() 
-    cy.get('.fa-circle-chevron-left').click() 
-    
+    cy.get('.select__planification').select('Frontend II VI')
+    cy.get('.search__button').click()
+    cy.get('.fa-circle-chevron-left').click()
+
     //cy.visit('/admin-dsh/planificaciones')
 
     // Esperar a que los datos se almacenen en la store
-    cy.wait(2000); // Ajusta el tiempo según sea necesario para que los datos se carguen
+    cy.wait(2500); // Ajusta el tiempo según sea necesario para que los datos se carguen
+
+    cy.window().its('$store.events').then(eventsState => {
+      let events = eventsState.options.events;
+      // Registrar los datos en la consola
+      console.log('Datos en la store:', events);
+
+      // Verificar que el arreglo exista
+      expect(events).to.exist;
+
+      // Verificar que el arreglo no esté vacío
+      expect(events).to.have.length.greaterThan(0);
+    });
 
     // Acceder a la store de Pinia y comprobar los datos
-    cy.window().then((win) => {
+    /*cy.window().then((win) => {
       const eventsState = win.getStoreState(); // Llama a la función para obtener el estado
       // Registrar los datos en la consola
       console.log('Datos en la store:', eventsState.events);
       // Puedes agregar una afirmación simple para verificar que los datos existen
 
       expect(eventsState.events).to.exist
-    });
+    });*/
 
   })
 
-/*   it('el usuario ingresado no es el correcto', () => {
-    cy.visit('/login') //ir a login
-    //Rellenar con datos no registrados
-    cy.get('#correo').type("paula@gmail.com") //Hacer una petición post con esos datos
-    cy.get('#clave').type("54321")
-    cy.get('.form-submit').click() //Enviar
-
-    realizarLogin("paula@gmail.com", "54321")
-    
-    cy.contains('li', '*No existe ningún usuario con el correo indicado: paula@gmail.com*') //comprobando que la página tenga esto
-    cy.url().should('eq', 'http://localhost:3000/login') //Si no existe el usuario la ruta actual debe ser equivalente a la de login
-  })  */
+  /*   it('el usuario ingresado no es el correcto', () => {
+      cy.visit('/login') //ir a login
+      //Rellenar con datos no registrados
+      cy.get('#correo').type("paula@gmail.com") //Hacer una petición post con esos datos
+      cy.get('#clave').type("54321")
+      cy.get('.form-submit').click() //Enviar
+  
+      realizarLogin("paula@gmail.com", "54321")
+      
+      cy.contains('li', '*No existe ningún usuario con el correo indicado: paula@gmail.com*') //comprobando que la página tenga esto
+      cy.url().should('eq', 'http://localhost:3000/login') //Si no existe el usuario la ruta actual debe ser equivalente a la de login
+    })  */
 }) 
