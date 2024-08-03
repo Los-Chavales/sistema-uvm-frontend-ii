@@ -1,6 +1,12 @@
 let correo = "direccion_ingenieria@gmail.com";
 let clave = "root12345";
 
+const valNav = (be = '') => {
+  cy.get('span.header-side')
+    .find('div.img-container')
+    .should(be);
+}
+
 describe('test calendario', () => {
   before(() => {
     // Realiza el login una vez antes de todas las pruebas
@@ -30,31 +36,23 @@ describe('test calendario', () => {
 
   it('Comprobar que el nav abre y cierra', () => {
     //Revisar si está abierto
-    cy.get('span.header-side')
-      .find('div.img-container')
-      .should('exist');
-
-    cy.wait(1000)
+    valNav('exist');
+    cy.wait(1000);
 
     //Cerrar y verificar
     cy.get('span.collapse-icn').click();
-    cy.get('span.header-side')
-      .find('div.img-container')
-      .should('not.exist');
-
-    cy.wait(2000)
+    valNav('not.exist');
+    cy.wait(2000);
   })
 
 
   it('Comprobar que el nav redirige a Secciones', () => {
     //Revisar si está abierto
-    cy.get('span.header-side')
-      .find('div.img-container')
-      .should('exist');
+    valNav('exist');
 
     cy.get('a[href*="/admin-dsh/secciones"]').click() //Hacer click en nav
     cy.url().should('eq', 'http://localhost:3000/admin-dsh/secciones') //si tiene éxito llega a la página
-    cy.get('span.collapse-icn').click();
+    cy.get('span.collapse-icn').click(); //Cerrar nav
   })
 
 }) 
