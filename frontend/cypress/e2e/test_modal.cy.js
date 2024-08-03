@@ -13,6 +13,10 @@ function realizarLogin(correo, clave) {
     });
 }
 
+const changeNav = (action = '') => {
+  cy.get('span.' + action).click();
+}
+
 describe('test modal', () => {
   it('abrir un modal', () => {
     cy.visit('/admin-dsh/planificaciones')
@@ -26,11 +30,11 @@ describe('test modal', () => {
     cy.url().should('eq', 'http://localhost:3000/calendario') //si tiene éxito llega al calendario
 
     //Pasa el login y se dirige al calendario (donde lo redirige la función por defecto)
-
-    cy.visit('/calendario')
     cy.contains('a', 'Planificaciones').click()
     
     cy.url().should('eq', 'http://localhost:3000/admin-dsh/planificaciones')
+    changeNav('collapse-icn'); //Cerrar nav
+
     cy.contains('h1', 'Periodo Académico 2024') //comprobando que la página tenga esto
     cy.contains('b', 'Trimestre:') //comprobando que la página tenga esto
     cy.contains('b', 'Profesor:') //comprobando que la página tenga esto
