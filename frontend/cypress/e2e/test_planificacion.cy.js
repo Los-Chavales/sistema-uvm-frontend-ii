@@ -53,7 +53,7 @@ describe('test planificacion', () => {
     cy.window().its('$store.events').then(eventsState => {
       let events = eventsState.options.events;
       // Registrar los datos en la consola
-      console.log('Datos en la store:', events);
+      cy.log('Datos en la store:', events);
 
       // Verificar que el arreglo exista
       expect(events).to.exist;
@@ -65,7 +65,7 @@ describe('test planificacion', () => {
     cy.window().its('$store.activities').then(actsState => {
       let acts = actsState.options.activities;
       // Registrar los datos en la consola
-      console.log('Datos en la store:', acts);
+      cy.log('Datos en la store:', acts);
 
       // Verificar que el arreglo exista
       expect(acts).to.exist;
