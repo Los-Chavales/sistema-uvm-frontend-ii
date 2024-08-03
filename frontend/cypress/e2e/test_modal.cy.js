@@ -41,9 +41,11 @@ describe('test modal', () => {
     cy.get('.fa-circle-chevron-left').click() 
 
     cy.get('#0-6-acts').click()
+    cy.get('.container_modal').should('be.visible') //comprobando que la página tenga esto
 
     cy.wait(2000);
 
+    cy.get('#0-6-acts').contains('button', 'cerrar X').should('be.visible')
     cy.get('#0-6-acts').contains('button', 'cerrar X').click()
 
   })
