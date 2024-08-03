@@ -81,6 +81,7 @@ onUpdated(() => {
                             :isPlannig="true" 
                             :isEvent="false" 
                             :weekNumber="week.number" 
+                            :idButton="`modalA-${i}-${day}`"
                         />
                     </td>
                 </tr>
@@ -95,7 +96,8 @@ onUpdated(() => {
                             :isEditor="getEditState" 
                             :isPlannig="true" 
                             :isEvent="true" 
-                            :weekNumber="week.number" 
+                            :weekNumber="week.number"
+                            :idButton="`modalE-${i}-${day}`"
                         />
                     </td>
                 </tr>

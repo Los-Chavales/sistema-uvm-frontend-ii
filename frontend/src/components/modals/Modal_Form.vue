@@ -19,7 +19,8 @@ const props = defineProps({
     formEditActivity: Boolean,
     eventID: Number,
     activityID:Number,
-    dataEdit: Object
+    dataEdit: Object,
+    idButton: String,
 })
 
 </script>
@@ -31,7 +32,7 @@ const props = defineProps({
 
     <div class="modalForm_head">
       <div class="container_button">
-        <button @click="$emit('closeModalForm')" class="modalForm_cerrar">cerrar X</button>
+        <button @click="$emit('closeModalForm')" class="modalForm_cerrar" :id="props.idButton">cerrar X</button>
       </div>
     </div>
 
