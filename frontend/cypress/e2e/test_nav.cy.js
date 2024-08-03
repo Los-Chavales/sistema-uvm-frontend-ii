@@ -18,7 +18,7 @@ const changePage = (url = '') => {
   cy.wait(1000)
 }
 
-describe('test calendario', () => {
+describe('test nav dashboard', () => {
   before(() => {
     // Realiza el login una vez antes de todas las pruebas
     cy.visit('/login');
@@ -28,7 +28,6 @@ describe('test calendario', () => {
     cy.get('.form-submit').click() //Enviar
     //si tiene éxito llega al calendario
     cy.url().should('eq', 'http://localhost:3000/calendario')
-    changeNav('collapse-icn'); //Cerrar nav
     //guardar las cookies después del login
     cy.getCookies().then((cookies) => {
       cy.writeFile('cookies.json', cookies);
