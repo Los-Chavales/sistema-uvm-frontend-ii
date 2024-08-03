@@ -62,7 +62,17 @@ describe('test planificacion', () => {
       expect(events).to.have.length.greaterThan(0);
     });
 
+    cy.window().its('$store.activities').then(actsState => {
+      let acts = actsState.options.activities;
+      // Registrar los datos en la consola
+      console.log('Datos en la store:', acts);
 
+      // Verificar que el arreglo exista
+      expect(acts).to.exist;
+
+      // Verificar que el arreglo no esté vacío
+      expect(acts).to.have.length.greaterThan(0);
+    });
   })
   it('el usuario ingresado no es el correcto', () => {
     cy.visit('/login') //ir a login
