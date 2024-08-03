@@ -2,7 +2,7 @@ let correo = "direccion_ingenieria@gmail.com";
 let clave = "root12345";
 
 describe('test calendario', () => {
-  it('verificar que sea un profesor el que esta ingresando y permitirle entrar', () => {
+  it('Verificar el funcionamiento del Nav', () => {
     cy.visit('/login')
     //Rellenar con datos registrados
     cy.get('#correo').type(correo)
@@ -10,13 +10,13 @@ describe('test calendario', () => {
     cy.get('.form-submit').click() //Enviar
     cy.url().should('eq', 'http://localhost:3000/calendario') //si tiene éxito llega al calendario
 
-    cy.wait(1500); // Esperar antes de oprimir el nav
+    //Revisar si está abierto
+    cy.get('span.header-side')
+      .find('div.img-container')
+      .should('exist');
 
-    cy.visit('/admin-dsh/calendario')
-    
-    
-
-    
+    cy.get('a[href*="/admin-dsh/secciones"]').click() //Hacer click en nav
+    cy.url().should('eq', 'http://localhost:3000/admin-dsh/secciones') //si tiene éxito llega a la página
   })
   
 }) 
