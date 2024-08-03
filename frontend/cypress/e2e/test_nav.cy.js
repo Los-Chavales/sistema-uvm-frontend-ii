@@ -7,6 +7,10 @@ const valNav = (be = '') => {
     .should(be);
 }
 
+const changeNav = (action = '') => {
+  cy.get('span.' + action).click();
+}
+
 describe('test calendario', () => {
   before(() => {
     // Realiza el login una vez antes de todas las pruebas
@@ -17,7 +21,7 @@ describe('test calendario', () => {
     cy.get('.form-submit').click() //Enviar
     //si tiene éxito llega al calendario
     cy.url().should('eq', 'http://localhost:3000/calendario')
-    cy.get('span.collapse-icn').click();
+    changeNav('collapse-icn'); //Cerrar nav
     //guardar las cookies después del login
     cy.getCookies().then((cookies) => {
       cy.writeFile('cookies.json', cookies);
@@ -37,12 +41,17 @@ describe('test calendario', () => {
   it('Comprobar que el nav abre y cierra', () => {
     //Revisar si está abierto
     valNav('exist');
-    cy.wait(1000);
+    cy.wait(750);
 
     //Cerrar y verificar
-    cy.get('span.collapse-icn').click();
-    valNav('not.exist');
-    cy.wait(2000);
+    changeNav('collapse-icn'); //Cerrar nav
+    valNav('not.exist'); //Revisar si está cerrado
+    cy.wait(1500);
+
+    //Abrir y verificar
+    changeNav('rotate-arrow'); //Abrir nav
+    valNav('exist'); //Revisar si está abierto
+    cy.wait(1500);
   })
 
 
@@ -52,7 +61,7 @@ describe('test calendario', () => {
 
     cy.get('a[href*="/admin-dsh/secciones"]').click() //Hacer click en nav
     cy.url().should('eq', 'http://localhost:3000/admin-dsh/secciones') //si tiene éxito llega a la página
-    cy.get('span.collapse-icn').click(); //Cerrar nav
+    changeNav('collapse-icn'); //Cerrar nav
   })
 
 }) 
