@@ -81,10 +81,6 @@
       }else if(props.idData && cookie !==null && props.typeDelete === "periods"){
         token= cookie.token
         storePeriod.deletePeriods(props.idData, token)
-      }else if(props.idData && cookie !==null && props.typeDelete === "events"){
-        let year = prop.getFullYear();
-        let month = prop.getMonth();
-        deleteEvent(props.evnD, token, year, month)
       }
       closeModal(props.state)
     }
