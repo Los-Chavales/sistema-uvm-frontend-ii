@@ -23,6 +23,7 @@
       :dateWeek="props.dateWeek" 
       :idData="props.idData"
       :typeDelete="props.typeDelete"
+      :state="state"
     /> 
 
 </template>
