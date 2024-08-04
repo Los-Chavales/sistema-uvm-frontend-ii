@@ -66,7 +66,7 @@ const editProfessor = (dataU) => {
     let cedula_original = auxDetail.value.cedula
     console.log(`token in professors => ${token}`)
     user_store.editProfessor(dataU, token, cedula_original)
-    user_store.getProfessors()
+    //user_store.getProfessors()
   } 
   user.value.nombre = ''
   user.value.apellido = ''
@@ -421,10 +421,6 @@ background-color: var(--Color4, #329D9C);;
   }
 
   @media (min-width: 780px) {
-    .part_container {
-      /*width: auto;*/
-      /*height: 60%;*/
-    }
 
     .modal_body {
       flex-direction: row;

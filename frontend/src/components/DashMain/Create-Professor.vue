@@ -57,7 +57,7 @@ const addProfessor = (dataU) => {
     const token = $cookies.get('auth').token
     console.log(`token in professors => ${token}`)
     user_store.addNewProfessor(dataU, token)
-    user_store.getProfessors()
+    //user_store.getProfessors()
   }
   data.value.nombre = ''
   data.value.apellido = ''
@@ -102,10 +102,10 @@ const sendSubject = ( nombre, seccion) => {
 
             <form v-on:submit.prevent="login">
 
-              <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="data.nombre" id="nombre" />
-              <input class="form-input text-input" placeholder="Apellido" name="apellido" type="text" v-model="data.apellido" id="apellido" />
-              <input class="form-input text-input" placeholder="Email" name="correo" type="email" v-model="data.correo" id="correo" />
-              <input class="form-input text-input" placeholder="Cedula" name="cedula" type="text" v-model="data.id_usuario" id="cedula" />
+              <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="data.nombre" id="nombre" required>
+              <input class="form-input text-input" placeholder="Apellido" name="apellido" type="text" v-model="data.apellido" id="apellido" required>
+              <input class="form-input text-input" placeholder="Email" name="correo" type="email" v-model="data.correo" id="correo" required>
+              <input class="form-input text-input" placeholder="Cedula" name="cedula" type="number" v-model="data.id_usuario" id="cedula" required>
 
 
               <input class="form-submit" type="submit" @click="addProfessor(data)" value="Ingresar" />
@@ -426,11 +426,6 @@ background-color: var(--Color4, #329D9C);;
   }
 
   @media (min-width: 780px) {
-    .part_container {
-      /*width: auto;*/
-      /*height: 60%;*/
-    }
-
     .modal_body {
       flex-direction: row;
     }
