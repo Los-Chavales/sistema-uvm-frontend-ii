@@ -15,7 +15,10 @@ function ingresarUsuario(correo, clave) {
         }
     );
 }*/
-  
+const changeNav = (action = '') => {
+    cy.get('span.' + action).click();
+}
+
 describe('test formulario', ()=> {
 
     it('el usuario ingresado es rol director', () => {
@@ -31,19 +34,17 @@ describe('test formulario', ()=> {
         cy.wait(100)
         cy.url().should('eq', 'http://localhost:3000/login') //si tiene éxito llega a gestión de profesores
         cy.contains('a', 'Profesores').click()
+        changeNav('collapse-icn'); //Cerrar nav
        /* cy.visit('/admin-dsh/profesores')*/
         cy.wait(4000);
-        cy.get('.button').eq(0).click();
-        cy.get('#nombre').type("Germán Del Valle")
-        cy.get('#apellido').type("Herrera Rodríguez")
-        cy.get('#correo').type("germanh@gmail.com")
-        cy.get('#cedula').type("30954258")
+        cy.get('.button').eq(0).click();//elegir el primer botón en el dashboar para añadir profesor
+        cy.get('#nombre').type("Cristina Del Valle")
+        cy.get('#apellido').type("Hernández Fernández")
+        cy.get('#correo').type("cris.hernandez@gmail.com")
+        cy.get('#cedula').type("30954255")
         cy.get('.form-submit').click() //Enviar
-        cy.contains('button', 'cerrar X').click()
+        cy.contains('button', 'cerrar X').click()//cerrar modal
     })
    
-
-   
-
     
 })
