@@ -2,7 +2,7 @@
   import { defineProps, ref,  onMounted, computed } from 'vue';
   import { subjectStore } from '@/stores/Dash_Stores/subject';
   import { sectionStore } from '@/stores/Dash_Stores/sections'
-
+  import Modal_Message from '../modals/Modal_Message.vue';
 
   onMounted(() => {
       sectionStoreU.getSections()
@@ -48,9 +48,12 @@ const sendSub = (dataS) => {
   data.value.subName = '';
   data.value.subDescription= '';
   store.getSubject();
-
-
+  changeStateMessageModal()
 } 
+
+//función para desplegar el modal 
+let stateMessageModal = ref(false);
+const changeStateMessageModal = () => (stateMessageModal.value = !stateMessageModal.value)
 
 
 </script>
@@ -75,7 +78,7 @@ const sendSub = (dataS) => {
           <div class="part_container">
             <h3 class="part_title title_activities" >Añadir Materia</h3>
 
-            <form v-on:submit.prevent="login">
+            <form @submit.prevent="sendSub(data)">
               <select name="" id="" class="select" v-model="data.trimestre">
                 <option value="" disabled selected>Escoger Trimestre</option>
                 <!--<option  v-for="(element, index) in section" :value="element.nombre_seccion" :key="index" >{{element.nombre_seccion}}</option>-->
@@ -99,10 +102,10 @@ const sendSub = (dataS) => {
 
               </select>
               <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="data.subName" id="nombre" />
-              <input class="form-input description" placeholder="Descripción" name="apellido" type="text" v-model="data.subDescription" id="apellido" />
+              <textarea  class="formCreateEvent_textarea" placeholder="Descripción" v-model="data.subDescription" required></textarea>
               
 
-              <input class="form-submit" type="submit" value="Ingresar" @click="sendSub(data)" />
+              <input class="form-submit" type="submit" value="Ingresar" />
 
             </form>
           </div>
@@ -114,6 +117,8 @@ const sendSub = (dataS) => {
     </div>
 
   </div>
+
+  <Modal_Message v-show="stateMessageModal" @closeModalMessage="changeStateMessageModal" :typeMessage="'subject'" />
 
 </template>
 
@@ -282,12 +287,37 @@ const sendSub = (dataS) => {
   font-size: 23px;
     
   }
-  
-  .description{
-    height: 150px;
-    text-align: justify;
-    /*width: 100%;*/
-    
+
+  .formCreateEvent_textarea{
+    resize: none;
+    display: flex;
+    width: 100%;
+    height: 120px;
+    min-height: 60px;
+    padding: 10px;
+    margin: 0 0 25px 0;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    border: none;
+    border-top: 3px solid $color4;
+    background: rgba(158, 158, 158, 0.30);
+    outline: none;
+
+    color: #000;
+    font-family: "Inria Sans";
+    font-size: 14px;
+    font-style: normal;
+  }
+
+  .formCreateEvent_textarea::placeholder{
+    color: #000;
+    text-align: center;
+    font-family: "Inria Sans";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
   }
 
 
@@ -340,7 +370,6 @@ text-align: center;
 
 .text-input{
   height:48px;
-  text-align: center;
  /* width: 100%;*/
 
 }

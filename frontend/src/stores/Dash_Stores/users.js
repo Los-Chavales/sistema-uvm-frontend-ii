@@ -12,6 +12,11 @@ export const userStore = defineStore('userStore', {
         /* Usuario en linea */
         userOnline: {
             rol_usuario: ""
+        },
+        resultForm: {
+            statusErrorForm: false,
+            messageForm: '',
+            listDetails: []
         }
     }),
     getters: {
@@ -27,7 +32,10 @@ export const userStore = defineStore('userStore', {
         /* Usuario en linea */
         getUserOnlineRol(state) {
             return state.userOnline.rol_usuario
-        }
+        },
+        getFormResult(state) {
+            return state.resultForm
+        },
     },
     actions: {
         async getProfessors() {
@@ -85,11 +93,13 @@ export const userStore = defineStore('userStore', {
 
             })
                 .then((response) => {
-                    console.log(response)
+                    this.resultForm.statusErrorForm = false
+                    this.resultForm.messageForm = response.data
                     this.getProfessors();
                 })
                 .catch((error) => {
-                    console.error(error);
+                    this.resultForm.statusErrorForm = true
+                    this.resultForm.messageForm = error.response.data.message
                 })
         },
         async editProfessor(userdata, token, cedula_original) {
@@ -112,11 +122,17 @@ export const userStore = defineStore('userStore', {
 
             })
                 .then((response) => {
-                    console.log(response)
+                    this.resultForm.statusErrorForm = false
+                    if(response.data === "Se ha actualizado exitosamente"){
+                        this.resultForm.messageForm = response.data
+                    }else{
+                        this.resultForm.messageForm = response.data.message
+                    }
                     this.getProfessors();
                 })
                 .catch((error) => {
-                    console.error(error);
+                    this.resultForm.statusErrorForm = true
+                    this.resultForm.messageForm = error.response.data.message
                 })
         },
         async deleteProfessor(idProfessor, token) {

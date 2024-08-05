@@ -7,13 +7,21 @@ const APISections = '/secciones/'
 
 export const sectionStore = defineStore('sectionStore', {
     state: ()=> ({
-        sections:[]
+        sections:[],
+        resultForm: {
+            statusErrorForm: false,
+            messageForm: '',
+            listDetails: []
+        }
         
     }),
     getters: { 
         readSections(state){
             return state.sections
-        }
+        },
+        getFormResult(state) {
+          return state.resultForm
+        },
     },
     actions:{
       async getSections(){
@@ -38,7 +46,12 @@ export const sectionStore = defineStore('sectionStore', {
                 },
             })
             .then( (response) => {
-                console.log(response)
+              this.resultForm.statusErrorForm = false
+              this.resultForm.messageForm = response.data
+            })
+            .catch((error) => {
+              this.resultForm.statusErrorForm = true
+              this.resultForm.messageForm = error.response.data.message
             })
       },
       async deleteSection(id_section, token){
@@ -72,8 +85,17 @@ export const sectionStore = defineStore('sectionStore', {
                 },
                 
             })
-            .then(function (response) {
-                console.log(response)
+            .then((response) => {
+                this.resultForm.statusErrorForm = false
+                if(response.data === "Se ha actualizado exitosamente"){
+                  this.resultForm.messageForm = response.data
+                }else{
+                  this.resultForm.messageForm = response.data.message
+                }
+            })
+            .catch((error) => {
+              this.resultForm.statusErrorForm = true
+              this.resultForm.messageForm = error.response.data.message
             })
 
       },

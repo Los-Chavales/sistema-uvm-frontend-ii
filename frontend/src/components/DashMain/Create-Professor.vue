@@ -1,6 +1,7 @@
 <script setup>
   import { defineProps, ref,  onMounted, computed } from 'vue';
   import { userStore } from '@/stores/Dash_Stores/users'
+  import Modal_Message from '../modals/Modal_Message.vue';
 
   const props = defineProps({
     state: {
@@ -63,6 +64,7 @@ const addProfessor = (dataU) => {
   data.value.apellido = ''
   data.value.correo = ''
   data.value.id_usuario = ''
+  changeStateMessageModal()
 } 
   
 
@@ -78,6 +80,11 @@ const sendSubject = ( nombre, seccion) => {
   data.value.materias.push(dataMateria);
   console.log(data.value)
 }
+
+  //función para desplegar el modal 
+  let stateMessageModal = ref(false);
+  const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageModal.value)
+
 </script>
 
 <template>
@@ -100,7 +107,7 @@ const sendSubject = ( nombre, seccion) => {
           <div class="part_container">
             <h3 class="part_title title_activities">Añadir Profesores</h3>
 
-            <form v-on:submit.prevent="login">
+            <form  @submit.prevent="addProfessor(data)">
 
               <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="data.nombre" id="nombre" required>
               <input class="form-input text-input" placeholder="Apellido" name="apellido" type="text" v-model="data.apellido" id="apellido" required>
@@ -108,7 +115,7 @@ const sendSubject = ( nombre, seccion) => {
               <input class="form-input text-input" placeholder="Cedula" name="cedula" type="number" v-model="data.id_usuario" id="cedula" required>
 
 
-              <input class="form-submit" type="submit" @click="addProfessor(data)" value="Ingresar" />
+              <input class="form-submit" type="submit" value="Ingresar" />
 
             </form>
           </div>
@@ -150,6 +157,13 @@ const sendSubject = ( nombre, seccion) => {
     </div>
 
   </div>
+
+    
+  <Modal_Message 
+    v-show="stateMessageModal" 
+    @closeModalMessage="changeStateMessageModal"
+    :typeMessage="'professor'" 
+  />
 
 </template>
 

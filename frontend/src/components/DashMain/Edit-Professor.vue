@@ -1,6 +1,8 @@
 <script setup>
 import { defineProps, ref,  onMounted, computed, watch} from 'vue';
 import { userStore } from '@/stores/Dash_Stores/users';
+import Modal_Message from '../modals/Modal_Message.vue';
+
   const props = defineProps({
     state: {
       type: Boolean,
@@ -72,7 +74,13 @@ const editProfessor = (dataU) => {
   user.value.apellido = ''
   user.value.correo = ''
   user.value.cedula = ''
+  changeStateMessageModal()
 } 
+
+
+  //función para desplegar el modal 
+  let stateMessageModal = ref(false);
+  const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageModal.value)
 
 </script>
 
@@ -96,7 +104,7 @@ const editProfessor = (dataU) => {
           <div class="part_container">
             <h3 class="part_title title_activities" @click="console.log(props.userDetail[0].cedula)">Editar Profesor</h3>
 
-            <form v-on:submit.prevent="login">
+            <form @submit.prevent="editProfessor(user)">
 
               <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="user.nombre" id="nombre" />
               <input class="form-input text-input" placeholder="Apellido" name="apellido" type="text" v-model="user.apellido" id="apellido" />
@@ -104,7 +112,7 @@ const editProfessor = (dataU) => {
               <input class="form-input text-input" placeholder="Cedula" name="cedula" type="text" v-model="user.cedula" id="cedula" />
 
 
-              <input class="form-submit" type="submit" @click="editProfessor(user)" value="Renovar" />
+              <input class="form-submit" type="submit" value="Renovar" />
 
             </form>
           </div>
@@ -147,6 +155,12 @@ const editProfessor = (dataU) => {
     </div>
 
   </div>
+
+  <Modal_Message 
+    v-show="stateMessageModal" 
+    @closeModalMessage="changeStateMessageModal"
+    :typeMessage="'professor'" 
+  />
 
 </template>
 

@@ -53,8 +53,13 @@ export const subjectStore = defineStore('subjectStore', {
                 },
             })
             .then( (response) => {
-                console.log(response)
+              this.resultForm.statusErrorForm = false
+              this.resultForm.messageForm = response.data
             })
+            .catch((error) => {
+              this.resultForm.statusErrorForm = true
+              this.resultForm.messageForm = error.response.data.message
+            })            
       },
       async updateSubject(token, subjectUpdate, id) {
         const data = await axios.put(`${API_URL_BASE}/materias/actualizar/${id}`, subjectUpdate, {
@@ -63,14 +68,15 @@ export const subjectStore = defineStore('subjectStore', {
             'Content-Type': 'application/json'
           }
         }).then(response => {
-            console.log("éxito")
           this.resultForm.statusErrorForm = false
-          this.resultForm.messageForm = response.data
+          if(response.data === "Se ha actualizado exitosamente"){
+            this.resultForm.messageForm = response.data
+          }else{
+            this.resultForm.messageForm = response.data.message
+          }
           this.getSubject();
         })
         .catch(err => {
-            console.log("derrota")
-          console.log(err)
           this.resultForm.statusErrorForm = true
           this.resultForm.messageForm = "Error al actualizar" 
         });

@@ -125,7 +125,7 @@ const changeStateMessageModal = () => (stateMessageModal.value = !stateMessageMo
               </select>
 
               <input class="form-input text-input"  v-model="nombre_materia" placeholder="Nombre" name="nombre" type="text" id="nombre" required/>
-              <input class="form-input description" v-model="descripcion" placeholder="Descripción" name="apellido" type="text" id="apellido" required/>
+              <textarea  class="formCreateEvent_textarea" placeholder="Descripción" v-model="descripcion" required></textarea>
 
 
               <input class="form-submit" type="submit" value="Actualizar" />
@@ -360,6 +360,39 @@ font-weight: 600;
 background-color: var(--Color4, #329D9C);;
 
 }
+
+
+.formCreateEvent_textarea{
+    resize: none;
+    display: flex;
+    width: 100%;
+    height: 120px;
+    min-height: 60px;
+    padding: 10px;
+    margin: 0 0 25px 0;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    border: none;
+    border-top: 3px solid $color4;
+    background: rgba(158, 158, 158, 0.30);
+    outline: none;
+
+    color: #000;
+    font-family: "Inria Sans";
+    font-size: 14px;
+    font-style: normal;
+  }
+
+  .formCreateEvent_textarea::placeholder{
+    color: #000;
+    text-align: center;
+    font-family: "Inria Sans";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
 
 
 .text-input{
