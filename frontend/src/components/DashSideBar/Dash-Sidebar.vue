@@ -10,7 +10,8 @@ let usr_name = ref('Admin')
 const storeUser = userStore();
 
 storeUser.userOnlineData($cookies.get('auth'))
-
+const rol = $cookies.get('auth').rol_usuario
+    console.log(`token in professors => ${rol}`)
 const getUserOnlineRol = computed(() => {
   return storeUser.getUserOnlineRol;
 });
@@ -21,8 +22,15 @@ const getUserOnlineRol = computed(() => {
     <div class="sidebar" :style="{ width: sbWidth }">
         <span class="header-side">
             <div class="img-container" v-if="!to_toggle">
-                <img class="user-img" src="../../assets/img/png/admin.png" alt="">
-                <h2 class="user-welcome">Hola, {{ usr_name }}</h2>
+                <div v-if="rol == 'director'">
+                    <img class="user-img" src="../../assets/img/png/admin.png" alt="">
+                    <h2 class="user-welcome" @click="console.log(rol)">Hola, {{ usr_name }}</h2>
+                </div>
+                <div v-else>
+                    <img class="user-img" src="../../assets/img/png/profe.png" alt="">
+                    <h2 class="user-welcome" @click="console.log(rol)">Hola, Roberto</h2>
+                </div>
+                
             </div>
         </span>
         <div class="sidebar-user-img"></div>

@@ -22,6 +22,7 @@
     isPlannig: Boolean,
     isEvent: Boolean,
     weekNumber: Number,
+    idButton: String,
   })
   
   let prop = props.date
@@ -174,7 +175,7 @@
 
       <div class="modal_head">
         <div class="container_button">
-          <button @click="changeState" class="modal_cerrar">cerrar X</button>
+          <button @click="changeState" class="modal_cerrar" :id="props.idButton">cerrar X</button>
         </div>
         <h2 class="modal_title">{{ title_modal }}</h2>
       </div>
@@ -197,6 +198,7 @@
                 :formTeacher="true"
                 :weekNumber="props.weekNumber"
                 :formCreateActivity="stateFormActivity"
+                :idButton="`${props.idButton}-CA`"
               />
 
             <!-- En caso de no tener nada -->
@@ -256,6 +258,7 @@
                :formTeacher="true"
                :weekNumber="props.weekNumber"
                :formCreateEvent="stateFormEvent"
+               :idButton="`${props.idButton}-CE`"
              />
 
             <!-- En caso de no tener nada -->

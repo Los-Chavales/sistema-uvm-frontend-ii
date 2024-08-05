@@ -1,6 +1,8 @@
 <script setup>
   import { defineProps, ref,  onMounted, computed } from 'vue';
   import { sectionStore } from '@/stores/Dash_Stores/sections';
+  import Modal_Message from '../modals/Modal_Message.vue';
+
   const props = defineProps({
     state: {
       type: Boolean,
@@ -48,9 +50,12 @@ const sendSub = (dataS) => {
   data.value.nombre_seccion = '';
   data.value.modalidad= '';
   store.getSections();
-
-
+  changeStateMessageModal()
 } 
+
+  //función para desplegar el modal 
+  let stateMessageModal = ref(false);
+  const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageModal.value)
 
 </script>
 
@@ -75,7 +80,7 @@ const sendSub = (dataS) => {
           <div class="part_container">
             <h3 class="part_title title_activities">Añadir Sección</h3>
 
-            <form v-on:submit.prevent="login">
+            <form @submit.prevent="sendSub(data)">
 
 
               <select name="Modalidad" v-model="data.modalidad" id="" class="select">
@@ -87,7 +92,7 @@ const sendSub = (dataS) => {
               <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="data.nombre_seccion" id="nombre" />
 
 
-              <input class="form-submit" type="submit" @click="sendSub(data)" value="Añadir" />
+              <input class="form-submit" type="submit" value="Añadir" />
 
             </form>
           </div>
@@ -130,6 +135,13 @@ const sendSub = (dataS) => {
     </div>
 
   </div>
+
+      
+  <Modal_Message 
+    v-show="stateMessageModal" 
+    @closeModalMessage="changeStateMessageModal"
+    :typeMessage="'section'" 
+  />
 
 </template>
 

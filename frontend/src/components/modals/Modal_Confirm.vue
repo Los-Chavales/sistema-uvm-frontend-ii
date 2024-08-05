@@ -1,5 +1,5 @@
 <script setup>
-    import {  defineProps, ref } from 'vue';
+    import {  defineProps, ref, defineEmits } from 'vue';
     import { useActivitiesStore } from '@/stores/activities';
     import { useEventsStore } from '@/stores/events';
     import { useSchedulesStore } from '@/stores/Dash_Stores/schedules';
@@ -24,8 +24,16 @@
       evnD: Number,
       dateWeek: Date,
       idData:Number,
-      typeDelete:String
+      typeDelete:String,
+      state:Boolean
     })
+
+    const emit = defineEmits(['close'])
+
+    const closeModal = ( state ) =>{
+        //console.log('emit',usr_ID);
+        emit('close', !state )
+    }
 
     let prop = props.dateWeek
     const deleteActivity = storeActivities.deleteActivities;
@@ -74,8 +82,8 @@
         token= cookie.token
         storePeriod.deletePeriods(props.idData, token)
       }
+      closeModal(props.state)
     }
-
 </script>
 
 
@@ -86,7 +94,7 @@
         <h3 class="modalConfirm_title">¿Está seguro de que quiere eliminarlo?</h3> <!--{{ props.idD }}-->
         <div class="modalConfirm_buttons">
           <button class="button_confirm button--white" @click="deleteSubmit">Si</button> <!--@click="deleteActivity( props.idD )"   @click="deleteActivity( props.actD );deleteEvent( props.evnD )"-->
-          <button  class="button_confirm button--white" @click="$emit('close')">No</button>
+          <button  class="button_confirm button--white" @click="closeModal">No</button>
         </div>
       </div>
     </div>

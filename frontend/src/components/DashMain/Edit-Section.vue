@@ -1,6 +1,7 @@
 <script setup>
   import { defineProps, ref,  onMounted, computed, watch } from 'vue';
   import { sectionStore } from '@/stores/Dash_Stores/sections';
+  import Modal_Message from '../modals/Modal_Message.vue';
 
   const useSectionStore = sectionStore();
 
@@ -66,8 +67,12 @@ const editSection = (dataU) => {
   }
   user.value.nombre_seccion = ''
   user.value.modalidad = ''
+  changeStateMessageModal()
 } 
 
+  //función para desplegar el modal 
+  let stateMessageModal = ref(false);
+  const changeStateMessageModal = () => ( stateMessageModal.value = !stateMessageModal.value)
 
 
 </script>
@@ -93,7 +98,7 @@ const editSection = (dataU) => {
           <div class="part_container">
             <h3 class="part_title title_activities">Editar Sección</h3>
 
-            <form v-on:submit.prevent="login">
+            <form @submit.prevent="editSection(user)">
 
 
               <select name="Modalidad" v-model="user.modalidad" id="" class="select">
@@ -104,7 +109,7 @@ const editSection = (dataU) => {
               <input class="form-input text-input" placeholder="Nombre" name="nombre" type="text" v-model="user.nombre_seccion" id="nombre" />
 
 
-              <input class="form-submit" type="submit" value="Actualizar" @click="editSection(user)" />
+              <input class="form-submit" type="submit" value="Actualizar" />
 
             </form>
           </div>
@@ -147,6 +152,13 @@ const editSection = (dataU) => {
     </div>
 
   </div>
+
+        
+  <Modal_Message 
+    v-show="stateMessageModal" 
+    @closeModalMessage="changeStateMessageModal"
+    :typeMessage="'section'" 
+  />
 
 </template>
 
