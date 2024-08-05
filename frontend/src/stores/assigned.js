@@ -103,6 +103,11 @@ export const useAssignedStore = defineStore("assigned", {
         this.options.assigned = []
       } 
     },
+    async searchAssignedOnePublic(idAssigned) {
+      this.options.id_asignado = idAssigned
+      storeActivities.obtainIdAssigned(this.options.id_asignado)
+      storeEvents.obtainIdAssigned(this.options.id_asignado)
+    },
     async searchNoSchedules() {
       try {
         const data = await axios.get(`${API_URL_BASE}/asignados/sinHorarios`)
