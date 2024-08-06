@@ -28,7 +28,7 @@ const getAssignedSectionName = computed(() => {
 <template>
     <Select_Subject />
     <div class="topDiv">
-        <div>
+        <div class="titulos">
             <h1>Periodo Académico 2024</h1>
             <p v-if="getAssignedSectionName !== '' ">Sección: {{ getAssignedSectionName }}</p>
         </div>
@@ -91,6 +91,7 @@ ul {
     padding: 2px;
     background-color: $color1;
     border-radius: 10px;
+    margin-right: 5%;
 }
 
 .button--white {
@@ -105,4 +106,8 @@ ul {
     width: 191px;
     height: 30px;
 } */
+
+.titulos{
+    margin-left: 100px;
+}
 </style>

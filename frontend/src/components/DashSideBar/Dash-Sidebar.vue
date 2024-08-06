@@ -16,6 +16,12 @@ const getUserOnlineRol = computed(() => {
   return storeUser.getUserOnlineRol;
 });
 
+const logout = () => {
+  $cookies.remove("auth")
+  storeUser.userOnlineData($cookies.get('auth'))
+  router.replace({ path: '/' })
+} 
+
 </script>
 
 <template>
@@ -50,7 +56,9 @@ const getUserOnlineRol = computed(() => {
         
         <!--<SidebarLink to="/" icon="fa-solid fa-arrow-right-from-bracket" @click="logout"></SidebarLink>-->
 
-        <Logout_Button />
+        <Logout_Button @click="logout">
+            <SidebarLink to="/" icon="fa-solid fa-arrow-right-from-bracket"> Cerrar Sesión</SidebarLink>
+        </Logout_Button>
 
         <span class="collapse-icn" :class="{ 'rotate-arrow': to_toggle }" @click="toggle">
             <i class="fa-solid fa-arrow-left"></i>
