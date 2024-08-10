@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import Planner from "../components/Planner.vue";
 import Modal_Period from "../components/modals/Modal_Period.vue";
+import Select_Subject_Public from "@/components/Select_Subject_Public.vue";
 
 let seeActivities = true;
 let seeEvents = true;
@@ -13,10 +14,11 @@ const changeState = () => (state.value = !state.value)
 </script>
 
 <template>
+    <Select_Subject_Public />
     <div class="topDiv">
         <div class="titulos">
-            <h1>Gestión de Eventos</h1>
-            <p>Aquí puedes crear y visualizar los eventos</p>
+            <h1>Eventos</h1>
+            <p>Aquí puedes visualizar los eventos</p>
         </div>
     </div>
     <Modal_Period :state="state" :close="changeState" />

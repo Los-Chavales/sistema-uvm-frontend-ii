@@ -20,13 +20,17 @@ let storeActivities = useActivitiesStore();
 //Llamar a las sotres
 
 onMounted(() => {
-    storeActivities.searchActivitiesMonths(year.value, month.value);
-    storeEvents.searchEventsMonths(year.value, month.value);
+    //storeActivities.searchActivitiesMonths(year.value, month.value);
+    storeActivities.searchActivitiesMonthsIdAssigned(year.value, month.value);
+    //storeEvents.searchEventsMonths(year.value, month.value);
+    storeEvents.searchEventsMonthsIdAssignedPublic(year.value, month.value);
 })
 
 onUpdated(() => {
-    storeActivities.searchActivitiesMonths(year.value, month.value);
-    storeEvents.searchEventsMonths(year.value, month.value);
+    //storeActivities.searchActivitiesMonths(year.value, month.value);
+    storeActivities.searchActivitiesMonthsIdAssigned(year.value, month.value);
+    storeEvents.searchEventsMonthsIdAssignedPublic(year.value, month.value);
+    //storeEvents.searchEventsMonths(year.value, month.value);
 })
 
 </script>

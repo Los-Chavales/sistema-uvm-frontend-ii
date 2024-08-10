@@ -3,7 +3,6 @@ import { onMounted, onUpdated, computed, ref } from 'vue';
 import { useAssignedStore } from "@/stores/assigned";
 import { useEventsStore } from '@/stores/events';
 import { useActivitiesStore } from '@/stores/activities';
-import { userStore } from '@/stores/Dash_Stores/users';
 
 const storeAssigned = useAssignedStore();
 const storeActivities = useActivitiesStore(); 
@@ -11,40 +10,29 @@ const storeEvents = useEventsStore();
 
 let select_planification = ref(0);
 
-let cookie = $cookies.get('auth')
 onMounted(() => {
-  storeEvents.options.id_asignado = 0
-  storeActivities.options.id_asignado = 0
-    if(cookie !== null){
-      let idTeacher = cookie.id_usuario
-      storeAssigned.searchAssignedOptions(idTeacher)
-    }
+    storeEvents.options.id_asignado = 0
+    storeActivities.options.id_asignado = 0
+    storeAssigned.searchAssigned()
 })
 
 const getAssignedList = computed(() => {
-  return storeAssigned.getAssignedList;
+  return storeAssigned.getAssignedAll;
 });
-
-const storeUser = userStore();
-
-let rol_online = storeUser.getUserOnlineRol;
 
 
 const selectOption = () => {
-    if(cookie !== null && select_planification.value !== 0){
-        let dateMoment = storeActivities.getDateMoment
-        let dateMomentEvent = storeEvents.getDateMoment
-        let idTeacher = cookie.id_usuario
-        storeAssigned.searchAssignedOne(idTeacher, select_planification.value)
-        .then(() => {
+  if(select_planification.value !== 0){
+      let dateMoment = storeActivities.getDateMoment
+      let dateMomentEvent = storeEvents.getDateMoment
+      storeAssigned.searchAssignedOnePublic(select_planification.value)
+      .then(() => {
           storeActivities.searchActivitiesMonthsIdAssigned(dateMoment.yearMoment, dateMoment.monthMoment);
-          storeEvents.searchEventsMonthsIdAssigned(dateMomentEvent.yearMoment, dateMomentEvent.monthMoment, rol_online);
-          storeActivities.searchAllActivities()
-          storeEvents.searchAllEvents()
-        })
-        .catch(() => {
-          console.error('Error al actualizar Assingend');
-        }) 
+          storeEvents.searchEventsMonthsIdAssignedPublic(dateMomentEvent.yearMoment, dateMomentEvent.monthMoment);
+      })
+      .catch(() => {
+        console.error('Error al actualizar Assingend');
+      }) 
     }
 }
 

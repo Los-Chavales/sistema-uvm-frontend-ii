@@ -69,6 +69,20 @@ export const useEventsStore = defineStore("events", {
         this.options.events = []
       }
     },
+    async searchEventsMonthsIdAssignedPublic(year, month) {
+      this.options.dateMoment.yearMoment = year
+      this.options.dateMoment.monthMoment = month
+      let idAssignedMoment = this.options.id_asignado
+      try {
+        const data = await axios.get(`${API_URL_BASE}/eventos/mostrar/mes/${year}/${month}/${idAssignedMoment}`)
+        this.options.events = data.data
+        this.options.error.statusError = false
+      }
+      catch (error) {
+        console.log(error)
+        this.options.events = []
+      }
+    },
     async searchAllEvents() {
       try {
         //const data = await axios.get(`${API_URL_BASE}/eventos/mostrar`)
@@ -201,7 +215,8 @@ export const useEventsStore = defineStore("events", {
         if (this.options.rol_online === "profesor") {
           this.searchEventsMonthsIdAssigned(year, month, this.options.rol_online)
         } else {
-          this.searchEventsMonths(year, month)  //Volver a mostrar los datos 
+          //this.searchEventsMonths(year, month)  //Volver a mostrar los datos 
+          this.searchEventsMonthsIdAssignedPublic(year, month);
         }
         this.searchAllEvents()
       })
@@ -232,7 +247,8 @@ export const useEventsStore = defineStore("events", {
         if (this.options.rol_online === "profesor") {
           this.searchEventsMonthsIdAssigned(year, month, this.options.rol_online)
         } else {
-          this.searchEventsMonths(year, month)  //Volver a mostrar los datos 
+          //this.searchEventsMonths(year, month)  //Volver a mostrar los datos 
+          this.searchEventsMonthsIdAssignedPublic(year, month);
         }
         this.searchAllEvents()
       })
@@ -253,7 +269,8 @@ export const useEventsStore = defineStore("events", {
         if (this.options.rol_online === "profesor") {
           this.searchEventsMonthsIdAssigned(year, month, this.options.rol_online)
         } else {
-          this.searchEventsMonths(year, month)  //Volver a mostrar los datos 
+          //this.searchEventsMonths(year, month)  //Volver a mostrar los datos 
+          this.searchEventsMonthsIdAssignedPublic(year, month);
         }
         this.searchAllEvents()
       }
