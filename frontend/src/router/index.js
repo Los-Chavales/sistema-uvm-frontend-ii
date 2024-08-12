@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import PathNotFound from '@/views/PathNotFound.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,15 +10,15 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
       meta: {
-        requireLogin : false,
+        requireLogin: false,
       }
     },
     {
       path: '/login',
       name: 'login',
-      component: ()=> import('../views/Login.vue'),
+      component: () => import('../views/Login.vue'),
       meta: {
-        requireLogin : false,
+        requireLogin: false,
       }
     },
     {
@@ -30,9 +31,9 @@ const router = createRouter({
       name: 'Calendario',
       component: () => import('../views/EventsView.vue'),
       meta: {
-        requireLogin : true,
-        rol_teacher : false,
-        rol_director : true,
+        requireLogin: true,
+        rol_teacher: false,
+        rol_director: true,
       }
     },
     {
@@ -40,9 +41,9 @@ const router = createRouter({
       name: 'Fechas',
       component: () => import('../views/DashViews/Handle_Dates.vue'),
       meta: {
-        requireLogin : true,
-        rol_teacher : false,
-        rol_director : true,
+        requireLogin: true,
+        rol_teacher: false,
+        rol_director: true,
       }
     },
     {
@@ -51,8 +52,8 @@ const router = createRouter({
       component: () => import('../views/PlanningView.vue'),
       meta: {
         requireLogin: true,
-        rol_teacher : true,
-        rol_director : false,
+        rol_teacher: true,
+        rol_director: false,
       }
     },
     {
@@ -60,9 +61,9 @@ const router = createRouter({
       name: 'Admin-Dashboard',
       component: () => import('../views/Dashboard.vue'),
       meta: {
-        requireLogin : true,
-        rol_teacher : false,
-        rol_director : false,
+        requireLogin: true,
+        rol_teacher: false,
+        rol_director: false,
       }
     },
     {
@@ -70,9 +71,9 @@ const router = createRouter({
       name: 'Admin-Dashboard-profesores',
       component: () => import('../views/DashViews/Hadle_Profesor.vue'),
       meta: {
-        requireLogin : true,
-        rol_teacher : false,
-        rol_director : true,
+        requireLogin: true,
+        rol_teacher: false,
+        rol_director: true,
       }
     },
     {
@@ -80,9 +81,9 @@ const router = createRouter({
       name: 'Admin-Dashboard-Materias',
       component: () => import('../views/DashViews/Handle_Subject.vue'),
       meta: {
-        requireLogin : true,
-        rol_teacher : false,
-        rol_director : true,
+        requireLogin: true,
+        rol_teacher: false,
+        rol_director: true,
       }
     },
     {
@@ -90,21 +91,29 @@ const router = createRouter({
       name: 'Admin-Dashboard-Secciones',
       component: () => import('../views/DashViews/Handle_section.vue'),
       meta: {
-        requireLogin : true,
-        rol_teacher : false,
-        rol_director : true,
+        requireLogin: true,
+        rol_teacher: false,
+        rol_director: true,
       }
-    },    
+    },
     {
       path: '/admin-dsh/horarios',
       name: 'Admin-Dashboard-Horarios',
       component: () => import('../views/DashViews/Handle_Horario.vue'),
       meta: {
-        requireLogin : true,
-        rol_teacher : false,
-        rol_director : true,
+        requireLogin: true,
+        rol_teacher: false,
+        rol_director: true,
       }
-    },    
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: PathNotFound,
+      meta: {
+        requireLogin: false,
+      }
+    },
   ]
 })
 
@@ -113,10 +122,10 @@ router.beforeEach((to, from, next) => {
   const auth = {
     login: false,
     rol: ""
-  } 
+  }
 
   let cookie = $cookies.get('auth')
-  if(cookie !== null){
+  if (cookie !== null) {
     console.log("cookie en las rutas")
     console.log(cookie)
     auth.login = true;
@@ -126,32 +135,32 @@ router.beforeEach((to, from, next) => {
   }
 
   const needAuth = to.meta.requireLogin //Necesita autorización
-  const needTeacher =  to.meta.rol_teacher //Necesita el rol de profesor
-  const needDirector =  to.meta.rol_director //Necesita el rol de director
+  const needTeacher = to.meta.rol_teacher //Necesita el rol de profesor
+  const needDirector = to.meta.rol_director //Necesita el rol de director
 
   console.log(auth)
-  
-  if(needAuth && !auth.login){
+
+  if (needAuth && !auth.login) {
     next('/login')
-  } else if(needTeacher){
-    if(auth.rol === "profesor"){
+  } else if (needTeacher) {
+    if (auth.rol === "profesor") {
       console.log("profesor")
       next()
-    }else{
+    } else {
       next('/login')
     }
-  }else if(needDirector){
-    if(auth.rol === "director"){
+  } else if (needDirector) {
+    if (auth.rol === "director") {
       console.log("director")
       next()
-    }else{
+    } else {
       next('/login')
     }
   } else {
     next()
   }
 
-}) 
+})
 
 
 export default router
